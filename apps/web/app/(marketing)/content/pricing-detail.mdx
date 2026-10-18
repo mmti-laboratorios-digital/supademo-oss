@@ -1,0 +1,125 @@
+---
+title: "Planos e preços — DemoBR"
+description: "Planos Free, Pro e Business do DemoBR. PIX, boleto e cartão via Asaas. Garantia de 14 dias no Pro. NF-e emitida em todos os planos pagos."
+locale: "pt-BR"
+canonical: "/pricing"
+---
+
+export const guaranteeDays = 14;
+
+export const plans = [
+  {
+    id: "free",
+    name: "Free",
+    priceLabel: "R$ 0",
+    cadence: "/mês",
+    blurb: "Pra experimentar, com calma.",
+    features: [
+      "3 demos publicados",
+      "10 steps por demo",
+      "50 views/mês",
+      "Links expiram em 30 dias",
+      "Captura via Chrome (extensão MV3)",
+      "Analytics anônimo (LGPD-safe)",
+      "Player PT-BR-first responsivo",
+      "Comunidade no Discord",
+    ],
+    ctaLabel: "Começar grátis",
+    ctaHref: "/sign-up",
+    highlighted: false,
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    priceLabel: "R$ 49",
+    cadence: "/mês",
+    blurb: "Pra times que vendem todos os dias.",
+    features: [
+      "Tudo do Free",
+      "Demos ilimitados",
+      "30 steps por demo",
+      "5.000 views/mês",
+      "100 leads/mês",
+      "30 min TTS pt-BR/mês",
+      "500 AI text req/mês",
+      "Formulário de lead LGPD",
+      "Embed (iframe) + API REST",
+      "PIX + boleto + cartão (Asaas)",
+      "Suporte por e-mail em até 24h",
+    ],
+    ctaLabel: "Assinar Pro",
+    ctaHref: "/sign-up?plan=pro",
+    highlighted: true,
+  },
+  {
+    id: "business",
+    name: "Business",
+    priceLabel: "R$ 199",
+    cadence: "/mês",
+    blurb: "Pra operações com stack e governança.",
+    features: [
+      "Tudo do Pro",
+      "60 steps por demo",
+      "50.000 views/mês",
+      "Leads ilimitados",
+      "200 min TTS pt-BR/mês",
+      "2.000 AI text req/mês",
+      "3 webhooks",
+      "3 membros no workspace",
+      "Domínio customizado (CNAME)",
+      "Variáveis {{nome}} / {{empresa}}",
+      "Branching condicional",
+      "White-label player",
+      "CRM BR (HubSpot / RD / Kommo)",
+      "Suporte prioritário em até 24h",
+      "Onboarding guiado (1ª impl.)",
+    ],
+    ctaLabel: "Falar com vendas",
+    ctaHref: "/sign-up?plan=business",
+    highlighted: false,
+  },
+];
+
+# Planos e preços
+
+<Hero
+  title="Planos simples em R$, sem surpresas."
+  subtitle="Pague via PIX, boleto ou cartão. NF-e emitida em todos os planos pagos. Garantia de 14 dias no Pro."
+/>
+
+## Comparativo Free × Pro × Business
+
+<TierTable plans={plans} />
+
+## Garantia de 14 dias
+
+Se você assinar o Pro e em até 14 dias achar que não é pra você, a gente devolve o valor integral. Sem ligação, sem formulário confuso, sem "fale com o gerente". É um botão na sua área de billing.
+
+<GuaranteeBanner days={guaranteeDays} />
+
+## Perguntas frequentes
+
+<!-- faq -->
+Q: Preciso de cartão pra começar?
+A: Não. O plano Free funciona sem cartão de crédito. Você coloca cartão só quando decidir subir para Pro ou Business.
+
+Q: Como funciona o pagamento via PIX?
+A: A DemoBR usa Asaas como gateway. PIX cai na hora. Boleto vence em 3 dias úteis. Cartão pode ser mensal ou anual (com 17% de desconto).
+
+Q: O que acontece se eu passar do limite de views do Free?
+A: Seus links param de aceitar novos acessos automaticamente. Os links existentes continuam funcionando até a data de expiração (30 dias). Pra retomar, faça upgrade pra Pro.
+
+Q: Tem NF-e?
+A: Sim. NF-e é emitida automaticamente em todos os planos pagos via Asaas. Você recebe por e-mail e também pode baixar na área de billing.
+
+Q: Posso cancelar quando quiser?
+A: Sim. O cancelamento é self-service na área de billing. Sem multa, sem taxa. Se estiver no Pro e cancelar nos primeiros 14 dias, devolvemos o valor.
+
+Q: O lead form segue a LGPD?
+A: Sim. O formulário coleta consentimento explícito (Lei nº 13.709/2018), mostra link para a política de privacidade e permite revogação por e-mail.
+
+Q: Tem desconto pra ONGs ou educação?
+A: 30% off no plano Pro para ONGs registradas no CNPJ e instituições de ensino. Fale com a gente em suporte@dominio.com.br.
+
+Q: Funciona fora do Brasil?
+A: Sim, o player roda em qualquer lugar. O pagamento em R$ e a NF-e são exclusivos para clientes brasileiros com CNPJ ou CPF. Para clientes fora do Brasil, oferecemos fatura em USD sem NF-e.

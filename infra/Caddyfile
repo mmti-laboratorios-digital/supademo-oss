@@ -1,0 +1,26 @@
+{
+  email {$ACME_EMAIL:admin@dominio.com.br}
+  admin off
+}
+
+app.{$APP_DOMAIN:localhost} {
+  encode zstd gzip
+  reverse_proxy web:3000 {
+    header_up X-Forwarded-For {remote_host}
+    header_up X-Real-IP {remote_host}
+  }
+}
+
+d.{$PLAYER_DOMAIN:localhost} {
+  encode zstd gzip
+  reverse_proxy web:3000
+}
+
+embed.{$APP_DOMAIN:localhost} {
+  encode zstd gzip
+  reverse_proxy web:3000
+}
+
+:80 {
+  respond 204
+}

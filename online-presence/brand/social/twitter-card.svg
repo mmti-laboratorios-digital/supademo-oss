@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1200 600"
+     width="1200" height="600"
+     role="img"
+     aria-label="DemoBR — Twitter card">
+  <title>DemoBR</title>
+  <desc>Demos interativas pra vender mais, sem uma reunião a mais.</desc>
+
+  <defs>
+    <linearGradient id="tw-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2B6CB0"/>
+      <stop offset="60%" stop-color="#234E80"/>
+      <stop offset="100%" stop-color="#0F2A4A"/>
+    </linearGradient>
+    <radialGradient id="tw-glow" cx="78%" cy="22%" r="55%">
+      <stop offset="0%" stop-color="#38B2AC" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#38B2AC" stop-opacity="0"/>
+    </radialGradient>
+    <symbol id="tw-play" viewBox="0 0 100 100" overflow="visible">
+      <path d="M22 12 L84 50 L22 88 Z"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linejoin="round"
+            stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#tw-bg)"/>
+  <rect width="1200" height="600" fill="url(#tw-glow)"/>
+
+  <g opacity="0.08" stroke="#FFFFFF" stroke-width="1">
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <line x1="240" y1="0" x2="240" y2="600"/>
+    <line x1="480" y1="0" x2="480" y2="600"/>
+    <line x1="720" y1="0" x2="720" y2="600"/>
+    <line x1="960" y1="0" x2="960" y2="600"/>
+  </g>
+
+  <g color="#FFFFFF" opacity="0.05" transform="translate(820 60) scale(2.4)">
+    <use href="#tw-play" width="100" height="100"/>
+  </g>
+
+  <g transform="translate(70 100)">
+    <rect width="170" height="32" rx="16" fill="#FFFFFF" fill-opacity="0.10" stroke="#FFFFFF" stroke-opacity="0.30"/>
+    <text x="14" y="22"
+          font-family="'Inter', system-ui, sans-serif"
+          font-size="13"
+          font-weight="600"
+          fill="#FFFFFF"
+          letter-spacing="0.06em">
+      LGPD · PIX · NF-E
+    </text>
+  </g>
+
+  <g transform="translate(70 175)">
+    <g color="#FFFFFF" transform="scale(0.7)">
+      <use href="#tw-play" width="100" height="100"/>
+    </g>
+    <text x="92" y="58"
+          font-family="'Sora', 'Inter', system-ui, sans-serif"
+          font-weight="800"
+          font-size="72"
+          fill="#FFFFFF">
+      Demo<tspan fill="#38B2AC">BR</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(70 290)">
+    <text font-family="'Sora', 'Inter', system-ui, sans-serif"
+          font-weight="700"
+          font-size="50"
+          fill="#FFFFFF">
+      <tspan x="0" dy="0">Demos interativas pra</tspan>
+      <tspan x="0" dy="60">vender mais, sem uma</tspan>
+      <tspan x="0" dy="60">reunião a mais.</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(70 525)">
+    <text font-family="'Inter', system-ui, sans-serif"
+          font-size="20"
+          font-weight="600"
+          fill="#38B2AC">
+      demobr.com.br
+    </text>
+  </g>
+</svg>

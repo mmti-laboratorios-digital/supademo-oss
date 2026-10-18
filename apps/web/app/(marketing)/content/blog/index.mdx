@@ -1,0 +1,33 @@
+---
+title: "Blog do DemoBR — Guias, news e engineering"
+description: "Artigos sobre demos interativas, LGPD, onboarding de SaaS, ferramentas para PMMs brasileiros e atualização da DemoBR."
+locale: "pt-BR"
+canonical: "/blog"
+---
+
+export const categories = [
+  { slug: "guias", name: "Guias", blurb: "Tutoriais passo a passo." },
+  { slug: "news", name: "News", blurb: "Atualização da DemoBR + mercado." },
+  { slug: "engineering", name: "Engineering", blurb: "Decisões técnicas da plataforma." },
+];
+
+# Blog do DemoBR
+
+<Hero
+  title="Guias, news e engineering."
+  subtitle="Conteúdo sobre demos interativas, LGPD, onboarding de SaaS e bastidores da plataforma."
+/>
+
+## Categorias
+
+<CategoryGrid categories={categories} />
+
+## Últimos posts
+
+<BlogList posts={posts} />
+
+## Newsletter
+
+Receba a edição quinzenal — conteúdo curto, link úteis, sem spam. Sem LGPD invasivo.
+
+<NewsletterCta href="/#newsletter" />

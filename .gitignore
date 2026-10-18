@@ -1,0 +1,76 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+.pnpm-store/
+
+# Testing
+coverage/
+playwright-report/
+test-results/
+*.lcov
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Production builds
+build/
+dist/
+
+# Storybook
+storybook-static/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+.idea/
+.vscode/
+.coverage
+
+# Env
+.env
+.env.local
+.env.*.local
+.env.test
+
+# Turbo / nx
+.turbo
+.nx/cache
+
+# Vercel
+.vercel
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Tooling cache
+.tsbuildinfo
+**/*.tsbuildinfo
+.eslintcache
+
+# Generated
+public/sw.js
+public/workbox-*.js
+.swc/

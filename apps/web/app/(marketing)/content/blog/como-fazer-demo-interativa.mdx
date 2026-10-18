@@ -1,0 +1,115 @@
+---
+title: "Como fazer uma demo interativa em 2026 — guia completo"
+description: "Aprenda o que é uma demo interativa, como capturar seu SaaS passo a passo e publicar em minutos. LGPD-safe, PT-BR, sem cartão."
+slug: "como-fazer-demo-interativa"
+publishedAt: "2026-10-10T09:00:00Z"
+category: "Guias"
+author: "Bruna, Product"
+readingTimeMin: 12
+---
+
+## O que é uma demo interativa (e por que substituir PDF)
+
+Uma demo interativa é uma sequência de screenshots do seu produto, clicáveis, com hotspots que guiam o lead pelo fluxo principal. Em vez de um PDF estático ou um vídeo de 12 minutos, o lead avança no próprio ritmo, vê a UI real e decide se quer falar com um humano.
+
+A lógica é simples: **lead qualificado não merece call de descoberta**. Ele merece ver o produto. Você só precisa garantir que ele veja (a) os 3 fluxos que provam que seu SaaS resolve a dor dele, (b) testimonials contextuais e (c) CTA pro próximo passo (form de lead, WhatsApp ou call agendada).
+
+A maior parte dos times B2B ainda manda PDF ou agenda call de 30 min pra mostrar o produto. Isso custa hora do AE, hora do lead, e ainda converte pior que uma demo interativa bem feita — porque no PDF o lead não clica, no call o lead espera 8 minutos até você logar.
+
+Demo interativa resolve isso: você captura uma vez, publica, e cada novo lead recebe a mesma experiência assíncrona. Você só fala com quem já viu.
+
+## Antes de gravar: o que preparar
+
+Antes de abrir a extensão e sair clicando, gaste 15 minutos desenhando o **fluxo principal**. É a sequência de 5 a 10 telas que conta a história do seu produto pra alguém que nunca viu.
+
+Pergunte-se: "Se o lead visse apenas essas 5 telas, ele entenderia o que o produto faz e por que importa?". Se sim, grave. Se não, refine até estar.
+
+Três telas pra evitar capturar:
+- **Login.** A maioria dos leads não tem conta, então esconder o login e mostrar "entrar com sua conta" só confunde. Comece pelo dashboard.
+- **Páginas de erro.** Erro 500 durante a demo é pra engenheiro, não pra lead.
+- **Tour interno.** Coisas que só fazem sentido pra quem já usa (admin panel, settings deep-link).
+
+Boas telas pra capturar: dashboard inicial, fluxo de criação (formulário + confirmação), listagem com dados plausíveis, empty state com CTA de criar primeiro item, modal de compartilhamento.
+
+## Como capturar com a extensão Chrome
+
+A extensão DemoBR é MV3 (Manifest V3), roda em Chrome, Edge, Brave e qualquer Chromium recente. Clique no ícone, escolha "gravar nova demo", clique em "iniciar". A partir daí:
+
+1. Cada clique seu vira um screenshot + hotspot automático.
+2. Você pode renomear o step (caption) na hora ou depois.
+3. Pra trocar de página, faça o clique normalmente — a extensão acompanha.
+4. Pra parar, clique no ícone e "encerrar". Tudo vai pra sua área de trabalho.
+
+A captura é local primeiro: o conteúdo do seu SaaS fica em disco antes de subir pro R2. Você revisa hotspots, edita captions, ajusta o que precisar, e só então publica.
+
+Dica: use uma janela em ~1440px de largura. A DemoBR redimensiona automaticamente, mas a captura fica melhor na densidade nativa. Se seu SaaS tem dark mode, capture os dois — o lead pode estar em qualquer um dos dois.
+
+## Editar, anottar, polish
+
+Depois de capturar, antes de publicar, gaste mais 10 a 20 minutos editando. Em geral:
+
+- **Caption clara em cada step.** Não "Tela principal", mas "Aqui você vê os 3 KPIs mais importantes pro seu negócio, atualizados em tempo real."
+- **Hotspot no lugar certo.** Hotspot é o cursor pulsante. Se a seta do mouse ficar vazia sobre uma região sem destaque, o lead acha que é ele quem tá perdido.
+- **Branching opcional.** Você pode esconder steps atrás de "Avançado" pra não assustar lead de primeira viagem.
+- **CTA no último step.** Sem CTA, o lead fecha a aba.
+
+A DemoBR mostra preview em tempo real enquanto você edita. O preview é responsivo — visualiza em mobile sem sair do editor.
+
+## Publicar e compartilhar
+
+Quando publicar, você recebe:
+
+- **Link público** em `demobr.com.br/d/seu-slug`. Funciona sem login.
+- **Embed iframe** com `<iframe src="demobr.com.br/embed/seu-slug" />`. Aceita em qualquer página.
+- **QR Code** em PNG/SVG, pra imprimir em material de evento.
+- **Open Graph image** com título + screenshot do step 1, pra LinkedIn e Twitter.
+
+Por padrão, links expiram em 30 dias (Free) ou nunca expiram (Pro/Business, a menos que você defina). Analytics anônimo é opt-out por padrão (LGPD-safe).
+
+## Como medir engajamento
+
+A DemoBR mede, por demo, evento por evento:
+
+- **View:** lead abriu a página.
+- **Step:** lead viu um step específico (com timestamp).
+- **Drop-off:** lead fechou a aba antes do último step.
+- **Lead:** lead preencheu o form de contato.
+
+A métrica que importa é **completion rate**: quem viu até o final ÷ quem abriu. Média de mercado B2B gira em 35-45%; DemoBR costuma ver 50-65% porque o conteúdo é curto (5-10 steps) e falado em pt-BR.
+
+Para entender **qual step** mata o lead, vá em Analytics → Funil. Você vai ver curva decrescente step a step. Se cair muito entre step 3 e 4, o lead está confundindo aquele step. Refaça o caption ou pule o step.
+
+## LGPD na prática
+
+Lead que deixou contato está sujeito à LGPD. Isso significa:
+
+- Coletar consentimento explícito no form (checkbox + texto claro).
+- Permitir revogação por e-mail com 1 clique.
+- Armazenar dados no Brasil ou com adequacy decision.
+- Responder DSR em até 15 dias.
+
+A DemoBR faz tudo isso automaticamente. O form vem com texto padrão de consentimento (Lei nº 13.709/2018), o e-mail de revogação é um link "Quero revogar" que dispara DSR em fila. Os dados ficam em Postgres no Brasil (RDS sa-east-1).
+
+Veja `/lgpd` para a política completa e o link "Quero revogar" em demo publicada.
+
+<!-- faq -->
+Q: Quanto custa fazer uma demo interativa?
+A: O plano Free da DemoBR dá 3 demos publicados, 50 views/mês e analytics anônimo. Pro a R$ 49/mês dá demos ilimitados, 5.000 views/mês e form de lead LGPD. Business a R$ 199/mês inclui domínio customizado, branching e white-label.
+
+Q: Preciso instalar alguma coisa?
+A: Sim, a extensão Chrome (MV3) roda em Chrome, Edge, Brave. A DemoBR captura screenshots + cliques localmente e só sincroniza quando você publica.
+
+Q: A demo roda em mobile?
+A: Sim, o player é responsivo. Hotspot adapta a posição relativa e a UI muda pra thumbs em telas pequenas.
+
+Q: Posso usar em mais de um produto?
+A: Sim, cada demo é independente. Workspace é o conceito que agrupa demos por time/empresa (Pro e Business).
+
+Q: Funciona offline?
+A: A captura é local e funciona offline. A demo publicada é servida via CDN global, então o lead abre sem depender de você estar online.
+
+Q: O que acontece com dados sensíveis na captura?
+A: A DemoBR tem PII redaction automática que detecta e desfoca e-mail, CPF, CNPJ, telefone e cartão. Você pode revisar antes de publicar. Veja `/lgpd#redacao`.
+
+Q: Tem API pra capturar via código?
+A: Não na extensão, mas a DemoBR tem API REST que permite criar/atualizar demos programaticamente. Veja `/api/v1`.

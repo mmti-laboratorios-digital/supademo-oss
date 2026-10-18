@@ -1,0 +1,8 @@
+// Placeholder PNG. Em produção, substituir por ícones reais
+// (gerados a partir de um SVG 16x16, 32x32, 48x48, 128x128).
+//
+// Comando sugerido (em CI):
+//   rsvg-convert -w 16 -h 16 icon.svg > icon-16.png
+//
+// O conteúdo abaixo é apenas um marcador — WXT ignora este arquivo,
+// pois o manifest referencia os PNGs reais.

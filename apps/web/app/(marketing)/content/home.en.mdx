@@ -1,0 +1,124 @@
+---
+title: "DemoBR — Interactive demos, Brazilian-style"
+description: "Build interactive product demos for your SaaS in minutes. PT-BR player, PIX/boleto payments via Asaas, end-to-end LGPD compliance."
+locale: "en"
+canonical: "/en"
+---
+
+export const meta = {
+  title: "Interactive demos, Brazilian-style.",
+  subtitle: "Build interactive product demos for your SaaS in minutes. PT-BR player, PIX/boleto payments via Asaas, end-to-end LGPD compliance.",
+  ctaPrimary: "Start free",
+  ctaPrimaryHref: "/en/sign-up",
+  ctaSecondary: "See pricing",
+  ctaSecondaryHref: "/en/pricing",
+};
+
+# DemoBR — Interactive demos, Brazilian-style
+
+<Hero
+  title={meta.title}
+  subtitle={meta.subtitle}
+  primaryCta={{ label: meta.ctaPrimary, href: meta.ctaPrimaryHref }}
+  secondaryCta={{ label: meta.ctaSecondary, href: meta.ctaSecondaryHref }}
+  badge="Public beta · PT-BR · LGPD"
+/>
+
+## Trusted by 200+ product, marketing and CX teams in Brazil
+
+Customer logos (placeholders) — highlight 200+ teams that use DemoBR to accelerate onboarding and lead qualification.
+
+<SocialProof
+  items={[
+    { name: "Empresa XYZ S.A.", industry: "B2B Fintech" },
+    { name: "Logística 123", industry: "Logistics" },
+    { name: "Vendas+", industry: "CRM" },
+    { name: "Saúde Já", industry: "Healthtech" },
+    { name: "EduFlow", industry: "Edtech" },
+    { name: "Indústria 4.0", industry: "Manufacturing" },
+  ]}
+/>
+
+## 3 ways to start in minutes
+
+### 1. Capture — Chrome extension, 1 click
+
+Install the extension, open your SaaS, click record. DemoBR takes screenshots, captures clicks and hotspots — no heavy HTML cloning, no ghost server running. Each step becomes a clickable point in the player.
+
+### 2. Play — Portuguese-first player
+
+The player loads fast, walks step by step, plays TTS narration if you want, has an LGPD banner by default, a lead form when configured, and a native WhatsApp CTA. Fully responsive, embeddable on any page.
+
+### 3. Share — public link, embed, or QR Code
+
+Each demo becomes a public link `demobr.com.br/d/your-slug`. Works as an embed (iframe), an open link, or a QR Code you can print at events. Anonymous analytics by default, opt-in with 1 click.
+
+<FeatureHighlights
+  features={[
+    {
+      title: "1-click capture",
+      body: "Chrome MV3 extension captures screenshots + hotspot. No heavy HTML clone.",
+      icon: "capture",
+    },
+    {
+      title: "PT-BR-first player",
+      body: "Responsive player, LGPD banner, analytics opt-out, native WhatsApp CTA.",
+      icon: "play",
+    },
+    {
+      title: "Share anywhere",
+      body: "Public link, iframe embed, QR Code, LGPD lead form. No credit card to start.",
+      icon: "share",
+    },
+  ]}
+/>
+
+## See real demos in action
+
+<DemoShowcase
+  items={[
+    {
+      title: "Sample SaaS tour",
+      description: "7 steps covering sign-up, dashboard, and approval flow.",
+      image: "/og-default.svg",
+      href: "/d/example-tour",
+    },
+    {
+      title: "BR CRM onboarding",
+      description: "5 steps, PT-BR narration, lead form at the end.",
+      image: "/og-default.svg",
+      href: "/d/crm-onboarding",
+    },
+    {
+      title: "PIX payment demo",
+      description: "4 steps showing checkout and payment confirmation.",
+      image: "/og-default.svg",
+      href: "/d/pix-checkout",
+    },
+  ]}
+/>
+
+## Simple pricing in R$, no surprises
+
+- **Free** — R$ 0. 3 published demos, 50 views/month. No credit card.
+- **Pro** — R$ 49/month. Unlimited demos, 5,000 views/month, LGPD lead form, embed + REST API.
+- **Business** — R$ 199/month. Everything in Pro + 3 seats, custom domain, branching, white-label, BR CRM integrations.
+
+<PricingTeaser
+  plans={[
+    { name: "Free", priceLabel: "R$ 0", cadence: "/month", ctaHref: "/en/sign-up" },
+    { name: "Pro", priceLabel: "R$ 49", cadence: "/month", ctaHref: "/en/sign-up?plan=pro", highlighted: true },
+    { name: "Business", priceLabel: "R$ 199", cadence: "/month", ctaHref: "/en/sign-up?plan=business" },
+  ]}
+/>
+
+## Your next demo is ready in 5 minutes.
+
+No credit card, no setup call, no "talk to sales" to start. Install the extension, record 30 seconds, publish. You watch your own demo running before you save.
+
+<FinalCta
+  title="Start free now."
+  subtitle="3 published demos, no credit card."
+  primaryCta={{ label: "Create my demo", href: "/en/sign-up" }}
+  secondaryCta={{ label: "See a sample demo", href: "/d/example-tour" }}
+/>

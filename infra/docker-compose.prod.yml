@@ -1,0 +1,102 @@
+services:
+  caddy:
+    image: caddy:2
+    container_name: demobr-caddy
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    container_name: demobr-web
+    restart: unless-stopped
+    env_file: ../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    expose:
+      - "3000"
+    deploy:
+      resources:
+        limits: { cpus: '2.0', memory: 2G }
+
+  workers:
+    build:
+      context: ..
+      dockerfile: apps/workers/Dockerfile
+    container_name: demobr-workers
+    restart: unless-stopped
+    env_file: ../.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+    deploy:
+      resources:
+        limits: { cpus: '1.0', memory: 1G }
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: demobr-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
+      POSTGRES_DB: supademo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d supademo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits: { cpus: '2.0', memory: 2G }
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.111.0
+    container_name: demobr-otel
+    restart: unless-stopped
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes:
+      - ./observability/otel-collector.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - "127.0.0.1:4318:4318"
+
+  signoz:
+    image: signoz/signoz-otel-collector:0.111.0
+    container_name: demobr-signoz
+    restart: unless-stopped
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.10-alpine
+    container_name: demobr-clickhouse
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
+  clickhouse:

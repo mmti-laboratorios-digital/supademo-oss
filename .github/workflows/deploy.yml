@@ -1,0 +1,178 @@
+# =============================================================================
+# DemoBR — Deploy workflow
+# Triggers: push em main, manual dispatch
+# Estratégia: SSH no Hetzner, pull imagens GHCR, docker compose up,
+#             health-check; rollback automático se degradar por 60s.
+# =============================================================================
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "research/**"
+      - "specs/**"
+      - "*.md"
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Git ref para deploy (default: main)"
+        required: false
+        default: "main"
+      rollback:
+        description: "Marcar como rollback explícito"
+        required: false
+        default: "false"
+        type: boolean
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_WEB:    ghcr.io/${{ github.repository_owner }}/demobr-web
+  IMAGE_WORKER: ghcr.io/${{ github.repository_owner }}/demobr-worker
+
+jobs:
+  deploy:
+    name: Deploy → Hetzner
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine tag
+        id: tag
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "value=${{ github.event.inputs.ref || github.sha }}" >>"$GITHUB_OUTPUT"
+            echo "is_rollback=${{ github.event.inputs.rollback }}" >>"$GITHUB_OUTPUT"
+          else
+            echo "value=${{ github.sha }}" >>"$GITHUB_OUTPUT"
+            echo "is_rollback=false" >>"$GITHUB_OUTPUT"
+          fi
+
+      # -------------------------------------------------------------------
+      # Setup SSH
+      # -------------------------------------------------------------------
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.HETZNER_SSH_KEY }}
+
+      - name: Add host
+        run: |
+          mkdir -p ~/.ssh
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" >> ~/.ssh/config
+
+      # -------------------------------------------------------------------
+      # Deploy
+      # -------------------------------------------------------------------
+      - name: Login GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull images
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          IMAGE_WEB:    ${{ env.IMAGE_WEB }}
+          IMAGE_WORKER: ${{ env.IMAGE_WORKER }}
+        run: |
+          ssh "$DEPLOY_HOST" bash -s <<EOF
+            set -euo pipefail
+            cd "${DEPLOY_PATH}"
+            export IMAGE_WEB="${IMAGE_WEB}"
+            export IMAGE_WORKER="${IMAGE_WORKER}"
+            export IMAGE_TAG="${{ steps.tag.outputs.value }}"
+            docker compose -f infra/docker-compose.yml pull web worker
+          EOF
+
+      - name: Up
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "$DEPLOY_HOST" bash -s <<EOF
+            set -euo pipefail
+            cd "${DEPLOY_PATH}"
+            export IMAGE_TAG="${{ steps.tag.outputs.value }}"
+            docker compose -f infra/docker-compose.yml up -d --remove-orphans web worker
+            docker image prune -f
+          EOF
+
+      # -------------------------------------------------------------------
+      # Health-check (60s de espera antes de decidir)
+      # -------------------------------------------------------------------
+      - name: Wait 60s
+        run: sleep 60
+
+      - name: Health check
+        id: health
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+        run: |
+          # Usa o script health-check.sh rodando no servidor (que tem .env local)
+          ssh "$DEPLOY_HOST" bash -s <<'EOF'
+            set -euo pipefail
+            cd /opt/demobr
+            if bash scripts/health-check.sh; then
+              echo "ok=true" >>"$GITHUB_OUTPUT"
+            else
+              ec=$?
+              echo "ok=false code=$ec" >>"$GITHUB_OUTPUT"
+              exit $ec
+            fi
+          EOF
+        continue-on-error: true
+
+      # -------------------------------------------------------------------
+      # Rollback se degradado
+      # -------------------------------------------------------------------
+      - name: Rollback on failure
+        if: steps.health.outputs.ok != 'true' && !steps.tag.outputs.is_rollback
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          echo "↩ Rollback para tag anterior…"
+          ssh "$DEPLOY_HOST" bash -s <<EOF
+            set -euo pipefail
+            cd "${DEPLOY_PATH}"
+            PREV="\$(docker inspect --format='{{ index .Config.Labels \"demobr.previous_tag\" }}' demobr-web-1 || true)"
+            if [[ -z "\$PREV" ]]; then
+              PREV="\$(docker ps --format '{{.Image}}' --filter name=demobr-web | head -n1 | awk -F: '{print \$2}')"
+            fi
+            if [[ -z "\$PREV" ]]; then
+              echo "Sem tag anterior — falha crítica."
+              exit 2
+            fi
+            echo "↩ Voltando para tag \$PREV"
+            export IMAGE_TAG="\$PREV"
+            docker compose -f infra/docker-compose.yml up -d --remove-orphans web worker
+          EOF
+
+          if [[ -n "${SLACK_WEBHOOK_URL:-}" ]]; then
+            MSG="🔴 Deploy ${{ github.sha }} FALHOU → ROLLBACK em ${DEPLOY_HOST}"
+            curl -fsS -X POST -H 'Content-Type: application/json' \
+              --data "$(jq -nc --arg t "$MSG" '{text:$t}')" "$SLACK_WEBHOOK_URL" || true
+          fi
+          exit 1
+
+      - name: Notify Slack on success
+        if: steps.health.outputs.ok == 'true' && !steps.tag.outputs.is_rollback
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+        run: |
+          MSG="🟢 Deploy ${{ github.sha }} OK em ${APP_BASE_URL}"
+          curl -fsS -X POST -H 'Content-Type: application/json' \
+            --data "$(jq -nc --arg t "$MSG" '{text:$t}')" "$SLACK_WEBHOOK_URL" \
+            || echo "Slack webhook falhou (não-bloqueante)."

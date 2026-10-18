@@ -1,0 +1,107 @@
+---
+title: "Sobre o DemoBR — por que demos interativas, por que em PT-BR"
+description: "DemoBR é um SaaS brasileiro de demos interativas com cobrança via Asaas e conformidade LGPD ponta a ponta. Conheça a história."
+locale: "pt-BR"
+canonical: "/sobre"
+---
+
+export const team = [
+  {
+    name: "Alex",
+    role: "Founder / Engineering",
+    bio: "Antes da DemoBR, fazia demos em Loom e perdia 1 hora por semana re-gravando.",
+  },
+  {
+    name: "Bruna",
+    role: "Product / Design",
+    bio: "Chegou no projeto depois de rodar 30 PMMs que reclamavam de ferramentas gringas.",
+  },
+  {
+    name: "Camila",
+    role: "Compliance / DPO",
+    bio: "Advogada (OAB) e operadora de LGPD. Cuida de DSR, política de privacidade e auditoria.",
+  },
+  {
+    name: "Diego",
+    role: "Growth / Conteúdo",
+    bio: "Escreve o blog, fala com PMMs no LinkedIn e roda a comunidade no Discord.",
+  },
+];
+
+export const milestones = [
+  { date: "2025-04", title: "Primeira captura", body: "Extensão Chrome MV3 grava screenshots + cliques, sem servidor." },
+  { date: "2025-08", title: "Player PT-BR", body: "Banner LGPD, narração TTS, lead form — tudo em pt-BR." },
+  { date: "2025-11", title: "Asaas + PIX", body: "Cobrança nativa em R$ via PIX, boleto e cartão. NF-e emitida." },
+  { date: "2026-01", title: "Beta público", body: "Abertura para os primeiros 200 times." },
+  { date: "2026-04", title: "API REST + embed", body: "Embed iframe + API REST com token de workspace." },
+  { date: "2026-10", title: "White-label", body: "Player com CNAME, branding customizado e branching condicional no Business." },
+];
+
+# Sobre a DemoBR
+
+<Hero
+  title="Por que demos interativas, por que em PT-BR."
+  subtitle="A DemoBR nasceu de uma pergunta: por que a gente ainda manda PDF pra lead qualificado?"
+/>
+
+## Nossa história
+
+A DemoBR começou em 2025 quando o Alex, então PM numa startup de fintech, ficou cansado de gravar a mesma demo em Loom toda semana. Existiam ferramentas gringas boas — Supademo, Guideflow, Storylane — mas o checkout era em USD, a NF-e não existia, e o player não falava pt-BR direito.
+
+A primeira versão era um script Python que tirava screenshots enquanto ele clicava no app. Depois virou extensão Chrome. Depois virou SaaS.
+
+Em paralelo, a Bruna, do time de produto, entrevistou 30 PMMs brasileiros. O padrão era claro: ninguém estava feliz com a fricção do "call de 30 minutos pra ver o produto", mas também não havia ferramenta local que entregasse demo com qualidade. A maioria usava Loom + PDF + WhatsApp — o oposto de "escalar vendas".
+
+A DemoBR existe porque vender SaaS B2B no Brasil em 2026 ainda é analógico. A gente quer tirar pelo menos a etapa da demo automatizável, em R$, em PT-BR e respeitando LGPD.
+
+## Nossos princípios
+
+### 1. Tempo do AE é dinheiro
+
+Cada call de descoberta que vira demo não-assistida é 30 minutos do AE recuperado pra outra coisa. A gente quer que lead qualificado **assista sozinho**.
+
+### 2. Cliente brasileiro não é secundário
+
+PIX, boleto, NF-e, CNPJ, LGPD — não são features "nice-to-have". São o chão. Quem mora no Brasil e cobra em USD tá cobrando taxa implícita no IOF.
+
+### 3. Compliance não é PDF de rodapé
+
+PII redaction, opt-out de analytics, DSR em 15 dias, IP não é hash próprio, logs com retenção de 30 dias. Tudo documentado em `/lgpd`.
+
+### 4. Demo boa é demo que o lead assiste
+
+Lead que viu o demo inteiro, viu 80%+ das steps e deixou contato é lead que chega na call quente. Lead que abandonou no step 2 não vale o tempo do AE.
+
+## Time
+
+<TeamGrid team={team} />
+
+*(Placeholders — fotos e bios serão substituídos com o time definitivo quando a empresa sair do stealth.)*
+
+## Marco timeline
+
+<Timeline items={milestones} />
+
+## Por que "DemoBR"
+
+O nome é deliberadamente óbvio. Quem pesquisa "demo interativa" no Google Brasil deveria encontrar a gente sem precisar lembrar de marca gringa. O "BR" também comunica: brasileiro, em R$, com PIX, com LGPD.
+
+## Contato
+
+- **Geral:** [oi@dominio.com.br](mailto:oi@dominio.com.br)
+- **Suporte:** [suporte@dominio.com.br](mailto:suporte@dominio.com.br)
+- **DPO (LGPD):** [dpo@dominio.com.br](mailto:dpo@dominio.com.br)
+- **Vendas:** [vendas@dominio.com.br](mailto:vendas@dominio.com.br)
+- **Comunidade:** [Discord](https://discord.gg/seu-link)
+- **Status:** [status.dominio.com.br](https://status.dominio.com.br)
+
+## Onde a gente publica
+
+- Blog técnico: [`/blog`](/blog)
+- Updates de produto: [LinkedIn](https://linkedin.com/company/demobr)
+- Drops de comunidade: Discord (acesso após sign-up)
+- Newsletter quinzenal: [assinar](/#newsletter)
+
+## Imprensa
+
+Press kit, screenshots em alta resolução e logo SVG estão em `/press-kit`. Para pedidos de entrevista ou remarketing escreva para [imprensa@dominio.com.br](mailto:imprensa@dominio.com.br).

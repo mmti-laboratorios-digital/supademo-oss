@@ -1,0 +1,57 @@
+{
+  "name": "demobr",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demos interativas do seu produto, em PT-BR, com PIX e LGPD.",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm -r --filter=./apps/* --filter=./packages/* build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "pnpm -r --filter=./apps/* --filter=./packages/* typecheck",
+    "test": "pnpm -r --filter=./apps/* --filter=./packages/* test",
+    "test:e2e": "pnpm --filter web exec playwright test --config ../../playwright.config.ts",
+    "test:rls": "bash apps/web/scripts/test-rls.sh",
+    "db:generate": "pnpm --filter web db:generate",
+    "db:migrate": "pnpm --filter web db:migrate",
+    "db:push": "pnpm --filter web db:push",
+    "db:seed": "pnpm --filter web db:seed",
+    "db:studio": "pnpm --filter web exec drizzle-kit studio",
+    "db:backup": "bash scripts/db-snapshot.sh",
+    "db:restore-drill": "bash scripts/restore-drill.sh",
+    "db:test-rls": "bash apps/web/scripts/test-rls.sh",
+    "db:test-rls-ts": "pnpm --filter web exec tsx scripts/db/test-rls.ts",
+    "worker": "pnpm --filter workers dev",
+    "extension:dev": "pnpm --filter extension dev",
+    "extension:build": "pnpm --filter extension build",
+    "docker:dev": "docker compose -f infra/docker-compose.yml up -d",
+    "docker:down": "docker compose -f infra/docker-compose.yml down",
+    "scripts:init-db": "bash scripts/init-db.sh",
+    "scripts:seed": "pnpm --filter web db:seed",
+    "scripts:generate-secrets": "bash scripts/generate-secrets.sh",
+    "scripts:health": "bash scripts/health-check.sh",
+    "scripts:smoke": "bash apps/web/scripts/smoke-test.sh",
+    "scripts:pre-deploy": "bash scripts/pre-deploy.sh",
+    "scripts:migrate-guiaflow": "pnpm --filter web exec tsx scripts/migrate-from-guiaflow.ts",
+    "scripts:test-pii": "pnpm --filter web exec tsx scripts/test-pii-redaction.ts",
+    "scripts:test-webhook-asaas": "pnpm --filter web exec tsx scripts/test-webhook-asaas.ts",
+    "scripts:check-dpo": "pnpm exec tsx scripts/check-dpo-missing.ts",
+    "prepare": "node -e \"console.log('DemoBR — pnpm install detectado')\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/node": "22.9.0",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@vitest/coverage-v8": "^2.1.4"
+    }
+  }
+}

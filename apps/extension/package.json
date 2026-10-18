@@ -1,0 +1,20 @@
+{
+  "name": "extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "compile": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chrome": "0.0.279",
+    "@types/node": "22.9.0",
+    "typescript": "5.6.3",
+    "wxt": "0.19.7"
+  }
+}

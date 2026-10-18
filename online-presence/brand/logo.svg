@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  DemoBR Brand Logo Bundle.
+  Three variants in one file, separated by g id nodes.
+  All variants use the canonical brand palette:
+    primary     #2B6CB0  (azul Atlantico)
+    secondary   #38B2AC  (verde-agua Praia)
+    accent      #ED8936  (laranja Verao)
+    neutral 900 #1A202C
+
+  Layout (per BRAND.md section 3.3):
+    Symbol triangle plus wordmark DemoBR in Sora 700
+    Symbol height equal to wordmark x-height
+    Total width scalable; no gradient on symbol.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1200 360"
+     role="img"
+     aria-label="DemoBR logo bundle — full, stacked, and mono variants">
+
+  <title>DemoBR logo</title>
+  <desc>Three logo variants for the DemoBR brand: full horizontal, stacked, and monochrome.</desc>
+
+  <defs>
+    <!-- Reusable play-triangle symbol. Pure primary, no gradient. -->
+    <symbol id="dmbr-play" viewBox="0 0 100 100" overflow="visible">
+      <path d="M22 12 L84 50 L22 88 Z"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="6"
+            stroke-linejoin="round"
+            stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Invisible framing guides (not rendered) -->
+    <style>
+      .dmbr-wordmark {
+        font-family: 'Sora', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-weight: 800;
+        font-feature-settings: "ss01" on, "cv11" on;
+        letter-spacing: -0.02em;
+      }
+      .dmbr-baseline { baseline-shift: 0; }
+    </style>
+  </defs>
+
+  <!--
+    VARIANT 1 . logo-full (symbol plus wordmark horizontal)
+    Target render width around 240px (140 to 260px range on app and landing)
+    Aspect 240 by 64
+  -->
+  <g id="logo-full" transform="translate(20 20)">
+    <rect x="-8" y="-8" width="600" height="80" rx="12"
+          fill="#F7FAFC" stroke="none" opacity="0"/>
+
+    <g color="#2B6CB0" transform="translate(0 16) scale(0.45)">
+      <use href="#dmbr-play" width="100" height="100"/>
+    </g>
+
+    <text x="60" y="48"
+          class="dmbr-wordmark"
+          font-size="40"
+          fill="#1A202C">
+      <tspan fill="#1A202C">Demo</tspan><tspan fill="#2B6CB0" font-weight="800">BR</tspan>
+    </text>
+
+    <text x="60" y="68"
+          font-family="'Inter', system-ui, sans-serif"
+          font-size="10"
+          font-weight="500"
+          fill="#2D3748"
+          letter-spacing="0.08em"
+          text-transform="uppercase"
+          opacity="0.6">
+      demos interativas · pt-BR
+    </text>
+  </g>
+
+  <!--
+    VARIANT 2 . logo-stacked (symbol on top, wordmark below)
+    Target render size around 160 by 120
+    Aspect 160 by 120
+  -->
+  <g id="logo-stacked" transform="translate(640 20)">
+    <rect x="-8" y="-8" width="200" height="180" rx="12"
+          fill="#F7FAFC" stroke="none" opacity="0"/>
+
+    <g color="#2B6CB0" transform="translate(50 0) scale(1)">
+      <use href="#dmbr-play" width="100" height="100"/>
+    </g>
+
+    <text x="100" y="130"
+          class="dmbr-wordmark"
+          font-size="36"
+          fill="#1A202C"
+          text-anchor="middle">
+      <tspan fill="#1A202C">Demo</tspan><tspan fill="#2B6CB0">BR</tspan>
+    </text>
+
+    <text x="100" y="152"
+          font-family="'Inter', system-ui, sans-serif"
+          font-size="9"
+          font-weight="500"
+          fill="#2D3748"
+          text-anchor="middle"
+          letter-spacing="0.12em"
+          opacity="0.7">
+      DEMOS INTERATIVAS
+    </text>
+  </g>
+
+  <!--
+    VARIANT 3 . logo-mono (one color, for complex backgrounds and print)
+    Color parameterized via currentColor on use.
+    Aspect 240 by 64
+  -->
+  <g id="logo-mono" transform="translate(20 220)">
+    <rect x="-8" y="-8" width="600" height="80" rx="12"
+          fill="#1A202C" stroke="none" opacity="0"/>
+
+    <g color="#FFFFFF" transform="translate(0 16) scale(0.45)">
+      <use href="#dmbr-play" width="100" height="100"/>
+    </g>
+
+    <text x="60" y="48"
+          class="dmbr-wordmark"
+          font-size="40"
+          fill="#FFFFFF">
+      DemoBR
+    </text>
+
+    <text x="60" y="68"
+          font-family="'Inter', system-ui, sans-serif"
+          font-size="10"
+          font-weight="500"
+          fill="#FFFFFF"
+          letter-spacing="0.08em"
+          text-transform="uppercase"
+          opacity="0.7">
+      demos interativas · pt-BR
+    </text>
+  </g>
+
+  <!--
+    VARIANT 4 . logo-mark (isolated symbol, used as favicon or app icon)
+    Aspect 32 by 32 (favicon) renders at any scale
+  -->
+  <g id="logo-mark" transform="translate(640 240)">
+    <rect x="-8" y="-8" width="120" height="120" rx="20"
+          fill="#2B6CB0" stroke="none"/>
+
+    <g color="#FFFFFF" transform="translate(20 20) scale(0.8)">
+      <use href="#dmbr-play" width="100" height="100"/>
+    </g>
+  </g>
+
+  <!-- Backgrounds for visual reference (transparent in production usage) -->
+  <rect id="bg-light" x="0" y="0" width="1200" height="360" fill="#FAFAFA" opacity="0"/>
+</svg>

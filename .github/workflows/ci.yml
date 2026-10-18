@@ -1,0 +1,249 @@
+# =============================================================================
+# DemoBR — CI workflow
+# Triggers: push em main, PR contra main
+# Jobs: lint → typecheck → test → build → lighthouse-budget
+# =============================================================================
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TURBO_TELEMETRY_DISABLED: "1"
+  BIOME_CACHE_DIR: .biome-cache
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Lint (biome)
+  # ---------------------------------------------------------------------------
+  lint:
+    name: Lint (biome)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm format:check 2>/dev/null || pnpm lint        # alias
+
+  # ---------------------------------------------------------------------------
+  # Typecheck
+  # ---------------------------------------------------------------------------
+  typecheck:
+    name: Typecheck (tsc)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+
+  # ---------------------------------------------------------------------------
+  # Check DPO placeholders (bloqueador de publicação até contratação formal)
+  # Falha o CI se restar placeholder@demobr.com.br, DPO_NAME_AQUI,
+  # [NOME_DO_DPO] ou {nome_do_DPO} em legal/.
+  # ---------------------------------------------------------------------------
+  check-dpo-placeholders:
+    name: Check DPO placeholders
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Check DPO placeholders
+        run: pnpm exec tsx scripts/check-dpo-missing.ts
+
+  # ---------------------------------------------------------------------------
+  # Test (vitest + playwright)
+  # ---------------------------------------------------------------------------
+  test:
+    name: Test (vitest + playwright)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: app_user
+          POSTGRES_PASSWORD: app_user
+          POSTGRES_DB: supademo
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U app_user"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # Runtime: app_user (RLS-enforced)
+      DATABASE_URL: postgres://app_user:app_user@localhost:5432/supademo
+      # Migrations: app_owner (BYPASSRLS). CI cria roles app_owner/readonly
+      # via steps/setup-pg-roles abaixo antes de rodar migrations.
+      DIRECT_URL:   postgres://app_owner:app_owner@localhost:5432/supademo
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Create CI roles (app_owner BYPASSRLS + readonly)
+        env:
+          PGPASSWORD: app_user
+        run: |
+          psql -h localhost -U app_user -d supademo -v ON_ERROR_STOP=1 <<SQL
+            DO \$\$
+            BEGIN
+              IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_owner') THEN
+                CREATE ROLE app_owner LOGIN PASSWORD 'app_owner' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+              END IF;
+              IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'readonly') THEN
+                CREATE ROLE readonly LOGIN PASSWORD 'readonly' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+              END IF;
+            END
+            \$\$;
+            ALTER ROLE app_owner BYPASSRLS;
+            ALTER ROLE app_user NOBYPASSRLS;
+            GRANT CONNECT ON DATABASE supademo TO app_owner, readonly;
+            GRANT CREATE ON DATABASE supademo TO app_owner;
+            GRANT USAGE, CREATE ON SCHEMA app TO app_owner;
+            GRANT USAGE, CREATE ON SCHEMA analytics TO app_owner;
+            GRANT ALL ON ALL TABLES IN SCHEMA app TO app_owner;
+            GRANT ALL ON ALL TABLES IN SCHEMA analytics TO app_owner;
+            GRANT ALL ON ALL SEQUENCES IN SCHEMA app TO app_owner;
+            GRANT ALL ON ALL SEQUENCES IN SCHEMA analytics TO app_owner;
+            GRANT USAGE ON SCHEMA app TO readonly;
+            GRANT USAGE ON SCHEMA analytics TO readonly;
+            GRANT SELECT ON ALL TABLES IN SCHEMA app TO readonly;
+            GRANT SELECT ON ALL TABLES IN SCHEMA analytics TO readonly;
+            ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT ALL ON TABLES TO app_owner;
+            ALTER DEFAULT PRIVILEGES IN SCHEMA analytics GRANT ALL ON TABLES TO app_owner;
+          SQL
+      - run: pnpm --filter web db:migrate
+      - run: pnpm test
+      - name: Coverage check (vitest --coverage)
+        run: pnpm --filter web exec vitest run --coverage --coverage.reporter=text-summary
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: apps/web/coverage/
+      # Playwright E2E — config mora na RAIZ do monorepo (playwright.config.ts),
+      # não em apps/web. Em GH Actions o runner é root então `--with-deps` é
+      # seguro (instala libs via apt-get). Em sandboxes sem sudo, a fallback
+      # é rodar só `chromium` puro — ver tests/setup-playwright.md.
+      - name: Cache Playwright browsers
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Run Playwright tests
+        run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+  # ---------------------------------------------------------------------------
+  # Build (docker)
+  # ---------------------------------------------------------------------------
+  build:
+    name: Build (docker)
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build web
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/web/Dockerfile
+          tags: demobr/web:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+      - name: Build worker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.worker
+          tags: demobr/worker:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          load: true
+
+  # ---------------------------------------------------------------------------
+  # Lighthouse budget (player bundle < 100KB gzip)
+  # ---------------------------------------------------------------------------
+  lighthouse-budget:
+    name: Lighthouse budget (player < 100KB gzip)
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @demo.br/player build
+      - name: Measure gzipped bundle
+        id: bundle
+        run: |
+          set -euo pipefail
+          DIST="$(find packages/player/dist -maxdepth 1 -type f \\( -name '*.js' -o -name '*.mjs' \\) | head -n1)"
+          if [[ -z "$DIST" ]]; then
+            echo "❌ Player bundle não encontrado em packages/player/dist/"
+            exit 1
+          fi
+          SIZE_GZ="$(gzip -c -9 "$DIST" | wc -c | tr -d ' ')"
+          SIZE_RAW="$(wc -c < "$DIST" | tr -d ' ')"
+          echo "raw=$SIZE_RAW gz=$SIZE_GZ bundle=$DIST" >>"$GITHUB_OUTPUT"
+          echo "📦 Player bundle: ${SIZE_RAW}B raw / ${SIZE_GZ}B gzip"
+          if [[ "$SIZE_GZ" -gt 102400 ]]; then
+            echo "❌ Bundle > 100KB gzip ($SIZE_GZ B)"
+            exit 1
+          fi
+      - name: Comment PR
+        if: github.event_name == 'pull_request' && steps.bundle.outputs.gz != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: bundle-size
+          message: |
+            📦 **Player bundle**: ${{ steps.bundle.outputs.gz }} B gzip (${{ steps.bundle.outputs.raw }} B raw)
+            ✅ Limite: 100KB gzip

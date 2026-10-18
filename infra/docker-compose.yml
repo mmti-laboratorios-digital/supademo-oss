@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: demobr-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demobr}
+      POSTGRES_DB: supademo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d supademo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Porta 55432 no host (não 5432) — evita colisão com Postgres do SO
+    # quando `postgresql@16-main` estiver rodando. Container continua ouvindo
+    # em 5432 internamente; só o mapeamento host:container muda.
+    ports:
+      - "127.0.0.1:55432:5432"
+
+  pgweb:
+    image: sosedoff/pgweb:latest
+    container_name: demobr-pgweb
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGWEB_DATABASE: supademo
+    ports:
+      - "127.0.0.1:8081:8081"
+
+volumes:
+  pgdata:

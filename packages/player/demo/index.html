@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@demo.br/player — exemplo standalone</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from "https://esm.sh/react@19";
+      import { createRoot } from "https://esm.sh/react-dom@19/client";
+      import { DemoPlayer } from "../src/DemoPlayer.tsx";
+
+      const demo = {
+        id: "demo-1",
+        title: "Demonstração",
+        description: "Exemplo de uso standalone do player.",
+      };
+
+      const steps = [
+        {
+          id: "s1",
+          position: 1,
+          screenshotUrl: "https://placehold.co/1280x720/png",
+          caption: "Clique aqui para continuar",
+          hotspot: { type: "pointer", x: 50, y: 50, label: "Próximo passo" },
+        },
+        {
+          id: "s2",
+          position: 2,
+          screenshotUrl: "https://placehold.co/1280x720/png",
+          caption: "Última tela",
+          hotspot: { type: "area", x: 10, y: 10, w: 80, h: 30 },
+        },
+      ];
+
+      const root = createRoot(document.getElementById("root"));
+      root.render(React.createElement(DemoPlayer, { demo, steps, locale: "pt-BR" }));
+    </script>
+  </body>
+</html>

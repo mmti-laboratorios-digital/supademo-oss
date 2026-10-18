@@ -1,0 +1,438 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.demobr.com.br/schemas/rtbf-data-export-v1.json",
+  "title": "DemoBR — Export de Dados Pessoais (LGPD art. 18, II e V)",
+  "description": "Schema do JSON devolvido pelo endpoint GET /api/v1/dsr/export?token=... em resposta a um pedido de acesso ou portabilidade de dados (LGPD art. 18, II e V). Estrutura compatível com GDPR art. 20 (right to data portability).",
+  "type": "object",
+  "version": "1.0.0",
+  "required": ["meta", "subject", "data"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Metadados do export",
+      "required": ["export_id", "generated_at", "expires_at", "version", "format"],
+      "properties": {
+        "export_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Identificador único do export (auditável em app.dsr_log)"
+        },
+        "ticket_id": {
+          "type": ["string", "null"],
+          "description": "ID do ticket DSR correspondente"
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601, UTC"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601, UTC — o link de download expira 7 dias após geração"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Versão deste schema (semver)"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["json", "csv", "ndjson"],
+          "description": "Formato principal do arquivo gerado"
+        },
+        "compression": {
+          "type": "string",
+          "enum": ["zip", "tar.gz", "none"],
+          "default": "zip"
+        },
+        "encryption": {
+          "type": "object",
+          "description": "Criptografia do pacote",
+          "properties": {
+            "algorithm": { "type": "string", "enum": ["aes-256-gcm"] },
+            "key_delivery": { "type": "string", "enum": ["separate_channel"] },
+            "rotation_at": { "type": "string", "format": "date-time" }
+          }
+        },
+        "source_endpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "Ex.: /api/v1/dsr/export?token=..."
+        },
+        "downloaded_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Quantas vezes o link foi baixado"
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "description": "Identificação do titular",
+      "required": ["verdict", "subject_type"],
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": ["identified", "anonymous_partial", "not_found"],
+          "description": "Se conseguimos correlacionar o pedido a um titular específico"
+        },
+        "subject_type": {
+          "type": "string",
+          "enum": ["creator", "lead", "viewer", "mixed"],
+          "description": "Papel do titular no produto"
+        },
+        "subject_email_declared": {
+          "type": "string",
+          "format": "email",
+          "description": "E-mail que o titular declarou no pedido (pode ser diferente do registrado)"
+        },
+        "subject_email_matched": {
+          "type": ["string", "null"],
+          "format": "email",
+          "description": "E-mail que temos registrado, se houve match"
+        },
+        "subject_id_internal": {
+          "type": ["string", "null"],
+          "format": "uuid",
+          "description": "ID interno (Clerk user_id ou hash) associado — apenas se aplicável"
+        },
+        "tenant_id_internal": {
+          "type": ["string", "null"],
+          "format": "uuid",
+          "description": "Workspace(s) em que o titular atuou"
+        },
+        "identity_verified": {
+          "type": "boolean",
+          "description": "True se a identidade foi verificada via documento + selfie"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "description": "Seções de dados (omitir quando vazio)",
+      "properties": {
+        "creator_account": {
+          "type": "object",
+          "description": "Dados da conta, se titular é creator",
+          "properties": {
+            "user_id": { "type": "string" },
+            "created_at": { "type": "string", "format": "date-time" },
+            "updated_at": { "type": "string", "format": "date-time" },
+            "email": { "type": ["string", "null"], "format": "email" },
+            "name": { "type": ["string", "null"] },
+            "avatar_url": { "type": ["string", "null"], "format": "uri" },
+            "locale": { "type": ["string", "null"] },
+            "auth_methods": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["email_password", "google_oauth", "magic_link"]
+              }
+            },
+            "mfa_enabled": { "type": "boolean" },
+            "workspaces": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "workspace_id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "slug": { "type": "string" },
+                  "role": { "type": "string", "enum": ["owner", "admin", "editor", "viewer"] }
+                }
+              }
+            }
+          }
+        },
+        "demos": {
+          "type": "object",
+          "description": "Demos criados pelo titular",
+          "properties": {
+            "count": { "type": "integer", "minimum": 0 },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "demo_id": { "type": "string" },
+                  "title": { "type": "string" },
+                  "slug": { "type": "string" },
+                  "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+                  "created_at": { "type": "string", "format": "date-time" },
+                  "updated_at": { "type": "string", "format": "date-time" },
+                  "steps_count": { "type": "integer" },
+                  "screenshot_urls": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "uri" }
+                  },
+                  "audio_urls": {
+                    "type": "array",
+                    "items": { "type": "string", "format": "uri" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "leads": {
+          "type": "object",
+          "description": "Leads captados pelo titular em seus demos (são leads DE TERCEIROS — só inclui se o titular pediu e tem base legal)",
+          "properties": {
+            "count": { "type": "integer", "minimum": 0 },
+            "note": { "type": "string", "description": "Aviso legal: leads são dados de terceiros" },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "lead_id": { "type": "string" },
+                  "demo_id": { "type": "string" },
+                  "demo_title": { "type": "string" },
+                  "captured_at": { "type": "string", "format": "date-time" },
+                  "name": { "type": ["string", "null"] },
+                  "email": { "type": ["string", "null"], "format": "email" },
+                  "phone": { "type": ["string", "null"] },
+                  "consent_text": { "type": "string" },
+                  "consent_timestamp": { "type": "string", "format": "date-time" },
+                  "ip_hash": { "type": ["string", "null"] },
+                  "user_agent_hash": { "type": ["string", "null"] }
+                }
+              }
+            }
+          }
+        },
+        "viewer_analytics": {
+          "type": "object",
+          "description": "Eventos de analytics sobre os demos do titular",
+          "properties": {
+            "count": { "type": "integer" },
+            "earliest_event_at": { "type": ["string", "null"], "format": "date-time" },
+            "latest_event_at": { "type": ["string", "null"], "format": "date-time" },
+            "note": {
+              "type": "string",
+              "description": "Eventos são agregados e hash-based, sem PII direta"
+            },
+            "items_file": {
+              "type": ["string", "null"],
+              "description": "Caminho para arquivo CSV.gz com eventos individuais (para portabilidade completa)"
+            }
+          }
+        },
+        "billing": {
+          "type": "object",
+          "description": "Histórico de cobrança (Asaas)",
+          "properties": {
+            "customer_id_asaas": { "type": ["string", "null"] },
+            "documents": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "asaas_id": { "type": "string" },
+                  "type": { "type": "string", "enum": ["payment", "refund", "chargeback", "subscription"] },
+                  "status": { "type": "string" },
+                  "amount_brl": { "type": "number" },
+                  "date": { "type": "string", "format": "date-time" },
+                  "invoice_url": { "type": ["string", "null"], "format": "uri" }
+                }
+              }
+            },
+            "fiscal_documents": {
+              "type": "array",
+              "description": "NF-e emitidas/recebidas — mantidas por obrigação fiscal",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "nfe_number": { "type": "string" },
+                  "issue_date": { "type": "string", "format": "date-time" },
+                  "pdf_url": { "type": ["string", "null"] },
+                  "xml_url": { "type": ["string", "null"] }
+                }
+              }
+            }
+          }
+        },
+        "audit_logs": {
+          "type": "object",
+          "description": "Logs de auditoria do titular (mantidos 24 meses com PII anonimizado)",
+          "properties": {
+            "count": { "type": "integer" },
+            "earliest_event_at": { "type": ["string", "null"], "format": "date-time" },
+            "latest_event_at": { "type": ["string", "null"], "format": "date-time" },
+            "items_file": {
+              "type": ["string", "null"],
+              "description": "Caminho para CSV.gz com eventos individuais (campos PII hasheados)"
+            }
+          }
+        },
+        "support_tickets": {
+          "type": "array",
+          "description": "Tickets abertos pelo titular com o suporte DemoBR",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ticket_id": { "type": "string" },
+              "subject": { "type": "string" },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "at": { "type": "string", "format": "date-time" },
+                    "direction": { "type": "string", "enum": ["inbound", "outbound"] },
+                    "content": { "type": "string" },
+                    "attachments": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "marketing_communications": {
+          "type": "object",
+          "description": "Histórico de e-mails transacionais e marketing",
+          "properties": {
+            "transactional": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sent_at": { "type": "string", "format": "date-time" },
+                  "template": { "type": "string" },
+                  "subject": { "type": "string" }
+                }
+              }
+            },
+            "marketing": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "sent_at": { "type": "string", "format": "date-time" },
+                  "campaign": { "type": "string" },
+                  "subject": { "type": "string" },
+                  "opened": { "type": ["boolean", "null"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "third_party_data_received": {
+      "type": "object",
+      "description": "Dados que a DemoBR recebeu do titular mas não foram criados por nós",
+      "properties": {
+        "list": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "data_not_included": {
+      "type": "object",
+      "description": "Categorias que existem mas NÃO estão neste export (justificativa)",
+      "properties": {
+        "dsr_log_for_self": {
+          "type": "string",
+          "description": "Os pedidos DSR anteriores deste titular ficam em app.dsr_log; podem ser solicitados em outro pedido (pacote 'transparência')"
+        },
+        "incidents_involving_user": {
+          "type": "string",
+          "description": "Incidentes de segurança envolvendo o titular são legalmente sensíveis e podem ser omitidos por motivo de segurança"
+        }
+      }
+    },
+    "next_steps": {
+      "type": "object",
+      "description": "Próximas ações que o titular pode tomar",
+      "properties": {
+        "request_deletion": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link para formulário de eliminação (art. 18, VI)"
+        },
+        "contact_dpo": {
+          "type": "string",
+          "format": "email",
+          "description": "Email do DPO"
+        },
+        "file_anpd_complaint": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link para a ANPD"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "meta": {
+        "export_id": "8d2c4f8e-7f6d-4c1b-9e3a-1c2b3a4d5e6f",
+        "generated_at": "2026-10-18T14:00:00Z",
+        "expires_at": "2026-10-25T14:00:00Z",
+        "version": "1.0.0",
+        "format": "json",
+        "compression": "zip",
+        "encryption": {
+          "algorithm": "aes-256-gcm",
+          "key_delivery": "separate_channel",
+          "rotation_at": "2026-10-18T14:00:00Z"
+        },
+        "source_endpoint": "/api/v1/dsr/export?token=redacted",
+        "downloaded_count": 0
+      },
+      "subject": {
+        "verdict": "identified",
+        "subject_type": "creator",
+        "subject_email_declared": "maria@example.com",
+        "subject_email_matched": "maria@example.com",
+        "subject_id_internal": "user_2abcXYZ",
+        "tenant_id_internal": "ws_7f3a9c...",
+        "identity_verified": true
+      },
+      "data": {
+        "creator_account": {
+          "user_id": "user_2abcXYZ",
+          "created_at": "2025-08-10T18:20:11Z",
+          "updated_at": "2026-09-30T07:15:00Z",
+          "email": "maria@example.com",
+          "name": "Maria Silva",
+          "avatar_url": null,
+          "locale": "pt-BR",
+          "auth_methods": ["google_oauth"],
+          "mfa_enabled": true,
+          "workspaces": [
+            {
+              "workspace_id": "ws_7f3a9c...",
+              "name": "Empresa XYZ",
+              "slug": "empresa-xyz",
+              "role": "owner"
+            }
+          ]
+        },
+        "demos": {
+          "count": 3,
+          "items": [
+            {
+              "demo_id": "demo_a1b2c3...",
+              "title": "Tour do CRM",
+              "slug": "tour-do-crm",
+              "status": "published",
+              "created_at": "2026-02-15T12:00:00Z",
+              "updated_at": "2026-09-01T10:00:00Z",
+              "steps_count": 12,
+              "screenshot_urls": [],
+              "audio_urls": []
+            }
+          ]
+        }
+      },
+      "next_steps": {
+        "request_deletion": "https://app.demobr.com.br/privacidade/solicitacao?tipo=eliminacao",
+        "contact_dpo": "placeholder@demobr.com.br",
+        "_contact_dpo_note": "Placeholder funcional ate a contratacao formal do DPO (LGPD art. 41). Ver legal/DPO-PROCESS.md. Substituir apos contratacao.",
+        "file_anpd_complaint": "https://www.gov.br/anpd/"
+      }
+    }
+  ]
+}

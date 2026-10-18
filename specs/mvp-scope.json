@@ -1,0 +1,351 @@
+{
+  "product": "DemoBR",
+  "tagline": "Demos interativas do seu produto, em PT-BR, com PIX e LGPD.",
+  "primary_language": "pt-BR",
+  "secondary_language": "en",
+  "mvp_features": [
+    "Cadastro por e-mail + Google OAuth + magic link (Better-Auth, cookie httpOnly)",
+    "Captura via extensão Chrome MV3 (screenshot-based, sem tabCapture no MVP)",
+    "Editor web de demo (steps, drag-and-drop, hotspot pointer/callout/area, CTA final)",
+    "Player público SSR (/d/[slug]) responsivo, LGPD banner, analytics opt-out",
+    "Publicação com slug customizável e OG image",
+    "Formulário de lead no step 1 com consentimento LGPD (obrigatório, desmarcado)",
+    "CTA final WhatsApp (wa.me/?text=...) + link externo + e-mail",
+    "Analytics anônimo (cookie first-party 30d, sem IP, geolocalização via Accept-Language)",
+    "Billing PIX + boleto + cartão via Asaas, com NF-e e webhook HMAC",
+    "Planos Free / Pro R$ 49 / Business R$ 199",
+    "Embed iframe + script embed.ly",
+    "Domínio customizado para player (Business)",
+    "Tradução PT-BR ↔ EN do player e e-mails transacionais",
+    "Narração TTS pt-BR (ElevenLabs ou Cartesia) com cache em R2",
+    "AI text generation (OpenRouter Claude/GPT-4o-mini) inclusa no Pro",
+    "API REST pública + Webhooks com HMAC-SHA256",
+    "Integração HubSpot BR, RD Station, Kommo (CRM BR)",
+    "Showcase (coleção de demos em um link)",
+    "Variáveis de personalização ({{name}}, {{empresa}}) via query string",
+    "Branching condicional (Business)",
+    "White-label player (logo + cor)",
+    "DSR endpoint LGPD art. 18 (export/delete via token, SLA 15 dias)"
+  ],
+  "out_of_scope": [
+    "HTML clone / DOM capture (Supademo Business feature)",
+    "Sandbox demo environments",
+    "Mobile demo (gravação nativa iOS/Android)",
+    "Voice cloning pt-BR",
+    "AI Demo Agent autônomo (Supademo AI Demo Agent)",
+    "SSO/SAML",
+    "Multi-workspace na mesma conta",
+    "4K video / screen recording",
+    "MCP server público",
+    "Pagamento multi-currency (USD/EUR)",
+    "App desktop Electron",
+    "Editor multi-idioma completo (PT/ES/EN)",
+    "Figma plugin",
+    "Marketplace de templates",
+    "Programa de referral/afiliados (V1.1)",
+    "Multi-tenant RBAC granular",
+    "Data residency customizada"
+  ],
+  "stack": {
+    "frontend": "Next.js 15 App Router + React 19 + TypeScript 5.6",
+    "ui": "Tailwind CSS 3.4 + Radix UI + shadcn-style primitives + lucide-react",
+    "backend": "Next.js API routes + Server Actions (Node 22)",
+    "db": "PostgreSQL 16 self-hosted + Drizzle ORM 0.36 + RLS (Row-Level Security) com tenant_id em todas as tabelas",
+    "queue": "graphile-worker (Postgres-only) — sem Redis; benchmark 180k jobs/s; cron nativo para LGPD retention; migração para BullMQ + Redis fica V2",
+    "storage": "Cloudflare R2 (S3-compatible, zero egress)",
+    "cdn": "Cloudflare (free tier)",
+    "reverse_proxy": "Caddy 2 (TLS automático via Let's Encrypt)",
+    "container": "Docker Compose v2 (single VPS Hetzner CX31)",
+    "auth": "Clerk (Pro $25/mês, free tier 50k MAU) — Org nativo (workspaces) essencial para B2B multi-tenant; SSO Enterprise incluso",
+    "validation": "Zod 3.23",
+    "payments": "Asaas (PIX/boleto/cartão BR) + Stripe fallback (EN/Enterprise)",
+    "ai": "OpenRouter (Claude 3.5 Sonnet, GPT-4o-mini) + ElevenLabs/Cartesia (TTS pt-BR)",
+    "email": "Resend",
+    "error_tracking": "Sentry",
+    "logs": "Pino + Better Stack (Logtail)",
+    "ratelimit": "Upstash Ratelimit (Redis)",
+    "analytics": "Postgres events table (LGPD-safe, sem IP)",
+    "extension_protocol": "MV3",
+    "extension_build": "Vite + manifest.json manual (WXT no V2)",
+    "tests": "Vitest (unit) + Playwright (e2e)",
+    "lint_format": "Biome 1.9",
+    "ci": "GitHub Actions",
+    "hosting_vps": "Hetzner CX31 (4 vCPU, 8 GB, 80 GB SSD, ~R$ 80/mês)",
+    "domains": "Registro.br (.com.br) + Cloudflare Registrar (.com)",
+    "multi_tenancy": "RLS: SET LOCAL app.current_tenant_id por conexão; FORCE ROW LEVEL SECURITY para evitar bypass do owner"
+  },
+  "pricing_brl": {
+    "free": {
+      "price": 0,
+      "currency": "BRL",
+      "billing": "no_card",
+      "limits": {
+        "max_demos": 3,
+        "max_steps_per_demo": 10,
+        "max_views_per_month": 50,
+        "max_leads_per_month": 0,
+        "tts_minutes_per_month": 0,
+        "ai_text_requests_per_month": 0,
+        "link_ttl_days": 30,
+        "custom_domain": false,
+        "watermark_on_cta": true,
+        "lead_form": false
+      }
+    },
+    "pro": {
+      "price_monthly": 49,
+      "price_annual": 490,
+      "currency": "BRL",
+      "billing_methods": [
+        "PIX",
+        "boleto",
+        "cartao"
+      ],
+      "nfe": true,
+      "trial_days": 14,
+      "limits": {
+        "max_demos": null,
+        "max_steps_per_demo": 30,
+        "max_views_per_month": 5000,
+        "max_leads_per_month": 100,
+        "tts_minutes_per_month": 30,
+        "ai_text_requests_per_month": 500,
+        "custom_domain": false,
+        "watermark_on_cta": false,
+        "lead_form": true,
+        "personalization_tokens": false,
+        "branching": false,
+        "showcase": false,
+        "webhooks_per_workspace": 1,
+        "members_in_workspace": 1
+      }
+    },
+    "business": {
+      "price_monthly": 199,
+      "price_annual": 1990,
+      "currency": "BRL",
+      "billing_methods": [
+        "PIX",
+        "boleto",
+        "cartao"
+      ],
+      "nfe": true,
+      "limits": {
+        "max_demos": null,
+        "max_steps_per_demo": 60,
+        "max_views_per_month": 50000,
+        "max_leads_per_month": null,
+        "tts_minutes_per_month": 200,
+        "ai_text_requests_per_month": 2000,
+        "custom_domain": true,
+        "watermark_on_cta": false,
+        "lead_form": true,
+        "personalization_tokens": true,
+        "branching": true,
+        "showcase": true,
+        "white_label": true,
+        "webhooks_per_workspace": 3,
+        "members_in_workspace": 3
+      }
+    }
+  },
+  "differentiators_vs_guiaflow": [
+    "SaaS gerenciado com IA inclusa (TTS pt-BR + AI text) — GuiaFlow Free exige BYOK (sua chave OpenAI/Cartesia); GuiaFlow Pro é mais barato mas ainda depende de hospedagem externa para o creator não-técnico.",
+    "LGPD by design com DSR endpoint automatizado (POST /api/dsr + token + export/delete + audit log) — GuiaFlow é privacy-friendly mas não expõe endpoint de DSR ao titular.",
+    "Analytics de engagement reais (completion rate, drop-off por step, CTR por CTA) — GuiaFlow analytics contam apenas views e final click.",
+    "CRM BR nativo com OAuth (HubSpot BR, RD Station, Kommo) — não só Zapier genérico; lead capturado vira contato + opportunity automaticamente.",
+    "Billing 100% BR com PIX nativo e NF-e via Asaas — GuiaFlow Pro passa por Stripe (PIX ok, mas NF-e mediante pedido manual)."
+  ],
+  "differentiators_vs_supademo": [
+    "PIX nativo, boleto e NF-e em BRL — checkout pensado para o comprador BR, não adaptado de Stripe USD.",
+    "75% mais barato no tier de entrada (R$ 49 ≈ $9 vs $50 USD ≈ R$ 250).",
+    "Suporte, e-mails transacionais e DPO em PT-BR por padrão.",
+    "Features 'Enterprise' da Supademo (variáveis, custom domain, branching) inclusas no Business de R$ 199 — Supademo cobra $199 USD (≈ R$ 1.000) pelo Business."
+  ],
+  "gtm_keywords_ptbr": [
+    "como fazer demo interativa",
+    "tour interativo de produto",
+    "demonstração interativa de software",
+    "alternativa ao Loom para demos",
+    "ferramenta de demo para SaaS"
+  ],
+  "gtm_channels": [
+    "Conteúdo SEO PT-BR (blog + landing pages por vertical): 10 posts pilares, 2 posts/semana",
+    "Comunidades de produto/vendas BR (LinkedIn, RevOps BR, Product Hunt BR, Slack/Discord de RD/HubSpot)",
+    "Outbound + parceria com BDRs-as-a-Service BR (afiliados com 20% MRR recorrente por 12 meses)"
+  ],
+  "risks": [
+    {
+      "name": "Adoção baixa por atrito na instalação da extensão Chrome",
+      "probability": "media",
+      "impact": "alta",
+      "mitigation": "Manifest MV3 enxuto (activeTab + storage apenas, sem <all_urls>); privacy policy + screenshots CWS-compliant; plano B com upload manual de screenshot se a review atrasar."
+    },
+    {
+      "name": "GuiaFlow Free (open source MIT) 'ser bom o suficiente' para o mercado",
+      "probability": "alta",
+      "impact": "media",
+      "mitigation": "Diferenciação por SaaS gerenciado (sem chave API), LGPD DSR endpoint, analytics de engagement, CRM BR nativo. Nunca competir por preço puro."
+    },
+    {
+      "name": "Instabilidade ou mudança de preço no gateway de pagamento BR (Asaas)",
+      "probability": "baixa",
+      "impact": "alta",
+      "mitigation": "Plano B com Pagar.me (PIX + cartão) ou Stripe (EN). Health check do webhook Asaas; retry exponencial em BullMQ; reconciliação diária com GET /payments."
+    },
+    {
+      "name": "LGPD restritiva demais afastar creators que querem capturar leads",
+      "probability": "media",
+      "impact": "media",
+      "mitigation": "Consent text editável por creator; base legal configurável (consentimento OU execução de contrato art. 7º V); A/B testar copy do banner."
+    },
+    {
+      "name": "VPS único como single point of failure",
+      "probability": "media",
+      "impact": "alta",
+      "mitigation": "Hetzner Snapshots diários + restore testado mensalmente; backup pg_dump cifrado AES-256 em R2. Plano B: failover para 2º VPS com repmgr se SLA > 99.5% virar requisito (custo +R$ 80/mês)."
+    }
+  ],
+  "mvp_phases": [
+    {
+      "name": "H1 — Fundação",
+      "weeks": "1-6",
+      "team_size_fte": 2.5,
+      "deliverables": [
+        "Repositório + monorepo Next.js 15 + Docker Compose + CI (GitHub Actions)",
+        "Auth + workspaces + members (Better-Auth com e-mail/senha + Google OAuth)",
+        "Banco PostgreSQL 16 + migrations Drizzle aplicadas + seed dos 3 plans",
+        "Landing page + /pricing em PT-BR + EN",
+        "Domínio .com.br no Registro.br + Cloudflare proxy + Caddy TLS",
+        "Páginas legais: ToS, Política de Privacidade LGPD, Política de Cookies, e-mail DPO",
+        "Integração Asaas sandbox (PIX end-to-end de teste)"
+      ],
+      "exit_criteria": "Usuário consegue cadastrar, criar workspace, ver /pricing e o sistema emite NF-e de teste (sandbox Asaas).",
+      "success_metric": "0 erros críticos Sentry em produção; 100% rotas principais com Lighthouse >= 90."
+    },
+    {
+      "name": "H2 — Captura + Player + Editor básico",
+      "weeks": "7-12",
+      "team_size_fte": 2.5,
+      "deliverables": [
+        "Extensão Chrome MV3 publicada na Chrome Web Store",
+        "API POST /api/demos/[id]/steps (multipart, screenshot -> R2 como WebP via sharp)",
+        "Editor /app/[slug]/demos/[id]/edit com drag-and-drop + auto-save",
+        "Player SSR /d/[slug] responsivo com overlay de hotspot",
+        "Publicação com slug + OG image via BullMQ og-image-job",
+        "Conta Free funcional (3 demos, links 30 dias, sem cartão)"
+      ],
+      "exit_criteria": "Creator grava 5 steps via extensão, edita título, publica, e o link público abre em navegador anônimo exibindo todos os steps na ordem.",
+      "success_metric": "< 3 cliques para publicar primeiro demo; player FCP < 1s em 3G BR."
+    },
+    {
+      "name": "H3 — Editor avançado + Billing + Analytics + LGPD",
+      "weeks": "7-18",
+      "team_size_fte": 2.5,
+      "parallel_with": "H2",
+      "deliverables": [
+        "Hotspots avançados (pointer/callout/area, multi-hotspot por step)",
+        "Formulário de lead no step 1 com consentimento LGPD + export CSV",
+        "Analytics anônimo (cookie first-party _pk_id 30d, sem IP, geolocalização via Accept-Language)",
+        "Dashboard analytics básico (views, completion, drop-off step, CTR CTA, device, country)",
+        "Billing Asaas completo (PIX + boleto + cartão, webhook HMAC, upgrade/downgrade/cancel)",
+        "Planos Pro R$ 49 + Business R$ 199 com limites enforced na API",
+        "TTS pt-BR (ElevenLabs/Cartesia) com BullMQ tts-job + cache R2",
+        "AI text generation (OpenRouter Claude/GPT-4o-mini)",
+        "Embed iframe + script embed.ly",
+        "DSR endpoint LGPD art. 18 (export/delete via token, audit log em app.dsr_log)"
+      ],
+      "exit_criteria": "Creator Free captura/edita/publica/visualiza leads e analytics; upgrade Pro via PIX funciona end-to-end com NF-e; DSR via e-mail atendido em < 5 dias.",
+      "success_metric": ">= 10 creators Free ativos fazendo 1 demo cada; >= 1 upgrade Pro concluído."
+    },
+    {
+      "name": "H4 — Scale + Diferenciação BR",
+      "weeks": "19-24",
+      "team_size_fte": 2.5,
+      "deliverables": [
+        "Custom domain para player (Business) via CNAME + Caddy ou Cloudflare for SaaS",
+        "Showcase /c/[slug] (coleção de demos)",
+        "Variáveis de personalização {{name}}/{{empresa}} via query string",
+        "Branching condicional (escolha do viewer)",
+        "White-label player (logo + cor primária)",
+        "API REST pública + Webhooks com HMAC-SHA256 + integrações HubSpot BR/RD Station/Kommo",
+        "i18n EN (toggle no workspace, e-mails em EN se locale EN)",
+        "Página /integracoes + 3 posts de blog PT-BR iniciais",
+        "Programa de afiliados (20% MRR recorrente por 12 meses)"
+      ],
+      "exit_criteria": "Landing em PT-BR rankeia para 'demo interativa' + 'tour interativo produto' na primeira página do Google BR; 50 signups orgânicos; 5 clientes Pro pagando; NPS >= 40.",
+      "success_metric": "MRR >= R$ 250 (5 Pro) + CAC payback < 3 meses."
+    }
+  ],
+  "infra_costs_brl_monthly": {
+    "vps_hetzner_cx31": 80,
+    "cloudflare_r2_free_tier": 0,
+    "cloudflare_cdn_free_tier": 0,
+    "resend_free_tier": 0,
+    "sentry_free_tier": 0,
+    "dominio_com_br_anual_para_mes": 4,
+    "asaas_fee_per_pix": 1,
+    "openrouter_claude_mini_pay_as_go": 50,
+    "elevenlabs_tts_starter": 60,
+    "total_estimado": 195
+  },
+  "compliance": {
+    "lgpd": {
+      "platform_role": "operador",
+      "creator_role": "controlador",
+      "ip_storage": false,
+      "cookie_storage": "first_party_only_30d",
+      "consent_required": true,
+      "consent_default_checked": false,
+      "dsr_endpoint": "/api/dsr",
+      "dsr_sla_days": 15,
+      "data_residency": "VPS BR preferencial; R2 com cifragem para backup",
+      "dpo_email": "dpo@dominio.com.br"
+    },
+    "marco_civil": {
+      "logs_retention_days": 365,
+      "cookies_banner": true,
+      "respect_dnt_gpc": true
+    }
+  },
+  "extension": {
+    "manifest_version": 3,
+    "permissions": [
+      "activeTab",
+      "storage",
+      "scripting"
+    ],
+    "optional_host_permissions": [
+      "<all_urls>"
+    ],
+    "capture_method": "chrome.tabs.captureVisibleTab (screenshot PNG, qualidade 90)",
+    "no_tab_capture_in_mvp": true,
+    "no_offscreen_in_mvp": true,
+    "build_tool": "Vite + manifest.json manual (WXT no V2)",
+    "store": "Chrome Web Store (US$ 5 one-time developer fee)"
+  },
+  "sources": {
+    "supademo_features": "https://supademo.com, https://supademo.com/pricing, https://supademo.com/features",
+    "guiaflow_reference": "https://guiaflow.pro, https://github.com/gugamistri/gflow (MIT)",
+    "guiaflow_pricing_brl": "https://guiaflow.pro/termos — R$ 36/mês ou R$ 359/ano via Stripe com PIX/boleto/cartão",
+    "guiaflow_enterprise_pricing": "https://www.guideflow.com/pricing — US$ 599/mês no tier mais alto",
+    "r2_pricing": "https://developers.cloudflare.com/r2/pricing/ — $0.015/GB-mês, 10 GB free, zero egress",
+    "chrome_mv3": "https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3",
+    "lgpd": "Lei nº 13.709/2018",
+    "research_files": {
+      "demos_competitors": "research/demos/{arcade,getdemo,guiaflow,loom,navattic,scribe,storylane,supademo,tango}.md",
+      "pricing_competitors": "research/pricing/{brazilian-players-pricing,competitors-pricing,supademo-pricing,supademo-traction}.md",
+      "tech_stack": "research/tech/{analytics-stack,backend-stack,chrome-extension-mv3,database-model,payments-brazil,public-player}.md",
+      "consolidated_log": "research/sources.md"
+    }
+  },
+  "research_status": "research/demos, research/pricing e research/tech estavam vazios no momento da síntese (2026-10-18). Este documento foi gerado a partir de fontes públicas via REA/webfetch. Subagentes de pesquisa devem popular research/ com planos comparados de Supademo, GuiaFlow, Storylane, Navattic, Arcadia, Walnut.",
+  "research_alignment_notes": [
+    "Stack final honrou decisões de research/tech/backend-stack.md: graphile-worker (Postgres-only) em vez de BullMQ + Redis; Clerk em vez de Better-Auth (Org nativo multi-tenant); RLS com tenant_id em todas tabelas.",
+    "Pricing: GuiaFlow Pro R$36/mês (research/demos/guiaflow.md) e Supademo Scale $50 ≈ R$ 250 (research/demos/supademo.md) usados como benchmarks; posicionamento em R$ 49 (Pro) e R$ 199 (Business) alinhado com research/pricing/competitors-pricing.md (FX base R$ 5,50/USD).",
+    "Diferenciação vs GuiaFlow: SaaS gerenciado vs open source (research/demos/guiaflow.md §Diferenciais), MCP server + OpenAPI 3.1 (research/demos/guiaflow.md §5), LGPD-first (research/demos/guiaflow.md §7).",
+    "Diferenciação vs Supademo: PIX/boleto nativos, NF-e, pt-BR first (research/demos/supademo.md §Pontos fracos).",
+    "Payments: Asaas escolhido conforme research/tech/payments-brazil.md §2 — PIX recorrente nativo + boleto + cartão + sandbox + subscriptions endpoint dedicado."
+  ],
+  "gtm_sources": "research/pricing/gtm-channels.md (keywords + benchmarks PLG SaaS BR)"
+}

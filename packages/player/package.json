@@ -1,0 +1,31 @@
+{
+  "name": "@demo.br/player",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/DemoPlayer.tsx",
+  "types": "./src/DemoPlayer.tsx",
+  "exports": {
+    ".": "./src/DemoPlayer.tsx",
+    "./styles.css": "./src/styles.css"
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@demo.br/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "@vitejs/plugin-react": "4.3.3",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "typescript": "5.6.3",
+    "vite": "5.4.10"
+  }
+}

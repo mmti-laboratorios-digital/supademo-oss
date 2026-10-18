@@ -1,0 +1,829 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://demobr.com.br/mcp/server.json",
+  "name": "DemoBR MCP Server",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server exposing DemoBR demo management as tools for AI agents (Claude, GPT-4, Cursor, etc.).",
+
+  "metadata": {
+    "vendor": "DemoBR",
+    "homepage": "https://demobr.com.br/mcp",
+    "license": "Proprietary",
+    "support_email": "support@demobr.com.br",
+    "documentation": "https://docs.demobr.com.br/mcp",
+    "openapi_equivalent": "https://docs.demobr.com.br/api/openapi.yaml"
+  },
+
+  "server": {
+    "transport": "stdio",
+    "command": "npx -y @demo.br/mcp-server@latest",
+    "environment_variables": {
+      "DEMOBR_API_KEY": {
+        "required": true,
+        "description": "Workspace API key (format: gf_live_<32 chars>)",
+        "sensitive": true
+      },
+      "DEMOBR_API_BASE": {
+        "required": false,
+        "default": "https://api.demobr.com.br/api/v1",
+        "description": "Override API base URL (use sandbox for dev)"
+      },
+      "DEMOBR_LOG_LEVEL": {
+        "required": false,
+        "default": "info",
+        "enum": ["debug", "info", "warn", "error"]
+      }
+    }
+  },
+
+  "authentication": {
+    "scheme": "OAuth 2.1 with PKCE",
+    "spec": "RFC 6749 + RFC 7636",
+    "authorization_endpoint": "https://auth.demobr.com.br/oauth/authorize",
+    "token_endpoint": "https://auth.demobr.com.br/oauth/token",
+    "revocation_endpoint": "https://auth.demobr.com.br/oauth/revoke",
+    "scopes": [
+      "demos:read",
+      "demos:write",
+      "demos:delete",
+      "analytics:read",
+      "publish:write"
+    ],
+    "default_scopes": [
+      "demos:read",
+      "demos:write",
+      "analytics:read",
+      "publish:write"
+    ],
+    "pkce_required": true,
+    "pkce_method": "S256",
+    "refresh_token_rotation": true,
+    "token_ttl_seconds": 3600,
+    "refresh_token_ttl_seconds": 2592000,
+    "notes": "OAuth 2.1 is mandatory for hosted MCP servers; local stdio servers accept API keys via env var for convenience."
+  },
+
+  "rate_limits": {
+    "policy": "Token bucket per workspace per tool",
+    "default": {
+      "requests_per_minute": 60,
+      "burst": 100
+    },
+    "overrides": {
+      "list_demos": { "requests_per_minute": 30, "burst": 50 },
+      "get_analytics": { "requests_per_minute": 20, "burst": 30 },
+      "publish_demo": { "requests_per_minute": 10, "burst": 15 },
+      "generate_narration": { "requests_per_minute": 5, "burst": 8 },
+      "generate_step_text": { "requests_per_minute": 5, "burst": 8 }
+    },
+    "on_exceeded": "429 Too Many Requests with Retry-After header; MCP server queues retries up to 3 with exponential backoff."
+  },
+
+  "tools": [
+    {
+      "name": "create_demo",
+      "description": "Cria uma nova demo em status 'draft'. Retorna o ID e slug.",
+      "annotations": {
+        "title": "Criar demo",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 180,
+            "description": "Título da demo (exibido no player)"
+          },
+          "slug": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Slug único (opcional — auto-gerado se omitido)"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "language": {
+            "type": "string",
+            "enum": ["pt-BR", "en"],
+            "default": "pt-BR"
+          },
+          "lead_form_enabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "lead_form_consent_text": {
+            "type": "string",
+            "description": "Texto LGPD exato (obrigatório se lead_form_enabled=true)"
+          },
+          "final_cta": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "url", "label"],
+            "properties": {
+              "type": { "type": "string", "enum": ["whatsapp", "url", "email", "phone"] },
+              "url": { "type": "string", "format": "uri" },
+              "label": { "type": "string", "maxLength": 60 }
+            }
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["id", "slug", "status", "public_url"],
+        "properties": {
+          "id": { "type": "string", "description": "UUID v7" },
+          "slug": { "type": "string" },
+          "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+          "public_url": { "type": "string", "description": "URL pública (mesmo em draft)" }
+        }
+      },
+      "maps_to": "POST /api/v1/demos"
+    },
+
+    {
+      "name": "add_step",
+      "description": "Adiciona um step (captura + hotspot) a uma demo existente. O screenshot deve estar previamente uploaded via /upload/sign.",
+      "annotations": {
+        "title": "Adicionar step",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id", "screenshot_r2_key", "source_url", "hotspot"],
+        "properties": {
+          "demo_id": { "type": "string", "description": "UUID da demo" },
+          "position": { "type": "integer", "minimum": 1, "description": "Opcional — auto-calculado" },
+          "screenshot_r2_key": { "type": "string", "description": "Chave obtida em /upload/sign" },
+          "source_url": { "type": "string", "format": "uri" },
+          "source_title": { "type": "string", "maxLength": 255 },
+          "caption": { "type": "string", "description": "Texto do hotspot" },
+          "hotspot": {
+            "type": "object",
+            "required": ["type", "geometry"],
+            "properties": {
+              "type": { "type": "string", "enum": ["pointer", "callout", "area"] },
+              "geometry": {
+                "type": "object",
+                "required": ["x", "y"],
+                "properties": {
+                  "x": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "y": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "w": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "h": { "type": "number", "minimum": 0, "maximum": 1 }
+                }
+              },
+              "action": { "type": "string", "enum": ["next", "branch", "url", "form"], "default": "next" },
+              "label": { "type": "string", "maxLength": 120 }
+            }
+          },
+          "voiceover_text": { "type": "string", "description": "Texto a ser convertido em narração (gera job de TTS)" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["id", "demo_id", "position"],
+        "properties": {
+          "id": { "type": "string" },
+          "demo_id": { "type": "string" },
+          "position": { "type": "integer" },
+          "screenshot_cdn_url": { "type": "string", "format": "uri" },
+          "voiceover_job_id": { "type": "string", "description": "Se voiceover_text foi enviado" }
+        }
+      },
+      "maps_to": "POST /api/v1/demos/{id}/steps"
+    },
+
+    {
+      "name": "set_hotspot",
+      "description": "Atualiza o hotspot (ponto clicável) de um step. Use para refinar posição ou mudar action.",
+      "annotations": {
+        "title": "Atualizar hotspot",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "hotspot"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "hotspot": {
+            "type": "object",
+            "required": ["type", "geometry"],
+            "properties": {
+              "type": { "type": "string", "enum": ["pointer", "callout", "area"] },
+              "geometry": {
+                "type": "object",
+                "required": ["x", "y"],
+                "properties": {
+                  "x": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "y": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "w": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "h": { "type": "number", "minimum": 0, "maximum": 1 }
+                }
+              },
+              "action": { "type": "string", "enum": ["next", "branch", "url", "form"] },
+              "action_target": { "type": "object" },
+              "label": { "type": "string", "maxLength": 120 }
+            }
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["step_id", "hotspot", "updated_at"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "hotspot": { "type": "object" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "maps_to": "PATCH /api/v1/demos/{id}/steps/{step_id}"
+    },
+
+    {
+      "name": "set_theme",
+      "description": "Configura tema visual (cores, logo, fontes) de uma demo ou do workspace.",
+      "annotations": {
+        "title": "Definir tema",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "demo_id": {
+            "type": "string",
+            "description": "Se omitido, aplica ao workspace"
+          },
+          "primary_color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Cor primária (botões, hotspots)"
+          },
+          "accent_color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "background_color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "font_family": {
+            "type": "string",
+            "enum": ["Inter", "Roboto", "Montserrat", "Source Sans Pro", "system-ui"],
+            "default": "Inter"
+          },
+          "logo_r2_key": {
+            "type": "string",
+            "description": "Logo customizado (upload via /upload/sign com kind=brand_logo)"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["theme_id", "applied_to"],
+        "properties": {
+          "theme_id": { "type": "string" },
+          "applied_to": { "type": "string", "enum": ["workspace", "demo"] },
+          "css_variables_url": { "type": "string", "format": "uri", "description": "URL do CSS gerado" }
+        }
+      },
+      "maps_to": "PATCH /api/v1/demos/{id} (subconjunto theme) OU PATCH /api/v1/workspace (admin)"
+    },
+
+    {
+      "name": "set_lead_capture",
+      "description": "Habilita/desabilita captura de lead em uma demo e configura o formulário.",
+      "annotations": {
+        "title": "Configurar captura de lead",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id", "enabled"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "enabled": { "type": "boolean" },
+          "consent_text": {
+            "type": "string",
+            "description": "Texto LGPD exato (obrigatório se enabled=true)"
+          },
+          "fields": {
+            "type": "array",
+            "description:": "Campos customizados do formulário",
+            "items": {
+              "type": "object",
+              "required": ["name", "type", "required"],
+              "properties": {
+                "name": { "type": "string", "enum": ["name", "email", "phone", "company", "role", "custom"] },
+                "type": { "type": "string", "enum": ["text", "email", "tel", "select"] },
+                "label": { "type": "string" },
+                "required": { "type": "boolean" },
+                "options": { "type": "array", "items": { "type": "string" }, "description": "Apenas para type=select" }
+              }
+            },
+            "default": [
+              { "name": "name", "type": "text", "label": "Nome", "required": true },
+              { "name": "email", "type": "email", "label": "E-mail", "required": true },
+              { "name": "company", "type": "text", "label": "Empresa", "required": false }
+            ]
+          },
+          "trigger_after_step": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Mostrar formulário após este step (default: 1)"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["demo_id", "lead_form_enabled", "preview_url"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "lead_form_enabled": { "type": "boolean" },
+          "preview_url": { "type": "string", "format": "uri", "description": "URL para preview da demo" }
+        }
+      },
+      "maps_to": "PATCH /api/v1/demos/{id} (subconjunto lead_form)"
+    },
+
+    {
+      "name": "set_end_cta",
+      "description": "Define o call-to-action exibido quando o visitante termina a demo.",
+      "annotations": {
+        "title": "Definir CTA final",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id", "cta"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "cta": {
+            "type": "object",
+            "required": ["type", "url", "label"],
+            "properties": {
+              "type": { "type": "string", "enum": ["whatsapp", "url", "email", "phone"] },
+              "url": { "type": "string", "format": "uri" },
+              "label": { "type": "string", "maxLength": 60 },
+              "prefill_message": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "Mensagem pré-preenchida (whatsapp/url)"
+              }
+            }
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["demo_id", "final_cta"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "final_cta": { "type": "object" }
+        }
+      },
+      "maps_to": "PATCH /api/v1/demos/{id} (subconjunto final_cta)"
+    },
+
+    {
+      "name": "generate_step_text",
+      "description": "Gera sugestão de caption (texto do hotspot) para um step via IA. Usa GPT-4o-mini com contexto do source_url.",
+      "annotations": {
+        "title": "Gerar texto do step (IA)",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "ai_generated": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "tone": {
+            "type": "string",
+            "enum": ["profissional", "casual", "entusiástico", "técnico"],
+            "default": "profissional",
+            "description": "Tom de voz (pt-BR)"
+          },
+          "max_chars": {
+            "type": "integer",
+            "minimum": 20,
+            "maximum": 300,
+            "default": 120
+          },
+          "language": {
+            "type": "string",
+            "enum": ["pt-BR", "en"],
+            "default": "pt-BR"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["step_id", "suggestions", "tokens_used"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "suggestions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5,
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": { "type": "string" },
+                "score": { "type": "number", "description": "Confiança do modelo (0..1)" }
+              }
+            }
+          },
+          "tokens_used": { "type": "integer" },
+          "model": { "type": "string", "example": "gpt-4o-mini-2025-01" }
+        }
+      },
+      "maps_to": "POST /api/v1/ai/generate-step-text (interno)"
+    },
+
+    {
+      "name": "generate_narration",
+      "description": "Gera narração em áudio (TTS) para um step via ElevenLabs. Cria arquivo MP3 em R2 e atualiza voiceover_r2_key.",
+      "annotations": {
+        "title": "Gerar narração (TTS)",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "ai_generated": true,
+        "long_running": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "text"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000,
+            "description": "Texto a ser convertido em áudio (pt-BR por padrão)"
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "ElevenLabs voice ID (default: voz padrão pt-BR)"
+          },
+          "language": {
+            "type": "string",
+            "enum": ["pt-BR", "en"],
+            "default": "pt-BR"
+          },
+          "replace_existing": {
+            "type": "boolean",
+            "default": false,
+            "description": "Se true, substitui voiceover existente"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["step_id", "job_id", "status"],
+        "properties": {
+          "step_id": { "type": "string" },
+          "job_id": { "type": "string", "description": "ID do job graphile-worker (poll)" },
+          "status": { "type": "string", "enum": ["pending", "running", "completed", "failed"] },
+          "voiceover_r2_key": { "type": "string", "description": "Quando status=completed" },
+          "voiceover_cdn_url": { "type": "string", "format": "uri", "description": "Quando status=completed" },
+          "duration_seconds": { "type": "number", "description": "Quando status=completed" },
+          "estimated_completion_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "maps_to": "POST /api/v1/demos/{id}/steps/{step_id}/voiceover"
+    },
+
+    {
+      "name": "publish_demo",
+      "description": "Publica uma demo (muda status para 'published' e torna URL pública). Dispara webhook demo.published.",
+      "annotations": {
+        "title": "Publicar demo",
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "force": {
+            "type": "boolean",
+            "default": false,
+            "description": "Pular validação (não recomendado)"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["demo_id", "status", "public_url", "published_at"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "status": { "type": "string", "enum": ["published"] },
+          "public_url": { "type": "string", "format": "uri" },
+          "published_at": { "type": "string", "format": "date-time" },
+          "validation_warnings": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Warnings (não bloqueiam)"
+          }
+        }
+      },
+      "maps_to": "POST /api/v1/demos/{id}/publish"
+    },
+
+    {
+      "name": "get_analytics",
+      "description": "Busca analytics agregados (funil, completion, drop-off) de uma demo.",
+      "annotations": {
+        "title": "Obter analytics",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "from": { "type": "string", "format": "date-time", "description": "ISO 8601 (inclusivo)" },
+          "to": { "type": "string", "format": "date-time", "description": "ISO 8601 (exclusivo)" },
+          "granularity": {
+            "type": "string",
+            "enum": ["hour", "day", "week", "month"],
+            "default": "day"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["funnel", "completion_rate", "avg_time_per_step", "breakdown_device", "by_country", "by_referrer"]
+            },
+            "default": ["funnel", "completion_rate"]
+          }
+        }
+      },
+      "output_schema": {
+        "$ref": "https://docs.demobr.com.br/api/openapi.yaml#/components/schemas/AnalyticsReport"
+      },
+      "maps_to": "GET /api/v1/demos/{id}/analytics"
+    },
+
+    {
+      "name": "list_demos",
+      "description": "Lista demos do workspace autenticado com filtros e paginação.",
+      "annotations": {
+        "title": "Listar demos",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["draft", "published", "archived", "all"],
+            "default": "all"
+          },
+          "language": {
+            "type": "string",
+            "enum": ["pt-BR", "en", "all"],
+            "default": "all"
+          },
+          "q": {
+            "type": "string",
+            "maxLength": 180,
+            "description": "Busca full-text em title"
+          },
+          "limit": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 },
+          "cursor": { "type": "string" }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["data", "has_more"],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "slug": { "type": "string" },
+                "title": { "type": "string" },
+                "status": { "type": "string" },
+                "language": { "type": "string" },
+                "step_count": { "type": "integer" },
+                "view_count_30d": { "type": "integer" },
+                "lead_count_30d": { "type": "integer" },
+                "public_url": { "type": "string", "format": "uri" },
+                "updated_at": { "type": "string", "format": "date-time" }
+              }
+            }
+          },
+          "has_more": { "type": "boolean" },
+          "next_cursor": { "type": "string" }
+        }
+      },
+      "maps_to": "GET /api/v1/demos"
+    },
+
+    {
+      "name": "delete_demo",
+      "description": "Soft-deleta uma demo (status muda para deleted; após 30 dias, purge). Pode ser restaurada por admin.",
+      "annotations": {
+        "title": "Deletar demo",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true
+      },
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["demo_id"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "purge_immediately": {
+            "type": "boolean",
+            "default": false,
+            "description": "Pular período de 30 dias (LGPD-erasure-like)"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["demo_id", "deleted_at", "purge_at"],
+        "properties": {
+          "demo_id": { "type": "string" },
+          "deleted_at": { "type": "string", "format": "date-time" },
+          "purge_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Quando dados serão apagados permanentemente"
+          }
+        }
+      },
+      "maps_to": "DELETE /api/v1/demos/{id}"
+    }
+  ],
+
+  "resources": [
+    {
+      "uri": "demobr://workspace/{workspace_id}",
+      "name": "Workspace",
+      "description": "Metadata do workspace autenticado",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "demobr://demo/{demo_id}",
+      "name": "Demo",
+      "description": "Dados completos de uma demo (incluindo steps)",
+      "mimeType": "application/json"
+    },
+    {
+      "uri": "demobr://analytics/{demo_id}",
+      "name": "Analytics live",
+      "description": "Métricas em tempo quase-real (últimas 24h)",
+      "mimeType": "application/json"
+    }
+  ],
+
+  "prompts": [
+    {
+      "name": "demo_creation_wizard",
+      "description": "Wizard interativo para criar uma demo completa via conversa.",
+      "arguments": [
+        { "name": "product_url", "description": "URL do produto a ser demonstrado", "required": true },
+        { "name": "audience", "description": "Público-alvo (ex.: CMOs, devs, RH)", "required": false },
+        { "name": "tone", "description": "Tom de voz (casual, profissional, técnico)", "required": false }
+      ]
+    },
+    {
+      "name": "analytics_insights",
+      "description": "Gera insights sobre analytics de uma demo (drop-off, oportunidades).",
+      "arguments": [
+        { "name": "demo_id", "required": true },
+        { "name": "period_days", "description": "Período em dias (default 30)", "required": false }
+      ]
+    }
+  ],
+
+  "compatibility": {
+    "mcp_protocol_version": "2025-06-18",
+    "supports_elicitation": true,
+    "supports_sampling": false,
+    "supports_roots": true,
+    "client_compatibility": [
+      "Claude Desktop 1.5+",
+      "Claude Code 1.0+",
+      "Cursor 0.42+",
+      "Continue.dev 0.8+",
+      "OpenAI Agents SDK 0.1+",
+      "Mastra 0.5+"
+    ]
+  },
+
+  "errors": {
+    "format": "JSON-RPC 2.0 standard",
+    "common_codes": {
+      "-32700": "Parse error (JSON inválido)",
+      "-32600": "Invalid request",
+      "-32601": "Method not found",
+      "-32602": "Invalid params (Zod validation failed)",
+      "-32603": "Internal error",
+      "-32000": "Authentication required (401)",
+      "-32001": "Permission denied (403)",
+      "-32002": "Resource not found (404)",
+      "-32003": "Rate limit exceeded (429)",
+      "-32004": "Plan limit exceeded (402)",
+      "-32005": "LGPD erasure in progress — retry later (423)"
+    }
+  },
+
+  "examples": {
+    "stdio_run_claude_desktop": {
+      "description": "Configuração para Claude Desktop (claude_desktop_config.json)",
+      "config": {
+        "mcpServers": {
+          "demobr": {
+            "command": "npx",
+            "args": ["-y", "@demo.br/mcp-server@latest"],
+            "env": {
+              "DEMOBR_API_KEY": "gf_live_abc123def456ghi789jkl012mno345pq"
+            }
+          }
+        }
+      }
+    },
+    "http_run_with_oauth": {
+      "description": "Conectar a Claude Code via OAuth 2.1 + PKCE",
+      "url": "https://mcp.demobr.com.br/v1",
+      "oauth_flow": {
+        "step_1": "GET https://mcp.demobr.com.br/v1/.well-known/oauth-authorization-server",
+        "step_2": "Browser redirects user to https://auth.demobr.com.br/oauth/authorize?response_type=code&client_id=...&code_challenge=...&code_challenge_method=S256&scope=demos:read+demos:write",
+        "step_3": "Exchange code at https://auth.demobr.com.br/oauth/token with code_verifier",
+        "step_4": "Use access_token as Bearer in MCP requests"
+      }
+    },
+    "ai_agent_conversation": {
+      "description": "Conversa típica com um agente",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Crie uma demo do meu produto https://app.exemplo.com que mostra como criar um relatório."
+        },
+        {
+          "role": "assistant",
+          "content": "Vou criar a demo passo a passo.",
+          "tool_calls": [
+            { "tool": "create_demo", "args": { "title": "Como criar um relatório", "language": "pt-BR" } },
+            { "tool": "generate_step_text", "args": { "step_id": "...", "tone": "casual" } },
+            { "tool": "publish_demo", "args": { "demo_id": "..." } }
+          ]
+        }
+      ]
+    }
+  },
+
+  "references": {
+    "openapi_spec": "https://docs.demobr.com.br/api/openapi.yaml",
+    "webhooks_spec": "https://docs.demobr.com.br/api/webhooks.md",
+    "model_context_protocol": "https://modelcontextprotocol.io/",
+    "oauth_2_1_spec": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1",
+    "anthropic_mcp_docs": "https://docs.anthropic.com/en/docs/agents-and-tools/mcp",
+    "openai_function_calling": "https://platform.openai.com/docs/guides/function-calling"
+  }
+}

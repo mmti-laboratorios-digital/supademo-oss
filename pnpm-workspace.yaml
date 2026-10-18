@@ -1,0 +1,28 @@
+# -----------------------------------------------------------------------------
+# DemoBR — pnpm workspace
+# -----------------------------------------------------------------------------
+# apps/*      → Next.js web, Chrome extension, graphile-worker
+# packages/*  → shared (zod + i18n), player (vanilla), ui (primitives)
+# -----------------------------------------------------------------------------
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Hoisting controlado para evitar duplicações de React/Next entre pacotes
+public-hoist-pattern:
+  - "*types*"
+  - "*eslint*"
+  - "*prettier*"
+  - "@types/*"
+
+# Pacotes que NUNCA devem ser hoisted (binaries que devem rodar no workspace)
+neverBuiltDependencies:
+  - "esbuild"
+  - "@parcel/*"
+  - "sharp"
+
+# Pin de versões críticas para evitar drift entre dev/CI/prod
+# (vitest 3.x tem peer @vitest/coverage-v8 ^3, e a versão 5.x do coverage-v8
+# exporta BaseCoverageProvider que quebra o vitest 2.x com SyntaxError)
+overrides:
+  "@vitest/coverage-v8": "^2.1.4"

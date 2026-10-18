@@ -1,0 +1,1889 @@
+openapi: 3.1.0
+
+info:
+  title: DemoBR REST API
+  version: 1.0.0
+  summary: API REST do DemoBR — Demos interativas para times BR.
+  description: |
+    API REST do **DemoBR** (clone brasileiro do Supademo/GuiaFlow). Permite criar,
+    gerenciar e publicar demos interativas, capturar leads, consultar analytics,
+    gerenciar billing via Asaas e cumprir obrigações LGPD (DSR export/erase).
+
+    **Base URL (produção):** `https://api.demobr.com.br/api/v1`
+    **Base URL (sandbox):** `https://api.sandbox.demobr.com.br/api/v1`
+
+    ## Autenticação
+
+    A API usa autenticação **Bearer token** com duas variantes:
+
+    | Tipo | Formato | Uso |
+    |------|---------|-----|
+    | **Sessão Clerk** | `Bearer <clerk_session_jwt>` | Usuários logados no painel |
+    | **API key de workspace** | `Bearer gf_live_<32 chars>` | Integrações server-to-server |
+
+    API keys são criadas em **Painel admin → Workspace → Settings → API keys**.
+    O prefixo `gf_live_` (GuiaFlow-compatible) preserva compatibilidade com
+    integrações legadas escritas para o padrão GuiaFlow/Supademo.
+
+    ## Rate limit
+
+    - **Default**: 600 req/min por workspace.
+    - **Auth endpoints** (`/auth/*`): 30 req/min por IP.
+    - **Public endpoints** (`/events`, `/leads`): 60 req/min por IP.
+    - **Upload sign**: 60 req/min por workspace.
+
+    Quando excedido, retorna `429 Too Many Requests` com header
+    `Retry-After: <segundos>`.
+
+    ## Versionamento
+
+    - URL: prefixo `/v1/`.
+    - Breaking changes ⇒ nova major version (`/v2/`).
+    - Mudanças aditivas (novo campo, novo endpoint) ⇒ mesma major version.
+
+    ## Idempotência
+
+    Todas as mutações aceitam header `Idempotency-Key: <uuid>` (recomendado).
+    Responses são cacheadas por 24h.
+
+  contact:
+    name: DemoBR Engineering
+    url: https://demobr.com.br/docs
+    email: api@demobr.com.br
+
+  license:
+    name: Proprietary
+    url: https://demobr.com.br/legal/api-terms
+
+  x-logo:
+    url: https://demobr.com.br/logo.svg
+
+servers:
+  - url: https://api.demobr.com.br/api/v1
+    description: Produção
+  - url: https://api.sandbox.demobr.com.br/api/v1
+    description: Sandbox (dados fake, Asaas sandbox)
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Demos
+    description: CRUD de demos (rascunhos, publicadas, arquivadas).
+  - name: Steps
+    description: Etapas de uma demo (cada captura + hotspot).
+  - name: Hotspots
+    description: Pontos clicáveis adicionais em um step.
+  - name: Publishing
+    description: Publicar/despublicar demo (muda visibilidade pública).
+  - name: Analytics
+    description: Métricas agregadas de visualização (funil, completion, drop-off).
+  - name: Upload
+    description: URLs presigned para upload direto ao R2.
+  - name: Public Events
+    description: Eventos anônimos do player público (LGPD-safe).
+  - name: Leads
+    description: Captura de leads via formulário público.
+  - name: Billing
+    description: Checkout e portal do cliente Asaas.
+  - name: DSR (LGPD)
+    description: Data Subject Rights — export e delete (LGPD art. 18).
+  - name: Webhooks (entrada)
+    description: Webhooks que DemoBR recebe (Clerk, Asaas).
+  - name: Workspaces
+    description: Metadata do workspace atual (autenticado).
+
+paths:
+  # =========================================================
+  # DEMOS
+  # =========================================================
+  /demos:
+    get:
+      tags: [Demos]
+      operationId: listDemos
+      summary: Lista demos do workspace autenticado
+      description: |
+        Retorna todas as demos do workspace, com paginação cursor-based.
+        Suporta filtros por `status`, `language`, e busca em `title`.
+
+        **Cache:** responses são cacheadas por 30s em CDN.
+      parameters:
+        - $ref: '#/components/parameters/Cursor'
+        - $ref: '#/components/parameters/Limit'
+        - in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/DemoStatus'
+        - in: query
+          name: language
+          schema:
+            $ref: '#/components/schemas/Locale'
+        - in: query
+          name: q
+          description: Busca em `title` (full-text, case-insensitive)
+          schema: { type: string, maxLength: 180 }
+      responses:
+        '200':
+          description: Lista paginada de demos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoList'
+              examples:
+                two-demos:
+                  $ref: '#/components/examples/DemoListExample'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    post:
+      tags: [Demos]
+      operationId: createDemo
+      summary: Cria uma nova demo
+      description: |
+        Cria demo em status `draft`. Slug deve ser único no workspace.
+        Retorna `201 Created` com o recurso completo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoCreateInput'
+            examples:
+              minimal:
+                $ref: '#/components/examples/DemoCreateMinimal'
+              full:
+                $ref: '#/components/examples/DemoCreateFull'
+      responses:
+        '201':
+          description: Demo criada
+          headers:
+            Location:
+              description: URL do recurso criado
+              schema: { type: string, format: uri }
+              example: /api/v1/demos/01H8XK7B3V4Y5Z6W7N8M9P0Q1R
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Demo' }
+        '400':
+          description: Validação falhou (slug inválido, etc.)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402':
+          description: "Workspace atingiu limite do plano (ex.: max_demos)"
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentRequiredError' }
+        '409':
+          description: Slug já existe neste workspace
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConflictError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /demos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+
+    get:
+      tags: [Demos]
+      operationId: getDemo
+      summary: Busca uma demo por ID
+      responses:
+        '200':
+          description: Demo encontrada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Demo' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403':
+          description: Demo pertence a outro workspace
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    patch:
+      tags: [Demos]
+      operationId: updateDemo
+      summary: Atualiza parcialmente uma demo
+      description: |
+        Apenas campos enviados são atualizados. Para mudar `slug`,
+        o novo slug deve estar disponível.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DemoUpdateInput' }
+      responses:
+        '200':
+          description: Demo atualizada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Demo' }
+        '400':
+          description: Validação falhou
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Slug já existe
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConflictError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    delete:
+      tags: [Demos]
+      operationId: deleteDemo
+      summary: Soft-deleta uma demo (LGPD-safe)
+      description: |
+        Marca `deleted_at = now()`. Após 30 dias, worker de retenção
+        apaga permanentemente screenshots e metadados. Pode ser restaurada
+        dentro do prazo de 30 dias via endpoint separado (futuro).
+      responses:
+        '204':
+          description: Demo marcada como deletada
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # STEPS
+  # =========================================================
+  /demos/{id}/steps:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+
+    get:
+      tags: [Steps]
+      operationId: listSteps
+      summary: Lista steps de uma demo (ordenados por `position`)
+      responses:
+        '200':
+          description: Lista de steps
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Step' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    post:
+      tags: [Steps]
+      operationId: addStep
+      summary: Adiciona step a uma demo
+      description: |
+        O `position` é calculado automaticamente como `max(position) + 1`
+        se não enviado. Use o endpoint `/upload/sign` primeiro para
+        obter URL presigned e fazer upload da screenshot.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StepCreateInput' }
+      responses:
+        '201':
+          description: Step criado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Step' }
+        '400':
+          description: "Validação falhou (ex.: position inválido)"
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402':
+          description: Workspace atingiu `max_steps_per_demo`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentRequiredError' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /demos/{id}/steps/{stepId}:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+      - in: path
+        name: stepId
+        required: true
+        schema: { type: string, format: uuid }
+
+    patch:
+      tags: [Steps]
+      operationId: updateStep
+      summary: Atualiza um step
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StepUpdateInput' }
+      responses:
+        '200':
+          description: Step atualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Step' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    delete:
+      tags: [Steps]
+      operationId: deleteStep
+      summary: Remove um step
+      description: |
+        Deleta definitivamente. Screenshots associadas no R2 são
+        removidas em job assíncrono (graphile-worker).
+      responses:
+        '204':
+          description: Step removido
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # PUBLISH / UNPUBLISH
+  # =========================================================
+  /demos/{id}/publish:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+
+    post:
+      tags: [Publishing]
+      operationId: publishDemo
+      summary: Publica uma demo (status → `published`)
+      description: |
+        Valida que a demo tem ≥ 1 step, ≥ 1 hotspot configurado,
+        lead_form_consent_text preenchido (se lead_form_enabled),
+        e dispara webhook `demo.published` (assíncrono).
+      responses:
+        '200':
+          description: Demo publicada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Demo' }
+        '400':
+          description: Demo incompleta para publicação
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationError' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /demos/{id}/unpublish:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+
+    post:
+      tags: [Publishing]
+      operationId: unpublishDemo
+      summary: Despublica uma demo (status → `draft`)
+      description: |
+        Não deleta dados. URLs públicas retornam `404`. Dispara
+        webhook `demo.unpublished`.
+      responses:
+        '200':
+          description: Demo despublicada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Demo' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # ANALYTICS
+  # =========================================================
+  /demos/{id}/analytics:
+    parameters:
+      - $ref: '#/components/parameters/DemoId'
+
+    get:
+      tags: [Analytics]
+      operationId: getDemoAnalytics
+      summary: Analytics agregados de uma demo
+      description: |
+        Retorna funil (views → step_1 → step_N → completion),
+        tempo médio por step, drop-off por step, e breakdown
+        por device/country/referrer. Dados **agregados**, sem
+        PII (LGPD-safe).
+      parameters:
+        - in: query
+          name: from
+          description: Data inicial ISO 8601 (inclusivo)
+          schema: { type: string, format: date-time }
+        - in: query
+          name: to
+          description: Data final ISO 8601 (exclusivo)
+          schema: { type: string, format: date-time }
+        - in: query
+          name: granularity
+          description: Granularidade temporal
+          schema:
+            type: string
+            enum: [hour, day, week, month]
+            default: day
+      responses:
+        '200':
+          description: Analytics agregados
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AnalyticsReport' }
+              examples:
+                funnel:
+                  $ref: '#/components/examples/AnalyticsFunnel'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/ForbiddenError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # UPLOAD SIGN
+  # =========================================================
+  /upload/sign:
+    post:
+      tags: [Upload]
+      operationId: signUpload
+      summary: Gera URL presigned para upload ao R2
+      description: |
+        Retorna URL presigned (PUT, 5 min TTL) para upload **direto**
+        do browser/extensão ao Cloudflare R2, sem passar pela API.
+
+        **Fluxo:**
+        1. Cliente chama `/upload/sign` com metadata do arquivo.
+        2. API valida quota do workspace e gera presigned URL.
+        3. Cliente faz PUT na URL retornada (browser → R2 direto).
+        4. Cliente chama `/demos/{id}/steps` referenciando o `r2_key`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UploadSignRequest' }
+      responses:
+        '200':
+          description: URL presigned gerada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UploadSignResponse' }
+              examples:
+                png-screenshot:
+                  $ref: '#/components/examples/UploadSignPng'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402':
+          description: Quota de storage excedida
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentRequiredError' }
+        '413':
+          description: Arquivo excede `max_size_bytes` do plano
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PayloadTooLargeError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # PUBLIC EVENTS (LGPD-safe, sem auth)
+  # =========================================================
+  /events:
+    post:
+      tags: [Public Events]
+      operationId: trackEvent
+      summary: Registra evento anônimo do player público
+      description: |
+        Endpoint **público** (sem autenticação). Registra eventos
+        do player embed: `view`, `step_seen`, `cta_click`, `complete`, `bounce`.
+
+        **LGPD-safe:** sem IP, sem user_id. Apenas `visitor_id_hash`
+        (cookie first-party _pk_id, 30d) e agregados (device_class,
+        country_code via Accept-Language).
+
+        Rate limit: 60 req/min por IP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EventInput' }
+      security: []
+      responses:
+        '202':
+          description: Evento aceito (processamento assíncrono)
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # LEADS (LGPD-safe, sem auth)
+  # =========================================================
+  /leads:
+    post:
+      tags: [Leads]
+      operationId: captureLead
+      summary: Captura lead via formulário público
+      description: |
+        Endpoint **público** (sem autenticação). Usado pelo player
+        embed quando step tem `lead_form_enabled = true`.
+
+        **LGPD art. 7º e 9º:** `consent_text` é o texto exato que
+        foi mostrado ao usuário; `consent_at` é registrado pelo
+        servidor no momento do POST.
+
+        Rate limit: 60 req/min por IP.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LeadInput' }
+      security: []
+      responses:
+        '201':
+          description: Lead capturado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Lead' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # BILLING
+  # =========================================================
+  /billing/checkout:
+    post:
+      tags: [Billing]
+      operationId: createCheckout
+      summary: Cria sessão de checkout no Asaas
+      description: |
+        Cria (ou reutiliza) um `customer` no Asaas e uma
+        `subscription` para o `plan_id` escolhido. Retorna
+        URL de checkout (`https://www.asaas.com/c/...`)
+        para redirecionar o cliente.
+
+        Idempotente: mesmo `plan_id` no mesmo workspace
+        retorna a mesma subscription Asaas se ainda estiver ativa.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutInput' }
+      responses:
+        '200':
+          description: Checkout criado (ou reutilizado)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CheckoutResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '402':
+          description: Plano já está ativo (não faz checkout de novo)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentRequiredError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /billing/portal:
+    get:
+      tags: [Billing]
+      operationId: getBillingPortal
+      summary: Retorna URL do portal de assinatura (Asaas)
+      description: |
+        Asaas não tem customer portal nativo como Stripe Billing.
+        Esta rota retorna a URL direta do dashboard de assinaturas
+        do Asaas (`https://www.asaas.com/subscriptions/...`) para
+        o cliente logado.
+      responses:
+        '200':
+          description: URL do portal
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [portal_url, expires_at]
+                properties:
+                  portal_url:
+                    type: string
+                    format: uri
+                    description: URL do dashboard Asaas
+                    example: https://www.asaas.com/subscriptions/sub_abc123
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: Validade da URL (15 min)
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: Workspace sem assinatura ativa
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NotFoundError' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # DSR (LGPD art. 18)
+  # =========================================================
+  /dsr:
+    get:
+      tags: [DSR (LGPD)]
+      operationId: exportDsr
+      summary: Exporta dados pessoais (LGPD art. 18, I)
+      description: |
+        Retorna **todos os dados pessoais** do solicitante:
+        - Leads criados em qualquer demo do workspace.
+        - Membros do workspace.
+        - Demos onde o solicitante foi lead.
+        - Eventos (apenas agregados que vinculam o `visitor_id_hash`).
+
+        Resposta é enviada como JSON + gerado arquivo `.zip`
+        em bucket privado R2 com link presigned (TTL 24h).
+      parameters:
+        - in: query
+          name: subject_email
+          required: true
+          description: Email do titular solicitante
+          schema: { type: string, format: email }
+        - in: query
+          name: format
+          schema:
+            type: string
+            enum: [json, zip]
+            default: json
+      responses:
+        '200':
+          description: Dados exportados
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DsrExport' }
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '202':
+          description: Export enfileirado (sujeito com muitos dados)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dsr_request_id: { type: string, format: uuid }
+                  estimated_completion: { type: string, format: date-time }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+    delete:
+      tags: [DSR (LGPD)]
+      operationId: eraseDsr
+      summary: Apaga dados pessoais (LGPD art. 18, VI)
+      description: |
+        Apaga (anonimiza) **todos os dados pessoais** do solicitante:
+        - Leads: `name`, `email`, `phone`, `extra` → apagados; estrutura preservada.
+        - Eventos: `visitor_id_hash` → removido; contagens agregadas preservadas.
+        - DSR log: registrado para auditoria.
+
+        **Não apaga**: dados fiscais (nota Asaas) por obrigação legal.
+        Retorna `204` quando completo.
+      parameters:
+        - in: query
+          name: subject_email
+          required: true
+          schema: { type: string, format: email }
+      responses:
+        '204':
+          description: Dados apagados/anonimizados
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  # =========================================================
+  # WEBHOOKS (entrada)
+  # =========================================================
+  /webhooks/clerk:
+    post:
+      tags: [Webhooks (entrada)]
+      operationId: receiveClerkWebhook
+      summary: Recebe webhook do Clerk (Svix)
+      description: |
+        Endpoint público (sem auth Bearer). Valida assinatura
+        Svix header `svix-signature`. Eventos relevantes:
+        - `user.created`, `user.updated`, `user.deleted`
+        - `organization.created`, `organization.updated`, `organization.deleted`
+        - `organizationMembership.created`, `organizationMembership.deleted`
+
+        Idempotente via header `svix-id`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ClerkWebhookPayload' }
+      security: []
+      responses:
+        '200':
+          description: Webhook processado
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401':
+          description: Assinatura Svix inválida
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UnauthorizedError' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+  /webhooks/asaas:
+    post:
+      tags: [Webhooks (entrada)]
+      operationId: receiveAsaasWebhook
+      summary: Recebe webhook do Asaas
+      description: |
+        Endpoint público (sem auth Bearer). Valida assinatura HMAC-SHA256
+        no header `asaas-access-token`. Eventos relevantes:
+        - `PAYMENT_RECEIVED`, `PAYMENT_CONFIRMED`, `PAYMENT_OVERDUE`
+        - `PAYMENT_REFUNDED`, `PAYMENT_DELETED`
+        - `SUBSCRIPTION_INACTIVATED`, `SUBSCRIPTION_REACTIVATED`
+
+        Idempotente via header `asaas-webhook-id`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AsaasWebhookPayload' }
+      security: []
+      responses:
+        '200':
+          description: Webhook processado
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401':
+          description: HMAC inválido
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UnauthorizedError' }
+        '500': { $ref: '#/components/responses/InternalError' }
+
+# =========================================================
+# COMPONENTS
+# =========================================================
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: gf_live_<32chars> | Clerk JWT
+      description: |
+        Aceita duas variantes:
+        - `Bearer gf_live_<32chars>` (API key de workspace)
+        - `Bearer <clerk_jwt>` (sessão Clerk de usuário logado)
+
+  parameters:
+    DemoId:
+      in: path
+      name: id
+      required: true
+      description: ID da demo (UUID v7)
+      schema:
+        type: string
+        format: uuid
+        example: 01H8XK7B3V4Y5Z6W7N8M9P0Q1R
+    Cursor:
+      in: query
+      name: cursor
+      description: Cursor opaco (base64 do ID do último item)
+      schema: { type: string }
+    Limit:
+      in: query
+      name: limit
+      description: Quantidade máxima de itens (default 25, max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 25
+
+  responses:
+    BadRequest:
+      description: Requisição inválida (validação falhou)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ValidationError' }
+    Unauthorized:
+      description: Não autenticado ou token inválido
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/UnauthorizedError' }
+    ForbiddenError:
+      description: Sem permissão para acessar este recurso
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ForbiddenError' }
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/NotFoundError' }
+    RateLimited:
+      description: Rate limit excedido
+      headers:
+        Retry-After:
+          description: Segundos até poder tentar novamente
+          schema: { type: integer, example: 30 }
+        X-RateLimit-Limit:
+          schema: { type: integer, example: 600 }
+        X-RateLimit-Remaining:
+          schema: { type: integer, example: 0 }
+        X-RateLimit-Reset:
+          description: Unix timestamp do reset
+          schema: { type: integer, example: 1729200000 }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/RateLimitError' }
+    InternalError:
+      description: Erro interno do servidor
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/InternalError' }
+
+  schemas:
+
+    # =====================================================
+    # CORE
+    # =====================================================
+    Uuid:
+      type: string
+      format: uuid
+      example: 01H8XK7B3V4Y5Z6W7N8M9P0Q1R
+      description: UUID v7 (sortable por tempo)
+
+    Timestamp:
+      type: string
+      format: date-time
+      example: '2026-10-18T14:32:00.000Z'
+
+    Locale:
+      type: string
+      enum: [pt-BR, en]
+      default: pt-BR
+
+    MoneyBRL:
+      type: integer
+      description: Valor em centavos de real
+      example: 9900
+      minimum: 0
+
+    Url:
+      type: string
+      format: uri
+      maxLength: 2048
+
+    Sha256Hash:
+      type: string
+      pattern: '^[a-f0-9]{64}$'
+      example: 8f3d2a7c4b1e6f9a0d5c8b3e2a1f4d7c9b6e3a0f5d8c2b1e4a7f0d3c6b9e2a5f
+
+    # =====================================================
+    # WORKSPACE & PLAN
+    # =====================================================
+    Workspace:
+      type: object
+      required: [id, slug, name, plan_id, locale, created_at]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        slug:
+          type: string
+          minLength: 3
+          maxLength: 32
+          pattern: '^[a-z0-9-]+$'
+          example: acme-marketing
+        name:
+          type: string
+          maxLength: 120
+        plan_id:
+          type: string
+          enum: [free, pro, business]
+        locale: { $ref: '#/components/schemas/Locale' }
+        custom_domain:
+          type: string
+          nullable: true
+          example: demos.acme.com.br
+        brand_logo_r2_key:
+          type: string
+          nullable: true
+        brand_color:
+          type: string
+          nullable: true
+          pattern: '^#[0-9a-fA-F]{6}$'
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+        updated_at: { $ref: '#/components/schemas/Timestamp' }
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    Subscription:
+      type: object
+      required: [id, workspace_id, plan_id, status]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        workspace_id: { $ref: '#/components/schemas/Uuid' }
+        plan_id:
+          type: string
+          enum: [free, pro, business]
+        asaas_subscription_id:
+          type: string
+          nullable: true
+          example: sub_abc123xyz
+        status:
+          type: string
+          enum: [active, past_due, canceled, trial]
+        current_period_start: { $ref: '#/components/schemas/Timestamp' }
+        current_period_end: { $ref: '#/components/schemas/Timestamp' }
+        cancel_at_period_end:
+          type: boolean
+          default: false
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+        updated_at: { $ref: '#/components/schemas/Timestamp' }
+
+    # =====================================================
+    # DEMO
+    # =====================================================
+    DemoStatus:
+      type: string
+      enum: [draft, published, archived]
+
+    Demo:
+      type: object
+      required: [id, workspace_id, slug, title, status, language, lead_form_enabled, created_at, updated_at]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        workspace_id: { $ref: '#/components/schemas/Uuid' }
+        slug:
+          type: string
+          minLength: 3
+          maxLength: 64
+          pattern: '^[a-z0-9-]+$'
+          example: produto-novo-q4-2026
+        title:
+          type: string
+          maxLength: 180
+          example: Conheça o Produto Novo — Tour de 3 min
+        description:
+          type: string
+          maxLength: 1000
+          nullable: true
+        status: { $ref: '#/components/schemas/DemoStatus' }
+        language: { $ref: '#/components/schemas/Locale' }
+        cover_r2_key:
+          type: string
+          nullable: true
+          description: Chave no R2 da OG image
+        lead_form_enabled:
+          type: boolean
+          default: false
+        lead_form_consent_text:
+          type: string
+          nullable: true
+          description: Texto LGPD exato mostrado no formulário
+          example: Concordo com a Política de Privacidade da DemoBR.
+        final_cta:
+          type: object
+          nullable: true
+          description: CTA final após conclusão da demo
+          properties:
+            type:
+              type: string
+              enum: [whatsapp, url, email, phone]
+            url: { $ref: '#/components/schemas/Url' }
+            label: { type: string, maxLength: 60 }
+          required: [type, url, label]
+        variables:
+          type: object
+          additionalProperties: { type: string }
+          description: Tokens default para personalização ({nome}, {empresa}, ...)
+          example:
+            nome: visitante
+            empresa: sua empresa
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+        updated_at: { $ref: '#/components/schemas/Timestamp' }
+        deleted_at:
+          type: string
+          format: date-time
+          nullable: true
+        # Convenience
+        public_url:
+          type: string
+          format: uri
+          description: URL pública (derivada, somente leitura)
+          example: https://demobr.com.br/d/produto-novo-q4-2026
+
+    DemoCreateInput:
+      type: object
+      required: [slug, title]
+      properties:
+        slug:
+          type: string
+          minLength: 3
+          maxLength: 64
+          pattern: '^[a-z0-9-]+$'
+        title:
+          type: string
+          maxLength: 180
+        description:
+          type: string
+          maxLength: 1000
+        language:
+          $ref: '#/components/schemas/Locale'
+        lead_form_enabled:
+          type: boolean
+          default: false
+        lead_form_consent_text:
+          type: string
+        final_cta:
+          type: object
+          properties:
+            type: { type: string, enum: [whatsapp, url, email, phone] }
+            url: { $ref: '#/components/schemas/Url' }
+            label: { type: string, maxLength: 60 }
+          required: [type, url, label]
+        variables:
+          type: object
+          additionalProperties: { type: string }
+
+    DemoUpdateInput:
+      type: object
+      properties:
+        slug:
+          type: string
+          minLength: 3
+          maxLength: 64
+          pattern: '^[a-z0-9-]+$'
+        title:
+          type: string
+          maxLength: 180
+        description:
+          type: string
+          maxLength: 1000
+        lead_form_enabled:
+          type: boolean
+        lead_form_consent_text:
+          type: string
+        final_cta:
+          type: object
+          properties:
+            type: { type: string, enum: [whatsapp, url, email, phone] }
+            url: { $ref: '#/components/schemas/Url' }
+            label: { type: string, maxLength: 60 }
+        variables:
+          type: object
+          additionalProperties: { type: string }
+
+    DemoList:
+      type: object
+      required: [data, has_more]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/Demo' }
+        has_more:
+          type: boolean
+        next_cursor:
+          type: string
+          nullable: true
+
+    # =====================================================
+    # STEP & HOTSPOT
+    # =====================================================
+    Step:
+      type: object
+      required: [id, demo_id, position, screenshot_r2_key, source_url, hotspot]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        demo_id: { $ref: '#/components/schemas/Uuid' }
+        position:
+          type: integer
+          minimum: 1
+          description: Ordem do step na demo (1-indexed)
+        screenshot_r2_key:
+          type: string
+          description: Chave no R2 (privado; CDN URL é gerada via player)
+          example: workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
+        screenshot_cdn_url:
+          type: string
+          format: uri
+          description: URL pública (somente leitura, com cache CDN)
+          example: https://cdn.demobr.com.br/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
+        source_url:
+          type: string
+          format: uri
+          description: URL original da página capturada
+        source_title:
+          type: string
+          nullable: true
+          maxLength: 255
+        caption:
+          type: string
+          nullable: true
+          description: Texto principal do hotspot
+        hotspot: { $ref: '#/components/schemas/Hotspot' }
+        voiceover_r2_key:
+          type: string
+          nullable: true
+        voiceover_text:
+          type: string
+          nullable: true
+        next_step_id:
+          allOf:
+            - $ref: '#/components/schemas/Uuid'
+          nullable: true
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+
+    StepCreateInput:
+      type: object
+      required: [screenshot_r2_key, source_url]
+      properties:
+        position:
+          type: integer
+          minimum: 1
+          description: Opcional — calculado automaticamente se omitido
+        screenshot_r2_key: { type: string }
+        source_url: { $ref: '#/components/schemas/Url' }
+        source_title:
+          type: string
+          maxLength: 255
+        caption: { type: string }
+        hotspot: { $ref: '#/components/schemas/Hotspot' }
+        voiceover_text: { type: string }
+
+    StepUpdateInput:
+      type: object
+      properties:
+        caption: { type: string }
+        hotspot: { $ref: '#/components/schemas/Hotspot' }
+        voiceover_text: { type: string }
+
+    Hotspot:
+      type: object
+      required: [type, geometry]
+      description: |
+        Coordenadas fracionárias (0..1) relativas à imagem.
+        Multi-hotspots adicionais (vários cliques no mesmo step)
+        ficam em tabela `app.hotspots`, não aninhados.
+      properties:
+        type:
+          type: string
+          enum: [pointer, callout, area]
+        geometry:
+          type: object
+          required: [x, y]
+          description: Coordenadas fracionárias
+          properties:
+            x: { type: number, minimum: 0, maximum: 1 }
+            y: { type: number, minimum: 0, maximum: 1 }
+            w: { type: number, minimum: 0, maximum: 1 }
+            h: { type: number, minimum: 0, maximum: 1 }
+        action:
+          type: string
+          enum: [next, branch, url, form]
+          default: next
+        action_target:
+          type: object
+          description: Depende de `action`
+          oneOf:
+            - properties:
+                url: { $ref: '#/components/schemas/Url' }
+            - properties:
+                branchToStepId: { $ref: '#/components/schemas/Uuid' }
+        label:
+          type: string
+          maxLength: 120
+
+    # =====================================================
+    # LEAD & EVENT
+    # =====================================================
+    Lead:
+      type: object
+      required: [id, workspace_id, demo_id, consent_text, consent_at, created_at]
+      properties:
+        id: { $ref: '#/components/schemas/Uuid' }
+        workspace_id: { $ref: '#/components/schemas/Uuid' }
+        demo_id: { $ref: '#/components/schemas/Uuid' }
+        name:
+          type: string
+          maxLength: 120
+          nullable: true
+        email:
+          type: string
+          format: email
+          nullable: true
+        phone:
+          type: string
+          maxLength: 32
+          nullable: true
+        consent_text: { type: string }
+        consent_at: { $ref: '#/components/schemas/Timestamp' }
+        consent_ip_hash: { $ref: '#/components/schemas/Sha256Hash' }
+        user_agent_hash: { $ref: '#/components/schemas/Sha256Hash' }
+        extra:
+          type: object
+          additionalProperties: true
+          nullable: true
+          description: Campos customizados do formulário
+        exported_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Quando foi exportado/apagado (DSR)
+        created_at: { $ref: '#/components/schemas/Timestamp' }
+
+    LeadInput:
+      type: object
+      required: [demo_id, consent_text]
+      properties:
+        demo_id: { $ref: '#/components/schemas/Uuid' }
+        name: { type: string, maxLength: 120 }
+        email: { type: string, format: email }
+        phone: { type: string, maxLength: 32 }
+        consent_text:
+          type: string
+          description: |
+            Texto LGPD **exato** que foi mostrado ao usuário.
+            Server usa este valor verbatim para auditoria.
+        extra:
+          type: object
+          additionalProperties: true
+
+    EventInput:
+      type: object
+      required: [demo_id, event_type]
+      description: |
+        LGPD-safe. Nenhum campo PII é aceito.
+      properties:
+        demo_id: { $ref: '#/components/schemas/Uuid' }
+        step_id:
+          allOf: [ { $ref: '#/components/schemas/Uuid' } ]
+          nullable: true
+        event_type:
+          type: string
+          enum: [view, step_seen, cta_click, complete, bounce]
+        visitor_id_hash: { $ref: '#/components/schemas/Sha256Hash' }
+        device_class:
+          type: string
+          enum: [mobile, tablet, desktop]
+        country_code:
+          type: string
+          pattern: '^[A-Z]{2}$'
+          nullable: true
+        referrer_host:
+          type: string
+          maxLength: 255
+          nullable: true
+        utm:
+          type: object
+          properties:
+            source: { type: string }
+            medium: { type: string }
+            campaign: { type: string }
+            term: { type: string }
+            content: { type: string }
+
+    # =====================================================
+    # UPLOAD SIGN
+    # =====================================================
+    UploadSignRequest:
+      type: object
+      required: [filename, content_type, size_bytes, kind]
+      properties:
+        filename:
+          type: string
+          maxLength: 255
+          example: screenshot-01.png
+        content_type:
+          type: string
+          enum: [image/png, image/jpeg, image/webp, audio/mpeg, audio/wav]
+        size_bytes:
+          type: integer
+          minimum: 1
+          maximum: 10485760
+          description: Máximo 10 MB no MVP (configurável por plano)
+        kind:
+          type: string
+          enum: [screenshot, voiceover, og_image, brand_logo]
+          description: Tipo do asset — usado para validações e path
+
+    UploadSignResponse:
+      type: object
+      required: [upload_url, r2_key, expires_at]
+      properties:
+        upload_url:
+          type: string
+          format: uri
+          description: URL presigned para PUT (TTL 5 min)
+        r2_key:
+          type: string
+          description: Chave final no R2 (use em /demos/{id}/steps)
+        expires_at:
+          type: string
+          format: date-time
+        required_headers:
+          type: object
+          description: "Headers obrigatórios no PUT (ex.: Content-Type)"
+          additionalProperties: { type: string }
+          example:
+            Content-Type: image/png
+            x-amz-acl: private
+
+    # =====================================================
+    # ANALYTICS
+    # =====================================================
+    AnalyticsReport:
+      type: object
+      required: [demo_id, period, funnel]
+      properties:
+        demo_id: { $ref: '#/components/schemas/Uuid' }
+        period:
+          type: object
+          required: [from, to]
+          properties:
+            from: { $ref: '#/components/schemas/Timestamp' }
+            to: { $ref: '#/components/schemas/Timestamp' }
+        funnel:
+          type: object
+          required: [views, step_entries, completions]
+          properties:
+            views:
+              type: integer
+              description: Total de visualizações únicas (por visitor_id_hash, 30d)
+            step_entries:
+              type: array
+              description: Quantos entraram em cada step (1..N)
+              items:
+                type: object
+                properties:
+                  step_position: { type: integer }
+                  step_id: { $ref: '#/components/schemas/Uuid' }
+                  count: { type: integer }
+                  drop_off:
+                    type: number
+                    format: float
+                    description: "Percentual que saiu sem ir para o próximo step"
+            completions:
+              type: integer
+            completion_rate:
+              type: number
+              format: float
+              description: completions / views (0..1)
+        avg_time_per_step_ms:
+          type: array
+          items:
+            type: object
+            properties:
+              step_id: { $ref: '#/components/schemas/Uuid' }
+              step_position: { type: integer }
+              avg_ms: { type: integer }
+        breakdown:
+          type: object
+          properties:
+            by_device:
+              type: object
+              additionalProperties: { type: integer }
+              example:
+                desktop: 612
+                mobile: 1304
+                tablet: 88
+            by_country:
+              type: object
+              additionalProperties: { type: integer }
+              example:
+                BR: 1890
+                US: 95
+                AR: 19
+            by_referrer:
+              type: object
+              additionalProperties: { type: integer }
+              example:
+                google.com: 421
+                twitter.com: 156
+
+    # =====================================================
+    # BILLING
+    # =====================================================
+    CheckoutInput:
+      type: object
+      required: [plan_id]
+      properties:
+        plan_id:
+          type: string
+          enum: [pro, business]
+        billing_type:
+          type: string
+          enum: [PIX, BOLETO, CREDIT_CARD]
+          default: PIX
+          description: Preferência de método de pagamento (cliente pode mudar no Asaas)
+        cycle:
+          type: string
+          enum: [MONTHLY, QUARTERLY, SEMIANNUALLY, YEARLY]
+          default: MONTHLY
+
+    CheckoutResponse:
+      type: object
+      required: [checkout_url, subscription_id, status]
+      properties:
+        checkout_url:
+          type: string
+          format: uri
+          description: URL para redirecionar o cliente
+          example: https://www.asaas.com/c/k1abc2def3
+        subscription_id:
+          type: string
+          example: sub_abc123xyz
+        status:
+          type: string
+          enum: [pending, active, awaiting_payment]
+        price_brl_cents:
+          $ref: '#/components/schemas/MoneyBRL'
+
+    # =====================================================
+    # DSR
+    # =====================================================
+    DsrExport:
+      type: object
+      required: [exported_at, subject_email, leads, memberships, events_count]
+      properties:
+        exported_at: { $ref: '#/components/schemas/Timestamp' }
+        subject_email:
+          type: string
+          format: email
+        leads:
+          type: array
+          items: { $ref: '#/components/schemas/Lead' }
+        memberships:
+          type: array
+          description: Workspaces onde o email é membro
+          items:
+            type: object
+            properties:
+              workspace_id: { $ref: '#/components/schemas/Uuid' }
+              workspace_slug: { type: string }
+              role: { type: string, enum: [owner, admin, editor, viewer] }
+              joined_at: { $ref: '#/components/schemas/Timestamp' }
+        events_count:
+          type: integer
+          description: Quantos eventos brutos referenciam visitor_id_hash do sujeito (apenas contagem)
+        notes:
+          type: string
+          description: "Notas adicionais (ex.: \"dados fiscais preservados por obrigação legal\")"
+
+    # =====================================================
+    # WEBHOOKS (entrada)
+    # =====================================================
+    ClerkWebhookPayload:
+      type: object
+      description: Payload Svix do Clerk (formato pode variar por tipo)
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum:
+            - user.created
+            - user.updated
+            - user.deleted
+            - organization.created
+            - organization.updated
+            - organization.deleted
+            - organizationMembership.created
+            - organizationMembership.updated
+            - organizationMembership.deleted
+        data:
+          type: object
+          additionalProperties: true
+          description: |
+            Schema varia por `type`. Ver docs Clerk:
+            https://clerk.com/docs/integrations/webhooks
+        object:
+          type: string
+          enum: [event]
+
+    AsaasWebhookPayload:
+      type: object
+      required: [event, payment, subscription]
+      description: |
+        Payload de webhook do Asaas. Campos variam por evento;
+        mostramos os principais.
+      properties:
+        event:
+          type: string
+          enum:
+            - PAYMENT_CREATED
+            - PAYMENT_AWAITING_RISK_ANALYSIS
+            - PAYMENT_APPROVED_RISK_ANALYSIS
+            - PAYMENT_REPROVED_RISK_ANALYSIS
+            - PAYMENT_AUTHORIZED
+            - PAYMENT_RECEIVED
+            - PAYMENT_CONFIRMED
+            - PAYMENT_OVERDUE
+            - PAYMENT_DELETED
+            - PAYMENT_REFUNDED
+            - PAYMENT_RECEIVED_IN_CASH_UNDONE
+            - PAYMENT_CHARGEBACK_REQUESTED
+            - PAYMENT_CHARGEBACK_DISPUTE
+            - PAYMENT_AWAITING_CHARGEBACK_REVERSAL
+            - PAYMENT_DUNNING_RECEIVED
+            - PAYMENT_DUNNING_REQUESTED
+            - PAYMENT_BANK_SLIP_VIEWED
+            - PAYMENT_CHECKOUT_VIEWED
+            - SUBSCRIPTION_CREATED
+            - SUBSCRIPTION_UPDATED
+            - SUBSCRIPTION_INACTIVATED
+            - SUBSCRIPTION_REACTIVATED
+            - SUBSCRIPTION_DELETED
+        payment:
+          type: object
+          nullable: true
+          properties:
+            id: { type: string }
+            customer: { type: string }
+            value: { type: number, format: float }
+            netValue: { type: number, format: float }
+            billingType:
+              type: string
+              enum: [BOLETO, CREDIT_CARD, PIX, UNDEFINED]
+            status:
+              type: string
+              enum:
+                [PENDING, AWAITING_RISK_ANALYSIS, AWAITING_PAYMENT,
+                 CONFIRMED, RECEIVED, OVERDUE, REFUNDED, RECEIVED_IN_CASH,
+                 DENIED, AWAITING_CHARGEBACK_REVERSAL, DELETED, RESTORED]
+            dueDate: { type: string, format: date }
+            paymentDate: { type: string, format: date-time, nullable: true }
+        subscription:
+          type: object
+          nullable: true
+          properties:
+            id: { type: string }
+            customer: { type: string }
+            value: { type: number, format: float }
+            cycle:
+              type: string
+              enum: [WEEKLY, BIWEEKLY, MONTHLY, QUARTERLY, SEMIANNUALLY, YEARLY]
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE, EXPIRED, OVERDUE]
+
+    WebhookEvent:
+      type: object
+      description: Schema comum para webhooks **de saída** (ver docs/api/webhooks.md)
+      required: [id, type, created_at, data, workspace_id]
+      properties:
+        id: { type: string, format: uuid }
+        type:
+          type: string
+          enum:
+            - demo.viewed
+            - demo.completed
+            - demo.lead_captured
+            - demo.published
+            - demo.unpublished
+            - subscription.created
+            - subscription.cancelled
+            - payment.failed
+        created_at:
+          type: integer
+          description: Unix timestamp (segundos)
+        workspace_id: { $ref: '#/components/schemas/Uuid' }
+        data:
+          type: object
+          additionalProperties: true
+          description: Payload específico por tipo
+
+    # =====================================================
+    # ERRORS
+    # =====================================================
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              description: Código de erro programático (snake_case)
+              example: validation_failed
+            message:
+              type: string
+              description: Mensagem legível (pt-BR)
+              example: 'Campo slug deve ter entre 3 e 64 caracteres.'
+            details:
+              type: object
+              additionalProperties: true
+              nullable: true
+            request_id:
+              type: string
+              description: ID do request para suporte
+
+    ValidationError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: validation_failed }
+                details:
+                  type: object
+                  properties:
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          path: { type: string, example: slug }
+                          message: { type: string }
+                          code: { type: string, example: invalid_string }
+
+    UnauthorizedError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: unauthorized }
+
+    ForbiddenError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: forbidden }
+
+    NotFoundError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: not_found }
+
+    ConflictError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: conflict }
+
+    RateLimitError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: rate_limited }
+
+    PaymentRequiredError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: plan_limit_exceeded }
+                details:
+                  type: object
+                  properties:
+                    limit: { type: string, example: max_demos }
+                    current: { type: integer }
+                    max: { type: integer }
+                    upgrade_url:
+                      type: string
+                      format: uri
+
+    PayloadTooLargeError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: file_too_large }
+                details:
+                  type: object
+                  properties:
+                    max_bytes: { type: integer }
+                    received_bytes: { type: integer }
+
+    InternalError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            error:
+              type: object
+              properties:
+                code: { example: internal_error }
+
+  examples:
+
+    DemoListExample:
+      summary: Lista com 2 demos
+      value:
+        data:
+          - id: 01H8XK7B3V4Y5Z6W7N8M9P0Q1R
+            workspace_id: 01H8WKP0M3Y5Z6W7N8M9P0Q1R2
+            slug: produto-novo-q4-2026
+            title: Produto Novo — Tour de 3 min
+            description: Conheça as principais features
+            status: published
+            language: pt-BR
+            lead_form_enabled: true
+            lead_form_consent_text: Concordo com a Política de Privacidade da DemoBR.
+            final_cta:
+              type: whatsapp
+              url: https://wa.me/5511999999999
+              label: Falar com vendas
+            variables:
+              nome: visitante
+            published_at: '2026-10-15T10:00:00.000Z'
+            created_at: '2026-10-12T08:00:00.000Z'
+            updated_at: '2026-10-18T14:30:00.000Z'
+            deleted_at: null
+            public_url: https://demobr.com.br/d/produto-novo-q4-2026
+          - id: 01H8XK7B3V4Y5Z6W7N8M9P0Q1S3
+            workspace_id: 01H8WKP0M3Y5Z6W7N8M9P0Q1R2
+            slug: onboarding-clientes-novos
+            title: Onboarding — passo a passo
+            status: draft
+            language: pt-BR
+            lead_form_enabled: false
+            created_at: '2026-10-18T09:00:00.000Z'
+            updated_at: '2026-10-18T09:00:00.000Z'
+            deleted_at: null
+        has_more: false
+        next_cursor: null
+
+    DemoCreateMinimal:
+      summary: Demo mínima
+      value:
+        slug: produto-novo-q4-2026
+        title: Produto Novo — Tour de 3 min
+
+    DemoCreateFull:
+      summary: Demo completa com lead form
+      value:
+        slug: produto-novo-q4-2026
+        title: Produto Novo — Tour de 3 min
+        description: Tour interativo das principais features do Q4
+        language: pt-BR
+        lead_form_enabled: true
+        lead_form_consent_text: Concordo com a Política de Privacidade da DemoBR.
+        final_cta:
+          type: whatsapp
+          url: https://wa.me/5511999999999
+          label: Falar com vendas
+        variables:
+          nome: visitante
+
+    AnalyticsFunnel:
+      summary: Funil de 3 steps, 1000 views
+      value:
+        demo_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q1R
+        period:
+          from: '2026-10-01T00:00:00.000Z'
+          to: '2026-11-01T00:00:00.000Z'
+        funnel:
+          views: 1000
+          step_entries:
+            - step_position: 1
+              step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A1
+              count: 1000
+              drop_off: 0.0
+            - step_position: 2
+              step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A2
+              count: 740
+              drop_off: 0.26
+            - step_position: 3
+              step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A3
+              count: 502
+              drop_off: 0.32
+          completions: 502
+          completion_rate: 0.502
+        avg_time_per_step_ms:
+          - step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A1
+            step_position: 1
+            avg_ms: 12500
+          - step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A2
+            step_position: 2
+            avg_ms: 18300
+          - step_id: 01H8XK7B3V4Y5Z6W7N8M9P0Q2A3
+            step_position: 3
+            avg_ms: 22100
+        breakdown:
+          by_device:
+            desktop: 612
+            mobile: 1304
+            tablet: 88
+          by_country:
+            BR: 1890
+            US: 95
+            AR: 19
+          by_referrer:
+            google.com: 421
+            twitter.com: 156
+
+    UploadSignPng:
+      summary: Upload sign para screenshot PNG
+      value:
+        upload_url: https://demobr-pub.r2.cloudflarestorage.com/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=...
+        r2_key: workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
+        expires_at: '2026-10-18T14:37:00.000Z'
+        required_headers:
+          Content-Type: image/png

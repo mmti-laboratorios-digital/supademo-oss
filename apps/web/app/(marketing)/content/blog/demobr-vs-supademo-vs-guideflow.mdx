@@ -1,0 +1,134 @@
+---
+title: "DemoBR vs Supademo vs Guideflow — comparativo 2026"
+description: "Comparativo honesto entre DemoBR, Supademo e Guideflow. Recursos, preços, LGPD, PIX, integração com CRM BR. Qual escolher pra PMM brasileiro."
+slug: "demobr-vs-supademo-vs-guideflow"
+publishedAt: "2026-10-15T09:00:00Z"
+category: "Guias"
+author: "Diego, Growth"
+readingTimeMin: 10
+---
+
+## TL;DR
+
+| | DemoBR | Supademo | Guideflow |
+|---|---|---|---|
+| Preço entry | R$ 0 (Free) | $0 (Free, limitado) | $24/mês (Pro) |
+| Checkout em BRL | Sim, PIX/boleto/cartão via Asaas | Não, Stripe USD | Não, Stripe USD |
+| NF-e | Sim | Não | Não |
+| LGPD by design | Sim | Parcial (banner configurável) | Parcial |
+| Player em pt-BR first | Sim | Sim (i18n) | Sim (i18n) |
+| Captura | Extensão Chrome (MV3) | Extensão Chrome | Extensão Chrome |
+| Embed iframe | Sim | Sim | Sim |
+| White-label | Business | Enterprise (sob consulta) | Sim (Pro) |
+| API REST | Sim (todos) | Sim (Business+) | Sim (Enterprise) |
+| CRM BR (HubSpot/RD/Kommo) | Sim (Business) | Não nativo | Não nativo |
+| Domínio customizado | Business (CNAME) | Business+ | Sim (Pro) |
+| Onboarding em pt-BR | Sim | Em inglês | Em inglês |
+| Suporte 24h pt-BR | Business | Enterprise (USD) | Não |
+
+Resumo em uma linha: **DemoBR é a única "local-first" para PMM brasileiro** (PIX, NF-e, LGPD, suporte pt-BR e CRM BR nativo). Supademo tem mais features maduras (AI text, branching condicional, voice cloning). Guideflow é o mais barato entre os "Pro" internacionais.
+
+## Quem é cada uma
+
+**DemoBR** foi fundada em 2025 no Brasil. É um SaaS B2B feito pra PMMs brasileiros, cobrança nativa em PIX/boleto, NF-e emitida em todos os planos pagos, conformidade LGPD ponta a ponta. Captura via extensão Chrome MV3, player PT-BR-first responsivo, embed + API REST no Pro, white-label no Business.
+
+**Supademo** é a maior plataforma global, fundada em 2022 nos EUA. Funciona bem pra time global, tem AI text generation (reescreve caption), branching condicional, voice cloning, mas a cobrança é em USD via Stripe e a NF-e brasileira não existe — você precisa de empresa no exterior pra comprar sem dor.
+
+**Guideflow** é uma boa opção intermediária, fundada em 2021. Tem boa UX, bom suporte, planos mais baratos que Supademo. Mesma limitação de cobrança USD e suporte em inglês.
+
+## Preços comparados (out/2026)
+
+| Plano | DemoBR | Supademo | Guideflow |
+|---|---|---|---|
+| Free | R$ 0 (3 demos, 50 views/mês) | $0 (3 demos, views ilimitados com branding) | Sem plano free |
+| Entry | R$ 49/mês Pro (5.000 views/mês) | $49/mês Pro (10.000 views/mês) | $24/mês Pro (1.000 views/mês) |
+| Mid | R$ 199/mês Business (50.000 views/mês + white-label) | $149/mês Business (50.000 views/mês + AI text) | $89/mês Business (10.000 views/mês + branching) |
+| Enterprise | Sob consulta | $399+/mês (white-label + voice cloning + SLA) | $249+/mês (white-label + integrações) |
+
+Conversão aproximada: R$ 49 ≈ US$ 9 em paridade de poder de compra (PPP). Mas como o lead brasileiro não compra em PPP, o **custo real de Supademo Pro pra empresa BR é ~R$ 250/mês com IOF + Spread de cartão internacional**, contra R$ 49 da DemoBR.
+
+## LGPD
+
+Aqui está o gap mais concreto:
+
+- **DemoBR.** LGPD by design. PII redaction automática (e-mail, CPF, CNPJ, telefone, cartão), banner LGPD por padrão, form de lead com consentimento explícito Lei nº 13.709/2018 + revogação por e-mail com 1 clique. Política de privacidade em `/lgpd`. DSR em 15 dias. Dados em RDS sa-east-1.
+- **Supademo.** Banner LGPD precisa ser configurado manualmente pelo admin. Form de lead aceita textos customizados, mas o time precisa escrever o consentimento certo (não vem template). Dados em AWS us-east-1 (sem adequacy específica).
+- **Guideflow.** Banner LGPD precisa ser configurado. Dados em servidor EU (Frankfurt), o que ajuda LGPD mas complica pra times brasileiros em relação a latência.
+
+Praticamente: a DemoBR é a única que **substitui** seu jurídico na redação do consentimento. Supademo e Guideflow exigem que você escreva o seu.
+
+## Integrações
+
+| Categoria | DemoBR | Supademo | Guideflow |
+|---|---|---|---|
+| CRM BR (HubSpot/RD/Kommo) | Sim (Business) | Não nativo | Não nativo |
+| CRM Global (Salesforce/HubSpot US) | Sim (Business) | Sim (Business+) | Sim (Enterprise) |
+| Slack | Não | Sim (todos) | Sim (Pro) |
+| Zapier | Sim (Pro, beta) | Sim | Sim |
+| Webhooks | Sim (Business) | Sim | Sim |
+| Google Analytics | Sim (todos) | Sim (todos) | Sim (todos) |
+| Meta Pixel | Sim (todos) | Sim | Sim |
+
+A integração com CRM BR (RD Station, Kommo, HubSpot Latam) é o **diferencial grande** da DemoBR. Lead gerado na demo cai direto no funil com tag `demo-viewed` + `demo-completed`. Supademo e Guideflow exigem Zapier ou webhook customizado.
+
+## Suporte
+
+- **DemoBR.** Suporte por e-mail pt-BR em até 24h (Pro), 4h (Business). Discord da comunidade aberta a todos os planos.
+- **Supademo.** Suporte por chat em inglês, plano Business tem CSM dedicado. Sem suporte pt-BR.
+- **Guideflow.** Suporte por e-mail em inglês, 24-48h. Comunidade no Facebook.
+
+Pra PMM brasileiro, suporte pt-BR resolve em 1 round-trip o que levaria 4 emails em inglês (e você evita traduções erradas tipo "I will comeback soon" pra justificar cancelamento).
+
+## Quando escolher DemoBR
+
+Você é PMM, head de CX ou fundador de SaaS B2B no Brasil. Quer:
+
+- Pagar em R$ via PIX/boleto sem IOF.
+- Ter NF-e na hora da renovação.
+- Cobrir LGPD sem refilar texto jurídico.
+- Conectar com RD Station / HubSpot Latam / Kommo direto.
+- Ter suporte em pt-BR.
+
+DemoBR é a resposta.
+
+## Quando escolher Supademo
+
+Você é time global (EUA, EU, APAC), precisa de voice cloning (narração com IA de voz custom), tem budget pra pagar em USD e quer AI text generation maduro (Supademo é referência nisso). Funciona bem se você já tem CNPJ no exterior e infraestrutura fiscal resolvida.
+
+## Quando escolher Guideflow
+
+Você quer o "meio-termo": mais barato que Supademo, melhor UX que ferramentas de segunda linha, mas topa pagar em USD e configurar LGPD manualmente. Serve bem pra freelancer ou agência que faz demo pra cliente.
+
+## Decisão em 30 segundos
+
+Responda 3 perguntas:
+
+1. **Sua empresa tem CNPJ no Brasil?** Sim → DemoBR (pagamento + NF-e + LGPD). Não → Supademo ou Guideflow.
+2. **Você vende pra lead brasileiro?** Sim → DemoBR. Não → Supademo ou Guideflow.
+3. **Você já tem HubSpot Latam / RD Station / Kommo?** Sim → DemoBR. Não → qualquer uma.
+
+3 Sim: DemoBR é a escolha certa.
+2 Sim: DemoBR ainda é a escolha, mas considere Supademo se precisar de voice cloning.
+1 Sim ou 0 Sim: Supademo ou Guideflow, em USD.
+
+<!-- faq -->
+Q: Posso migrar meus tours do Supademo pra DemoBR?
+A: Sim. DemoBR tem import de Supademo via JSON export. Tours, hotspots e analytics mantêm-se. Já tem script de migração em /scripts/migrate-from-supademo.
+
+Q: A DemoBR tem voice cloning igual Supademo?
+A: Não. A DemoBR tem TTS pt-BR com vozes neurais padrão (masculina e feminina). Voice cloning com IA fica no roadmap Q1/2027.
+
+Q: Supademo emite NF-e?
+A: Não. Supademo é SaaS global em USD via Stripe. Você precisa de empresa no exterior pra comprar; brasileiros no Brasil vão pagar IOF + spread.
+
+Q: Qual tem melhor analytics?
+A: Supademo tem funil + heatmap por step + segmentação por ICP, mais maduro. DemoBR tem events stream que alimenta HubSpot/RD via webhook. Guideflow tem básico.
+
+Q: Posso ter DemoBR e Supademo ao mesmo tempo?
+A: Sim, e é comum em migração. Algumas empresas usam DemoBR pra demos em pt-BR e Supademo pra demos em inglês pra lead global.
+
+Q: A DemoBR tem AI text generation?
+A: Sim, 500 req/mês no Pro, 2.000 req/mês no Business. Reescreve caption em 3 tons (direto, didático, executivo). É baseado em LLM, sem voice cloning.
+
+Q: Tem desconto pra estudante ou ONG?
+A: DemoBR tem 30% off no Pro pra ONGs registradas no CNPJ e instituições de ensino. Supademo tem programa de startup. Guideflow não tem.

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DemoBR Capture</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+        width: 320px;
+        padding: 16px;
+        background: #ffffff;
+        color: #0f172a;
+      }
+      @media (prefers-color-scheme: dark) {
+        body { background: #0f172a; color: #f8fafc; }
+        .btn-secondary { background: #1e293b; color: #f8fafc; }
+      }
+      h1 { font-size: 16px; margin: 0 0 12px; font-weight: 600; }
+      .row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+      .status { font-size: 12px; color: #64748b; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        flex: 1;
+      }
+      .btn-primary { background: #2563eb; color: #ffffff; }
+      .btn-secondary { background: #f1f5f9; color: #0f172a; }
+      .btn-danger { background: #dc2626; color: #ffffff; }
+      .step-list {
+        margin: 12px 0;
+        max-height: 180px;
+        overflow-y: auto;
+        font-size: 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 8px;
+      }
+      .step-list li { padding: 4px 0; }
+      a { color: #2563eb; }
+    </style>
+  </head>
+  <body>
+    <h1>DemoBR Capture</h1>
+    <div class="row">
+      <span id="auth" class="status">Verificando…</span>
+    </div>
+    <div class="row">
+      <button id="toggle" class="btn btn-primary">Iniciar captura</button>
+    </div>
+    <div class="row">
+      <span class="status">Steps capturados: <span id="count">0</span></span>
+    </div>
+    <ul id="steps" class="step-list" aria-label="steps"></ul>
+    <div class="row">
+      <button id="upload" class="btn btn-secondary" disabled>Enviar e abrir editor</button>
+    </div>
+    <div class="row">
+      <a id="settings" href="#">Configurações</a>
+    </div>
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>

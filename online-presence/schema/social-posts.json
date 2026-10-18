@@ -1,0 +1,1170 @@
+[
+  {
+    "id": "sp-001",
+    "date": "2026-01-06",
+    "channel": "linkedin",
+    "text_pt": "Demo boa é demo que o lead assiste sozinho. Em 2026, ainda estamos mandando PDF pra lead MQL. Isso vai custar a call que você não vai fazer essa semana. — DemoBR",
+    "text_en": "A good demo is one the lead watches alone. In 2026, we're still sending PDFs to MQL leads. That costs you the call you won't have this week. — DemoBR",
+    "image_concept": "Screenshot do player DemoBR rodando com cursor pulsante",
+    "hashtags": [
+      "#SaaSBR",
+      "#Demos",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa"
+  },
+  {
+    "id": "sp-002",
+    "date": "2026-01-08",
+    "channel": "twitter",
+    "text_pt": "PIX, boleto, NF-e e LGPD não são features nice-to-have. São o chão. — DemoBR",
+    "text_en": "PIX, boleto, NF-e and LGPD aren't nice-to-have features. They're the floor. — DemoBR",
+    "image_concept": "Logo DemoBR com ícones PIX/LGPD",
+    "hashtags": [
+      "#SaaSBR",
+      "#LGPD",
+      "#PIX"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-003",
+    "date": "2026-01-10",
+    "channel": "instagram",
+    "text_pt": "Demo interativa ≠ vídeo de 12 min. Demo interativa é onde o lead clica, no próprio ritmo, e decide se quer falar com você. Salva o post. 📌",
+    "text_en": "Interactive demo ≠ a 12-min video. It's where the lead clicks, at their own pace, and decides if they want to talk to you. Save this post. 📌",
+    "image_concept": "Carrossel: 3 cards explicando tour vs vídeo vs PDF",
+    "hashtags": [
+      "#DemoInterativa",
+      "#SaaSBR",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-004",
+    "date": "2026-01-13",
+    "channel": "linkedin",
+    "text_pt": "Numerologia que importa: 50% de completion rate. Abaixo disso, refaça a caption do step que mata o lead. Acima, parabéns, lead tá chegando quente na call.",
+    "text_en": "Numbers that matter: 50% completion rate. Below that, rewrite the step caption that's killing the lead. Above, congrats, lead is arriving hot on the call.",
+    "image_concept": "Gráfico de funil com taxa de conclusão",
+    "hashtags": [
+      "#Analytics",
+      "#Demos"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-005",
+    "date": "2026-01-15",
+    "channel": "twitter",
+    "text_pt": "DemoBR > Supademo se você mora no Brasil e cobra em R$. Simples assim.",
+    "text_en": "DemoBR > Supademo if you live in Brazil and bill in R$. Simple as that.",
+    "image_concept": "Tabela comparativa Free × Pro × Business",
+    "hashtags": [
+      "#SaaSBR",
+      "#Compare"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow"
+  },
+  {
+    "id": "sp-006",
+    "date": "2026-01-17",
+    "channel": "instagram",
+    "text_pt": "Dá pra fazer demo interativa em 5 minutos? Dá. A DemoBR capturou 7 passos do nosso onboarding em 4:30 sem precisar de call. Salva esse story!",
+    "text_en": "Can you do an interactive demo in 5 minutes? Yes. DemoBR captured 7 steps of our onboarding in 4:30 with no call needed. Save this story!",
+    "image_concept": "Time-lapse mostrando captura até publicação",
+    "hashtags": [
+      "#BehindTheScenes",
+      "#DemoBR"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-007",
+    "date": "2026-01-20",
+    "channel": "linkedin",
+    "text_pt": "Hotspot é o segredo. Cursor parado no canto da tela = lead perdido. Cursor pulsante na direção certa = lead avança 30% mais rápido.",
+    "text_en": "Hotspot is the secret. Cursor stuck in the corner = lost lead. Pulsing cursor in the right direction = lead advances 30% faster.",
+    "image_concept": "Comparação visual: hotspot bom vs ruim",
+    "hashtags": [
+      "#UX",
+      "#Tours"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa"
+  },
+  {
+    "id": "sp-008",
+    "date": "2026-01-22",
+    "channel": "twitter",
+    "text_pt": "LGPD by design ≠ banner LGPD configurável. DemoBR coleta consent, permite revogação por e-mail em 1 clique, e responde DSR em 15 dias.",
+    "text_en": "LGPD by design ≠ configurable LGPD banner. DemoBR collects consent, allows email revocation in 1 click, and answers DSR in 15 days.",
+    "image_concept": "Captura de tela do form de lead com consentimento LGPD",
+    "hashtags": [
+      "#LGPD",
+      "#Compliance"
+    ],
+    "link": "https://demobr.com.br/lgpd"
+  },
+  {
+    "id": "sp-009",
+    "date": "2026-01-24",
+    "channel": "linkedin",
+    "text_pt": "Te mandei um tour de 4 minutos. Lê no seu tempo. — Funciona 3x melhor que 'tem 15 min pra uma call?' na prospecção outbound.",
+    "text_en": "I sent you a 4-minute tour. Read at your pace. — Works 3x better than 'got 15 min for a call?' in outbound.",
+    "image_concept": "Print de e-mail com CTA de tour",
+    "hashtags": [
+      "#Outbound",
+      "#Sales"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-010",
+    "date": "2026-01-27",
+    "channel": "instagram",
+    "text_pt": "Antes vs Depois: 8 calls de discovery/semana → 0 calls (mesma conversão). Diferença? Tour no lugar de call.",
+    "image_concept": "Antes/Depois gráfico",
+    "hashtags": [
+      "#PMM",
+      "#Productivity"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Before vs after: 8 discovery calls/week → 0 calls (same conversion). The difference? A tour in place of the call."
+  },
+  {
+    "id": "sp-011",
+    "date": "2026-01-29",
+    "channel": "linkedin",
+    "text_pt": "Embed iframe é o que faltava. Pode colocar demo interativa na home do seu SaaS sem hospedar nada. Salva pro time de marketing.",
+    "text_en": "Embed iframe is what was missing. You can put an interactive demo on your SaaS homepage without hosting anything. Save for the marketing team.",
+    "image_concept": "Captura de demo embed numa landing page",
+    "hashtags": [
+      "#Embed",
+      "#Webflow"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-012",
+    "date": "2026-01-31",
+    "channel": "twitter",
+    "text_pt": "Tour curto > Tour longo. Acima de 8 steps, completion rate despenca. Corta. Refaz. Menos é mais.",
+    "text_en": "Short tour > long tour. Above 8 steps, completion rate plummets. Cut. Redo. Less is more.",
+    "image_concept": "Gráfico: completion rate vs número de steps",
+    "hashtags": [
+      "#UX",
+      "#Tours"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-013",
+    "date": "2026-02-03",
+    "channel": "linkedin",
+    "text_pt": "Lead que viu tour inteiro vale 5x lead que só abriu. Quem assistiu até o fim já entendeu o produto. Quente na call.",
+    "text_en": "A lead who watched the full tour is worth 5x a lead who just opened. They understand the product. Hot on the call.",
+    "image_concept": "Funil segmentado: opens, completers, leads",
+    "hashtags": [
+      "#LeadScoring",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-014",
+    "date": "2026-02-05",
+    "channel": "instagram",
+    "text_pt": "Como capturar demo em 1 clique (sem saber programar): 1. Instala extensão 2. Clica em começar 3. Vai clicando no seu SaaS. Cada clique vira um step. Pronto. Demo publicada.",
+    "image_concept": "Carrossel 3 passos ilustrados",
+    "hashtags": [
+      "#Tutorial",
+      "#DemoBR"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa",
+    "text_en": "How to capture a demo in 1 click (no code required): 1. Install the extension 2. Click start 3. Click around your SaaS. Each click becomes a step. Done. Demo published."
+  },
+  {
+    "id": "sp-015",
+    "date": "2026-02-07",
+    "channel": "twitter",
+    "text_pt": "Sua demo deve caber em 1440px de largura e 5 steps. Smartphone rendering vem de graça. Começa simples.",
+    "text_en": "Your demo should fit in 1440px wide and 5 steps. Smartphone rendering comes free. Start simple.",
+    "image_concept": "Mockup desktop + mobile side by side",
+    "hashtags": [
+      "#MobileFirst",
+      "#Responsive"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-016",
+    "date": "2026-02-10",
+    "channel": "linkedin",
+    "text_pt": "Pra que DemoBR existe: tirar a demo analógica de 2025 do caminho dos PMMs brasileiros. Em R$, com PIX, com LGPD. — DemoBR",
+    "text_en": "Why DemoBR exists: to get the 2025 analog demo out of the way of Brazilian PMMs. In R$, with PIX, with LGPD. — DemoBR",
+    "image_concept": "Logo + tagline",
+    "hashtags": [
+      "#WhyWeBuild",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br/sobre"
+  },
+  {
+    "id": "sp-017",
+    "date": "2026-02-12",
+    "channel": "twitter",
+    "text_pt": "TTS pt-BR com voz masculina ou feminina, sem clonagem. 30 min/mês no Pro. Bom pra demo de onboarding.",
+    "text_en": "PT-BR TTS with male or female voice, no cloning. 30 min/month on Pro. Good for onboarding demos.",
+    "image_concept": "Captura do player com botão de narração",
+    "hashtags": [
+      "#AIFeatures",
+      "#Narration"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-018",
+    "date": "2026-02-14",
+    "channel": "instagram",
+    "text_pt": "Lead form com consentimento LGPD embutido. Texto padrão já na Lei nº 13.709/2018. Não precisa escrever sozinho. Só revisar.",
+    "image_concept": "Print do form com consentimento",
+    "hashtags": [
+      "#LGPD",
+      "#LeadForm"
+    ],
+    "link": "https://demobr.com.br/lgpd",
+    "text_en": "Lead form with embedded LGPD consent. Default text already aligned with Law nº 13.709/2018. Don't write your own. Just review."
+  },
+  {
+    "id": "sp-019",
+    "date": "2026-02-17",
+    "channel": "linkedin",
+    "text_pt": "Caso real: SaaS B2B cortou 60% das calls de discovery ao colocar tour de 5 passos como pré-requisito pra marcar reunião. Mês 1. Mês 2: mesmo número de leads qualificados, mas só os quentes.",
+    "text_en": "Real case: B2B SaaS cut 60% of discovery calls by making a 5-step tour a pre-requisite for booking a meeting. Month 1. Month 2: same number of qualified leads, but only the hot ones.",
+    "image_concept": "Gráfico: calls vs leads qualificados",
+    "hashtags": [
+      "#SalesOps",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-020",
+    "date": "2026-02-19",
+    "channel": "twitter",
+    "text_pt": "Lead-to-call ratio antes do tour: 12%. Depois: 31%. Demorou 6 meses pra alguém pensar nisso.",
+    "image_concept": "Comparativo antes/depois",
+    "hashtags": [
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Lead-to-call ratio before the tour: 12%. After: 31%. It took 6 months for someone to think of this."
+  },
+  {
+    "id": "sp-021",
+    "date": "2026-02-21",
+    "channel": "linkedin",
+    "text_pt": "Branching condicional no Business: mostra step diferente dependendo da escolha do lead. Útil pra SaaS com ICPs múltiplos (PME vs enterprise).",
+    "text_en": "Conditional branching on Business: shows different step depending on lead's choice. Useful for SaaS with multiple ICPs (SMB vs enterprise).",
+    "image_concept": "Fluxograma de branching",
+    "hashtags": [
+      "#Branching",
+      "#BusinessPlan"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-022",
+    "date": "2026-02-24",
+    "channel": "instagram",
+    "text_pt": "Demo publicada em 3 passos: 1. Clica 'Publicar' 2. Escolhe slug 3. Copia link. Esse link funciona pra sempre (até você despublicar).",
+    "image_concept": "3 cards numerados",
+    "hashtags": [
+      "#QuickTip",
+      "#DemoBR"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Published demo in 3 steps: 1. Click 'Publish' 2. Pick a slug 3. Copy the link. That link works forever (until you unpublish)."
+  },
+  {
+    "id": "sp-023",
+    "date": "2026-02-26",
+    "channel": "twitter",
+    "text_pt": "Quanto custa uma call de discovery? Tempo do AE (~30 min) + tempo do lead (~30 min) + opportunity cost. Demo interativa custa R$ 0 no Free.",
+    "text_en": "How much does a discovery call cost? AE time (~30 min) + lead time (~30 min) + opportunity cost. Interactive demo costs R$ 0 on Free.",
+    "image_concept": "Cálculo de custo",
+    "hashtags": [
+      "#ROICalculator"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-024",
+    "date": "2026-02-28",
+    "channel": "linkedin",
+    "text_pt": "Cold e-mail com link de tour no corpo + subject '5 min, no seu tempo' converte 3x mais que 'tem 15 min pra call?'. Só dado. Sem achismo.",
+    "text_en": "Cold e-mail with tour link in body + subject '5 min, on your time' converts 3x more than 'got 15 min for a call?'. Just data. No guessing.",
+    "image_concept": "Print de cold email",
+    "hashtags": [
+      "#Outbound",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-025",
+    "date": "2026-03-03",
+    "channel": "instagram",
+    "text_pt": "Como faço demo do meu SaaS quando ainda nem lancei? DemoBR tem modo preview, com marca d'água 'Beta' e link bloqueado até você liberar. Útil pra beta fechada.",
+    "image_concept": "Captura do modo preview",
+    "hashtags": [
+      "#BetaStrategy",
+      "#Launch"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "How do I demo my SaaS when I haven't even launched? DemoBR has a preview mode with a 'Beta' watermark and a locked link until you release it. Useful for closed betas."
+  },
+  {
+    "id": "sp-026",
+    "date": "2026-03-05",
+    "channel": "linkedin",
+    "text_pt": "Variáveis dinâmicas na demo: {{nome}}, {{empresa}}, {{email}}. Lead que abre demo personalizada converte 22% mais. Business only.",
+    "text_en": "Dynamic variables in the demo: {{name}}, {{company}}, {{email}}. Leads who open personalized demos convert 22% more. Business only.",
+    "image_concept": "Print com variáveis destacadas",
+    "hashtags": [
+      "#Personalization",
+      "#Variables"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-027",
+    "date": "2026-03-07",
+    "channel": "twitter",
+    "text_pt": "Demo boa não tem login. Demo boa começa no dashboard. Demo boa mostra valor em 30s ou menos. Demo boa não fala de feature, fala de outcome.",
+    "text_en": "A good demo has no login. A good demo starts on the dashboard. A good demo shows value in 30s or less. A good demo talks about outcomes, not features.",
+    "image_concept": "Lista numerada 4 itens",
+    "hashtags": [
+      "#DemoCraft",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa"
+  },
+  {
+    "id": "sp-028",
+    "date": "2026-03-10",
+    "channel": "linkedin",
+    "text_pt": "Onboarding em 5 minutos, sem agendar call. Demo interativa resolve. Use no email D+1 de trial, no link pós-compra, no portal de suporte.",
+    "text_en": "Onboarding in 5 minutes, no scheduling a call. Interactive demo solves it. Use in D+1 trial email, post-purchase link, support portal.",
+    "image_concept": "Fluxo de onboarding assíncrono",
+    "hashtags": [
+      "#Onboarding",
+      "#CS"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-029",
+    "date": "2026-03-12",
+    "channel": "instagram",
+    "text_pt": "Antes do DemoBR eu gravava demo em Loom toda semana. Perdida. Hoje gravo uma vez, reedito quando muda UI, e o link funciona pra sempre. Time saved: ~3h/semana. (Alex, founder)",
+    "text_en": "Before DemoBR I recorded demos in Loom weekly. Lost. Today I record once, re-edit when UI changes, link works forever. Time saved: ~3h/week. (Alex, founder)",
+    "image_concept": "Foto do founder + computador",
+    "hashtags": [
+      "#BehindTheScenes",
+      "#Founder"
+    ],
+    "link": "https://demobr.com.br/sobre"
+  },
+  {
+    "id": "sp-030",
+    "date": "2026-03-14",
+    "channel": "twitter",
+    "text_pt": "DemoBR é o único SaaS BR de demos interativas com PIX + boleto + NF-e + LGPD by design. Concorrentes gringos? Stripe USD, sem NF-e, banner LGPD configurável. Diferença real.",
+    "text_en": "DemoBR is the only BR demos SaaS with PIX + boleto + NF-e + LGPD by design. Foreign competitors? Stripe USD, no NF-e, configurable LGPD banner. Real difference.",
+    "image_concept": "Comparação DemoBR vs gringo",
+    "hashtags": [
+      "#SaaSBR",
+      "#LocalWins"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow"
+  },
+  {
+    "id": "sp-031",
+    "date": "2026-03-17",
+    "channel": "linkedin",
+    "text_pt": "PII redaction automática na DemoBR: detecta CPF, CNPJ, e-mail, telefone, cartão nas suas screenshots antes de publicar. Você revisa antes de subir.",
+    "text_en": "Automatic PII redaction in DemoBR: detects CPF, CNPJ, email, phone, card in your screenshots before publishing. You review before publishing.",
+    "image_concept": "Print mostrando redação ativa",
+    "hashtags": [
+      "#PIIRedaction",
+      "#LGPD"
+    ],
+    "link": "https://demobr.com.br/lgpd"
+  },
+  {
+    "id": "sp-032",
+    "date": "2026-03-19",
+    "channel": "instagram",
+    "text_pt": "Tour interativo em 5 passos pra entender onboarding do nosso CRM. Salva pra assistir no seu tempo. 📌",
+    "image_concept": "Thumb do tour com legenda",
+    "hashtags": [
+      "#CRM",
+      "#Onboarding"
+    ],
+    "link": "https://demobr.com.br/d/crm-onboarding",
+    "text_en": "5-step interactive tour to understand our CRM onboarding. Save to watch on your time. 📌"
+  },
+  {
+    "id": "sp-033",
+    "date": "2026-03-21",
+    "channel": "linkedin",
+    "text_pt": "DemoBR tem white-label no Business: seu domínio, sem 'Feito com DemoBR', branding 100% seu. Útil pra quem vende pra clientes enterprise.",
+    "text_en": "DemoBR has white-label on Business: your domain, no 'Made with DemoBR', 100% your branding. Useful for those selling to enterprise clients.",
+    "image_concept": "Print do player white-label",
+    "hashtags": [
+      "#WhiteLabel",
+      "#Business"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-034",
+    "date": "2026-03-24",
+    "channel": "twitter",
+    "text_pt": "Branching condicional: 'Se lead é PME, mostra planos Free/Pro. Se enterprise, mostra Business.' Mesmo tour, dois caminhos.",
+    "image_concept": "Fluxograma de branching",
+    "hashtags": [
+      "#Branching",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto",
+    "text_en": "Conditional branching: 'If the lead is SMB, show Free/Pro plans. If enterprise, show Business.' Same tour, two paths."
+  },
+  {
+    "id": "sp-035",
+    "date": "2026-03-26",
+    "channel": "linkedin",
+    "text_pt": "Quem usa DemoBR: 200+ times de PMM, head de CX, fundadores de SaaS B2B no Brasil. Indústria: fintech, edtech, healthtech, logística, SaaS. Sem cliente enterprise 'Premium'. PME/mid-market é nosso ICP.",
+    "text_en": "Who uses DemoBR: 200+ PMM, CX heads, B2B SaaS founders in Brazil. Industry: fintech, edtech, healthtech, logistics, SaaS. No enterprise 'Premium' clients. SMB/mid-market is our ICP.",
+    "image_concept": "Gráfico de barras por vertical",
+    "hashtags": [
+      "#Customers",
+      "#ICP"
+    ],
+    "link": "https://demobr.com.br/sobre"
+  },
+  {
+    "id": "sp-036",
+    "date": "2026-03-28",
+    "channel": "instagram",
+    "text_pt": "PRO tip: Quando publicar o tour, coloque o link também no README do seu GitHub. Lead técnico que cai no repo cai no tour.",
+    "image_concept": "Print do README com badge demo",
+    "hashtags": [
+      "#GitHub",
+      "#ProTip"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "PRO tip: When you publish the tour, also put the link in your GitHub README. Technical leads who land in the repo fall into the tour."
+  },
+  {
+    "id": "sp-037",
+    "date": "2026-03-31",
+    "channel": "linkedin",
+    "text_pt": "Hot tip: Embed iframe do seu tour na home do seu SaaS. Acima do fold. Converte 2-3x melhor do que vídeo YouTube embed (mesma posição).",
+    "text_en": "Hot tip: Embed your tour's iframe on your SaaS homepage. Above the fold. Converts 2-3x better than YouTube embed (same position).",
+    "image_concept": "Side-by-side iframe vs vídeo",
+    "hashtags": [
+      "#Conversion",
+      "#Embed"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-038",
+    "date": "2026-04-02",
+    "channel": "twitter",
+    "text_pt": "Checklist pra tour matador: 5-8 steps, hero no step 1, caption com verbo no infinitivo, hotspot pulsante, CTA no fim. Acima de 8 steps = corta.",
+    "image_concept": "Checklist visual",
+    "hashtags": [
+      "#Checklist",
+      "#DemoCraft"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa",
+    "text_en": "Checklist for a killer tour: 5–8 steps, hero on step 1, infinitive caption, pulsing hotspot, CTA at the end. Above 8 steps = cut."
+  },
+  {
+    "id": "sp-039",
+    "date": "2026-04-04",
+    "channel": "linkedin",
+    "text_pt": "DemoBR tem API REST + embed iframe. Não importa se você quer integrar demo no seu app ou postar no seu blog — funciona.",
+    "text_en": "DemoBR has REST API + iframe embed. Whether you want to integrate demos in your app or post on your blog — it works.",
+    "image_concept": "Snippet de código de API + iframe",
+    "hashtags": [
+      "#API",
+      "#Embed"
+    ],
+    "link": "https://demobr.com.br/api/v1"
+  },
+  {
+    "id": "sp-040",
+    "date": "2026-04-07",
+    "channel": "instagram",
+    "text_pt": "Como demos da DemoBR são renderizadas: SSR + CDN + R2. Lighthouse média: 96. Carrega em <1.5s em qualquer país.",
+    "image_concept": "Lighthouse score",
+    "hashtags": [
+      "#Performance",
+      "#WebVitals"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "How DemoBR demos are rendered: SSR + CDN + R2. Average Lighthouse: 96. Loads in <1.5s anywhere."
+  },
+  {
+    "id": "sp-041",
+    "date": "2026-04-09",
+    "channel": "linkedin",
+    "text_pt": "LGPD art. 18 garantido: você revoga consentimento a qualquer momento com 1 clique no email de lead. DemoBR processa DSR em até 15 dias.",
+    "text_en": "LGPD art. 18 guaranteed: you revoke consent anytime with 1 click from the lead email. DemoBR processes DSR in 15 days.",
+    "image_concept": "Print do link de revogação",
+    "hashtags": [
+      "#LGPD",
+      "#Compliance"
+    ],
+    "link": "https://demobr.com.br/lgpd"
+  },
+  {
+    "id": "sp-042",
+    "date": "2026-04-11",
+    "channel": "twitter",
+    "text_pt": "PR: DemoBR agora com white-label no Business. Use seu domínio, sua marca, sem 'Feito com DemoBR' visível.",
+    "image_concept": "Player white-label",
+    "hashtags": [
+      "#WhiteLabel",
+      "#Release"
+    ],
+    "link": "https://demobr.com.br/pricing",
+    "text_en": "Release: DemoBR now with white-label on Business. Use your domain, your brand, no 'Made with DemoBR' visible."
+  },
+  {
+    "id": "sp-043",
+    "date": "2026-04-14",
+    "channel": "linkedin",
+    "text_pt": "Reflexão 2026: SaaS B2B que vende R$ 50k+ ACV tem call. SaaS B2B que vende R$ 50-500/mês usa tour interativo + lead form. Demo boa é demo async, com CTA.",
+    "text_en": "2026 takeaway: B2B SaaS selling R$ 50k+ ACV uses calls. B2B SaaS selling R$ 50-500/mo uses interactive tour + lead form. A good demo is async, with CTA.",
+    "image_concept": "Matriz ACV vs demo format",
+    "hashtags": [
+      "#Strategy",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-044",
+    "date": "2026-04-16",
+    "channel": "instagram",
+    "text_pt": "Webhook de DemoBR dispara em 4 eventos: view, step, lead, completion. Integre no RD Station, HubSpot, Kommo, Slack.",
+    "image_concept": "Lista de eventos",
+    "hashtags": [
+      "#Webhooks",
+      "#CRM"
+    ],
+    "link": "https://demobr.com.br/api/v1",
+    "text_en": "DemoBR's webhook fires on 4 events: view, step, lead, completion. Integrate with RD Station, HubSpot, Kommo, Slack."
+  },
+  {
+    "id": "sp-045",
+    "date": "2026-04-18",
+    "channel": "linkedin",
+    "text_pt": "PMM escreve copy 80% do tempo. DemoBR tira o Loom do caminho. Tempo livre = estratégia. — Alex, founder DemoBR.",
+    "image_concept": "Foto + citação",
+    "hashtags": [
+      "#PMM",
+      "#Founder"
+    ],
+    "link": "https://demobr.com.br/sobre",
+    "text_en": "PMM writes copy 80% of the time. DemoBR takes Loom out of the way. Free time = strategy. — Alex, DemoBR founder."
+  },
+  {
+    "id": "sp-046",
+    "date": "2026-04-21",
+    "channel": "twitter",
+    "text_pt": "DemoBR é um SaaS BR-first. O que isso significa na prática: suporte 24h pt-BR, NF-e em todos os planos pagos, PIX/boleto/cartão, LGPD garantido. 🇧🇷",
+    "image_concept": "Bandeira BR estilizada + lista",
+    "hashtags": [
+      "#BR",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br/sobre",
+    "text_en": "DemoBR is a BR-first SaaS. What that means in practice: 24h PT-BR support, NF-e on all paid plans, PIX/boleto/card, LGPD guaranteed. 🇧🇷"
+  },
+  {
+    "id": "sp-047",
+    "date": "2026-04-23",
+    "channel": "linkedin",
+    "text_pt": "Time de CX: substitua a página de FAQ por um tour de 'como usar'. Lead que entende o produto chupa 70% menos no suporte.",
+    "text_en": "CX team: replace FAQ page with a 'how to use' tour. Lead that understands the product sucks 70% less from support.",
+    "image_concept": "Tour embed no help center",
+    "hashtags": [
+      "#CS",
+      "#Support"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-048",
+    "date": "2026-04-25",
+    "channel": "instagram",
+    "text_pt": "5 tours postados em 30 minutos? SIM. Bruna (Product) fez 5 demos do nosso CRM em meia hora pra alimentar landing pages diferentes por ICP.",
+    "image_concept": "5 thumbnails lado a lado",
+    "hashtags": [
+      "#Productivity",
+      "#ICP"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "5 tours posted in 30 minutes? YES. Bruna (Product) made 5 demos of our CRM in half an hour to feed ICP-specific landing pages."
+  },
+  {
+    "id": "sp-049",
+    "date": "2026-04-28",
+    "channel": "linkedin",
+    "text_pt": "Newsletter quinzenal DemoBR sai quinta-feira. Curto, útil, sem spam. Mais de 800 PMMs já assinam.",
+    "text_en": "DemoBR bi-weekly newsletter goes out Thursdays. Short, useful, no spam. 800+ PMMs already subscribed.",
+    "image_concept": "Print da newsletter",
+    "hashtags": [
+      "#Newsletter",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br#newsletter"
+  },
+  {
+    "id": "sp-050",
+    "date": "2026-04-30",
+    "channel": "twitter",
+    "text_pt": "Cold outbound 1: 'Te mandei demo de 4 min'. Cold outbound 2: 'Tem 15 min pra call?'. Resposta 1: 28%. Resposta 2: 4%.",
+    "image_concept": "Comparativo de reply rates",
+    "hashtags": [
+      "#Outbound",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Cold outbound 1: 'I sent you a 4-min demo'. Cold outbound 2: 'Got 15 min for a call?'. Reply 1: 28%. Reply 2: 4%."
+  },
+  {
+    "id": "sp-051",
+    "date": "2026-05-02",
+    "channel": "linkedin",
+    "text_pt": "Tutorial de 5 minutos pra criar sua primeira demo (texto + vídeo passo a passo). Sem cartão. Salva pro time.",
+    "text_en": "5-minute tutorial to create your first demo (text + video walkthrough). No credit card. Save for the team.",
+    "image_concept": "Print do tutorial",
+    "hashtags": [
+      "#Tutorial",
+      "#DemoBR"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa"
+  },
+  {
+    "id": "sp-052",
+    "date": "2026-05-05",
+    "channel": "instagram",
+    "text_pt": "Release: domínio customizado no Business. Use demobr.suaempresa.com.br. CNAME em <5min. White-label completo.",
+    "image_concept": "Print do settings com CNAME",
+    "hashtags": [
+      "#Release",
+      "#WhiteLabel"
+    ],
+    "link": "https://demobr.com.br/pricing",
+    "text_en": "Release: custom domain on Business. Use demobr.yourcompany.com.br. CNAME in <5min. Full white-label."
+  },
+  {
+    "id": "sp-053",
+    "date": "2026-05-07",
+    "channel": "linkedin",
+    "text_pt": "Quem NÃO deve usar DemoBR: time enterprise global com budget pra USD, lead de fora do Brasil, demo conceitual (API, infra). Pra esses casos, Supademo é melhor.",
+    "text_en": "Who SHOULDN'T use DemoBR: global enterprise team with USD budget, lead outside Brazil, conceptual demo (API, infra). For those cases, Supademo is better.",
+    "image_concept": "Tabela com ICP",
+    "hashtags": [
+      "#HonestyWins"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow"
+  },
+  {
+    "id": "sp-054",
+    "date": "2026-05-09",
+    "channel": "twitter",
+    "text_pt": "Demo boa é 60% pesquisa + 30% design + 10% captura. Pesquisa: pra quem é? Onde dói? Que promessa? Design: qual fluxo conta a história? Captura: 1 clique.",
+    "image_concept": "Pizza de porcentagens",
+    "hashtags": [
+      "#DemoCraft",
+      "#Process"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa",
+    "text_en": "A great demo is 60% research + 30% design + 10% capture. Research: who is it for? Where does it hurt? What's the promise? Design: what flow tells the story? Capture: 1 click."
+  },
+  {
+    "id": "sp-055",
+    "date": "2026-05-12",
+    "channel": "linkedin",
+    "text_pt": "DEMO DA SEMANA: tour interativo de um CRM B2B brasileiro pra PME. 6 steps. Mostra o funil de vendas como um Kanban arrastável. Salva pro time.",
+    "image_concept": "Thumb do tour",
+    "hashtags": [
+      "#DemoOfTheWeek",
+      "#CRM"
+    ],
+    "link": "https://demobr.com.br/d/crm-onboarding",
+    "text_en": "DEMO OF THE WEEK: interactive tour of a Brazilian B2B CRM for SMBs. 6 steps. Shows the sales pipeline as a drag-and-drop Kanban. Save for the team."
+  },
+  {
+    "id": "sp-056",
+    "date": "2026-05-14",
+    "channel": "instagram",
+    "text_pt": "Comparação rápida: DemoBR vs Supademo vs Guideflow. Salva pra usar na hora de escolher.",
+    "image_concept": "3 logos lado a lado",
+    "hashtags": [
+      "#Compare",
+      "#SaaS"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow",
+    "text_en": "Quick comparison: DemoBR vs Supademo vs Guideflow. Save to use when you're choosing."
+  },
+  {
+    "id": "sp-057",
+    "date": "2026-05-16",
+    "channel": "linkedin",
+    "text_pt": "Por que demos interativas vendem: lead chega na call tendo visto 6 steps do produto. Call vira deepening técnico, não apresentação. Win rate sobe ~30%.",
+    "text_en": "Why interactive demos sell: lead arrives on the call having seen 6 product steps. Call becomes technical deepening, not presentation. Win rate goes up ~30%.",
+    "image_concept": "Antes/depois win rate",
+    "hashtags": [
+      "#SalesEffectiveness",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-058",
+    "date": "2026-05-19",
+    "channel": "twitter",
+    "text_pt": "Hoje: capturei demo do nosso próprio produto. Durou 4 minutos. Publicada. Enviada pra 12 leads da nossa pipeline. Tempo total: 12 minutos.",
+    "image_concept": "Timeline 0-12 min",
+    "hashtags": [
+      "#BehindTheScenes",
+      "#Productivity"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Today: I captured a demo of our own product. Took 4 minutes. Published. Sent to 12 leads in our pipeline. Total time: 12 minutes."
+  },
+  {
+    "id": "sp-059",
+    "date": "2026-05-21",
+    "channel": "linkedin",
+    "text_pt": "REFLEXÃO: Por que SaaS BR-first é vantagem? Cliente brasileiro fala PT-BR, paga PIX, quer NF-e, exige LGPD. Quem nasce BR-first vira isso em padrão.",
+    "text_en": "TAKEAWAY: Why is BR-first SaaS an advantage? Brazilian customer speaks PT-BR, pays PIX, wants NF-e, demands LGPD. Those born BR-first turn this into default.",
+    "image_concept": "4 quadrantes: PT-BR / PIX / NF-e / LGPD",
+    "hashtags": [
+      "#BRFirst",
+      "#ProductStrategy"
+    ],
+    "link": "https://demobr.com.br/sobre"
+  },
+  {
+    "id": "sp-060",
+    "date": "2026-05-23",
+    "channel": "instagram",
+    "text_pt": "Como receber leads dentro do RD Station: webhook de 'lead' dispara payload JSON. Sem Zapier. Conexão nativa no Business.",
+    "image_concept": "Fluxo webhook -> RD",
+    "hashtags": [
+      "#Integrations",
+      "#RDStation"
+    ],
+    "link": "https://demobr.com.br/api/v1",
+    "text_en": "How to receive leads inside RD Station: the 'lead' webhook fires a JSON payload. No Zapier. Native connection on Business."
+  },
+  {
+    "id": "sp-061",
+    "date": "2026-05-26",
+    "channel": "linkedin",
+    "text_pt": "PMMs que estão substituindo Loom por DemoBR: ~80% reportam economia > 2h/semana. Menos re-gravações, mais demos no ar, leads mais quentes.",
+    "text_en": "PMMs replacing Loom with DemoBR: ~80% report saving > 2h/week. Fewer re-records, more demos live, hotter leads.",
+    "image_concept": "Gráfico de economia de tempo",
+    "hashtags": [
+      "#ProductivityWins",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-062",
+    "date": "2026-05-28",
+    "channel": "twitter",
+    "text_pt": "Inside DemoBR: extensão Chrome MV3 que tira screenshots + captura cliques + aplica hotspot em tempo real. Sem servidor rodando.",
+    "image_concept": "Captura da extensão ativa",
+    "hashtags": [
+      "#Engineering"
+    ],
+    "link": "https://demobr.com.br/blog",
+    "text_en": "Inside DemoBR: Chrome MV3 extension that takes screenshots + captures clicks + applies hotspot in real time. No server running."
+  },
+  {
+    "id": "sp-063",
+    "date": "2026-05-30",
+    "channel": "linkedin",
+    "text_pt": "CTO/Eng: DemoBR é Postgres + R2 + Edge workers. Stack simples, scale horizontal. Custos em R$, billing em R$. Sem dependência AWS-only.",
+    "text_en": "CTO/Eng: DemoBR is Postgres + R2 + Edge workers. Simple stack, horizontal scale. Costs in R$, billing in R$. No AWS-only dependency.",
+    "image_concept": "Diagrama de arquitetura simples",
+    "hashtags": [
+      "#Architecture",
+      "#Stack"
+    ],
+    "link": "https://demobr.com.br/blog"
+  },
+  {
+    "id": "sp-064",
+    "date": "2026-06-02",
+    "channel": "instagram",
+    "text_pt": "Antes vs depois: tour interativo. Antes: 8 calls/semana pra mostrar produto. Depois: 1 call por semana pra fechar lead já quente. 4 meses.",
+    "image_concept": "Antes/depois números",
+    "hashtags": [
+      "#CaseStudy",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Before vs after: interactive tour. Before: 8 calls/week to demo the product. After: 1 call/week to close already-hot lead. 4 months."
+  },
+  {
+    "id": "sp-065",
+    "date": "2026-06-04",
+    "channel": "linkedin",
+    "text_pt": "Comparação honesta: DemoBR é o único SaaS BR de demos com native PIX + boleto + cartão + NF-e. Concorrentes gringos só Stripe USD.",
+    "text_en": "Honest comparison: DemoBR is the only BR demos SaaS with native PIX + boleto + card + NF-e. Foreign competitors only offer Stripe USD.",
+    "image_concept": "Tabela comparativa",
+    "hashtags": [
+      "#SaaSBR",
+      "#HonestyWins"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow"
+  },
+  {
+    "id": "sp-066",
+    "date": "2026-06-06",
+    "channel": "twitter",
+    "text_pt": "Aprendizado do dia: PMM que tenta demonstrar valor em 30s de call perde. Quem manda tour de 4min antes do call converte 3x mais.",
+    "text_en": "Daily lesson: PMM trying to show value in 30s call loses. Who sends a 4-min tour before the call converts 3x more.",
+    "image_concept": "Comparativo de win rate",
+    "hashtags": [
+      "#PMM",
+      "#Sales101"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-067",
+    "date": "2026-06-09",
+    "channel": "linkedin",
+    "text_pt": "Quem é o DemoBR: PMM, head de CX, fundador de SaaS B2B no Brasil que cansou de gravar demo em Loom toda semana e pagar Stripe IOF.",
+    "text_en": "Who DemoBR is: PMM, CX head, B2B SaaS founder in Brazil tired of recording demos in Loom weekly and paying Stripe IOF.",
+    "image_concept": "Persona ilustrada",
+    "hashtags": [
+      "#ICP",
+      "#Persona"
+    ],
+    "link": "https://demobr.com.br/sobre"
+  },
+  {
+    "id": "sp-068",
+    "date": "2026-06-11",
+    "channel": "instagram",
+    "text_pt": "Quick tip: ao embedar tour na sua home, deixa ele acima do fold. Converte 2-3x melhor que vídeo mesmo nessa posição.",
+    "image_concept": "Mockup de home com tour embed acima do fold",
+    "hashtags": [
+      "#UX",
+      "#Conversion"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto",
+    "text_en": "Quick tip: when embedding a tour on your homepage, put it above the fold. Converts 2-3x better than video in the same position."
+  },
+  {
+    "id": "sp-069",
+    "date": "2026-06-13",
+    "channel": "linkedin",
+    "text_pt": "Atualização do roadmap Q3: API REST oficial + variáveis {{nome}} + branching condicional. Tudo já tá no Business. Conta o que você quer pra Q4.",
+    "text_en": "Q3 roadmap update: official REST API + {{name}} variables + conditional branching. Everything's on Business already. Tell us what you want for Q4.",
+    "image_concept": "Mockup do roadmap",
+    "hashtags": [
+      "#Roadmap",
+      "#CustomerInput"
+    ],
+    "link": "https://demobr.com.br"
+  },
+  {
+    "id": "sp-070",
+    "date": "2026-06-16",
+    "channel": "twitter",
+    "text_pt": "Quem somos (de novo): o PMM que construiu seu próprio demo porque nenhuma ferramenta BR-first entregava qualidade. DemoBR existe porque precisava existir.",
+    "image_concept": "Texto em caps 'Por isso DemoBR existe'",
+    "hashtags": [
+      "#WhyWeBuild"
+    ],
+    "link": "https://demobr.com.br/sobre",
+    "text_en": "Who we are (again): the PMM who built his own demo because no BR-first tool delivered quality. DemoBR exists because it had to."
+  },
+  {
+    "id": "sp-071",
+    "date": "2026-06-18",
+    "channel": "linkedin",
+    "text_pt": "PMM numbers que importam: views, starts, completions, leads. DemoBR expõe tudo. Conecte seu RD/HubSpot/Kommo e use pra segmentar campanhas.",
+    "text_en": "PMM numbers that matter: views, starts, completions, leads. DemoBR exposes everything. Connect your RD/HubSpot/Kommo and use to segment campaigns.",
+    "image_concept": "Dashboard com 4 KPIs",
+    "hashtags": [
+      "#Analytics",
+      "#CRM"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-072",
+    "date": "2026-06-20",
+    "channel": "instagram",
+    "text_pt": "Tour com 5 steps pra entender nosso onboarding: clique no link, gaste 4 minutos, decida se quer conversar. Não precisa call. Não precisa agendar.",
+    "image_concept": "Tour embed ilustrado",
+    "hashtags": [
+      "#Onboarding",
+      "#DemoBR"
+    ],
+    "link": "https://demobr.com.br/d/crm-onboarding",
+    "text_en": "5-step tour to understand our onboarding: click the link, spend 4 minutes, decide if you want to chat. No call needed. No scheduling."
+  },
+  {
+    "id": "sp-073",
+    "date": "2026-06-23",
+    "channel": "linkedin",
+    "text_pt": "Por que white-label importa no B2B: cliente enterprise não confia em 'Feito com DemoBR'. Quer ver DEMOEMPRESA. Use Business + seu domínio.",
+    "text_en": "Why white-label matters in B2B: enterprise client doesn't trust 'Made with DemoBR'. They want to see CLIENTCOMPANY. Use Business + your domain.",
+    "image_concept": "Demo white-label vs branded",
+    "hashtags": [
+      "#WhiteLabel",
+      "#Enterprise"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-074",
+    "date": "2026-06-25",
+    "channel": "twitter",
+    "text_pt": "DemoBR é SaaS em R$. Pro: R$ 49/mês. Business: R$ 199/mês. NF-e em ambos. Sem IOF, sem spread de cartão internacional.",
+    "image_concept": "Tabela de preços",
+    "hashtags": [
+      "#Pricing",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br/pricing",
+    "text_en": "DemoBR is SaaS priced in R$. Pro: R$ 49/month. Business: R$ 199/month. NF-e on both. No IOF, no international card spread."
+  },
+  {
+    "id": "sp-075",
+    "date": "2026-06-27",
+    "channel": "linkedin",
+    "text_pt": "Reflexão: LGPD não é checkbox. DemoBR tem DPO interno, política pública, DSR automatizado em 15 dias, opt-out de analytics first-class. Compliance > PDF de rodapé.",
+    "text_en": "Reflection: LGPD isn't a checkbox. DemoBR has in-house DPO, public policy, automated DSR in 15 days, first-class analytics opt-out. Compliance > footer PDF.",
+    "image_concept": "Política pública com destaque",
+    "hashtags": [
+      "#LGPD",
+      "#Compliance"
+    ],
+    "link": "https://demobr.com.br/lgpd"
+  },
+  {
+    "id": "sp-076",
+    "date": "2026-06-30",
+    "channel": "instagram",
+    "text_pt": "Melhor quote de 2026 que recebemos de um cliente: 'Mandei o tour pra 15 leads MQL, 9 voltaram dizendo que viram tudo. Call com 6 deles, fechamos 3.' — SaaS B2B, vertical logística.",
+    "image_concept": "Print do e-mail do cliente",
+    "hashtags": [
+      "#CustomerStory",
+      "#ROI"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Best 2026 quote we got from a customer: 'I sent the tour to 15 MQL leads, 9 came back saying they watched the whole thing. Call with 6 of them, closed 3.' — B2B SaaS, logistics vertical."
+  },
+  {
+    "id": "sp-077",
+    "date": "2026-07-02",
+    "channel": "linkedin",
+    "text_pt": "Onde demos interativas vencem: onboarding, lead qualification, suporte self-service, demos em eventos, prospecção outbound. Onde perdem: vendas enterprise R$ 50k+ ACV (ainda precisa call).",
+    "text_en": "Where interactive demos win: onboarding, lead qualification, self-service support, event demos, outbound. Where they lose: R$ 50k+ ACV enterprise sales (still needs call).",
+    "image_concept": "Matriz wins/losses",
+    "hashtags": [
+      "#Strategy",
+      "#Tours"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-078",
+    "date": "2026-07-04",
+    "channel": "twitter",
+    "text_pt": "Demo-matrícula: PMM que publica demo por semana faz 3x mais demos totais em 6 meses. Velocidade > perfeição.",
+    "text_en": "Demo velocity: PMM who publishes demos weekly produces 3x more in 6 months. Speed > perfection.",
+    "image_concept": "Gráfico de demos publicadas",
+    "hashtags": [
+      "#Velocity",
+      "#DemoCraft"
+    ],
+    "link": "https://demobr.com.br/blog/como-fazer-demo-interativa"
+  },
+  {
+    "id": "sp-079",
+    "date": "2026-07-07",
+    "channel": "linkedin",
+    "text_pt": "Pergunta honesta: você ainda manda PDF pra lead MQL? DemoBR converteu 200+ times brasileiros que pararam. Demora 5 min pra testar.",
+    "image_concept": "Comparativo PDF vs tour",
+    "hashtags": [
+      "#Question",
+      "#Reflection"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "Honest question: do you still send PDFs to MQL leads? DemoBR converted 200+ Brazilian teams who stopped. 5 minutes to try."
+  },
+  {
+    "id": "sp-080",
+    "date": "2026-07-09",
+    "channel": "instagram",
+    "text_pt": "Tutorial novo no blog: como fazer tour interativo pra SaaS B2B em 2026, com exemplos reais. Salva pra assistir quando precisar.",
+    "image_concept": "Capa do post",
+    "hashtags": [
+      "#Tutorial",
+      "#Guide"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto",
+    "text_en": "New tutorial on the blog: how to make an interactive tour for B2B SaaS in 2026, with real examples. Save to watch when you need."
+  },
+  {
+    "id": "sp-081",
+    "date": "2026-07-11",
+    "channel": "linkedin",
+    "text_pt": "Por que white-label ainda é underrated em SaaS BR: 65% dos B2B enterprise rejeitam 'Feito com X' visível no player. DemoBR Business sai por R$ 199/mês e resolve.",
+    "text_en": "Why white-label is still underrated in BR SaaS: 65% of B2B enterprise reject visible 'Made with X' on the player. DemoBR Business at R$ 199/mo solves it.",
+    "image_concept": "Stats de rejeição",
+    "hashtags": [
+      "#WhiteLabel",
+      "#Enterprise"
+    ],
+    "link": "https://demobr.com.br/pricing"
+  },
+  {
+    "id": "sp-082",
+    "date": "2026-07-14",
+    "channel": "twitter",
+    "text_pt": "Como integrar demo no seu CRM: webhook fire-on-lead. Payload tem demo_id, lead_email, lead_nome, steps_watched. Mapeia no RD/HubSpot/Kommo.",
+    "image_concept": "Schema JSON do webhook",
+    "hashtags": [
+      "#Integrations",
+      "#Webhooks"
+    ],
+    "link": "https://demobr.com.br/api/v1",
+    "text_en": "How to integrate demos into your CRM: fire-on-lead webhook. Payload has demo_id, lead_email, lead_name, steps_watched. Map it in RD/HubSpot/Kommo."
+  },
+  {
+    "id": "sp-083",
+    "date": "2026-07-16",
+    "channel": "linkedin",
+    "text_pt": "Brand voice DemoBR: próximo, técnico quando precisa, zero corporativês. A gente diz 'ferramenta' não 'solução'. 'Time' não 'stakeholder'. Você fala com PMM.",
+    "image_concept": "Lista do que falamos vs o que evitamos",
+    "hashtags": [
+      "#BrandVoice",
+      "#CopyWins"
+    ],
+    "link": "https://demobr.com.br/sobre",
+    "text_en": "DemoBR brand voice: close, technical when needed, zero corporate-speak. We say 'tool' not 'solution'. 'Team' not 'stakeholder'. You talk to a PMM."
+  },
+  {
+    "id": "sp-084",
+    "date": "2026-07-18",
+    "channel": "instagram",
+    "text_pt": "FAQ dos primeiros clientes: 'Dá pra capturar área logada?' Sim. 'E capturar mobile?' Sim. 'E demo em outro idioma?' Sim, EN e PT-BR no Pro+.",
+    "image_concept": "3 cards com Q&A",
+    "hashtags": [
+      "#FAQ",
+      "#Help"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "FAQ from our early customers: 'Can I capture a logged-in area?' Yes. 'Mobile?' Yes. 'Demo in another language?' Yes — EN and PT-BR on Pro+."
+  },
+  {
+    "id": "sp-085",
+    "date": "2026-07-21",
+    "channel": "linkedin",
+    "text_pt": "Por que demos interativas vendem mais: lead chega na call tendo visto o produto 3x (thumbnail em link, embed, plus voltou). Cutoff do call é deepening, não apresentação.",
+    "text_en": "Why interactive demos sell more: lead arrives at the call having seen the product 3x (thumbnail on link, embed, plus came back). Call purpose is deepening, not presentation.",
+    "image_concept": "Funil antes vs depois",
+    "hashtags": [
+      "#SalesEffectiveness",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br/blog/tour-interativo-produto"
+  },
+  {
+    "id": "sp-086",
+    "date": "2026-07-23",
+    "channel": "twitter",
+    "text_pt": "DemoBR Roadmap Q3: AI caption rewriter, analytics heatmap por step, integração Zapier. Conta no Discord o que você quer priorizar.",
+    "image_concept": "Lista do roadmap",
+    "hashtags": [
+      "#Roadmap",
+      "#Community"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "DemoBR Q3 roadmap: AI caption rewriter, per-step analytics heatmap, Zapier integration. Tell us on Discord what you want to prioritize."
+  },
+  {
+    "id": "sp-087",
+    "date": "2026-07-25",
+    "channel": "linkedin",
+    "text_pt": "PMM job-to-be-done: 'Mostrar valor do produto pra lead não-qualificado, em escala, sem queimar tempo do AE'. DemoBR resolve. 200+ times concordam.",
+    "image_concept": "Diagrama JTBD",
+    "hashtags": [
+      "#JTBD",
+      "#PMM"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "PMM job-to-be-done: 'Show product value to non-qualified lead, at scale, without burning AE time.' DemoBR solves it. 200+ teams agree."
+  },
+  {
+    "id": "sp-088",
+    "date": "2026-07-28",
+    "channel": "instagram",
+    "text_pt": "Comparação rápida: DemoBR Pro (R$ 49/mês) vs Supademo Pro ($49/mês ≈ R$ 250 com IOF). DemoBR é 5x mais barato pra empresa brasileira.",
+    "image_concept": "Comparação lado a lado",
+    "hashtags": [
+      "#Pricing",
+      "#BR"
+    ],
+    "link": "https://demobr.com.br/blog/demobr-vs-supademo-vs-guideflow",
+    "text_en": "Quick comparison: DemoBR Pro (R$ 49/month) vs Supademo Pro ($49/month ≈ R$ 250 with IOF). DemoBR is 5x cheaper for a Brazilian company."
+  },
+  {
+    "id": "sp-089",
+    "date": "2026-07-30",
+    "channel": "linkedin",
+    "text_pt": "LGPD é a única razão pela qual alguns prospects preferem DemoBR a Supademo. Dados em RDS sa-east-1 (Brasil), DPO interno, política em /lgpd pública.",
+    "text_en": "LGPD is the only reason some prospects prefer DemoBR over Supademo. Data in RDS sa-east-1 (Brazil), in-house DPO, public policy at /lgpd.",
+    "image_concept": "Página /lgpd em destaque",
+    "hashtags": [
+      "#LGPD",
+      "#DataWins"
+    ],
+    "link": "https://demobr.com.br/lgpd"
+  },
+  {
+    "id": "sp-090",
+    "date": "2026-08-01",
+    "channel": "twitter",
+    "text_pt": "5 anos atrás: call de 30 min era obrigatória. Hoje: tour de 4 min + call só de deepening. DemoBR existe pra acelerar essa transição. 🇧🇷",
+    "image_concept": "Linha do tempo 2020 → 2026",
+    "hashtags": [
+      "#FutureOfSales",
+      "#SaaSBR"
+    ],
+    "link": "https://demobr.com.br",
+    "text_en": "5 years ago: 30-min call was mandatory. Today: 4-min tour + call only for deepening. DemoBR exists to accelerate this transition. 🇧🇷"
+  }
+]

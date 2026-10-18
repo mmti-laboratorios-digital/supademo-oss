@@ -1,0 +1,124 @@
+---
+title: "DemoBR — Demos interativas pra vender mais, sem uma reunião a mais"
+description: "Crie demos interativas do seu SaaS em minutos. Player PT-BR, pagamento via PIX/boleto (Asaas), conformidade LGPD ponta a ponta."
+locale: "pt-BR"
+canonical: "/"
+---
+
+export const meta = {
+  title: "Demos interativas pra vender mais, sem uma reunião a mais.",
+  subtitle: "Crie demos interativas do seu SaaS em minutos. Player PT-BR, pagamento via PIX/boleto (Asaas), conformidade LGPD ponta a ponta.",
+  ctaPrimary: "Começar grátis",
+  ctaPrimaryHref: "/sign-up",
+  ctaSecondary: "Ver planos",
+  ctaSecondaryHref: "/pricing",
+};
+
+# DemoBR — Demos interativas pra vender mais
+
+<Hero
+  title={meta.title}
+  subtitle={meta.subtitle}
+  primaryCta={{ label: meta.ctaPrimary, href: meta.ctaPrimaryHref }}
+  secondaryCta={{ label: meta.ctaSecondary, href: meta.ctaSecondaryHref }}
+  badge="Beta público · PT-BR · LGPD"
+/>
+
+## Usado por 200+ times de produto, marketing e CX no Brasil
+
+Logos de clientes (placeholders) — destaque os 200+ times que usam DemoBR para acelerar onboarding e qualificação de leads.
+
+<SocialProof
+  items={[
+    { name: "Empresa XYZ S.A.", industry: "Fintech B2B" },
+    { name: "Logística 123", industry: "Logística" },
+    { name: "Vendas+", industry: "CRM" },
+    { name: "Saúde Já", industry: "Healthtech" },
+    { name: "EduFlow", industry: "Edtech" },
+    { name: "Indústria 4.0", industry: "Manufatura" },
+  ]}
+/>
+
+## 3 caminhos pra você começar em minutos
+
+### 1. Captura — extensão Chrome em 1 clique
+
+Você instala a extensão, abre seu SaaS, clica em "gravar". A DemoBR tira screenshots, captura cliques e hotspots — sem HTML clone pesado, sem servidor fantasma rodando. Cada step vira um ponto clicável no player.
+
+### 2. Play — player que fala português
+
+O player abre rápido, mostra passo a passo, dispara narração TTS se você quiser, tem banner LGPD por padrão, formulário de lead quando configurado e CTA WhatsApp nativo. Tudo responsivo, embedrável em qualquer página.
+
+### 3. Share — link público, embed ou QR
+
+Cada demo vira um link público `demobr.com.br/d/seu-slug`. Funciona como embed (iframe), link aberto, ou QR Code pra imprimir em material de evento. Analytics anônimo por padrão, opt-in com 1 clique.
+
+<FeatureHighlights
+  features={[
+    {
+      title: "Captura em 1 clique",
+      body: "Extensão Chrome MV3 grava screenshots + hotspot. Sem HTML clone pesado.",
+      icon: "capture",
+    },
+    {
+      title: "Player PT-BR-first",
+      body: "Player responsivo, banner LGPD, analytics opt-out, CTA WhatsApp nativo.",
+      icon: "play",
+    },
+    {
+      title: "Compartilhe onde quiser",
+      body: "Link público, embed iframe, QR Code, lead form LGPD. Sem cartão pra começar.",
+      icon: "share",
+    },
+  ]}
+/>
+
+## Veja demos reais rodando
+
+<DemoShowcase
+  items={[
+    {
+      title: "Tour do SaaS de exemplo",
+      description: "7 passos cobrindo cadastro, dashboard e fluxo de aprovação.",
+      image: "/og-default.svg",
+      href: "/d/exemplo-tour",
+    },
+    {
+      title: "Onboarding de um CRM BR",
+      description: "5 passos, narração em pt-BR, formulário de lead ao final.",
+      image: "/og-default.svg",
+      href: "/d/crm-onboarding",
+    },
+    {
+      title: "Demonstração de pagamento PIX",
+      description: "4 passos mostrando checkout e confirmação de pagamento.",
+      image: "/og-default.svg",
+      href: "/d/pix-checkout",
+    },
+  ]}
+/>
+
+## Preços simples, em R$, sem surpresa
+
+- **Free** — R$ 0. 3 demos publicados, 50 views/mês. Sem cartão.
+- **Pro** — R$ 49/mês. Demos ilimitados, 5.000 views/mês, formulário de lead LGPD, embed + API REST.
+- **Business** — R$ 199/mês. Tudo do Pro + 3 membros, domínio customizado, branching, white-label, CRM BR.
+
+<PricingTeaser
+  plans={[
+    { name: "Free", priceLabel: "R$ 0", cadence: "/mês", ctaHref: "/sign-up" },
+    { name: "Pro", priceLabel: "R$ 49", cadence: "/mês", ctaHref: "/sign-up?plan=pro", highlighted: true },
+    { name: "Business", priceLabel: "R$ 199", cadence: "/mês", ctaHref: "/sign-up?plan=business" },
+  ]}
+/>
+
+## Seu próximo demo fica pronto em 5 minutos.
+
+Não tem cartão, não tem setup call, não tem "fale com vendas" pra começar. Instala a extensão, grava 30 segundos, publica. Você assiste o próprio demo rodando antes de salvar.
+
+<FinalCta
+  title="Comece grátis agora."
+  subtitle="3 demos publicados, sem cartão."
+  primaryCta={{ label: "Criar minha demo", href: "/sign-up" }}
+  secondaryCta={{ label: "Ver demo de exemplo", href: "/d/exemplo-tour" }}
+/>
