@@ -6,7 +6,7 @@
 # -----------------------------------------------------------------------------
 # Stage 1 — deps (pnpm install completo, devDeps)
 # -----------------------------------------------------------------------------
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
 WORKDIR /repo
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* tsconfig.json ./
@@ -28,7 +28,7 @@ RUN pnpm --filter workers build
 # -----------------------------------------------------------------------------
 # Stage 3 — runtime (Alpine, non-root)
 # -----------------------------------------------------------------------------
-FROM node:22-alpine AS runtime
+FROM node:26-alpine AS runtime
 LABEL org.opencontainers.image.title="demobr-worker" \
       org.opencontainers.image.source="https://github.com/demobr/demobr" \
       org.opencontainers.image.licenses="Proprietary"
