@@ -1,21 +1,10 @@
 "use client";
 
-import * as React from "react";
-import {
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
-  Minimize2,
-  RotateCw,
-  Move,
-} from "lucide-react";
-import {
-  HotspotPicker,
-  hotspotFromStep,
-  type HotspotPickerHotspot,
-} from "./HotspotPicker";
-import type { Step, HotspotType } from "@demo.br/shared";
 import { useTranslate } from "@/lib/i18n";
+import type { HotspotType, Step } from "@demo.br/shared";
+import { Maximize2, Minimize2, Move, RotateCw, ZoomIn, ZoomOut } from "lucide-react";
+import * as React from "react";
+import { HotspotPicker, type HotspotPickerHotspot, hotspotFromStep } from "./HotspotPicker";
 
 /**
  * StepCanvas — container central do editor.
@@ -105,9 +94,7 @@ export function StepCanvas({
     [step],
   );
 
-  const transitionClass = reduceMotion
-    ? ""
-    : "transition-[transform] duration-200 ease-out";
+  const transitionClass = reduceMotion ? "" : "transition-[transform] duration-200 ease-out";
 
   return (
     <div
@@ -120,11 +107,7 @@ export function StepCanvas({
     >
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-2 border-b border-border bg-muted/40 px-3 py-2">
-        <div
-          className="flex items-center gap-1"
-          role="group"
-          aria-label={t("editor.canvas.zoom")}
-        >
+        <div className="flex items-center gap-1" role="group" aria-label={t("editor.canvas.zoom")}>
           <button
             type="button"
             onClick={() => {
@@ -132,15 +115,12 @@ export function StepCanvas({
               if (idx > 0) setZoom(ZOOM_STEPS[idx - 1] ?? 100);
             }}
             disabled={zoom === ZOOM_STEPS[0]}
-            aria-label={t("editor.canvas.zoom") + " -"
-            }
+            aria-label={t("editor.canvas.zoom") + " -"}
             className="rounded p-1 hover:bg-muted disabled:opacity-30"
           >
             <ZoomOut className="h-4 w-4" />
           </button>
-          <span className="min-w-[3rem] text-center text-xs font-medium">
-            {zoom}%
-          </span>
+          <span className="min-w-[3rem] text-center text-xs font-medium">{zoom}%</span>
           <button
             type="button"
             onClick={() => {
@@ -177,9 +157,7 @@ export function StepCanvas({
             aria-pressed={panMode}
             aria-label={t("editor.canvas.pan")}
             className={`rounded p-1 ${
-              panMode
-                ? "bg-primary text-primary-foreground"
-                : "hover:bg-muted"
+              panMode ? "bg-primary text-primary-foreground" : "hover:bg-muted"
             }`}
           >
             <Move className="h-4 w-4" />
@@ -196,17 +174,11 @@ export function StepCanvas({
             type="button"
             onClick={toggleFullscreen}
             aria-label={
-              fullscreen
-                ? t("editor.canvas.exitFullscreen")
-                : t("editor.canvas.fullscreen")
+              fullscreen ? t("editor.canvas.exitFullscreen") : t("editor.canvas.fullscreen")
             }
             className="rounded p-1 hover:bg-muted"
           >
-            {fullscreen ? (
-              <Minimize2 className="h-4 w-4" />
-            ) : (
-              <Maximize2 className="h-4 w-4" />
-            )}
+            {fullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
         </div>
       </div>

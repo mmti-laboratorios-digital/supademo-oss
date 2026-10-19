@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+import { Client } from "pg";
 /**
  * apps/web/app/api/__tests__/demos-api.integration.test.ts
  *
@@ -6,9 +8,7 @@
  *
  * Pré-requisito: container docker supademo-test + schema aplicado.
  */
-import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { Client } from "pg";
-import { randomUUID } from "node:crypto";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const APP_OWNER_URL =
   process.env.DATABASE_URL?.replace("app_user", "app_owner") ??
@@ -33,9 +33,7 @@ beforeAll(async () => {
   adminClient = new Client({ connectionString: APP_OWNER_URL });
   await adminClient.connect();
   await adminClient.query("DELETE FROM app.demos WHERE slug LIKE 'api-int-%'");
-  await adminClient.query(
-    "DELETE FROM app.workspaces WHERE slug LIKE 'api-int-%'",
-  );
+  await adminClient.query("DELETE FROM app.workspaces WHERE slug LIKE 'api-int-%'");
 
   const a = await adminClient.query<{ id: string }>(
     `INSERT INTO app.workspaces (slug, name, plan_id)
@@ -51,10 +49,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await adminClient.query(
-    "DELETE FROM app.demos WHERE workspace_id IN ($1, $2)",
-    [workspaceAId, workspaceBId],
-  );
+  await adminClient.query("DELETE FROM app.demos WHERE workspace_id IN ($1, $2)", [
+    workspaceAId,
+    workspaceBId,
+  ]);
   await adminClient.query("DELETE FROM app.workspaces WHERE id IN ($1, $2)", [
     workspaceAId,
     workspaceBId,
@@ -165,10 +163,7 @@ describe("/api/v1/demos — GET (RLS via tenant scope)", () => {
       role: "owner" as const,
     });
     const { GET } = await import("../v1/demos/route");
-    const req = new Request(
-      "http://localhost/api/v1/demos?limit=100",
-      { method: "GET" },
-    );
+    const req = new Request("http://localhost/api/v1/demos?limit=100", { method: "GET" });
     const res = await GET(req);
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -184,10 +179,7 @@ describe("/api/v1/demos — GET (RLS via tenant scope)", () => {
       role: "owner" as const,
     });
     const { GET } = await import("../v1/demos/route");
-    const req = new Request(
-      "http://localhost/api/v1/demos?limit=invalid",
-      { method: "GET" },
-    );
+    const req = new Request("http://localhost/api/v1/demos?limit=invalid", { method: "GET" });
     const res = await GET(req);
     expect(res.status).toBe(400);
   });

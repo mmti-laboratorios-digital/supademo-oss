@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 /**
  * 404 page. Includes an inline search affordance and 6 suggested pages.
@@ -27,12 +27,10 @@ export default function NotFound() {
         <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
           Erro 404
         </p>
-        <h1 className="mt-2 text-balance text-5xl font-bold md:text-6xl">
-          Página não encontrada.
-        </h1>
+        <h1 className="mt-2 text-balance text-5xl font-bold md:text-6xl">Página não encontrada.</h1>
         <p className="mt-3 max-w-xl text-muted-foreground">
-          A página que você procura não existe, foi movida ou está em um link
-          expirado. Use a busca abaixo ou confira nossas páginas principais.
+          A página que você procura não existe, foi movida ou está em um link expirado. Use a busca
+          abaixo ou confira nossas páginas principais.
         </p>
       </header>
 

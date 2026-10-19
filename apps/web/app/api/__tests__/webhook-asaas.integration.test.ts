@@ -1,3 +1,6 @@
+import { createHmac } from "node:crypto";
+import { randomUUID } from "node:crypto";
+import { Client } from "pg";
 /**
  * apps/web/app/api/__tests__/webhook-asaas.integration.test.ts
  *
@@ -8,10 +11,7 @@
  *  - Assinatura válida + PAYMENT_RECEIVED → 200, subscription atualizada
  *  - Mesmo event_id 2x → idempotente (1 efeito)
  */
-import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { Client } from "pg";
-import { createHmac } from "node:crypto";
-import { randomUUID } from "node:crypto";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const APP_USER_URL =
   process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
@@ -48,9 +48,7 @@ beforeAll(async () => {
   await adminClient.query(
     "DELETE FROM app.subscriptions WHERE asaas_subscription_id LIKE 'asaas_sub_test-%'",
   );
-  await adminClient.query(
-    "DELETE FROM app.workspaces WHERE slug LIKE 'wh-int-%'",
-  );
+  await adminClient.query("DELETE FROM app.workspaces WHERE slug LIKE 'wh-int-%'");
 
   // Cria workspace
   const w = await adminClient.query<{ id: string }>(
@@ -72,13 +70,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await adminClient.query(
-    "DELETE FROM app.subscriptions WHERE id = $1",
-    [subscriptionId],
-  );
-  await adminClient.query("DELETE FROM app.workspaces WHERE id = $1", [
-    workspaceId,
-  ]);
+  await adminClient.query("DELETE FROM app.subscriptions WHERE id = $1", [subscriptionId]);
+  await adminClient.query("DELETE FROM app.workspaces WHERE id = $1", [workspaceId]);
   await adminClient.end();
 });
 
@@ -86,10 +79,7 @@ function signPayload(rawBody: string): string {
   return createHmac("sha256", WEBHOOK_SECRET).update(rawBody).digest("hex");
 }
 
-async function postWebhook(
-  rawBody: string,
-  signature: string | null,
-): Promise<Response> {
+async function postWebhook(rawBody: string, signature: string | null): Promise<Response> {
   // Reset headers
   mockHeaders.clear();
   if (signature) {

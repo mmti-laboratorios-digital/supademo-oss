@@ -1,10 +1,10 @@
+import { members } from "@/db/schema/app";
+import { upsertWorkspaceFromClerk } from "@/lib/auth";
+import { getDb } from "@/lib/db";
+import { env } from "@/lib/env";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { upsertWorkspaceFromClerk } from "@/lib/auth";
-import { env } from "@/lib/env";
-import { getDb } from "@/lib/db";
-import { members } from "@/db/schema/app";
 
 export const runtime = "nodejs";
 

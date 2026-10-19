@@ -62,9 +62,7 @@
 /* Neobrutalism tokens (opt-in via .neobrutalism/ui) */
 @layer utilities {
   .neobrutalism {
-    --shadow-neobrutalism:
-      4px 4px 0 0 hsl(var(--foreground)),
-      8px 8px 0 0 hsl(var(--primary));
+    --shadow-neobrutalism: 4px 4px 0 0 hsl(var(--foreground)), 8px 8px 0 0 hsl(var(--primary));
   }
   .neobrutalism-card {
     @apply border-2 border-foreground bg-card shadow-[4px_4px_0_0_hsl(var(--foreground))];

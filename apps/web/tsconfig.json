@@ -7,40 +7,16 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/app/*": [
-        "./app/*"
-      ],
-      "@/components/*": [
-        "./components/*"
-      ],
-      "@/lib/*": [
-        "./lib/*"
-      ],
-      "@/server/*": [
-        "./server/*"
-      ],
-      "@/db/*": [
-        "./db/*"
-      ]
+      "@/*": ["./*"],
+      "@/app/*": ["./app/*"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/server/*": ["./server/*"],
+      "@/db/*": ["./db/*"]
     },
     "baseUrl": ".",
     "noEmit": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "scripts",
-    ".storybook",
-    "stories"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next", "dist", "scripts", ".storybook", "stories", "__tests__", "**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"]
 }

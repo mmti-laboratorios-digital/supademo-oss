@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { RotateCcw } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
+import { RotateCcw } from "lucide-react";
+import type * as React from "react";
 
 /**
  * ThemeEditor — editor de tema da demo.
@@ -61,9 +61,7 @@ export function ThemeEditor({
     return (
       <Card className="p-6">
         <h3 className="text-sm font-semibold">{t("editor.theme.title")}</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("editor.theme.upgradeRequired")}
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("editor.theme.upgradeRequired")}</p>
       </Card>
     );
   }
@@ -139,26 +137,21 @@ export function ThemeEditor({
             max={24}
             step={1}
             value={value.borderRadius}
-            onChange={(e) =>
-              onChange({ ...value, borderRadius: Number(e.target.value) })
-            }
+            onChange={(e) => onChange({ ...value, borderRadius: Number(e.target.value) })}
             className="w-full"
           />
         </div>
       </Card>
 
       <Card className="space-y-3 p-4">
-        <h3 className="text-sm font-semibold">
-          {t("editor.theme.previewLabel")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.theme.previewLabel")}</h3>
         <div
           className="overflow-hidden rounded-lg border"
           style={{
             background: value.bg,
             color: value.text,
             borderRadius: `${value.borderRadius}px`,
-            fontFamily:
-              FONTS.find((f) => f.id === value.font)?.stack ?? "system-ui",
+            fontFamily: FONTS.find((f) => f.id === value.font)?.stack ?? "system-ui",
           }}
         >
           <div className="space-y-3 p-4">
@@ -174,8 +167,8 @@ export function ThemeEditor({
             </div>
             <h4 className="text-lg font-semibold">Como sua demo vai parecer</h4>
             <p className="text-sm opacity-80">
-              Esta é uma prévia ao vivo das cores e tipografia escolhidas.
-              O player público usará exatamente este tema.
+              Esta é uma prévia ao vivo das cores e tipografia escolhidas. O player público usará
+              exatamente este tema.
             </p>
             <div className="flex gap-2">
               <button
@@ -219,9 +212,7 @@ function ColorRow({
 }): React.ReactElement {
   return (
     <div className="flex items-center gap-3">
-      <label className="flex-1 text-xs font-medium text-muted-foreground">
-        {label}
-      </label>
+      <label className="flex-1 text-xs font-medium text-muted-foreground">{label}</label>
       <input
         type="color"
         value={value}

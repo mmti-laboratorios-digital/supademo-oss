@@ -1,5 +1,5 @@
-import type { Task } from "graphile-worker";
 import { ImageResponse } from "@vercel/og";
+import type { Task } from "graphile-worker";
 
 /**
  * generate_og — gera Open Graph image (1200x630) para um demo.

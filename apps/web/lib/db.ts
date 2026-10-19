@@ -1,7 +1,7 @@
-import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import { sql } from "drizzle-orm";
 import * as schema from "@/db/schema";
+import { sql } from "drizzle-orm";
+import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import { env } from "./env";
 
 /**
@@ -72,17 +72,14 @@ export async function withTenant<T>(
     return await db.transaction(async (tx) => {
       // SET LOCAL não aceita parâmetros via placeholder — usamos set_config().
       // UUID validado por regex para impedir SQL injection via orgId.
-      const safeOrgId =
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-          orgId,
-        )
-          ? orgId
-          : (() => {
-              throw new Error("Invalid orgId (must be UUID)");
-            })();
-      await tx.execute(
-        sql.raw(`SET LOCAL app.current_tenant_id = '${safeOrgId}'`),
-      );
+      const safeOrgId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        orgId,
+      )
+        ? orgId
+        : (() => {
+            throw new Error("Invalid orgId (must be UUID)");
+          })();
+      await tx.execute(sql.raw(`SET LOCAL app.current_tenant_id = '${safeOrgId}'`));
       return await fn(tx as unknown as PostgresJsDatabase<typeof schema>);
     });
   } finally {

@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
+import type * as React from "react";
 
 /**
  * LeadFormEditor — configuração do formulário de lead.
@@ -50,9 +50,7 @@ export function LeadFormEditor({
     return (
       <Card className="p-6">
         <h3 className="text-sm font-semibold">{t("editor.leadForm.title")}</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("editor.leadForm.upgradeRequired")}
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">{t("editor.leadForm.upgradeRequired")}</p>
       </Card>
     );
   }
@@ -93,9 +91,7 @@ export function LeadFormEditor({
               key={f.id}
               className="flex items-center justify-between rounded border border-border/60 px-3 py-2"
             >
-              <span className="text-sm">
-                {t(`editor.leadForm.field${cap(f.id)}`)}
-              </span>
+              <span className="text-sm">{t(`editor.leadForm.field${cap(f.id)}`)}</span>
               <div className="flex items-center gap-3 text-xs">
                 <label className="flex items-center gap-1">
                   <input
@@ -123,10 +119,7 @@ export function LeadFormEditor({
 
         <div>
           <div className="mb-1 flex items-center justify-between">
-            <label
-              htmlFor="lead-consent"
-              className="text-xs font-medium text-muted-foreground"
-            >
+            <label htmlFor="lead-consent" className="text-xs font-medium text-muted-foreground">
               {t("editor.leadForm.consentText")}
             </label>
             <button
@@ -140,9 +133,7 @@ export function LeadFormEditor({
           <textarea
             id="lead-consent"
             value={value.consentText}
-            onChange={(e) =>
-              onChange({ ...value, consentText: e.target.value })
-            }
+            onChange={(e) => onChange({ ...value, consentText: e.target.value })}
             rows={4}
             className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs"
           />
@@ -150,13 +141,9 @@ export function LeadFormEditor({
       </Card>
 
       <Card className="space-y-3 p-4">
-        <h3 className="text-sm font-semibold">
-          {t("editor.leadForm.previewLabel")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.leadForm.previewLabel")}</h3>
         <div className="rounded-md border border-border bg-card p-4">
-          <h4 className="mb-3 text-base font-semibold">
-            {t("player.leadFormTitle")}
-          </h4>
+          <h4 className="mb-3 text-base font-semibold">{t("player.leadFormTitle")}</h4>
           {value.fields
             .filter((f) => f.enabled)
             .map((f) => (
@@ -168,9 +155,7 @@ export function LeadFormEditor({
                       *
                     </span>
                   ) : (
-                    <span className="ml-1 text-muted-foreground">
-                      ({t("common.optional")})
-                    </span>
+                    <span className="ml-1 text-muted-foreground">({t("common.optional")})</span>
                   )}
                 </label>
                 <input
@@ -179,9 +164,7 @@ export function LeadFormEditor({
                 />
               </div>
             ))}
-          <p className="mt-3 text-xs text-muted-foreground">
-            {value.consentText}
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">{value.consentText}</p>
           <button
             type="button"
             disabled

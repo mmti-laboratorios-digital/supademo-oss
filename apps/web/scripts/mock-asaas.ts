@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 /* eslint-disable no-console */
 /**
  * apps/web/scripts/mock-asaas.ts
@@ -25,14 +26,19 @@
  *   ...
  *   await server.stop();
  */
-import { createServer, type Server, type IncomingMessage, type ServerResponse } from "node:http";
-import { randomUUID } from "node:crypto";
+import { type IncomingMessage, type Server, type ServerResponse, createServer } from "node:http";
 
 // -----------------------------------------------------------------------------
 // Types — mirrors the real Asaas v3 schema for the subset we use.
 // -----------------------------------------------------------------------------
 type BillingType = "CREDIT_CARD" | "PIX" | "BOLETO" | "UNDEFINED";
-type SubscriptionCycle = "MONTHLY" | "YEARLY" | "WEEKLY" | "BIWEEKLY" | "QUARTERLY" | "SEMIANNUALLY";
+type SubscriptionCycle =
+  | "MONTHLY"
+  | "YEARLY"
+  | "WEEKLY"
+  | "BIWEEKLY"
+  | "QUARTERLY"
+  | "SEMIANNUALLY";
 
 type AsaasCustomer = {
   id: string;
@@ -149,7 +155,13 @@ async function handleCreateCustomer(ctx: Ctx): Promise<void> {
 async function handleCreateSubscription(ctx: Ctx): Promise<void> {
   const { res, store, body } = ctx;
   const b = body as Partial<AsaasSubscription>;
-  if (!b?.customer || !b?.billingType || typeof b?.value !== "number" || !b?.cycle || !b?.nextDueDate) {
+  if (
+    !b?.customer ||
+    !b?.billingType ||
+    typeof b?.value !== "number" ||
+    !b?.cycle ||
+    !b?.nextDueDate
+  ) {
     return sendError(
       res,
       400,
@@ -225,7 +237,12 @@ async function handleCreatePayment(ctx: Ctx): Promise<void> {
     return sendError(res, 404, "customer_not_found", `Customer ${b.customer} does not exist`);
   }
   if (b.subscription && !store.subscriptions.has(b.subscription)) {
-    return sendError(res, 404, "subscription_not_found", `Subscription ${b.subscription} does not exist`);
+    return sendError(
+      res,
+      404,
+      "subscription_not_found",
+      `Subscription ${b.subscription} does not exist`,
+    );
   }
   const id = `pay_${randomUUID().slice(0, 14)}`;
   const payment: AsaasPayment = {
@@ -282,7 +299,8 @@ export async function startMockAsaas(opts: StartOptions = {}): Promise<MockAsaas
         res.writeHead(204, {
           "access-control-allow-origin": "*",
           "access-control-allow-methods": "GET,POST,DELETE,OPTIONS",
-          "access-control-allow-headers": "content-type,access_token,asaas-access-token,asaas-signature",
+          "access-control-allow-headers":
+            "content-type,access_token,asaas-access-token,asaas-signature",
         });
         return res.end();
       }

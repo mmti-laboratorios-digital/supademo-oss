@@ -59,15 +59,9 @@ export type RedactOptions = {
  * para anotar bounds precisas em pixels. Caso contrário, retorna bounds
  * estimadas a partir do texto puro (não normalizado).
  */
-export function redactPII(
-  text: string,
-  options: RedactOptions = {},
-): PiiRect[] {
+export function redactPII(text: string, options: RedactOptions = {}): PiiRect[] {
   const out: PiiRect[] = [];
-  for (const [kind, regex] of Object.entries(PATTERNS) as [
-    PiiKind,
-    RegExp,
-  ][]) {
+  for (const [kind, regex] of Object.entries(PATTERNS) as [PiiKind, RegExp][]) {
     regex.lastIndex = 0;
     let m: RegExpExecArray | null;
     while ((m = regex.exec(text)) !== null) {
@@ -99,10 +93,7 @@ export function redactPII(
  */
 export function detectPIIKind(text: string): PiiKind[] {
   const kinds: PiiKind[] = [];
-  for (const [kind, regex] of Object.entries(PATTERNS) as [
-    PiiKind,
-    RegExp,
-  ][]) {
+  for (const [kind, regex] of Object.entries(PATTERNS) as [PiiKind, RegExp][]) {
     regex.lastIndex = 0;
     if (regex.test(text)) kinds.push(kind);
     regex.lastIndex = 0;
@@ -119,9 +110,7 @@ function findWordBounds(
   _charIndex: number,
   _length: number,
   words: OcrWordLike[],
-): PiiRect["x"] extends number
-  ? { x: number; y: number; w: number; h: number }
-  : never {
+): PiiRect["x"] extends number ? { x: number; y: number; w: number; h: number } : never {
   // Estratégia simplificada: pega o primeiro word cujo text esteja contido
   // no match. Para o uso em testes usamos fallback para estimateBounds.
   const w = words[0];
@@ -150,10 +139,7 @@ function estimateBounds(text: string): {
  */
 export function maskForLog(text: string): string {
   let out = text;
-  for (const [kind, regex] of Object.entries(PATTERNS) as [
-    PiiKind,
-    RegExp,
-  ][]) {
+  for (const [kind, regex] of Object.entries(PATTERNS) as [PiiKind, RegExp][]) {
     out = out.replace(regex, `[REDACTED:${kind}]`);
   }
   return out;

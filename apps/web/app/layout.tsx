@@ -10,9 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.APP_BASE_URL ?? "http://localhost:3000",
-  ),
+  metadataBase: new URL(process.env.APP_BASE_URL ?? "http://localhost:3000"),
   title: {
     default: "DemoBR — Demos interativas em PT-BR com PIX e LGPD",
     template: "%s · DemoBR",
@@ -21,13 +19,7 @@ export const metadata: Metadata = {
     "Crie demos interativas do seu produto SaaS em minutos. Player PT-BR, pagamento PIX/boleto via Asaas, conformidade LGPD ponta a ponta.",
   applicationName: "DemoBR",
   authors: [{ name: "DemoBR" }],
-  keywords: [
-    "demo interativa",
-    "tour interativo",
-    "saas",
-    "pixel brasileiro",
-    "lgpd",
-  ],
+  keywords: ["demo interativa", "tour interativo", "saas", "pixel brasileiro", "lgpd"],
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -69,9 +61,7 @@ export default function RootLayout({
       }}
     >
       <html lang="pt-BR" suppressHydrationWarning className={inter.variable}>
-        <body className="min-h-dvh font-sans antialiased">
-          {children}
-        </body>
+        <body className="min-h-dvh font-sans antialiased">{children}</body>
       </html>
     </ClerkProvider>
   );

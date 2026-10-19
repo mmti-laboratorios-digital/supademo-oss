@@ -16,10 +16,7 @@ export type UploadResult = {
   errors: string[];
 };
 
-export async function uploadQueue(
-  demoId: string,
-  steps: StoredStep[],
-): Promise<UploadResult> {
+export async function uploadQueue(demoId: string, steps: StoredStep[]): Promise<UploadResult> {
   const api = getApi();
   let uploaded = 0;
   let failed = 0;

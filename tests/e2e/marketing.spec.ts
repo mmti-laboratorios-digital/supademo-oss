@@ -4,7 +4,7 @@
  * Cobertura E2E das páginas de marketing.
  * Assume pnpm dev rodando em :3000.
  */
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Marketing pages", () => {
   test("Carrega / e tem CTA para /sign-up ou /pricing", async ({ page }) => {
@@ -27,9 +27,7 @@ test.describe("Marketing pages", () => {
     expect(linkToSignUp || linkToPricing).toBe(true);
   });
 
-  test("Carrega /pricing e vê 3 tiers (Free, Pro, Business)", async ({
-    page,
-  }) => {
+  test("Carrega /pricing e vê 3 tiers (Free, Pro, Business)", async ({ page }) => {
     await page.goto("/pricing", { waitUntil: "domcontentloaded" });
     const body = await page.locator("body").textContent();
     expect(body).toBeTruthy();
@@ -39,9 +37,7 @@ test.describe("Marketing pages", () => {
     expect(body!.toLowerCase()).toContain("business");
   });
 
-  test("Carrega /d/inexistente — não é 200 (pode ser 400/404)", async ({
-    page,
-  }) => {
+  test("Carrega /d/inexistente — não é 200 (pode ser 400/404)", async ({ page }) => {
     const response = await page.goto("/d/esse-slug-nao-existe-de-jeito-nenhum", {
       waitUntil: "domcontentloaded",
     });

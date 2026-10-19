@@ -16,7 +16,13 @@
  */
 
 import { performance as perf } from "node:perf_hooks";
-import { S3Client, PutObjectCommand, GetObjectCommand, CreateBucketCommand, HeadBucketCommand } from "@aws-sdk/client-s3";
+import {
+  CreateBucketCommand,
+  GetObjectCommand,
+  HeadBucketCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const SAMPLES = Number(process.env.SAMPLES ?? "20");
@@ -52,7 +58,12 @@ function fmt(s: Stats): string {
 }
 
 // ----- (A) Benchmark de TTFB contra CDN público do R2 -----
-async function benchCdn(): Promise<{ host: string; bytes: number; stats: Stats; samples: number } | null> {
+async function benchCdn(): Promise<{
+  host: string;
+  bytes: number;
+  stats: Stats;
+  samples: number;
+} | null> {
   if (!CDN_HOST) return null;
   const url = `https://${CDN_HOST}/cdn-cgi/trace`; // endpoint leve para TTFB
   const samples: number[] = [];
@@ -77,7 +88,12 @@ async function benchObjectStore(opts: {
   secretKey: string;
   bucket: string;
   forcePathStyle: boolean;
-}): Promise<{ label: string; perSize: Record<string, Stats>; putSignedMs: Stats; getSignedMs: Stats } | null> {
+}): Promise<{
+  label: string;
+  perSize: Record<string, Stats>;
+  putSignedMs: Stats;
+  getSignedMs: Stats;
+} | null> {
   if (!opts.endpoint || !opts.accessKey) return null;
   const client = new S3Client({
     endpoint: opts.endpoint,
@@ -117,7 +133,11 @@ async function benchObjectStore(opts: {
       const signedPutT0 = perf.now();
       const putUrl = await getSignedUrl(
         client,
-        new PutObjectCommand({ Bucket: opts.bucket, Key: key, ContentType: "application/octet-stream" }),
+        new PutObjectCommand({
+          Bucket: opts.bucket,
+          Key: key,
+          ContentType: "application/octet-stream",
+        }),
         { expiresIn: 60 },
       );
       putSignedMs.push(perf.now() - signedPutT0);

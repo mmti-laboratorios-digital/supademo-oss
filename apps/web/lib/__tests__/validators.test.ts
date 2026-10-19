@@ -1,15 +1,12 @@
+import { demoCreateSchema, leadCreateSchema } from "@demo.br/shared";
+import type { EventType } from "@demo.br/shared";
 /**
  * apps/web/lib/__tests__/validators.test.ts
  *
  * Valida os zod schemas canônicos do @demo.br/shared.
  * Cobre: Demo slug regex, Lead consent+email, Event eventType.
  */
-import { describe, it, expect } from "vitest";
-import {
-  demoCreateSchema,
-  leadCreateSchema,
-} from "@demo.br/shared";
-import type { EventType } from "@demo.br/shared";
+import { describe, expect, it } from "vitest";
 
 const VALID_EVENT_TYPES: EventType[] = [
   "view",
@@ -128,8 +125,7 @@ describe("Event validator", () => {
   it("rejeita eventType não-string", () => {
     const invalid: unknown[] = [123, null, { type: "view" }];
     for (const v of invalid) {
-      const isValid =
-        typeof v === "string" && VALID_EVENT_TYPES.includes(v as EventType);
+      const isValid = typeof v === "string" && VALID_EVENT_TYPES.includes(v as EventType);
       expect(isValid).toBe(false);
     }
   });

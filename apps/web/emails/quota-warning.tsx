@@ -1,5 +1,5 @@
+import { Button, Heading, Hr, Section, Text } from "@react-email/components";
 import * as React from "react";
-import { Heading, Text, Button, Section, Hr } from "@react-email/components";
 import { EmailLayout } from "./_layout";
 
 export type QuotaMetric = {
@@ -50,17 +50,13 @@ export function QuotaWarningEmail({
       </Heading>
 
       <Text className="mt-3 leading-6 text-ink-muted">
-        {firstName ? `Oi, ${firstName}.` : "Oi."} O workspace{" "}
-        <strong>{workspaceName}</strong> já usou{" "}
-        <strong>{percentUsed}%</strong> da cota mensal do plano{" "}
-        <strong>{planName}</strong>. Quando chegar a 100%, alguns recursos
-        param de funcionar até o próximo ciclo.
+        {firstName ? `Oi, ${firstName}.` : "Oi."} O workspace <strong>{workspaceName}</strong> já
+        usou <strong>{percentUsed}%</strong> da cota mensal do plano <strong>{planName}</strong>.
+        Quando chegar a 100%, alguns recursos param de funcionar até o próximo ciclo.
       </Text>
 
       <Section className="my-6 rounded-md border border-surface-border bg-surface-muted p-4">
-        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">
-          Cota deste mês
-        </Text>
+        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">Cota deste mês</Text>
         <table
           cellPadding={0}
           cellSpacing={0}
@@ -74,13 +70,7 @@ export function QuotaWarningEmail({
             {metrics.map((m) => {
               const pct = Math.min(100, Math.round((m.used / m.limit) * 100));
               const pctColor =
-                pct >= 100
-                  ? "#E53E3E"
-                  : pct >= 90
-                    ? "#DD6B20"
-                    : pct >= 80
-                      ? "#D69E2E"
-                      : "#38B2AC";
+                pct >= 100 ? "#E53E3E" : pct >= 90 ? "#DD6B20" : pct >= 80 ? "#D69E2E" : "#38B2AC";
               return (
                 <tr key={m.label}>
                   <td
@@ -143,8 +133,8 @@ export function QuotaWarningEmail({
 
       <Hr className="my-6 border-surface-border" />
       <Text className="m-0 text-xs text-ink-subtle">
-        Lembrando: clientes Pro têm garantia de 14 dias. Se você fizer upgrade
-        e em até 14 dias não gostar, devolvemos seu dinheiro.
+        Lembrando: clientes Pro têm garantia de 14 dias. Se você fizer upgrade e em até 14 dias não
+        gostar, devolvemos seu dinheiro.
       </Text>
     </EmailLayout>
   );

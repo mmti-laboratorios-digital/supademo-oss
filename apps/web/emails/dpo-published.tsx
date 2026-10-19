@@ -1,5 +1,5 @@
+import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
-import { Heading, Text, Button, Section } from "@react-email/components";
 import { EmailLayout } from "./_layout";
 
 export type DpoPublishedEmailProps = {
@@ -43,25 +43,19 @@ export function DpoPublishedEmail({
 
       <Text className="mt-3 leading-6 text-ink-muted">
         {firstName ? `Oi, ${firstName}.` : "Oi."} Acabamos de publicar{" "}
-        <strong>"{demoTitle}"</strong>. O link já tá funcionando e o player
-        carrega em &lt; 2s pela CDN global.
+        <strong>"{demoTitle}"</strong>. O link já tá funcionando e o player carrega em &lt; 2s pela
+        CDN global.
       </Text>
 
       <Section className="my-6 rounded-md border border-surface-border bg-surface-muted p-4">
-        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">
-          Link público
-        </Text>
+        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">Link público</Text>
         <Text className="mt-1 mb-0 break-all font-mono text-sm text-ink">
           <a href={publishedUrl} className="text-brand-primary underline">
             {publishedUrl}
           </a>
         </Text>
-        <Text className="mt-4 m-0 text-xs uppercase tracking-wider text-ink-subtle">
-          Slug
-        </Text>
-        <Text className="mt-1 mb-0 font-mono text-sm text-ink">
-          demobr.com.br/d/{demoSlug}
-        </Text>
+        <Text className="mt-4 m-0 text-xs uppercase tracking-wider text-ink-subtle">Slug</Text>
+        <Text className="mt-1 mb-0 font-mono text-sm text-ink">demobr.com.br/d/{demoSlug}</Text>
       </Section>
 
       <Section className="mt-6 text-center">
@@ -81,13 +75,11 @@ export function DpoPublishedEmail({
         Embed em qualquer página
       </Heading>
       <Text className="m-0 leading-6 text-ink-muted">
-        Cole este snippet no seu site, blog, Notion ou landing page (aceita
-        Webflow, Framer, WordPress):
+        Cole este snippet no seu site, blog, Notion ou landing page (aceita Webflow, Framer,
+        WordPress):
       </Text>
       <Section className="my-4 rounded-md border border-surface-border bg-surface-muted p-4">
-        <Text className="m-0 break-all font-mono text-xs text-ink">
-          {embedCode}
-        </Text>
+        <Text className="m-0 break-all font-mono text-xs text-ink">{embedCode}</Text>
       </Section>
 
       <Text className="mt-6 text-sm text-ink-subtle">

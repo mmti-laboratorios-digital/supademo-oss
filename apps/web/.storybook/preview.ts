@@ -1,5 +1,5 @@
 import type { Preview } from "@storybook/react";
-import { I18nProvider } from "../lib/i18n";
+import type { I18nProvider } from "../lib/i18n";
 
 /**
  * Decorators globais: wrap em I18nProvider para t() funcionar nas stories.

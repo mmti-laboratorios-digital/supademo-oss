@@ -1,6 +1,6 @@
+import { workspaces } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import { workspaces } from "@/db/schema/app";
 import { eq } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
@@ -8,11 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function WorkspaceSettingsPage() {
   const { orgId } = await requireAuth();
   const [ws] = await withTenant(orgId, async (db) =>
-    db
-      .select()
-      .from(workspaces)
-      .where(eq(workspaces.id, orgId))
-      .limit(1),
+    db.select().from(workspaces).where(eq(workspaces.id, orgId)).limit(1),
   );
 
   return (

@@ -18,8 +18,7 @@ export default defineConfig({
   manifestVersion: 3,
   manifest: {
     name: "DemoBR Capture",
-    description:
-      "Capture interativa de demos SaaS — screenshots, hotspot, link permanente.",
+    description: "Capture interativa de demos SaaS — screenshots, hotspot, link permanente.",
     permissions: ["activeTab", "storage", "scripting"],
     host_permissions: ["<all_urls>"],
     content_security_policy: {

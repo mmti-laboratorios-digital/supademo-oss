@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
+import type * as React from "react";
 
 /**
  * CtaEditor — configuração do CTA final.
@@ -28,7 +28,10 @@ export type CtaEditorProps = {
   onChange: (next: FinalCtaConfig) => void;
 };
 
-const TYPES: Array<{ id: FinalCtaType; i18n: "typeWhatsapp" | "typeLink" | "typeEmail" | "typeCalendly" }> = [
+const TYPES: Array<{
+  id: FinalCtaType;
+  i18n: "typeWhatsapp" | "typeLink" | "typeEmail" | "typeCalendly";
+}> = [
   { id: "whatsapp", i18n: "typeWhatsapp" },
   { id: "link", i18n: "typeLink" },
   { id: "email", i18n: "typeEmail" },
@@ -42,10 +45,7 @@ const DEFAULT_LABELS: Record<FinalCtaType, { pt: string; en: string }> = {
   calendly: { pt: "Agendar reunião", en: "Book a meeting" },
 };
 
-export function CtaEditor({
-  value,
-  onChange,
-}: CtaEditorProps): React.ReactElement {
+export function CtaEditor({ value, onChange }: CtaEditorProps): React.ReactElement {
   const t = useTranslate();
   const current: FinalCtaConfig = value ?? {
     type: "whatsapp",
@@ -55,9 +55,7 @@ export function CtaEditor({
 
   const setType = (type: FinalCtaType) => {
     const locale =
-      typeof navigator !== "undefined" && navigator.language.startsWith("en")
-        ? "en"
-        : "pt";
+      typeof navigator !== "undefined" && navigator.language.startsWith("en") ? "en" : "pt";
     onChange({
       ...current,
       type,
@@ -69,17 +67,14 @@ export function CtaEditor({
 
   const setValue = (val: string) => onChange({ ...current, value: val });
   const setLabel = (lab: string) => onChange({ ...current, label: lab });
-  const setMessage = (msg: string) =>
-    onChange({ ...current, whatsappMessage: msg });
+  const setMessage = (msg: string) => onChange({ ...current, whatsappMessage: msg });
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="space-y-4 p-4">
         <header>
           <h3 className="text-sm font-semibold">{t("editor.cta.title")}</h3>
-          <p className="text-xs text-muted-foreground">
-            {t("editor.cta.subtitle")}
-          </p>
+          <p className="text-xs text-muted-foreground">{t("editor.cta.subtitle")}</p>
         </header>
 
         <fieldset role="radiogroup" aria-label={t("editor.cta.type")}>
@@ -133,9 +128,7 @@ export function CtaEditor({
       </Card>
 
       <Card className="space-y-3 p-4">
-        <h3 className="text-sm font-semibold">
-          {t("editor.cta.previewLabel")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.cta.previewLabel")}</h3>
         <CtaPreview config={current} t={t} />
       </Card>
     </div>
@@ -192,8 +185,8 @@ function TypeFields({
             className="w-full rounded-md border border-border bg-background px-3 py-2 text-xs"
           />
           <p className="mt-1 text-[10px] text-muted-foreground">
-            Variáveis disponíveis: <code>{`{{lead.name}}`}</code>,{" "}
-            <code>{`{{lead.email}}`}</code>, <code>{`{{product}}`}</code>
+            Variáveis disponíveis: <code>{`{{lead.name}}`}</code>, <code>{`{{lead.email}}`}</code>,{" "}
+            <code>{`{{product}}`}</code>
           </p>
         </div>
       </>
@@ -203,10 +196,7 @@ function TypeFields({
   if (type === "email") {
     return (
       <div>
-        <label
-          htmlFor="cta-email"
-          className="mb-1 block text-xs font-medium text-muted-foreground"
-        >
+        <label htmlFor="cta-email" className="mb-1 block text-xs font-medium text-muted-foreground">
           {t("editor.cta.value")}
         </label>
         <input
@@ -245,10 +235,7 @@ function TypeFields({
   // link
   return (
     <div>
-      <label
-        htmlFor="cta-url"
-        className="mb-1 block text-xs font-medium text-muted-foreground"
-      >
+      <label htmlFor="cta-url" className="mb-1 block text-xs font-medium text-muted-foreground">
         {t("editor.cta.value")}
       </label>
       <input

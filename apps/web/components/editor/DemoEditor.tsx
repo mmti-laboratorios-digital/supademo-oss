@@ -1,30 +1,20 @@
 "use client";
 
-import * as React from "react";
-import { z } from "zod";
-import { Save, Eye, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "@/lib/i18n";
-import { StepList } from "./StepList";
-import { StepCanvas } from "./StepCanvas";
-import {
-  HotspotPicker,
-  hotspotFromStep,
-  type HotspotPickerHotspot,
-} from "./HotspotPicker";
-import { ThemeEditor } from "./ThemeEditor";
-import { LeadFormEditor } from "./LeadFormEditor";
-import { CtaEditor } from "./CtaEditor";
-import { VariablesEditor } from "./VariablesEditor";
+import type { Demo, FinalCta, Hotspot, HotspotType, Step } from "@demo.br/shared";
+import { AlertCircle, Eye, Save } from "lucide-react";
+import * as React from "react";
+import { z } from "zod";
 import { BranchingEditor } from "./BranchingEditor";
+import { CtaEditor } from "./CtaEditor";
+import { HotspotPicker, type HotspotPickerHotspot, hotspotFromStep } from "./HotspotPicker";
+import { LeadFormEditor } from "./LeadFormEditor";
 import { PublishPanel } from "./PublishPanel";
-import type {
-  Demo,
-  Step,
-  Hotspot,
-  HotspotType,
-  FinalCta,
-} from "@demo.br/shared";
+import { StepCanvas } from "./StepCanvas";
+import { StepList } from "./StepList";
+import { ThemeEditor } from "./ThemeEditor";
+import { VariablesEditor } from "./VariablesEditor";
 
 /**
  * DemoEditor — orquestrador do editor.
@@ -65,26 +55,12 @@ const hotspotSchema = z.object({
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
 
-type EditorTab =
-  | "steps"
-  | "theme"
-  | "leadForm"
-  | "cta"
-  | "variables"
-  | "branching"
-  | "publish";
+type EditorTab = "steps" | "theme" | "leadForm" | "cta" | "variables" | "branching" | "publish";
 
 export type DemoEditorProps = {
   demo: Pick<
     Demo,
-    | "id"
-    | "title"
-    | "description"
-    | "finalCta"
-    | "language"
-    | "status"
-    | "slug"
-    | "leadFormEnabled"
+    "id" | "title" | "description" | "finalCta" | "language" | "status" | "slug" | "leadFormEnabled"
   >;
   initialSteps: Step[];
   workspaceSlug?: string;
@@ -125,16 +101,13 @@ export function DemoEditor({
   const [description, setDescription] = React.useState(demo.description ?? "");
   const [language] = React.useState<"pt-BR" | "en">(demo.language);
 
-  const [finalCtaState, setFinalCta] = React.useState<FinalCta | null>(
-    demo.finalCta,
-  );
+  const [finalCtaState, setFinalCta] = React.useState<FinalCta | null>(demo.finalCta);
 
   // Editor selection
   const [selectedStepId, setSelectedStepId] = React.useState<string | null>(
     initialSteps[0]?.id ?? null,
   );
-  const [selectedHotspotId, setSelectedHotspotId] =
-    React.useState<string | null>("primary");
+  const [selectedHotspotId, setSelectedHotspotId] = React.useState<string | null>("primary");
   const [tab, setTab] = React.useState<EditorTab>("steps");
 
   // Save state
@@ -190,17 +163,16 @@ export function DemoEditor({
   );
 
   // Publish panel
-  const [publishState, setPublishState] =
-    React.useState<PublishPanelStateLocal>({
-      slug: demo.slug,
-      slugTaken: false,
-      coverR2Key: null,
-      visibility: "public",
-      password: "",
-      status: demo.status === "published" ? "published" : "draft",
-      currentVersion,
-      versions,
-    });
+  const [publishState, setPublishState] = React.useState<PublishPanelStateLocal>({
+    slug: demo.slug,
+    slugTaken: false,
+    coverR2Key: null,
+    visibility: "public",
+    password: "",
+    status: demo.status === "published" ? "published" : "draft",
+    currentVersion,
+    versions,
+  });
 
   const selectedStep = React.useMemo(
     () => steps.find((s) => s.id === selectedStepId) ?? null,
@@ -215,12 +187,9 @@ export function DemoEditor({
 
   // ─────────── Mutations ───────────
 
-  const updateStep = React.useCallback(
-    (id: string, patch: Partial<Step>) => {
-      setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
-    },
-    [],
-  );
+  const updateStep = React.useCallback((id: string, patch: Partial<Step>) => {
+    setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
+  }, []);
 
   const handleReorder = React.useCallback((from: number, to: number) => {
     setSteps((prev) => {
@@ -260,20 +229,17 @@ export function DemoEditor({
   }, []);
 
   // Hotspot CRUD on selected step
-  const updateStepHotspot = React.useCallback(
-    (id: string, patch: Partial<Hotspot>) => {
-      setSteps((prev) =>
-        prev.map((s) => {
-          if (s.id !== id) return s;
-          return {
-            ...s,
-            hotspot: { ...s.hotspot, ...patch },
-          };
-        }),
-      );
-    },
-    [],
-  );
+  const updateStepHotspot = React.useCallback((id: string, patch: Partial<Hotspot>) => {
+    setSteps((prev) =>
+      prev.map((s) => {
+        if (s.id !== id) return s;
+        return {
+          ...s,
+          hotspot: { ...s.hotspot, ...patch },
+        };
+      }),
+    );
+  }, []);
 
   const handleCreateHotspot = React.useCallback(
     (geometry: { type: HotspotType; x: number; y: number; w?: number; h?: number }) => {
@@ -298,9 +264,7 @@ export function DemoEditor({
   const handleUpdateHotspot = React.useCallback(
     (_id: string, patch: Partial<HotspotPickerHotspot>) => {
       if (!selectedStep) return;
-      const geom = patch.geometry
-        ? { ...patch.geometry }
-        : selectedStep.hotspot.geometry;
+      const geom = patch.geometry ? { ...patch.geometry } : selectedStep.hotspot.geometry;
       const merged: Hotspot = {
         ...selectedStep.hotspot,
         ...patch,
@@ -397,9 +361,7 @@ export function DemoEditor({
     } catch (err) {
       console.error("[autosave]", err);
       setSaveStatus("error");
-      setLastError(
-        err instanceof Error ? err.message : t("errors.generic"),
-      );
+      setLastError(err instanceof Error ? err.message : t("errors.generic"));
     }
   }, [
     demo.id,
@@ -514,12 +476,7 @@ export function DemoEditor({
         </div>
         <div className="flex items-center gap-3">
           <SaveBadge status={saveStatus} savedAt={savedAt} error={lastError} />
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            aria-label={t("editor.previewInNewTab")}
-          >
+          <Button asChild variant="outline" size="sm" aria-label={t("editor.previewInNewTab")}>
             <a
               href={`/d/${publishState.slug}?preview=editor`}
               target="_blank"
@@ -553,15 +510,7 @@ export function DemoEditor({
         className="flex flex-wrap gap-1 border-b border-border bg-muted/40 px-4 py-1 text-xs"
       >
         {(
-          [
-            "steps",
-            "theme",
-            "leadForm",
-            "cta",
-            "variables",
-            "branching",
-            "publish",
-          ] as EditorTab[]
+          ["steps", "theme", "leadForm", "cta", "variables", "branching", "publish"] as EditorTab[]
         ).map((id) => (
           <button
             key={id}
@@ -613,12 +562,8 @@ export function DemoEditor({
               {selectedStep ? (
                 <StepInspector
                   step={selectedStep}
-                  onCaptionChange={(c) =>
-                    updateStep(selectedStep.id, { caption: c })
-                  }
-                  onHotspotChange={(patch) =>
-                    updateStepHotspot(selectedStep.id, patch)
-                  }
+                  onCaptionChange={(c) => updateStep(selectedStep.id, { caption: c })}
+                  onHotspotChange={(patch) => updateStepHotspot(selectedStep.id, patch)}
                 />
               ) : (
                 <div className="rounded-lg border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
@@ -630,11 +575,7 @@ export function DemoEditor({
         ) : (
           <main className="flex-1 overflow-y-auto p-4">
             {tab === "theme" ? (
-              <ThemeEditor
-                value={theme}
-                onChange={setTheme}
-                planId={workspacePlan}
-              />
+              <ThemeEditor value={theme} onChange={setTheme} planId={workspacePlan} />
             ) : tab === "leadForm" ? (
               <LeadFormEditor
                 value={leadForm}
@@ -651,11 +592,7 @@ export function DemoEditor({
                         type:
                           finalCtaState.type === "url"
                             ? "link"
-                            : (finalCtaState.type as
-                                | "whatsapp"
-                                | "link"
-                                | "email"
-                                | "calendly"),
+                            : (finalCtaState.type as "whatsapp" | "link" | "email" | "calendly"),
                         value: finalCtaState.value,
                         label: finalCtaState.label,
                       }
@@ -663,19 +600,14 @@ export function DemoEditor({
                 }
                 onChange={(cfg) =>
                   setFinalCta({
-                    type:
-                      cfg.type === "link" ? "url" : cfg.type === "calendly" ? "url" : cfg.type,
+                    type: cfg.type === "link" ? "url" : cfg.type === "calendly" ? "url" : cfg.type,
                     value: cfg.value,
                     label: cfg.label,
                   })
                 }
               />
             ) : tab === "variables" ? (
-              <VariablesEditor
-                value={variables}
-                onChange={setVariables}
-                planId={workspacePlan}
-              />
+              <VariablesEditor value={variables} onChange={setVariables} planId={workspacePlan} />
             ) : tab === "branching" ? (
               <BranchingEditor
                 value={branching}
@@ -709,7 +641,7 @@ export function DemoEditor({
           : saveStatus === "saved"
             ? t("common.saved")
             : saveStatus === "error"
-              ? lastError ?? t("common.error")
+              ? (lastError ?? t("common.error"))
               : ""}
       </div>
     </div>
@@ -754,11 +686,7 @@ function SaveBadge({
       </span>
     );
   }
-  return (
-    <span className="text-xs text-muted-foreground">
-      {t("editor.autoSaved")}
-    </span>
-  );
+  return <span className="text-xs text-muted-foreground">{t("editor.autoSaved")}</span>;
 }
 
 function StepInspector({
@@ -791,9 +719,7 @@ function StepInspector({
         </label>
         <select
           value={step.hotspot.type}
-          onChange={(e) =>
-            onHotspotChange({ type: e.target.value as HotspotType })
-          }
+          onChange={(e) => onHotspotChange({ type: e.target.value as HotspotType })}
           className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
         >
           <option value="pointer">{t("editor.canvas.hotspotTypePointer")}</option>

@@ -4,7 +4,7 @@
  * Helpers puros do editor: slug validation, hotspot bounds clamping,
  * variable interpolation.
  */
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 const slugPattern = /^[a-z0-9-]{3,32}$/;
 function isValidSlug(s: string): boolean {
@@ -56,12 +56,10 @@ describe("variable interpolation", () => {
   });
 
   it("mantém tokens não-resolvidos no output", () => {
-    expect(interpolateVars("{{name}} - {{empresa}}", { name: "Ana" }))
-      .toBe("Ana - {{empresa}}");
+    expect(interpolateVars("{{name}} - {{empresa}}", { name: "Ana" })).toBe("Ana - {{empresa}}");
   });
 
   it("substitui múltiplas ocorrências", () => {
-    expect(interpolateVars("{{name}} & {{name}}", { name: "X" }))
-      .toBe("X & X");
+    expect(interpolateVars("{{name}} & {{name}}", { name: "X" })).toBe("X & X");
   });
 });

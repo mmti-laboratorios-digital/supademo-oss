@@ -2,11 +2,5 @@
   "generatedAt": "2026-10-18T16:22:29.818Z",
   "width": 1280,
   "height": 720,
-  "files": [
-    "cover.png",
-    "step-1.png",
-    "step-2.png",
-    "step-3.png",
-    "fake-cpf-screenshot.png"
-  ]
+  "files": ["cover.png", "step-1.png", "step-2.png", "step-3.png", "fake-cpf-screenshot.png"]
 }

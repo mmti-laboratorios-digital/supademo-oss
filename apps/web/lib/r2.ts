@@ -1,8 +1,8 @@
 import {
-  S3Client,
-  PutObjectCommand,
   DeleteObjectCommand,
   GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { env } from "./env";
@@ -38,8 +38,7 @@ export async function presignPut(args: {
 }): Promise<{ url: string; key: string; bucket: string }> {
   const e = env();
   const client = r2Client();
-  const bucket =
-    args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
+  const bucket = args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
 
   const cmd = new PutObjectCommand({
     Bucket: bucket,
@@ -62,8 +61,7 @@ export async function putObject(args: {
 }): Promise<void> {
   const e = env();
   const client = r2Client();
-  const bucket =
-    args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
+  const bucket = args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
 
   await client.send(
     new PutObjectCommand({
@@ -81,11 +79,8 @@ export async function deleteObject(args: {
 }): Promise<void> {
   const e = env();
   const client = r2Client();
-  const bucket =
-    args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
-  await client.send(
-    new DeleteObjectCommand({ Bucket: bucket, Key: args.key }),
-  );
+  const bucket = args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
+  await client.send(new DeleteObjectCommand({ Bucket: bucket, Key: args.key }));
 }
 
 export async function getSignedGetUrl(args: {
@@ -95,14 +90,11 @@ export async function getSignedGetUrl(args: {
 }): Promise<string> {
   const e = env();
   const client = r2Client();
-  const bucket =
-    args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
+  const bucket = args.bucket === "public" ? e.R2_BUCKET_PUBLIC : e.R2_BUCKET_PRIVATE;
 
-  return await getSignedUrl(
-    client,
-    new GetObjectCommand({ Bucket: bucket, Key: args.key }),
-    { expiresIn: args.expiresInSeconds ?? 600 },
-  );
+  return await getSignedUrl(client, new GetObjectCommand({ Bucket: bucket, Key: args.key }), {
+    expiresIn: args.expiresInSeconds ?? 600,
+  });
 }
 
 export function publicUrl(key: string): string {

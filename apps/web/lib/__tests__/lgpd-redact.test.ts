@@ -4,8 +4,8 @@
  * Testes determinísticos do detector de PII (sem OCR).
  * Cobre: CPF, CNPJ, e-mail, cartão, multi-detecção.
  */
-import { describe, it, expect } from "vitest";
-import { redactPII, detectPIIKind, maskForLog } from "../lgpd/redact";
+import { describe, expect, it } from "vitest";
+import { detectPIIKind, maskForLog, redactPII } from "../lgpd/redact";
 
 describe("redactPII — single patterns", () => {
   it("detecta CPF e retorna bounds", () => {

@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 /* eslint-disable no-console */
 /**
  * apps/web/scripts/fire-asaas-webhook.ts
@@ -31,9 +33,10 @@
  *   VALUE (centavos)       default 4900
  *   BILLING_TYPE           default PIX
  */
-import { asaasWebhookPayload, asaasWebhookSignature } from "@demo.br/shared/test-utils/asaas-payloads";
-import { readFileSync, existsSync } from "node:fs";
-import { resolve } from "node:path";
+import {
+  asaasWebhookPayload,
+  asaasWebhookSignature,
+} from "@demo.br/shared/test-utils/asaas-payloads";
 
 // ---------------------------------------------------------------------------
 // Args & env
@@ -57,10 +60,7 @@ function loadEnvFile(): void {
       if (eq < 0) continue;
       const k = line.slice(0, eq).trim();
       let v = line.slice(eq + 1).trim();
-      if (
-        (v.startsWith('"') && v.endsWith('"')) ||
-        (v.startsWith("'") && v.endsWith("'"))
-      ) {
+      if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
         v = v.slice(1, -1);
       }
       if (!(k in process.env)) process.env[k] = v;
@@ -70,18 +70,13 @@ function loadEnvFile(): void {
 }
 loadEnvFile();
 
-const WEBHOOK_SECRET =
-  process.env.ASAAS_WEBHOOK_SECRET ?? "mock_webhook_secret_for_sandbox";
+const WEBHOOK_SECRET = process.env.ASAAS_WEBHOOK_SECRET ?? "mock_webhook_secret_for_sandbox";
 
-const SUBSCRIPTION_ID =
-  process.env.SUBSCRIPTION_ID ?? "sub_sandbox_default";
+const SUBSCRIPTION_ID = process.env.SUBSCRIPTION_ID ?? "sub_sandbox_default";
 const CUSTOMER_ID = process.env.CUSTOMER_ID ?? "cus_sandbox_default";
 const PAYMENT_ID = process.env.PAYMENT_ID ?? undefined;
 const VALUE = Number(process.env.VALUE ?? 4900);
-const BILLING_TYPE = (process.env.BILLING_TYPE ?? "PIX") as
-  | "PIX"
-  | "BOLETO"
-  | "CREDIT_CARD";
+const BILLING_TYPE = (process.env.BILLING_TYPE ?? "PIX") as "PIX" | "BOLETO" | "CREDIT_CARD";
 
 // ---------------------------------------------------------------------------
 // Validate event type

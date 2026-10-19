@@ -3,13 +3,7 @@
  */
 
 export type DemoEvent = {
-  type:
-    | "view"
-    | "step_seen"
-    | "cta_click"
-    | "complete"
-    | "bounce"
-    | "lead_captured";
+  type: "view" | "step_seen" | "cta_click" | "complete" | "bounce" | "lead_captured";
   demoId: string;
   stepId?: string;
   ts: number;
@@ -18,10 +12,7 @@ export type DemoEvent = {
 
 const ENDPOINT = "/api/v1/events";
 
-export async function trackEvent(
-  e: DemoEvent,
-  endpoint: string = ENDPOINT,
-): Promise<void> {
+export async function trackEvent(e: DemoEvent, endpoint: string = ENDPOINT): Promise<void> {
   try {
     await fetch(endpoint, {
       method: "POST",

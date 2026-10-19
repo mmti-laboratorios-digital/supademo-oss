@@ -30,7 +30,10 @@ export default defineBackground(() => {
 
     const session = await getSession();
     const next = !session?.capturing;
-    await setSession({ ...(session ?? { demoId: null, steps: [], startedAt: 0 }), capturing: next });
+    await setSession({
+      ...(session ?? { demoId: null, steps: [], startedAt: 0 }),
+      capturing: next,
+    });
 
     // toggle overlay na tab ativa
     try {

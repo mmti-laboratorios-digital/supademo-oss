@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 /**
  * apps/web/scripts/db/test-rls-admin.ts
  *
@@ -13,9 +14,8 @@
  */
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
-import { workspaces, demos } from "../../db/schema/app";
 import * as schema from "../../db/schema";
+import { demos, workspaces } from "../../db/schema/app";
 
 const ADMIN_URL =
   process.env.ADMIN_URL ??
@@ -23,8 +23,7 @@ const ADMIN_URL =
   "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
 
 const RUNTIME_URL =
-  process.env.DATABASE_URL ??
-  "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
 
 type StepLog = { step: string; ok: boolean; detail: string };
 const log: StepLog[] = [];
@@ -54,16 +53,9 @@ async function main(): Promise<void> {
     `;
     const owner = roles.find((r) => r.rolname === "app_owner");
     const user = roles.find((r) => r.rolname === "app_user");
-    console.log(
-      `  · app_owner: superuser=${owner?.rolsuper}, bypassrls=${owner?.rolbypassrls}`,
-    );
-    console.log(
-      `  · app_user:  superuser=${user?.rolsuper}, bypassrls=${user?.rolbypassrls}`,
-    );
-    record(
-      "app_owner tem BYPASSRLS",
-      owner?.rolbypassrls === true && owner?.rolsuper === false,
-    );
+    console.log(`  · app_owner: superuser=${owner?.rolsuper}, bypassrls=${owner?.rolbypassrls}`);
+    console.log(`  · app_user:  superuser=${user?.rolsuper}, bypassrls=${user?.rolbypassrls}`);
+    record("app_owner tem BYPASSRLS", owner?.rolbypassrls === true && owner?.rolsuper === false);
     record(
       "app_user NÃO tem BYPASSRLS (RLS-enforced)",
       user?.rolbypassrls === false && user?.rolsuper === false,
@@ -104,14 +96,10 @@ async function main(): Promise<void> {
     });
 
     // 3. Como app_owner (BYPASSRLS) → vê TODOS os demos sem contexto de tenant
-    console.log(
-      "\n▶ [app_owner] Lendo TODOS os demos (BYPASSRLS — sem contexto)…",
-    );
+    console.log("\n▶ [app_owner] Lendo TODOS os demos (BYPASSRLS — sem contexto)…");
     await adminClient`SELECT set_config('app.current_tenant_id', '', false)`;
     const seenByAdmin = await adminDb.select().from(demos);
-    console.log(
-      `  · app_owner vê ${seenByAdmin.length} demos (BYPASSRLS — vê tudo)`,
-    );
+    console.log(`  · app_owner vê ${seenByAdmin.length} demos (BYPASSRLS — vê tudo)`);
     record(
       "app_owner (BYPASSRLS) vê todos os demos sem contexto",
       seenByAdmin.length >= 2,
@@ -122,9 +110,7 @@ async function main(): Promise<void> {
     console.log("\n▶ [app_user] Lendo demos sem contexto (RLS bloqueia)…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', '', false)`;
     const seenByUserNull = await runtimeDb.select().from(demos);
-    console.log(
-      `  · app_user vê ${seenByUserNull.length} demos (RLS bloqueia sem contexto)`,
-    );
+    console.log(`  · app_user vê ${seenByUserNull.length} demos (RLS bloqueia sem contexto)`);
     record(
       "app_user sem contexto vê 0 demos — RLS bloqueia default",
       seenByUserNull.length === 0,
@@ -168,9 +154,7 @@ async function main(): Promise<void> {
       process.exit(1);
     }
 
-    console.log(
-      "\n✅ app_owner BYPASSRLS confirmado + app_user RLS-enforced confirmado.",
-    );
+    console.log("\n✅ app_owner BYPASSRLS confirmado + app_user RLS-enforced confirmado.");
 
     // Cleanup
     console.log("\n▶ Cleanup…");

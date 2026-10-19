@@ -3,13 +3,13 @@
  *
  * Cobertura dos helpers Asaas puros — sem rede.
  */
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   mapAsaasStatus,
+  parseAsaasEvent,
+  serializeSubscription,
   signWebhook,
   verifyWebhook,
-  serializeSubscription,
-  parseAsaasEvent,
 } from "../asaas";
 
 describe("mapAsaasStatus", () => {
@@ -140,6 +140,6 @@ describe("parseAsaasEvent", () => {
 
   it("lança em payload não-objeto", () => {
     expect(() => parseAsaasEvent("null")).toThrow();
-    expect(() => parseAsaasEvent("\"string\"")).toThrow();
+    expect(() => parseAsaasEvent('"string"')).toThrow();
   });
 });

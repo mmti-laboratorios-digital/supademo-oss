@@ -7,7 +7,7 @@
  * Em ambiente isolado, o form pode não renderizar até JS do Clerk
  * carregar. Os testes abaixo verificam que a rota existe e responde.
  */
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Sign-up page", () => {
   test("Vai para /sign-up e a página carrega", async ({ page }) => {

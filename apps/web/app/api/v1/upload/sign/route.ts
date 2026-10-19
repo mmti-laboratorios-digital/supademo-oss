@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
 import { requireAuth } from "@/lib/auth";
 import { presignPut } from "@/lib/r2";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 
@@ -12,9 +12,7 @@ const signSchema = z.object({
     .min(1)
     .max(255)
     .regex(/^[a-zA-Z0-9/_.\-]+$/, "caracteres inválidos na key"),
-  contentType: z
-    .string()
-    .regex(/^[a-z]+\/[a-z0-9.+-]+$/, "content-type inválido"),
+  contentType: z.string().regex(/^[a-z]+\/[a-z0-9.+-]+$/, "content-type inválido"),
   expiresInSeconds: z.number().int().min(60).max(3600).default(600),
 });
 

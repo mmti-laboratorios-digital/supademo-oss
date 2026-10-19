@@ -1,10 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { Plus, Trash2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
 import type { Step } from "@demo.br/shared";
+import { Plus, Trash2 } from "lucide-react";
+import type * as React from "react";
 
 /**
  * BranchingEditor — define uma pergunta de múltipla escolha que decide
@@ -45,9 +45,7 @@ export function BranchingEditor({
   if (planId !== "business") {
     return (
       <Card className="p-6">
-        <h3 className="text-sm font-semibold">
-          {t("editor.branching.title")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.branching.title")}</h3>
         <p className="mt-2 text-sm text-muted-foreground">
           {t("editor.branching.upgradeRequired")}
         </p>
@@ -75,9 +73,7 @@ export function BranchingEditor({
   const updateOption = (id: string, patch: Partial<BranchingOption>) => {
     onChange({
       ...value,
-      options: value.options.map((o) =>
-        o.id === id ? { ...o, ...patch } : o,
-      ),
+      options: value.options.map((o) => (o.id === id ? { ...o, ...patch } : o)),
     });
   };
 
@@ -92,12 +88,8 @@ export function BranchingEditor({
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="space-y-4 p-4">
         <header>
-          <h3 className="text-sm font-semibold">
-            {t("editor.branching.title")}
-          </h3>
-          <p className="text-xs text-muted-foreground">
-            {t("editor.branching.subtitle")}
-          </p>
+          <h3 className="text-sm font-semibold">{t("editor.branching.title")}</h3>
+          <p className="text-xs text-muted-foreground">{t("editor.branching.subtitle")}</p>
         </header>
 
         <div>
@@ -179,9 +171,7 @@ export function BranchingEditor({
       </Card>
 
       <Card className="space-y-3 p-4">
-        <h3 className="text-sm font-semibold">
-          {t("editor.branching.title")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.branching.title")}</h3>
         <div className="rounded-md border border-border bg-muted/30 p-4">
           <p className="mb-3 text-sm font-medium">
             {value.question || "Qual caminho você quer seguir?"}

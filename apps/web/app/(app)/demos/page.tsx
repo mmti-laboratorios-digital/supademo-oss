@@ -1,10 +1,10 @@
-import Link from "next/link";
-import { desc } from "drizzle-orm";
-import { withTenant } from "@/lib/db";
-import { demos } from "@/db/schema/app";
-import { requireAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { demos } from "@/db/schema/app";
+import { requireAuth } from "@/lib/auth";
+import { withTenant } from "@/lib/db";
+import { desc } from "drizzle-orm";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -51,18 +51,13 @@ export default async function DemosListPage() {
 
         {list.length === 0 ? (
           <Card className="p-12 text-center" role="status">
-            <p className="mb-4 text-muted-foreground">
-              Você ainda não criou nenhuma demo.
-            </p>
+            <p className="mb-4 text-muted-foreground">Você ainda não criou nenhuma demo.</p>
             <Button asChild>
               <Link href="/demos/new">Criar a primeira</Link>
             </Button>
           </Card>
         ) : (
-          <ul
-            className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"
-            aria-label="Lista de demos"
-          >
+          <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" aria-label="Lista de demos">
             {list.map((d) => (
               <li key={d.id}>
                 <Link
@@ -77,9 +72,7 @@ export default async function DemosListPage() {
                     >
                       {d.status}
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      /d/{d.slug}
-                    </span>
+                    <span className="font-mono text-xs text-muted-foreground">/d/{d.slug}</span>
                   </div>
                   <h2 className="font-semibold">{d.title}</h2>
                 </Link>

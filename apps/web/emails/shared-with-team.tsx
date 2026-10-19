@@ -1,5 +1,5 @@
+import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
-import { Heading, Text, Button, Section } from "@react-email/components";
 import { EmailLayout } from "./_layout";
 
 export type SharedWithTeamEmailProps = {
@@ -50,21 +50,14 @@ export function SharedWithTeamEmail({
       </Heading>
 
       <Text className="mt-3 leading-6 text-ink-muted">
-        <strong>{inviterName}</strong> convidou você para colaborar no
-        workspace <strong>{workspaceName}</strong> como{" "}
-        <strong>{ROLE_PT[role]}</strong>.
+        <strong>{inviterName}</strong> convidou você para colaborar no workspace{" "}
+        <strong>{workspaceName}</strong> como <strong>{ROLE_PT[role]}</strong>.
       </Text>
 
       <Section className="my-6 rounded-md border border-surface-border bg-surface-muted p-4">
-        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">
-          Seu papel
-        </Text>
-        <Text className="mt-1 mb-0 text-base font-semibold text-ink">
-          {ROLE_PT[role]}
-        </Text>
-        <Text className="mt-1 mb-0 text-sm text-ink-muted">
-          {ROLE_PT_DESCRIPTION[role]}
-        </Text>
+        <Text className="m-0 text-xs uppercase tracking-wider text-ink-subtle">Seu papel</Text>
+        <Text className="mt-1 mb-0 text-base font-semibold text-ink">{ROLE_PT[role]}</Text>
+        <Text className="mt-1 mb-0 text-sm text-ink-muted">{ROLE_PT_DESCRIPTION[role]}</Text>
       </Section>
 
       <Section className="mt-6 text-center">
@@ -77,9 +70,8 @@ export function SharedWithTeamEmail({
       </Section>
 
       <Text className="mt-8 text-sm text-ink-subtle">
-        Esse link expira em {expiresInDays} dias. Se você não conhece{" "}
-        {inviterName} ou acha que foi engano, ignore este e-mail — o convite
-        não cria conta automaticamente.
+        Esse link expira em {expiresInDays} dias. Se você não conhece {inviterName} ou acha que foi
+        engano, ignore este e-mail — o convite não cria conta automaticamente.
       </Text>
     </EmailLayout>
   );

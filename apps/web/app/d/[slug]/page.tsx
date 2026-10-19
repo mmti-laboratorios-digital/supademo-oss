@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
-import { headers } from "next/headers";
-import { eq, asc } from "drizzle-orm";
-import { getDb } from "@/lib/db";
-import { demos, steps } from "@/db/schema/app";
-import { DemoPlayer } from "@/components/player/DemoPlayer";
 import { ConsentBanner } from "@/components/player/ConsentBanner";
-import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { DemoPlayer } from "@/components/player/DemoPlayer";
+import { demos, steps } from "@/db/schema/app";
 import { recordView } from "@/lib/analytics/events";
+import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { getDb } from "@/lib/db";
+import { asc, eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -19,11 +19,7 @@ export default async function PublicDemoPage({
 
   // Bypass RLS para leitura pública — checa status=published e adiciona evento.
   const db = getDb(); // sem tenant — usa role público (read-only)
-  const [demo] = await db
-    .select()
-    .from(demos)
-    .where(eq(demos.slug, slug))
-    .limit(1);
+  const [demo] = await db.select().from(demos).where(eq(demos.slug, slug)).limit(1);
 
   if (!demo || demo.status !== "published") {
     notFound();
@@ -58,7 +54,7 @@ export default async function PublicDemoPage({
           slug: demo.slug,
           title: demo.title,
           description: demo.description ?? "",
-          language: (demo.language === "en" ? "en" : "pt-BR"),
+          language: demo.language === "en" ? "en" : "pt-BR",
           leadFormEnabled: demo.leadFormEnabled,
           finalCta: null,
         }}
@@ -69,14 +65,13 @@ export default async function PublicDemoPage({
           sourceUrl: s.sourceUrl,
           sourceTitle: s.sourceTitle ?? "",
           caption: s.caption ?? "",
-          hotspot:
-            (s.hotspot as {
-              type: "pointer" | "callout" | "area";
-              x: number;
-              y: number;
-              w?: number;
-              h?: number;
-            }) ?? { type: "pointer", x: 50, y: 50 },
+          hotspot: (s.hotspot as {
+            type: "pointer" | "callout" | "area";
+            x: number;
+            y: number;
+            w?: number;
+            h?: number;
+          }) ?? { type: "pointer", x: 50, y: 50 },
         }))}
         locale={demo.language as "pt-BR" | "en"}
       />

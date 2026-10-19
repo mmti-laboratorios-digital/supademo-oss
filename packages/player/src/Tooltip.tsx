@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 import type { HotspotGeometry } from "./Hotspot";
 
 export type TooltipProps = {
@@ -8,10 +8,7 @@ export type TooltipProps = {
 
 export function Tooltip({ geometry, children }: TooltipProps) {
   return (
-    <div
-      className="dbr-tooltip"
-      style={{ left: `${geometry.x}%`, top: `${geometry.y}%` }}
-    >
+    <div className="dbr-tooltip" style={{ left: `${geometry.x}%`, top: `${geometry.y}%` }}>
       {children}
     </div>
   );

@@ -159,53 +159,141 @@ async function main() {
   await rlsDisable(client);
   console.log("\n# A) sem RLS, sem índice em tenant_id");
   await setTenant(client, "A");
-  out.push({ cenario: "A1) list demos LIMIT 50 (sem RLS, sem idx)", stats: await bench("list demos LIMIT 50", async () => {
-    await client.query("SELECT id, title, status, created_at FROM demos WHERE tenant_id = 'A' ORDER BY created_at DESC LIMIT 50");
-  }, client) });
-  out.push({ cenario: "A2) list steps of demo (sem RLS, sem idx)", stats: await bench("list steps of demo", async () => {
-    const r = await client.query<{ id: string }>("SELECT id FROM demos WHERE tenant_id = 'A' LIMIT 1");
-    await client.query("SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position", [r.rows[0].id]);
-  }, client) });
+  out.push({
+    cenario: "A1) list demos LIMIT 50 (sem RLS, sem idx)",
+    stats: await bench(
+      "list demos LIMIT 50",
+      async () => {
+        await client.query(
+          "SELECT id, title, status, created_at FROM demos WHERE tenant_id = 'A' ORDER BY created_at DESC LIMIT 50",
+        );
+      },
+      client,
+    ),
+  });
+  out.push({
+    cenario: "A2) list steps of demo (sem RLS, sem idx)",
+    stats: await bench(
+      "list steps of demo",
+      async () => {
+        const r = await client.query<{ id: string }>(
+          "SELECT id FROM demos WHERE tenant_id = 'A' LIMIT 1",
+        );
+        await client.query(
+          "SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position",
+          [r.rows[0].id],
+        );
+      },
+      client,
+    ),
+  });
 
   // ---- cenário B: SEM RLS, COM ÍNDICE ----
   await indexCreate(client);
   await client.query("ANALYZE demos; ANALYZE demo_steps;");
   console.log("\n# B) sem RLS, COM índice");
-  out.push({ cenario: "B1) list demos LIMIT 50 (sem RLS, com idx)", stats: await bench("list demos LIMIT 50", async () => {
-    await client.query("SELECT id, title, status, created_at FROM demos WHERE tenant_id = 'A' ORDER BY created_at DESC LIMIT 50");
-  }, client) });
-  out.push({ cenario: "B2) list steps of demo (sem RLS, com idx)", stats: await bench("list steps of demo", async () => {
-    const r = await client.query<{ id: string }>("SELECT id FROM demos WHERE tenant_id = 'A' LIMIT 1");
-    await client.query("SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position", [r.rows[0].id]);
-  }, client) });
+  out.push({
+    cenario: "B1) list demos LIMIT 50 (sem RLS, com idx)",
+    stats: await bench(
+      "list demos LIMIT 50",
+      async () => {
+        await client.query(
+          "SELECT id, title, status, created_at FROM demos WHERE tenant_id = 'A' ORDER BY created_at DESC LIMIT 50",
+        );
+      },
+      client,
+    ),
+  });
+  out.push({
+    cenario: "B2) list steps of demo (sem RLS, com idx)",
+    stats: await bench(
+      "list steps of demo",
+      async () => {
+        const r = await client.query<{ id: string }>(
+          "SELECT id FROM demos WHERE tenant_id = 'A' LIMIT 1",
+        );
+        await client.query(
+          "SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position",
+          [r.rows[0].id],
+        );
+      },
+      client,
+    ),
+  });
 
   // ---- cenário C: COM RLS FORCE, COM ÍNDICE ----
   await rlsEnable(client);
   await client.query("ANALYZE demos; ANALYZE demo_steps;");
   console.log("\n# C) COM RLS FORCE, COM índice");
   await setTenant(client, "A");
-  out.push({ cenario: "C1) list demos LIMIT 50 (RLS, com idx)", stats: await bench("list demos LIMIT 50", async () => {
-    await client.query("SELECT id, title, status, created_at FROM demos ORDER BY created_at DESC LIMIT 50");
-  }, client) });
-  out.push({ cenario: "C2) list steps of demo (RLS, com idx)", stats: await bench("list steps of demo", async () => {
-    const r = await client.query<{ id: string }>("SELECT id FROM demos LIMIT 1");
-    await client.query("SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position", [r.rows[0].id]);
-  }, client) });
+  out.push({
+    cenario: "C1) list demos LIMIT 50 (RLS, com idx)",
+    stats: await bench(
+      "list demos LIMIT 50",
+      async () => {
+        await client.query(
+          "SELECT id, title, status, created_at FROM demos ORDER BY created_at DESC LIMIT 50",
+        );
+      },
+      client,
+    ),
+  });
+  out.push({
+    cenario: "C2) list steps of demo (RLS, com idx)",
+    stats: await bench(
+      "list steps of demo",
+      async () => {
+        const r = await client.query<{ id: string }>("SELECT id FROM demos LIMIT 1");
+        await client.query(
+          "SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position",
+          [r.rows[0].id],
+        );
+      },
+      client,
+    ),
+  });
 
   // ---- cenário D: COM RLS FORCE, SEM ÍNDICE ----
   await indexDrop(client);
   await client.query("ANALYZE demos; ANALYZE demo_steps;");
   console.log("\n# D) COM RLS FORCE, SEM índice (pior caso)");
-  out.push({ cenario: "D1) list demos LIMIT 50 (RLS, sem idx)", stats: await bench("list demos LIMIT 50", async () => {
-    await client.query("SELECT id, title, status, created_at FROM demos ORDER BY created_at DESC LIMIT 50");
-  }, client) });
-  out.push({ cenario: "D2) list steps of demo (RLS, sem idx)", stats: await bench("list steps of demo", async () => {
-    const r = await client.query<{ id: string }>("SELECT id FROM demos LIMIT 1");
-    await client.query("SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position", [r.rows[0].id]);
-  }, client) });
+  out.push({
+    cenario: "D1) list demos LIMIT 50 (RLS, sem idx)",
+    stats: await bench(
+      "list demos LIMIT 50",
+      async () => {
+        await client.query(
+          "SELECT id, title, status, created_at FROM demos ORDER BY created_at DESC LIMIT 50",
+        );
+      },
+      client,
+    ),
+  });
+  out.push({
+    cenario: "D2) list steps of demo (RLS, sem idx)",
+    stats: await bench(
+      "list steps of demo",
+      async () => {
+        const r = await client.query<{ id: string }>("SELECT id FROM demos LIMIT 1");
+        await client.query(
+          "SELECT id, position, payload FROM demo_steps WHERE demo_id = $1 ORDER BY position",
+          [r.rows[0].id],
+        );
+      },
+      client,
+    ),
+  });
 
   console.log("\n=== resumo (ms) ===");
-  console.table(out.map((o) => ({ cenario: o.cenario, p50: o.stats.p50, p95: o.stats.p95, p99: o.stats.p99, mean: o.stats.mean })));
+  console.table(
+    out.map((o) => ({
+      cenario: o.cenario,
+      p50: o.stats.p50,
+      p95: o.stats.p95,
+      p99: o.stats.p99,
+      mean: o.stats.mean,
+    })),
+  );
 
   await client.end();
 }

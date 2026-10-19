@@ -1,13 +1,13 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextResponse, type NextRequest } from "next/server";
 import {
   DEFAULT_LOCALE,
   LOCALE_COOKIE,
+  type Locale,
   SUPPORTED_LOCALES,
   parseAcceptLanguage,
   resolveLocale,
-  type Locale,
 } from "@/lib/i18n/constants";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/demos(.*)",

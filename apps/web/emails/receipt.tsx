@@ -58,9 +58,7 @@ export function ReceiptEmail({
           {copy.cta}
         </a>
       ) : null}
-      <p style={{ color: "#94a3b8", fontSize: "12px", marginTop: "16px" }}>
-        {copy.thanks}
-      </p>
+      <p style={{ color: "#94a3b8", fontSize: "12px", marginTop: "16px" }}>{copy.thanks}</p>
     </div>
   );
 }

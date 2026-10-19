@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { I18nProvider, SUPPORTED_LOCALES, type Locale } from "@/lib/i18n";
+import { I18nProvider, type Locale, SUPPORTED_LOCALES } from "@/lib/i18n";
+import type * as React from "react";
 
 /**
  * Wrap do editor com I18nProvider.
@@ -24,10 +24,7 @@ function normalizeLocale(raw: string | null | undefined): Locale | undefined {
   return undefined;
 }
 
-export function EditorI18n({
-  locale,
-  children,
-}: EditorI18nProps): React.ReactElement {
+export function EditorI18n({ locale, children }: EditorI18nProps): React.ReactElement {
   const initial = normalizeLocale(locale);
   return <I18nProvider initialLocale={initial}>{children}</I18nProvider>;
 }

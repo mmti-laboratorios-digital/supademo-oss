@@ -94,9 +94,7 @@ export function pluralTemplate(
   template: string,
   vars: Record<string, string | number> = {},
 ): string {
-  const pluralMatch = template.match(
-    /^(.*?)\{([a-zA-Z_]+),\s*plural,\s*([\s\S]*)\}\s*$/,
-  );
+  const pluralMatch = template.match(/^(.*?)\{([a-zA-Z_]+),\s*plural,\s*([\s\S]*)\}\s*$/);
   if (!pluralMatch) return interpolate(template, vars);
 
   const prefix = pluralMatch[1] ?? "";
@@ -106,18 +104,13 @@ export function pluralTemplate(
   const countRaw = vars[countKey];
 
   const count =
-    typeof countRaw === "number"
-      ? countRaw
-      : Number.parseFloat(String(countRaw ?? "0"));
+    typeof countRaw === "number" ? countRaw : Number.parseFloat(String(countRaw ?? "0"));
 
   const exactKey = `=${count}`;
   let chosen: string = branches.other ?? "";
   if (Object.prototype.hasOwnProperty.call(branches, exactKey)) {
     chosen = branches[exactKey] ?? chosen;
-  } else if (
-    count === 1 &&
-    Object.prototype.hasOwnProperty.call(branches, "one")
-  ) {
+  } else if (count === 1 && Object.prototype.hasOwnProperty.call(branches, "one")) {
     chosen = branches["one"] ?? chosen;
   }
 
@@ -225,10 +218,7 @@ export function createTranslator(locale: Locale): {
  * Direct translator function. Equivalent to `createTranslator(locale).t`.
  * Pure: same input -> same output. Deterministic.
  */
-export type TranslatorFn = (
-  key: string,
-  vars?: Record<string, string | number>,
-) => string;
+export type TranslatorFn = (key: string, vars?: Record<string, string | number>) => string;
 
 export function translate(
   locale: Locale,

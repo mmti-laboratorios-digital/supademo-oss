@@ -18,12 +18,7 @@ export type Plan = {
   features: string[];
 };
 
-export type SubscriptionStatus =
-  | "active"
-  | "past_due"
-  | "canceled"
-  | "trial"
-  | "incomplete";
+export type SubscriptionStatus = "active" | "past_due" | "canceled" | "trial" | "incomplete";
 
 export type Subscription = {
   id: string;

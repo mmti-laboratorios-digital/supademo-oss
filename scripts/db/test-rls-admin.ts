@@ -37,8 +37,7 @@ const ADMIN_URL =
   process.env.DIRECT_URL ??
   "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
 const RUNTIME_URL =
-  process.env.DATABASE_URL ??
-  "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
 
 function fail(msg: string, code = 1): never {
   console.error(`❌ ${msg}`);
@@ -74,9 +73,7 @@ async function main() {
   if (!ownerRow) {
     fail("Role app_owner não existe.", 2);
   }
-  console.log(
-    `  · app_owner: superuser=${ownerRow.rolsuper}, bypassrls=${ownerRow.rolbypassrls}`,
-  );
+  console.log(`  · app_owner: superuser=${ownerRow.rolsuper}, bypassrls=${ownerRow.rolbypassrls}`);
   if (!ownerRow.rolbypassrls) {
     fail(
       "app_owner NÃO tem BYPASSRLS. Este teste assume BYPASSRLS ativo. Rode ALTER ROLE app_owner BYPASSRLS;",
@@ -94,10 +91,7 @@ async function main() {
     fail("Role app_user não existe.", 2);
   }
   if (userRow.rolbypassrls) {
-    fail(
-      "app_user TEM BYPASSRLS — isto é um BUG. RLS não funcionaria em runtime.",
-      1,
-    );
+    fail("app_user TEM BYPASSRLS — isto é um BUG. RLS não funcionaria em runtime.", 1);
   }
   console.log("  ✓ app_user NÃO tem BYPASSRLS (RLS-enforced).");
 
@@ -153,9 +147,7 @@ async function main() {
     );
     ok = false;
   } else {
-    console.log(
-      `  ✓ app_owner (${adminDemos}) >= app_user (${userDemos}) — BYPASSRLS efetivo.`,
-    );
+    console.log(`  ✓ app_owner (${adminDemos}) >= app_user (${userDemos}) — BYPASSRLS efetivo.`);
   }
 
   // (b) app_user sem contexto deve ver 0 demos (RLS bloqueia).
@@ -187,15 +179,10 @@ async function main() {
   await runtime.end();
 
   if (!ok) {
-    fail(
-      "BYPASSRLS não está funcionando como esperado. Veja logs acima.",
-      1,
-    );
+    fail("BYPASSRLS não está funcionando como esperado. Veja logs acima.", 1);
   }
 
-  console.log(
-    "\n✅ app_owner BYPASSRLS confirmado + app_user RLS-enforced confirmado.",
-  );
+  console.log("\n✅ app_owner BYPASSRLS confirmado + app_user RLS-enforced confirmado.");
   process.exit(0);
 }
 

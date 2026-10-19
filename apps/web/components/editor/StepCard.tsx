@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { GripVertical, Trash2, ChevronUp, ChevronDown } from "lucide-react";
 import type { Step } from "@demo.br/shared";
+import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
+import * as React from "react";
 
 export type StepCardProps = {
   step: Step;
@@ -26,12 +26,7 @@ export function StepCard({
   return (
     <li className="flex gap-3 rounded-lg border border-border bg-card p-3">
       <div className="flex flex-col items-center gap-1 pt-2 text-muted-foreground">
-        <button
-          type="button"
-          aria-label="rearrastar"
-          className="cursor-grab"
-          title="Arrastar"
-        >
+        <button type="button" aria-label="rearrastar" className="cursor-grab" title="Arrastar">
           <GripVertical className="h-4 w-4" />
         </button>
         <span className="font-mono text-xs">{index + 1}</span>
@@ -39,9 +34,7 @@ export function StepCard({
 
       <div className="flex-1 space-y-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="truncate text-xs text-muted-foreground">
-            {step.sourceUrl}
-          </span>
+          <span className="truncate text-xs text-muted-foreground">{step.sourceUrl}</span>
           <div className="flex gap-1">
             <button
               type="button"

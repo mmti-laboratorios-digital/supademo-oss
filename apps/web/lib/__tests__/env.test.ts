@@ -6,7 +6,7 @@
  *  - aceita NODE_ENV=production com todas as vars obrigatórias
  *  - formatBRL() formata corretamente (não depende de env)
  */
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { formatBRL } from "../utils";
 
 describe("formatBRL", () => {
@@ -68,7 +68,7 @@ describe("env()", () => {
 
   it("aceita NODE_ENV=production com DATABASE_URL e vars Clerk", async () => {
     // Bypass readonly tipado de NodeJS.ProcessEnv para chaves nomeadas.
-(process.env as Record<string, string | undefined>)["NODE_ENV"] = "production";
+    (process.env as Record<string, string | undefined>)["NODE_ENV"] = "production";
     process.env.DATABASE_URL = "postgres://app_user:demobr@127.0.0.1:55432/supademo";
     process.env.CLERK_SECRET_KEY = "sk_test_prod";
     process.env.CLERK_WEBHOOK_SIGNING_SECRET = "whsec_test_prod";

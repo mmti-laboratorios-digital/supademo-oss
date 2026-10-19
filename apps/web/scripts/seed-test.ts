@@ -1,3 +1,5 @@
+import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 /**
  * apps/web/scripts/seed-test.ts
  *
@@ -14,20 +16,11 @@
  */
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
-import {
-  workspaces,
-  demos,
-  steps,
-  plans,
-  leads,
-} from "../db/schema/app";
-import { eq } from "drizzle-orm";
 import * as schema from "../db/schema";
+import { demos, leads, plans, steps, workspaces } from "../db/schema/app";
 
 const DATABASE_URL =
-  process.env.DATABASE_URL ??
-  "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
 
 const TEST_WORKSPACE_SLUG = "teste";
 const TEST_DEMO_SLUG = "tour-exemplo";
@@ -117,10 +110,7 @@ async function main() {
   }
 
   // 4. 3 steps — cada um com imagem SVG inline base64
-  const existingSteps = await db
-    .select()
-    .from(steps)
-    .where(eq(steps.demoId, demoId));
+  const existingSteps = await db.select().from(steps).where(eq(steps.demoId, demoId));
 
   if (existingSteps.length >= 3) {
     console.log(`  ✓ ${existingSteps.length} steps já existem`);
@@ -165,10 +155,7 @@ async function main() {
   }
 
   // 5. Lead capturado de teste
-  const existingLeads = await db
-    .select()
-    .from(leads)
-    .where(eq(leads.demoId, demoId));
+  const existingLeads = await db.select().from(leads).where(eq(leads.demoId, demoId));
 
   if (existingLeads.length === 0) {
     await db.insert(leads).values({
@@ -176,8 +163,7 @@ async function main() {
       demoId,
       name: "Lead de Teste",
       email: "lead-teste@example.com",
-      consentText:
-        "Autorizo o contato conforme LGPD. (lead de teste seed-test)",
+      consentText: "Autorizo o contato conforme LGPD. (lead de teste seed-test)",
     });
     console.log(`  ✓ 1 lead de teste criado`);
   } else {

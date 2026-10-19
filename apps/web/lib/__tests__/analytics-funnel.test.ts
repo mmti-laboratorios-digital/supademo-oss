@@ -3,8 +3,8 @@
  *
  * Testes determinísticos do calculador de funil — pure function, sem DB.
  */
-import { describe, it, expect } from "vitest";
-import { computeFunnel, type FunnelEvent } from "../analytics/funnel";
+import { describe, expect, it } from "vitest";
+import { type FunnelEvent, computeFunnel } from "../analytics/funnel";
 
 const T0 = Date.parse("2024-01-01T00:00:00Z");
 

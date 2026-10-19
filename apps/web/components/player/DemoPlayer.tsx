@@ -1,12 +1,8 @@
 "use client";
 
+import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@demo.br/shared";
 import * as React from "react";
 import { HotspotOverlay } from "./HotspotOverlay";
-import type {
-  DemoPlayerStep,
-  DemoPlayerDemo,
-  DemoEvent,
-} from "@demo.br/shared";
 
 export type DemoPlayerProps = {
   demo: DemoPlayerDemo;
@@ -18,13 +14,7 @@ export type DemoPlayerProps = {
 
 type State = "idle" | "playing" | "transitioning" | "completed";
 
-export function DemoPlayer({
-  demo,
-  steps,
-  locale,
-  embedded = false,
-  onEvent,
-}: DemoPlayerProps) {
+export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: DemoPlayerProps) {
   const [state, setState] = React.useState<State>("idle");
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const totalSteps = steps.length;
@@ -122,17 +112,13 @@ export function DemoPlayer({
       >
         <div className="max-w-md text-center">
           <h1 className="mb-3 text-3xl font-bold">{demo.title}</h1>
-          {demo.description ? (
-            <p className="text-muted-foreground">{demo.description}</p>
-          ) : null}
+          {demo.description ? <p className="text-muted-foreground">{demo.description}</p> : null}
         </div>
         <button
           type="button"
           onClick={start}
           aria-label={
-            locale === "pt-BR"
-              ? "Iniciar demonstração interativa"
-              : "Start interactive demo"
+            locale === "pt-BR" ? "Iniciar demonstração interativa" : "Start interactive demo"
           }
           className="neobrutalism-button rounded-md px-6 py-3 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         >
@@ -247,11 +233,7 @@ function FinalCta({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={
-          locale === "pt-BR"
-            ? `Ação final: ${cta.label}`
-            : `Final action: ${cta.label}`
-        }
+        aria-label={locale === "pt-BR" ? `Ação final: ${cta.label}` : `Final action: ${cta.label}`}
         className="neobrutalism-button inline-flex items-center justify-center rounded-md px-6 py-3 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
         {cta.label}

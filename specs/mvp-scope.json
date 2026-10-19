@@ -96,11 +96,7 @@
       "price_monthly": 49,
       "price_annual": 490,
       "currency": "BRL",
-      "billing_methods": [
-        "PIX",
-        "boleto",
-        "cartao"
-      ],
+      "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
       "trial_days": 14,
       "limits": {
@@ -124,11 +120,7 @@
       "price_monthly": 199,
       "price_annual": 1990,
       "currency": "BRL",
-      "billing_methods": [
-        "PIX",
-        "boleto",
-        "cartao"
-      ],
+      "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
       "limits": {
         "max_demos": null,
@@ -310,14 +302,8 @@
   },
   "extension": {
     "manifest_version": 3,
-    "permissions": [
-      "activeTab",
-      "storage",
-      "scripting"
-    ],
-    "optional_host_permissions": [
-      "<all_urls>"
-    ],
+    "permissions": ["activeTab", "storage", "scripting"],
+    "optional_host_permissions": ["<all_urls>"],
     "capture_method": "chrome.tabs.captureVisibleTab (screenshot PNG, qualidade 90)",
     "no_tab_capture_in_mvp": true,
     "no_offscreen_in_mvp": true,

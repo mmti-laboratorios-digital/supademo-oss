@@ -1,3 +1,4 @@
+import { createCanvas } from "canvas";
 /* eslint-disable no-console */
 /**
  * apps/web/scripts/test-pii-redaction.ts
@@ -13,7 +14,6 @@
  *   pnpm --filter web exec tsx scripts/test-pii-redaction.ts
  */
 import sharp from "sharp";
-import { createCanvas } from "canvas";
 
 // -----------------------------------------------------------------------------
 // 1. Cria imagem sintética com PII
@@ -56,7 +56,10 @@ const PII_PATTERNS: Record<string, RegExp> = {
   credit_card: /\b(?:\d[ -]*?){13,16}\b/g,
 };
 
-interface OcrWord { text: string; bbox: { x0: number; y0: number; x1: number; y1: number } }
+interface OcrWord {
+  text: string;
+  bbox: { x0: number; y0: number; x1: number; y1: number };
+}
 
 async function ocr(buffer: Buffer): Promise<OcrWord[]> {
   // Lazy import — tesseract.js pode não estar disponível em todos os ambientes
@@ -65,7 +68,9 @@ async function ocr(buffer: Buffer): Promise<OcrWord[]> {
     // @ts-ignore — dynamic
     Tesseract = (await import("tesseract.js")).default ?? (await import("tesseract.js"));
   } catch (e) {
-    console.warn("⚠ tesseract.js não disponível — pulando OCR, validando apenas regex em texto sintético.");
+    console.warn(
+      "⚠ tesseract.js não disponível — pulando OCR, validando apenas regex em texto sintético.",
+    );
     return [];
   }
   const { data } = await Tesseract.recognize(buffer, "por");
@@ -91,7 +96,10 @@ function findPiiWords(text: string): OcrWord[] {
   return matches;
 }
 
-async function applyBlur(buffer: Buffer, regions: { x: number; y: number; w: number; h: number }[]): Promise<Buffer> {
+async function applyBlur(
+  buffer: Buffer,
+  regions: { x: number; y: number; w: number; h: number }[],
+): Promise<Buffer> {
   let img = sharp(buffer);
   const meta = await img.metadata();
   const W = meta.width ?? 1024;

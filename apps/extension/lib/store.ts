@@ -8,7 +8,10 @@ import type { CapturePayload } from "./api";
 export type Session = {
   capturing: boolean;
   demoId: string | null;
-  steps: (CapturePayload & { screenshotR2Key?: string; status: "pending" | "uploaded" | "error" })[];
+  steps: (CapturePayload & {
+    screenshotR2Key?: string;
+    status: "pending" | "uploaded" | "error";
+  })[];
   startedAt: number;
 };
 

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { loadHomeContent } from "./content/contentLoader";
 
 /**
@@ -23,9 +23,7 @@ export default async function MarketingHomePage() {
         <h1 className="max-w-3xl text-balance text-5xl font-bold leading-tight tracking-tight md:text-7xl">
           {meta.title}
         </h1>
-        <p className="max-w-2xl text-balance text-lg text-muted-foreground">
-          {meta.subtitle}
-        </p>
+        <p className="max-w-2xl text-balance text-lg text-muted-foreground">{meta.subtitle}</p>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Button asChild size="lg" className="neobrutalism-button">
             <Link href={meta.primaryCta.href}>{meta.primaryCta.label}</Link>
@@ -80,9 +78,7 @@ export default async function MarketingHomePage() {
                 style={{ background: "linear-gradient(135deg,#2B6CB0,#38B2AC)" }}
               />
               <h3 className="text-base font-semibold">{d.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {d.description}
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{d.description}</p>
             </Link>
           ))}
         </div>
@@ -132,19 +128,10 @@ export default async function MarketingHomePage() {
           <p className="mt-3 text-base opacity-90">{finalCta.subtitle}</p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <Button asChild size="lg" variant="outline">
-              <Link href={finalCta.primaryCta.href}>
-                {finalCta.primaryCta.label}
-              </Link>
+              <Link href={finalCta.primaryCta.href}>{finalCta.primaryCta.label}</Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="ghost"
-              className="text-primary-foreground"
-            >
-              <Link href={finalCta.secondaryCta.href}>
-                {finalCta.secondaryCta.label}
-              </Link>
+            <Button asChild size="lg" variant="ghost" className="text-primary-foreground">
+              <Link href={finalCta.secondaryCta.href}>{finalCta.secondaryCta.label}</Link>
             </Button>
           </div>
         </div>

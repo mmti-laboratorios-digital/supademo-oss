@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
-import { env } from "../env";
 import type { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
+import { env } from "../env";
 
 /**
  * Identifica o visitante via cookie first-party `_pk_id` (30d).
@@ -20,9 +20,7 @@ export type VisitorContext = {
   referrerHost: string | null;
 };
 
-export async function analyticsVisitorCookie(
-  headers: ReadonlyHeaders,
-): Promise<VisitorContext> {
+export async function analyticsVisitorCookie(headers: ReadonlyHeaders): Promise<VisitorContext> {
   const e = env();
   const cookieName = e.VISITOR_COOKIE_NAME ?? COOKIE_NAME_DEFAULT;
 

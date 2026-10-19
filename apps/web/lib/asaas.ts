@@ -37,10 +37,7 @@ export type AsaasPayment = {
   pixQrCodeId?: string;
 };
 
-async function asaas<T>(
-  path: string,
-  init: RequestInit = {},
-): Promise<T> {
+async function asaas<T>(path: string, init: RequestInit = {}): Promise<T> {
   const e = env();
   if (!e.ASAAS_API_KEY) throw new Error("ASAAS_API_KEY not configured");
   const base = BASE[e.ASAAS_ENVIRONMENT];
@@ -100,10 +97,7 @@ export async function cancelSubscription(id: string): Promise<void> {
  * (Asaas usa access_token tanto pra API quanto pra webhook auth — aqui só
  * usamos pra validar origem em dev; em prod compare com ASAAS_WEBHOOK_SECRET).
  */
-export function verifyWebhookSignature(
-  rawBody: string,
-  signature: string | null,
-): boolean {
+export function verifyWebhookSignature(rawBody: string, signature: string | null): boolean {
   const e = env();
   if (!e.ASAAS_WEBHOOK_SECRET || !signature) return false;
 

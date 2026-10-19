@@ -9,12 +9,8 @@ export const CONSENT_TEXT_PT_BR_DEFAULT =
 export const CONSENT_TEXT_EN_DEFAULT =
   "I authorize {workspace_name} to contact me about the demonstrated product, in accordance with the Brazilian General Data Protection Law (Law nº 13.709/2018). I may revoke this consent at any time.";
 
-export function getDefaultConsentText(
-  workspaceName: string,
-  locale: "pt-BR" | "en",
-): string {
-  const template =
-    locale === "pt-BR" ? CONSENT_TEXT_PT_BR_DEFAULT : CONSENT_TEXT_EN_DEFAULT;
+export function getDefaultConsentText(workspaceName: string, locale: "pt-BR" | "en"): string {
+  const template = locale === "pt-BR" ? CONSENT_TEXT_PT_BR_DEFAULT : CONSENT_TEXT_EN_DEFAULT;
   return template.replaceAll("{workspace_name}", workspaceName);
 }
 

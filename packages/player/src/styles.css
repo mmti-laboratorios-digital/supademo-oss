@@ -140,7 +140,8 @@
 }
 
 @keyframes dbr-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5);
   }
   50% {

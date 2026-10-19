@@ -36,7 +36,7 @@
  *   pnpm exec tsx scripts/check-dpo-missing.ts --json   # saída em JSON
  */
 
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import { extname, join, relative } from "node:path";
 
 /* -------------------------------------------------------------------------- */
@@ -157,10 +157,7 @@ async function scanFile(filePath: string): Promise<Finding[]> {
 
   for (const { pattern, label } of PLACEHOLDER_PATTERNS) {
     // Padrão `placeholder@demobr.com.br` é isento nos arquivos whitelisted
-    if (
-      label === "placeholder@demobr.com.br" &&
-      isWhitelisted
-    ) {
+    if (label === "placeholder@demobr.com.br" && isWhitelisted) {
       continue;
     }
 
@@ -217,11 +214,7 @@ async function main(): Promise<void> {
     const msg = `❌ Pasta legal/ não encontrada em ${ROOT}`;
     if (jsonOutput) {
       console.log(
-        JSON.stringify(
-          { ok: false, error: msg, scannedAt: new Date().toISOString() },
-          null,
-          2,
-        ),
+        JSON.stringify({ ok: false, error: msg, scannedAt: new Date().toISOString() }, null, 2),
       );
     } else {
       console.error(msg);
@@ -257,24 +250,14 @@ async function main(): Promise<void> {
     console.error("");
     console.error("Placeholders encontrados:");
     for (const finding of report.findings) {
-      console.error(
-        `  ${finding.file}:${finding.line}  [${finding.pattern}]  ${finding.context}`,
-      );
+      console.error(`  ${finding.file}:${finding.line}  [${finding.pattern}]  ${finding.context}`);
     }
     console.error("");
-    console.error(
-      "Ação: após a contratação formal do DPO, substitua os placeholders",
-    );
-    console.error(
-      "pelo nome/e-mail real em todos os arquivos. Veja instruções em",
-    );
-    console.error(
-      "  legal/DPO.md §10 e legal/DPO-PROCESS.md §3 (Fase 3).",
-    );
+    console.error("Ação: após a contratação formal do DPO, substitua os placeholders");
+    console.error("pelo nome/e-mail real em todos os arquivos. Veja instruções em");
+    console.error("  legal/DPO.md §10 e legal/DPO-PROCESS.md §3 (Fase 3).");
     console.error("");
-    console.error(
-      "Para localizar programaticamente: grep -rn 'placeholder@demobr' legal/",
-    );
+    console.error("Para localizar programaticamente: grep -rn 'placeholder@demobr' legal/");
   }
 
   process.exit(report.ok ? 0 : 1);

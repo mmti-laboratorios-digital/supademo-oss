@@ -134,12 +134,8 @@
           "tableFrom": "demos",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -149,9 +145,7 @@
         "demos_slug_unique": {
           "name": "demos_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},
@@ -221,12 +215,8 @@
           "tableFrom": "dsr_log",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -293,12 +283,8 @@
           "tableFrom": "hotspots",
           "tableTo": "steps",
           "schemaTo": "app",
-          "columnsFrom": [
-            "step_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["step_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -372,12 +358,8 @@
           "tableFrom": "invitations",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -387,9 +369,7 @@
         "invitations_token_unique": {
           "name": "invitations_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -526,12 +506,8 @@
           "tableFrom": "leads",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -540,12 +516,8 @@
           "tableFrom": "leads",
           "tableTo": "demos",
           "schemaTo": "app",
-          "columnsFrom": [
-            "demo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["demo_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -613,12 +585,8 @@
           "tableFrom": "members",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -628,10 +596,7 @@
         "members_workspace_email_unq": {
           "name": "members_workspace_email_unq",
           "nullsNotDistinct": false,
-          "columns": [
-            "workspace_id",
-            "email"
-          ]
+          "columns": ["workspace_id", "email"]
         }
       },
       "policies": {},
@@ -766,12 +731,8 @@
           "tableFrom": "sessions",
           "tableTo": "members",
           "schemaTo": "app",
-          "columnsFrom": [
-            "member_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["member_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -868,12 +829,8 @@
           "tableFrom": "steps",
           "tableTo": "demos",
           "schemaTo": "app",
-          "columnsFrom": [
-            "demo_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["demo_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -883,10 +840,7 @@
         "steps_demo_position_unq": {
           "name": "steps_demo_position_unq",
           "nullsNotDistinct": false,
-          "columns": [
-            "demo_id",
-            "position"
-          ]
+          "columns": ["demo_id", "position"]
         }
       },
       "policies": {},
@@ -969,12 +923,8 @@
           "tableFrom": "subscriptions",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -983,12 +933,8 @@
           "tableFrom": "subscriptions",
           "tableTo": "plans",
           "schemaTo": "app",
-          "columnsFrom": [
-            "plan_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["plan_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1068,12 +1014,8 @@
           "tableFrom": "webhook_deliveries",
           "tableTo": "webhooks",
           "schemaTo": "app",
-          "columnsFrom": [
-            "webhook_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["webhook_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1141,12 +1083,8 @@
           "tableFrom": "webhooks",
           "tableTo": "workspaces",
           "schemaTo": "app",
-          "columnsFrom": [
-            "workspace_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["workspace_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1258,16 +1196,12 @@
         "workspaces_clerk_org_id_unique": {
           "name": "workspaces_clerk_org_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "clerk_org_id"
-          ]
+          "columns": ["clerk_org_id"]
         },
         "workspaces_slug_unique": {
           "name": "workspaces_slug_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
+          "columns": ["slug"]
         }
       },
       "policies": {},

@@ -13,9 +13,7 @@ import type { SubscriptionStatus } from "@demo.br/shared";
  * Mapeia status Asaas → status interno (canonical).
  * Asaas retorna ACTIVE, INACTIVE, OVERDUE, EXPIRED, CANCELLED.
  */
-export function mapAsaasStatus(
-  asaas: string,
-): SubscriptionStatus {
+export function mapAsaasStatus(asaas: string): SubscriptionStatus {
   switch (asaas.toUpperCase()) {
     case "ACTIVE":
       return "active";
@@ -43,19 +41,12 @@ export function signWebhook(payload: string, secret: string): string {
 /**
  * Verifica assinatura do webhook. Const-time compare.
  */
-export function verifyWebhook(
-  payload: string,
-  signature: string,
-  secret: string,
-): boolean {
+export function verifyWebhook(payload: string, signature: string, secret: string): boolean {
   if (!signature || !secret) return false;
   const expected = signWebhook(payload, secret);
   if (signature.length !== expected.length) return false;
   try {
-    return timingSafeEqual(
-      Buffer.from(signature, "hex"),
-      Buffer.from(expected, "hex"),
-    );
+    return timingSafeEqual(Buffer.from(signature, "hex"), Buffer.from(expected, "hex"));
   } catch {
     return false;
   }
@@ -94,12 +85,8 @@ export function serializeSubscription(
     planId: payload.planId,
     asaasSubscriptionId: payload.asaasSubscriptionId,
     status: mapAsaasStatus(payload.status),
-    currentPeriodStart: payload.currentPeriodStart
-      ? new Date(payload.currentPeriodStart)
-      : null,
-    currentPeriodEnd: payload.currentPeriodEnd
-      ? new Date(payload.currentPeriodEnd)
-      : null,
+    currentPeriodStart: payload.currentPeriodStart ? new Date(payload.currentPeriodStart) : null,
+    currentPeriodEnd: payload.currentPeriodEnd ? new Date(payload.currentPeriodEnd) : null,
     cancelAtPeriodEnd: opts.cancelAtPeriodEnd ?? false,
     updatedAt: new Date(),
   };

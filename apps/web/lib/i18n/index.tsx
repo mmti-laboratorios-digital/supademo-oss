@@ -1,11 +1,17 @@
 "use client";
 
+import { messagesEn, messagesPtBR } from "@demo.br/shared";
 import * as React from "react";
-import { messagesPtBR, messagesEn } from "@demo.br/shared";
 
 import { DEFAULT_LOCALE, LOCALE_COOKIE, resolveLocale } from "./constants";
 
-export { SUPPORTED_LOCALES, DEFAULT_LOCALE, LOCALE_COOKIE, resolveLocale, parseAcceptLanguage } from "./constants";
+export {
+  SUPPORTED_LOCALES,
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  resolveLocale,
+  parseAcceptLanguage,
+} from "./constants";
 export type { Locale } from "./constants";
 
 import type { Locale } from "./constants";

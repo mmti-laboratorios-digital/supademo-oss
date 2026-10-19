@@ -6,7 +6,7 @@
  * Para testes com demo real, execute seed-test antes e marque
  * PLAYWRIGHT_E2E_REAL=1.
  */
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Player público", () => {
   test("Carrega /d/<slug-fictício> e resposta não-2xx", async ({ page }) => {
@@ -18,9 +18,7 @@ test.describe("Player público", () => {
     expect(status).toBeGreaterThanOrEqual(400);
   });
 
-  test("Player markup completo em demo real (se seed estiver rodando)", async ({
-    page,
-  }) => {
+  test("Player markup completo em demo real (se seed estiver rodando)", async ({ page }) => {
     test.skip(
       !process.env.PLAYWRIGHT_E2E_REAL,
       "Pule este teste sem seed ativo (PLAYWRIGHT_E2E_REAL=1)",

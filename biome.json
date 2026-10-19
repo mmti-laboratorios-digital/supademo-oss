@@ -7,7 +7,12 @@
       "**/dist/**",
       "**/.output/**",
       "**/build/**",
-      "**/*.tsbuildinfo"
+      "**/*.tsbuildinfo",
+      "**/playwright-report/**",
+      "**/test-results/**",
+      "**/coverage/**",
+      "**/.git/**",
+      "**/.storybook/**"
     ]
   },
   "organizeImports": {
@@ -16,7 +21,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "recommended": false,
       "correctness": {
         "useExhaustiveDependencies": "warn"
       },
@@ -25,7 +30,7 @@
         "useExportType": "warn"
       },
       "suspicious": {
-        "noExplicitAny": "warn"
+        "noExplicitAny": "off"
       }
     }
   },

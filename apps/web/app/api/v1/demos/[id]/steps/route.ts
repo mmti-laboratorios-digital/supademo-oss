@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { eq, asc } from "drizzle-orm";
+import { steps } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import { steps } from "@/db/schema/app";
 import { presignPut } from "@/lib/r2";
+import { asc, eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 
@@ -25,19 +25,12 @@ const createStepSchema = z.object({
 
 const updateStepSchema = createStepSchema.partial();
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const { orgId } = await requireAuth();
     const list = await withTenant(orgId, async (db) => {
-      return db
-        .select()
-        .from(steps)
-        .where(eq(steps.demoId, id))
-        .orderBy(asc(steps.position));
+      return db.select().from(steps).where(eq(steps.demoId, id)).orderBy(asc(steps.position));
     });
     return NextResponse.json({ items: list });
   } catch (err) {
@@ -45,10 +38,7 @@ export async function GET(
   }
 }
 
-export async function POST(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: demoId } = await params;
     const { orgId } = await requireAuth();
@@ -95,10 +85,7 @@ export async function POST(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id: demoId } = await params;
     const { orgId } = await requireAuth();
@@ -125,11 +112,7 @@ export async function PATCH(
       if (parsed.data.screenshotR2Key !== undefined)
         updates.screenshotR2Key = parsed.data.screenshotR2Key;
 
-      const [row] = await db
-        .update(steps)
-        .set(updates)
-        .where(eq(steps.id, stepId))
-        .returning();
+      const [row] = await db.update(steps).set(updates).where(eq(steps.id, stepId)).returning();
       return row ?? null;
     });
 

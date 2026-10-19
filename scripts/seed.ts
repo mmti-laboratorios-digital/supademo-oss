@@ -11,17 +11,10 @@
  * Nota: porta 55432 (não 5432) é convenção do projeto — ver infra/docker-compose.yml.
  */
 
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { eq } from "drizzle-orm";
-import {
-  workspaces,
-  demos,
-  steps,
-  plans,
-  subscriptions,
-  members,
-} from "../apps/web/db/schema/app";
+import { demos, members, plans, steps, subscriptions, workspaces } from "../apps/web/db/schema/app";
 
 const DATABASE_URL =
   process.env.DATABASE_URL ?? "postgres://app_owner:CHANGEME_owner@localhost:55432/supademo";
@@ -166,11 +159,7 @@ async function main() {
         maxViewsPerMonth: 5000,
         ttsMinutesPerMonth: 30,
         aiTextRequestsPerMonth: 500,
-        features: [
-          "Demos ilimitados",
-          "100 leads/mês",
-          "PIX + boleto + cartão",
-        ],
+        features: ["Demos ilimitados", "100 leads/mês", "PIX + boleto + cartão"],
       },
       {
         id: "business",
@@ -182,13 +171,7 @@ async function main() {
         maxViewsPerMonth: 50000,
         ttsMinutesPerMonth: 200,
         aiTextRequestsPerMonth: 2000,
-        features: [
-          "Custom domain",
-          "CRM BR",
-          "Branching",
-          "White-label",
-          "Suporte 24h",
-        ],
+        features: ["Custom domain", "CRM BR", "Branching", "White-label", "Suporte 24h"],
       },
     ])
     .onConflictDoNothing();

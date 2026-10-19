@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { eq, desc, and } from "drizzle-orm";
+import { demos } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import { demos } from "@/db/schema/app";
+import { and, desc, eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 
@@ -35,9 +35,7 @@ export async function GET(req: Request) {
   try {
     const { orgId } = await requireAuth();
     const url = new URL(req.url);
-    const parsed = listQuerySchema.safeParse(
-      Object.fromEntries(url.searchParams),
-    );
+    const parsed = listQuerySchema.safeParse(Object.fromEntries(url.searchParams));
     if (!parsed.success) {
       return NextResponse.json(
         { error: "BAD_QUERY", details: parsed.error.flatten() },
@@ -115,10 +113,7 @@ function errorResponse(err: unknown): NextResponse {
       return NextResponse.json({ error: "NO_WORKSPACE" }, { status: 403 });
     }
     if (err.message.includes("UNIQUE") || err.message.includes("duplicate")) {
-      return NextResponse.json(
-        { error: "SLUG_TAKEN" },
-        { status: 409 },
-      );
+      return NextResponse.json({ error: "SLUG_TAKEN" }, { status: 409 });
     }
   }
   console.error("[/api/v1/demos] error:", err);

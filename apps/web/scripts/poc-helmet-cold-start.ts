@@ -12,11 +12,11 @@
  *  monorepo DemoBR puxa todo o build cache, então o cold-start real só
  *  é confiável em CI limpo.
  */
-import { spawn, type ChildProcess } from "node:child_process";
+import { type ChildProcess, spawn } from "node:child_process";
 import { performance as perf } from "node:perf_hooks";
+import { setTimeout as sleep } from "node:timers/promises";
 import express from "express";
 import helmet from "helmet";
-import { setTimeout as sleep } from "node:timers/promises";
 
 const RUN_NEXT = process.env.RUN_NEXT === "1";
 const NEXT_PORT = Number(process.env.NEXT_PORT ?? "4321");
@@ -38,7 +38,10 @@ async function waitForReady(child: ChildProcess, timeoutMs = 60_000): Promise<nu
     const onData = (b: Buffer) => {
       const s = b.toString();
       // dev mode mostra "Ready in" quando termina o boot do dev server
-      if ((s.includes("Ready") || s.includes("Local:") || s.includes("started server")) && !settled) {
+      if (
+        (s.includes("Ready") || s.includes("Local:") || s.includes("started server")) &&
+        !settled
+      ) {
         settled = true;
         resolve(perf.now() - t0);
       }
@@ -51,7 +54,10 @@ async function waitForReady(child: ChildProcess, timeoutMs = 60_000): Promise<nu
   });
 }
 
-async function fetchOnce(port: number, path: string): Promise<{ status: number; t: number; headers: Record<string, string> }> {
+async function fetchOnce(
+  port: number,
+  path: string,
+): Promise<{ status: number; t: number; headers: Record<string, string> }> {
   const t0 = perf.now();
   const res = await fetch(`http://127.0.0.1:${port}${path}`);
   const headers: Record<string, string> = {};

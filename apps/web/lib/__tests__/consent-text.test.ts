@@ -3,7 +3,7 @@
  *
  * Validação do texto de consentimento LGPD.
  */
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 const LGPD_KEYWORDS = ["autorizo", "LGPD", "lei 13.709", "contato", "consent"];
 
@@ -20,9 +20,7 @@ function validateConsentText(text: string): { valid: boolean; reasons: string[] 
 
 describe("validateConsentText", () => {
   it("aceita texto padrão LGPD", () => {
-    const res = validateConsentText(
-      "Autorizo o envio de contatos conforme LGPD - Lei 13.709/2018",
-    );
+    const res = validateConsentText("Autorizo o envio de contatos conforme LGPD - Lei 13.709/2018");
     expect(res.valid).toBe(true);
     expect(res.reasons).toEqual([]);
   });

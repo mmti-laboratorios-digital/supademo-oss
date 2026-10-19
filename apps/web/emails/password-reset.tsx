@@ -1,5 +1,5 @@
+import { Button, Heading, Section, Text } from "@react-email/components";
 import * as React from "react";
-import { Heading, Text, Button, Section } from "@react-email/components";
 import { EmailLayout } from "./_layout";
 
 export type PasswordResetEmailProps = {
@@ -29,10 +29,7 @@ export function PasswordResetEmail({
   locale = "pt-BR",
 }: PasswordResetEmailProps) {
   return (
-    <EmailLayout
-      locale={locale}
-      preheader="Redefina sua senha. Esse link expira em 30 minutos."
-    >
+    <EmailLayout locale={locale} preheader="Redefina sua senha. Esse link expira em 30 minutos.">
       <Heading
         as="h2"
         className="m-0 text-2xl font-bold text-ink"
@@ -42,9 +39,8 @@ export function PasswordResetEmail({
       </Heading>
 
       <Text className="mt-3 leading-6 text-ink-muted">
-        {firstName ? `Oi, ${firstName}.` : "Oi."} Recebemos um pedido pra
-        redefinir a senha da sua conta. Se foi você, é só clicar no botão
-        abaixo em até {expiresInMinutes} minutos.
+        {firstName ? `Oi, ${firstName}.` : "Oi."} Recebemos um pedido pra redefinir a senha da sua
+        conta. Se foi você, é só clicar no botão abaixo em até {expiresInMinutes} minutos.
       </Text>
 
       <Section className="mt-6 text-center">
@@ -59,9 +55,7 @@ export function PasswordResetEmail({
       <Text className="mt-8 text-sm text-ink-subtle">
         Se o botão não funcionar, cole este link no seu navegador:
       </Text>
-      <Text className="mt-1 break-all font-mono text-xs text-ink-muted">
-        {resetUrl}
-      </Text>
+      <Text className="mt-1 break-all font-mono text-xs text-ink-muted">{resetUrl}</Text>
 
       {(ipAddress || userAgent) && (
         <Section className="mt-6 rounded-md border border-surface-border bg-surface-muted p-3">
@@ -69,9 +63,7 @@ export function PasswordResetEmail({
             Pedido originado de
           </Text>
           {ipAddress ? (
-            <Text className="mt-1 mb-0 font-mono text-xs text-ink">
-              IP: {ipAddress}
-            </Text>
+            <Text className="mt-1 mb-0 font-mono text-xs text-ink">IP: {ipAddress}</Text>
           ) : null}
           {userAgent ? (
             <Text className="mt-1 mb-0 break-all font-mono text-xs text-ink">
@@ -82,8 +74,8 @@ export function PasswordResetEmail({
       )}
 
       <Text className="mt-8 text-sm text-ink-subtle">
-        Não pediu essa redefinição? Ignore este e-mail. Sua senha continua a
-        mesma e ninguém conseguiu entrar na sua conta.
+        Não pediu essa redefinição? Ignore este e-mail. Sua senha continua a mesma e ninguém
+        conseguiu entrar na sua conta.
       </Text>
     </EmailLayout>
   );

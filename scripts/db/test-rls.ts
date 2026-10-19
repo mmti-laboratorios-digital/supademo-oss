@@ -37,8 +37,7 @@ const TENANT_A_URL =
   process.env.TENANT_A_URL ??
   process.env.DATABASE_URL ??
   "postgres://app_user:demobr@127.0.0.1:55432/supademo";
-const TENANT_B_URL =
-  process.env.TENANT_B_URL ?? TENANT_A_URL;
+const TENANT_B_URL = process.env.TENANT_B_URL ?? TENANT_A_URL;
 
 const checks = { passed: 0, failed: 0 };
 function check(name: string, ok: boolean, detail = ""): void {
@@ -101,11 +100,7 @@ async function main() {
 
   console.log("\n▶ Verificando FORCE ROW LEVEL SECURITY…");
   const wsForce = await tableForceRls(admin, "workspaces");
-  check(
-    "2. app.workspaces FORCE RLS",
-    wsForce.force,
-    `rls=${wsForce.rls}, force=${wsForce.force}`,
-  );
+  check("2. app.workspaces FORCE RLS", wsForce.force, `rls=${wsForce.rls}, force=${wsForce.force}`);
   const demosForce = await tableForceRls(admin, "demos");
   check(
     "3. app.demos FORCE RLS",
@@ -155,11 +150,7 @@ async function main() {
   const seenOwnByA = await a<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dA}
   `;
-  check(
-    "6. Tenant A vê o próprio demo",
-    seenOwnByA.length === 1,
-    `got ${seenOwnByA.length} rows`,
-  );
+  check("6. Tenant A vê o próprio demo", seenOwnByA.length === 1, `got ${seenOwnByA.length} rows`);
   const seenByBfromA = await a<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dB}
   `;
@@ -174,11 +165,7 @@ async function main() {
   const seenOwnByB = await b<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dB}
   `;
-  check(
-    "8. Tenant B vê o próprio demo",
-    seenOwnByB.length === 1,
-    `got ${seenOwnByB.length} rows`,
-  );
+  check("8. Tenant B vê o próprio demo", seenOwnByB.length === 1, `got ${seenOwnByB.length} rows`);
   const seenByAfromB = await b<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dA}
   `;

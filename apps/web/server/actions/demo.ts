@@ -1,11 +1,11 @@
 "use server";
 
-import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { demos, steps } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import { demos, steps } from "@/db/schema/app";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 const updateTitleSchema = z.object({
   demoId: z.string().uuid(),
@@ -37,7 +37,10 @@ export async function reorderSteps(input: z.infer<typeof reorderSchema>) {
       for (let i = 0; i < parsed.order.length; i++) {
         const id = parsed.order[i];
         if (!id) continue;
-        await tx.update(steps).set({ position: i + 1 }).where(eq(steps.id, id));
+        await tx
+          .update(steps)
+          .set({ position: i + 1 })
+          .where(eq(steps.id, id));
       }
     });
   });

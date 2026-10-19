@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { loadBlogPost, listBlogPosts } from "../../content/contentLoader";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { listBlogPosts, loadBlogPost } from "../../content/contentLoader";
 
 /**
  * Render a single blog post. We use `generateStaticParams` to pre-build the
@@ -35,17 +35,18 @@ export default async function BlogPostPage({
 
   // Build FAQ JSON-LD if there's an FAQ block at the end
   const faqBlock = blocks.find((b) => b.type === "faq");
-  const faqJsonLd = faqBlock && faqBlock.type === "faq"
-    ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqBlock.items.map((q) => ({
-          "@type": "Question",
-          name: q.question,
-          acceptedAnswer: { "@type": "Answer", text: q.answer },
-        })),
-      }
-    : null;
+  const faqJsonLd =
+    faqBlock && faqBlock.type === "faq"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqBlock.items.map((q) => ({
+            "@type": "Question",
+            name: q.question,
+            acceptedAnswer: { "@type": "Answer", text: q.answer },
+          })),
+        }
+      : null;
 
   return (
     <main className="container max-w-3xl py-16">
@@ -75,9 +76,7 @@ export default async function BlogPostPage({
         <h1 className="text-balance text-4xl font-bold leading-tight md:text-5xl">
           {frontmatter.title}
         </h1>
-        <p className="mt-3 text-base text-muted-foreground">
-          {frontmatter.description}
-        </p>
+        <p className="mt-3 text-base text-muted-foreground">{frontmatter.description}</p>
       </header>
 
       <article className="prose prose-neutral max-w-none dark:prose-invert">
@@ -104,9 +103,7 @@ export default async function BlogPostPage({
                   {b.items.map((q) => (
                     <div key={q.question} className="py-4">
                       <dt className="font-semibold">{q.question}</dt>
-                      <dd className="mt-1 text-sm text-muted-foreground">
-                        {q.answer}
-                      </dd>
+                      <dd className="mt-1 text-sm text-muted-foreground">{q.answer}</dd>
                     </div>
                   ))}
                 </dl>

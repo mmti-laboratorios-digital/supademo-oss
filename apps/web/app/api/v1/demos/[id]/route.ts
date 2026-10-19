@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { demos, steps } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import { demos, steps } from "@/db/schema/app";
+import { eq } from "drizzle-orm";
 import { asc } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 
@@ -24,19 +24,12 @@ const updateDemoSchema = z.object({
     .optional(),
 });
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const { orgId } = await requireAuth();
     const result = await withTenant(orgId, async (db) => {
-      const [demo] = await db
-        .select()
-        .from(demos)
-        .where(eq(demos.id, id))
-        .limit(1);
+      const [demo] = await db.select().from(demos).where(eq(demos.id, id)).limit(1);
       if (!demo) return null;
 
       const stepList = await db
@@ -57,10 +50,7 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const { orgId } = await requireAuth();
@@ -76,26 +66,19 @@ export async function PATCH(
     const updated = await withTenant(orgId, async (db) => {
       const updates: Record<string, unknown> = { updatedAt: new Date() };
       if (parsed.data.title !== undefined) updates.title = parsed.data.title;
-      if (parsed.data.description !== undefined)
-        updates.description = parsed.data.description;
+      if (parsed.data.description !== undefined) updates.description = parsed.data.description;
       if (parsed.data.status !== undefined) {
         updates.status = parsed.data.status;
         if (parsed.data.status === "published") {
           updates.publishedAt = new Date();
         }
       }
-      if (parsed.data.language !== undefined)
-        updates.language = parsed.data.language;
+      if (parsed.data.language !== undefined) updates.language = parsed.data.language;
       if (parsed.data.leadFormEnabled !== undefined)
         updates.leadFormEnabled = parsed.data.leadFormEnabled;
-      if (parsed.data.finalCta !== undefined)
-        updates.finalCta = parsed.data.finalCta;
+      if (parsed.data.finalCta !== undefined) updates.finalCta = parsed.data.finalCta;
 
-      const [row] = await db
-        .update(demos)
-        .set(updates)
-        .where(eq(demos.id, id))
-        .returning();
+      const [row] = await db.update(demos).set(updates).where(eq(demos.id, id)).returning();
       return row ?? null;
     });
 
@@ -108,10 +91,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  _req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
     const { orgId } = await requireAuth();

@@ -43,11 +43,7 @@ export function PlanCard({
           </li>
         ))}
       </ul>
-      <Button
-        asChild
-        className="mt-6 w-full"
-        variant={highlighted ? "default" : "outline"}
-      >
+      <Button asChild className="mt-6 w-full" variant={highlighted ? "default" : "outline"}>
         <a href={ctaHref}>{ctaLabel}</a>
       </Button>
     </div>

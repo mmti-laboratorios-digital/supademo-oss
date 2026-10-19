@@ -7,18 +7,18 @@
  * Tasks: ver `./tasks/*` — cada uma é um arquivo separado com default export.
  */
 
-import { run, type TaskList } from "graphile-worker";
 import { config as loadEnv } from "dotenv";
+import { type TaskList, run } from "graphile-worker";
 
 loadEnv({ path: ".env" });
 loadEnv({ path: "../.env" });
 
+import { cleanupExpired } from "./tasks/cleanup_expired";
+import { generateOg } from "./tasks/generate_og";
 import { processDemo } from "./tasks/process_demo";
 import { redactPii } from "./tasks/redact_pii";
-import { ttsJob } from "./tasks/tts_job";
-import { generateOg } from "./tasks/generate_og";
-import { cleanupExpired } from "./tasks/cleanup_expired";
 import { syncBilling } from "./tasks/sync_billing";
+import { ttsJob } from "./tasks/tts_job";
 
 // Convenção do projeto: porta 55432 no host (não 5432) — ver infra/docker-compose.yml.
 const connectionString =

@@ -54,7 +54,11 @@ async function postSigned(path: string, body: unknown): Promise<{ status: number
   return { status: res.status, body: text };
 }
 
-interface Subscription { id: string; status: string; paid_at?: string | null }
+interface Subscription {
+  id: string;
+  status: string;
+  paid_at?: string | null;
+}
 
 async function fetchSubscription(id: string): Promise<Subscription> {
   return getJson<Subscription>(`/api/v1/billing/subscriptions/${id}`);
@@ -116,7 +120,9 @@ async function main() {
     process.exit(1);
   }
   if (after2.paid_at !== after1.paid_at) {
-    console.error(`❌ paid_at foi sobrescrito na 2ª chamada (${after1.paid_at} → ${after2.paid_at})`);
+    console.error(
+      `❌ paid_at foi sobrescrito na 2ª chamada (${after1.paid_at} → ${after2.paid_at})`,
+    );
     process.exit(1);
   }
   console.log("  ✓ idempotente: 2ª chamada não duplicou efeito.");

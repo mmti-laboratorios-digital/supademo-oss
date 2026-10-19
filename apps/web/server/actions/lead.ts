@@ -1,13 +1,13 @@
 "use server";
 
-import { z } from "zod";
-import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
-import { getDb } from "@/lib/db";
 import { leads } from "@/db/schema/app";
 import { recordLeadCaptured } from "@/lib/analytics/events";
 import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { getDb } from "@/lib/db";
 import { getDefaultConsentText } from "@/lib/lgpd/consent";
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import { z } from "zod";
 
 const leadSchema = z.object({
   workspaceId: z.string().uuid(),
@@ -33,8 +33,7 @@ export async function captureLead(
   }
 
   const text =
-    parsed.data.consentText ??
-    getDefaultConsentText(parsed.data.workspaceName, parsed.data.locale);
+    parsed.data.consentText ?? getDefaultConsentText(parsed.data.workspaceName, parsed.data.locale);
 
   const h = await headers();
   const ua = h.get("user-agent") ?? "";
@@ -73,8 +72,5 @@ export async function captureLead(
 
 import { createHash } from "node:crypto";
 function hashPii(value: string, kind: "ua" | "ip"): string {
-  return createHash("sha256")
-    .update(`${kind}:${value}`)
-    .digest("hex")
-    .slice(0, 32);
+  return createHash("sha256").update(`${kind}:${value}`).digest("hex").slice(0, 32);
 }

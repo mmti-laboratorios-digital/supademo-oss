@@ -36,10 +36,7 @@ export class ApiClient {
     return {};
   }
 
-  private async request<T>(
-    path: string,
-    init: RequestInit = {},
-  ): Promise<T> {
+  private async request<T>(path: string, init: RequestInit = {}): Promise<T> {
     const headers = {
       "content-type": "application/json",
       accept: "application/json",
@@ -119,13 +116,10 @@ export class ApiClient {
     hotspot: { type: "pointer" | "callout" | "area"; x: number; y: number };
   }): Promise<{ id: string } | null> {
     try {
-      const res = await this.request<{ step: { id: string } }>(
-        `/demos/${args.demoId}/steps`,
-        {
-          method: "POST",
-          body: JSON.stringify(args),
-        },
-      );
+      const res = await this.request<{ step: { id: string } }>(`/demos/${args.demoId}/steps`, {
+        method: "POST",
+        body: JSON.stringify(args),
+      });
       return { id: res.step.id };
     } catch {
       return null;

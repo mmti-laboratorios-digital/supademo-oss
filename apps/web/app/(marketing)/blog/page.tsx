@@ -12,12 +12,9 @@ export default async function BlogIndexPage() {
   return (
     <main className="container max-w-5xl py-24">
       <header className="mb-12">
-        <h1 className="text-balance text-4xl font-bold md:text-5xl">
-          Blog do DemoBR
-        </h1>
+        <h1 className="text-balance text-4xl font-bold md:text-5xl">Blog do DemoBR</h1>
         <p className="mt-3 text-muted-foreground">
-          Guias, news e engineering sobre demos interativas, LGPD e o
-          bastidores da plataforma.
+          Guias, news e engineering sobre demos interativas, LGPD e o bastidores da plataforma.
         </p>
       </header>
 
@@ -46,26 +43,17 @@ export default async function BlogIndexPage() {
                   day: "2-digit",
                 })}
               </time>
-              <div className="mt-1 text-xs uppercase tracking-wider">
-                {p.category}
-              </div>
+              <div className="mt-1 text-xs uppercase tracking-wider">{p.category}</div>
               <div className="mt-1 text-xs">{p.readingTimeMin} min</div>
             </div>
             <div>
               <h2 className="text-xl font-bold">
-                <Link
-                  href={`/blog/${p.slug}`}
-                  className="hover:underline"
-                >
+                <Link href={`/blog/${p.slug}`} className="hover:underline">
                   {p.title}
                 </Link>
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {p.description}
-              </p>
-              <div className="mt-2 text-xs text-muted-foreground">
-                por {p.author}
-              </div>
+              <p className="mt-2 text-sm text-muted-foreground">{p.description}</p>
+              <div className="mt-2 text-xs text-muted-foreground">por {p.author}</div>
             </div>
           </article>
         ))}

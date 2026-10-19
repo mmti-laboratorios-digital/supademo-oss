@@ -4,7 +4,7 @@
  * Carrega variáveis de ambiente de teste antes de qualquer import que use env().
  * Usa dotenv builtin via process.loadEnvFile (Node 22+).
  */
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const envFile = resolve(process.cwd(), ".env.test");

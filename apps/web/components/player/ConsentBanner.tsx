@@ -1,10 +1,7 @@
 "use client";
 
+import { ANALYTICS_BANNER_EN, ANALYTICS_BANNER_PT_BR } from "@/lib/lgpd/consent";
 import * as React from "react";
-import {
-  ANALYTICS_BANNER_EN,
-  ANALYTICS_BANNER_PT_BR,
-} from "@/lib/lgpd/consent";
 
 export type ConsentBannerProps = {
   locale: "pt-BR" | "en";
@@ -13,9 +10,7 @@ export type ConsentBannerProps = {
 const STORAGE_KEY = "demobr.consent";
 
 export function ConsentBanner({ locale }: ConsentBannerProps) {
-  const [decision, setDecision] = React.useState<"accepted" | "declined" | null>(
-    null,
-  );
+  const [decision, setDecision] = React.useState<"accepted" | "declined" | null>(null);
 
   React.useEffect(() => {
     const v = window.localStorage.getItem(STORAGE_KEY);

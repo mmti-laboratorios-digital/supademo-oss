@@ -1,36 +1,36 @@
 "use client";
 
-import * as React from "react";
+import { useTranslate } from "@/lib/i18n";
+import type { HotspotType, Step } from "@demo.br/shared";
 import {
   DndContext,
-  closestCenter,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
+  closestCenter,
   useSensor,
   useSensors,
-  type DragEndEvent,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
+  arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  GitBranch,
   GripVertical,
   Image as ImageIcon,
   Layers,
-  GitBranch,
   Plus,
   Trash2,
-  ChevronUp,
-  ChevronDown,
-  Copy,
 } from "lucide-react";
-import type { Step, HotspotType } from "@demo.br/shared";
-import { useTranslate } from "@/lib/i18n";
+import * as React from "react";
 
 /**
  * StepList — sidebar esquerda do editor.
@@ -114,16 +114,9 @@ export function StepList({
           <p className="mt-1 text-xs">{t("editor.captureHint")}</p>
         </div>
       ) : (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-            <ol
-              className="flex-1 overflow-y-auto p-2"
-              aria-label={t("editor.step") + "s"}
-            >
+            <ol className="flex-1 overflow-y-auto p-2" aria-label={t("editor.step") + "s"}>
               {steps.map((step, index) => (
                 <SortableStepRow
                   step={step}
@@ -132,9 +125,7 @@ export function StepList({
                   onSelect={() => onSelect(step.id)}
                   onTitleChange={(title) => onUpdate(step.id, { sourceTitle: title })}
                   onMoveUp={() => index > 0 && onReorder(index, index - 1)}
-                  onMoveDown={() =>
-                    index < steps.length - 1 && onReorder(index, index + 1)
-                  }
+                  onMoveDown={() => index < steps.length - 1 && onReorder(index, index + 1)}
                   onRemove={() => onRemove(step.id)}
                   onDuplicate={() => onDuplicate(step.id)}
                   isBranching={detectBranching?.(step) ?? false}
@@ -180,14 +171,9 @@ function SortableStepRow({
   isSlide,
 }: SortableStepRowProps): React.ReactElement {
   const t = useTranslate();
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: step.id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: step.id,
+  });
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -227,18 +213,8 @@ function SortableStepRow({
           aria-label={t("editor.stepNumber", { position: index + 1 })}
           className="flex flex-1 items-center gap-2 rounded p-1 text-left"
         >
-          <StepTypeIcon
-            type={
-              isBranching
-                ? "branching"
-                : isSlide
-                  ? "slide"
-                  : "screenshot"
-            }
-          />
-          <span className="flex-1 truncate text-sm">
-            {step.sourceTitle ?? step.sourceUrl}
-          </span>
+          <StepTypeIcon type={isBranching ? "branching" : isSlide ? "slide" : "screenshot"} />
+          <span className="flex-1 truncate text-sm">{step.sourceTitle ?? step.sourceUrl}</span>
           <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
             {t("editor.stepHotspotBadge", { count: hotspotCount })}
           </span>
@@ -308,8 +284,7 @@ function StepTypeIcon({
       : type === "slide"
         ? t("editor.stepTypeSlide")
         : t("editor.stepTypeScreenshot");
-  const Icon =
-    type === "branching" ? GitBranch : type === "slide" ? Layers : ImageIcon;
+  const Icon = type === "branching" ? GitBranch : type === "slide" ? Layers : ImageIcon;
   return (
     <span
       title={label}

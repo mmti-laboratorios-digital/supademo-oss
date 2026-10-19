@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Hotspot } from "./Hotspot";
 import { Tooltip } from "./Tooltip";
-import { type PlayerState } from "./state-machine";
 import type { DemoEvent } from "./events";
+import type { PlayerState } from "./state-machine";
 import "./styles.css";
 
 export type DemoData = {
@@ -35,12 +35,7 @@ export type DemoPlayerProps = {
   onEvent?: (e: DemoEvent) => void;
 };
 
-export function DemoPlayer({
-  demo,
-  steps,
-  locale = "pt-BR",
-  onEvent,
-}: DemoPlayerProps) {
+export function DemoPlayer({ demo, steps, locale = "pt-BR", onEvent }: DemoPlayerProps) {
   const [state, setState] = React.useState<PlayerState>("idle");
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -88,14 +83,8 @@ export function DemoPlayer({
     return (
       <section className="dbr-player dbr-player--idle">
         <h1 className="dbr-player__title">{demo.title}</h1>
-        {demo.description ? (
-          <p className="dbr-player__desc">{demo.description}</p>
-        ) : null}
-        <button
-          type="button"
-          onClick={start}
-          className="dbr-player__btn dbr-player__btn--primary"
-        >
+        {demo.description ? <p className="dbr-player__desc">{demo.description}</p> : null}
+        <button type="button" onClick={start} className="dbr-player__btn dbr-player__btn--primary">
           {locale === "pt-BR" ? "Iniciar demo" : "Start demo"}
         </button>
       </section>
@@ -124,9 +113,7 @@ export function DemoPlayer({
           disabled={state !== "playing"}
         />
         {currentStep.hotspot.label ? (
-          <Tooltip geometry={currentStep.hotspot}>
-            {currentStep.hotspot.label}
-          </Tooltip>
+          <Tooltip geometry={currentStep.hotspot}>{currentStep.hotspot.label}</Tooltip>
         ) : null}
       </div>
 

@@ -1,7 +1,7 @@
-import { auth, currentUser, clerkClient } from "@clerk/nextjs/server";
+import { workspaces } from "@/db/schema/app";
+import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { getDb } from "./db";
-import { workspaces } from "@/db/schema/app";
 
 export type AuthContext = {
   userId: string;
@@ -32,9 +32,7 @@ export async function getClerk() {
   return await clerkClient();
 }
 
-function mapRole(
-  clerkRole: string | null | undefined,
-): "owner" | "admin" | "editor" | "viewer" {
+function mapRole(clerkRole: string | null | undefined): "owner" | "admin" | "editor" | "viewer" {
   switch ((clerkRole ?? "").toLowerCase()) {
     case "admin":
       return "admin";

@@ -124,7 +124,10 @@ function extractFrontmatter(md: string): Record<string, string> {
     // prévio, só o quote final é removido e o inicial sobra, gerando
     // valores como `"2026-10-12T09:00:00Z` (com aspa sobrando) que quebram
     // `new Date(...)` no sitemap.
-    const value = line.slice(ix + 1).trim().replace(/^["']|["']$/g, "");
+    const value = line
+      .slice(ix + 1)
+      .trim()
+      .replace(/^["']|["']$/g, "");
     out[key] = value;
   }
   return out;
@@ -197,8 +200,7 @@ export async function loadBlogPost(file: string): Promise<ParsedBlogPost> {
       slug: fm.slug ?? file.replace(/\.mdx?$/, ""),
       publishedAt: fm.publishedAt ?? new Date().toISOString(),
       category:
-        (fm.category as BlogFrontmatter["category"]) ??
-        ("Guias" as BlogFrontmatter["category"]),
+        (fm.category as BlogFrontmatter["category"]) ?? ("Guias" as BlogFrontmatter["category"]),
       author: fm.author ?? "DemoBR",
       readingTimeMin: Number.parseInt(fm.readingTimeMin ?? "5", 10),
     },
@@ -407,14 +409,10 @@ function extractProp(obj: string, key: string): string | undefined {
   return v;
 }
 
-export async function loadPricingDetail(
-  file = "pricing-detail.mdx",
-): Promise<ParsedPricing> {
+export async function loadPricingDetail(file = "pricing-detail.mdx"): Promise<ParsedPricing> {
   const raw = await readText(file);
   const plansMatch = raw.match(/export const plans = \[([\s\S]*?)\];/);
-  const plans = plansMatch && plansMatch[1]
-    ? parsePricingDetailPlans(plansMatch[1])
-    : [];
+  const plans = plansMatch && plansMatch[1] ? parsePricingDetailPlans(plansMatch[1]) : [];
 
   const faqMatch = raw.match(/<!--\s*faq\s*-->([\s\S]*)$/i);
   const faq = faqMatch && faqMatch[1] ? parseFaq(faqMatch[1]) : [];

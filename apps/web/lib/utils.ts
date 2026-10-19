@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
@@ -37,8 +37,7 @@ export function slugify(input: string): string {
  * Gera um ID curto (nanoid) — usado para slugs fallback.
  */
 export function shortId(len = 8): string {
-  const alphabet =
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   let out = "";
   for (let i = 0; i < len; i++) {
     out += alphabet[Math.floor(Math.random() * alphabet.length)];

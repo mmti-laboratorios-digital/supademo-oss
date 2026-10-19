@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import { eq, asc } from "drizzle-orm";
-import { getDb } from "@/lib/db";
-import { demos, steps } from "@/db/schema/app";
 import { DemoPlayer } from "@/components/player/DemoPlayer";
+import { demos, steps } from "@/db/schema/app";
+import { getDb } from "@/lib/db";
+import { asc, eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +13,7 @@ export default async function EmbedPage({
 }) {
   const { id } = await params;
   const db = getDb();
-  const [demo] = await db
-    .select()
-    .from(demos)
-    .where(eq(demos.id, id))
-    .limit(1);
+  const [demo] = await db.select().from(demos).where(eq(demos.id, id)).limit(1);
   if (!demo || demo.status !== "published") notFound();
 
   const stepList = await db
@@ -34,7 +30,7 @@ export default async function EmbedPage({
           slug: demo.slug,
           title: demo.title,
           description: demo.description ?? "",
-          language: (demo.language === "en" ? "en" : "pt-BR"),
+          language: demo.language === "en" ? "en" : "pt-BR",
           leadFormEnabled: false,
           finalCta: null,
         }}
@@ -45,14 +41,13 @@ export default async function EmbedPage({
           sourceUrl: s.sourceUrl,
           sourceTitle: s.sourceTitle ?? "",
           caption: s.caption ?? "",
-          hotspot:
-            (s.hotspot as {
-              type: "pointer" | "callout" | "area";
-              x: number;
-              y: number;
-              w?: number;
-              h?: number;
-            }) ?? { type: "pointer", x: 50, y: 50 },
+          hotspot: (s.hotspot as {
+            type: "pointer" | "callout" | "area";
+            x: number;
+            y: number;
+            w?: number;
+            h?: number;
+          }) ?? { type: "pointer", x: 50, y: 50 },
         }))}
         locale={demo.language as "pt-BR" | "en"}
         embedded

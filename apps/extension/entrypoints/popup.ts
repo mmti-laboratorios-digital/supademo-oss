@@ -31,13 +31,18 @@ async function refresh(): Promise<void> {
   els.count!.textContent = String(stepCount);
   els.upload!.disabled = stepCount === 0;
   els.steps!.innerHTML = (session?.steps ?? [])
-    .map((s, i) => `<li>${i + 1}. ${escapeHtml(s.elementTag)} — ${escapeHtml(s.pageTitle.slice(0, 40))}</li>`)
+    .map(
+      (s, i) =>
+        `<li>${i + 1}. ${escapeHtml(s.elementTag)} — ${escapeHtml(s.pageTitle.slice(0, 40))}</li>`,
+    )
     .join("");
 
   // Auth status via /api/v1/me
   try {
     const me = await api.getMe();
-    els.auth!.textContent = me?.workspaceName ? `Workspace: ${me.workspaceName}` : "Não autenticado";
+    els.auth!.textContent = me?.workspaceName
+      ? `Workspace: ${me.workspaceName}`
+      : "Não autenticado";
   } catch {
     els.auth!.textContent = "Não autenticado";
   }
@@ -51,7 +56,9 @@ els.toggle.addEventListener("click", async () => {
     // Iniciar nova captura: pedir demoId (em produção, popup separado)
     const demoId = prompt("ID da demo (deixe vazio para criar uma nova):") ?? "";
     if (!demoId) {
-      const created = await api.createDemo({ title: `Demo ${new Date().toISOString().slice(0, 10)}` });
+      const created = await api.createDemo({
+        title: `Demo ${new Date().toISOString().slice(0, 10)}`,
+      });
       if (!created) return;
       await setSession({
         capturing: true,

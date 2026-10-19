@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Tailwind, Section, Container, Heading, Text, Hr, Link } from "@react-email/components";
 import { translate } from "@demo.br/shared/i18n/translate";
+import { Container, Heading, Hr, Link, Section, Tailwind, Text } from "@react-email/components";
+import type * as React from "react";
 
 /**
  * Shared email layout. Renders:
@@ -35,8 +35,7 @@ export function EmailLayout({
   footerNote,
   children,
 }: EmailLayoutProps) {
-  const t = (k: string, vars: Record<string, string | number> = {}) =>
-    translate(locale, k, vars);
+  const t = (k: string, vars: Record<string, string | number> = {}) => translate(locale, k, vars);
 
   return (
     <Tailwind
@@ -125,12 +124,8 @@ export function EmailLayout({
           {/* Footer */}
           <Hr className="my-8 border-surface-border" />
           <Section className="text-xs text-ink-subtle">
-            <Text className="m-0 font-semibold text-ink">
-              {t("emails.footerCompany")}
-            </Text>
-            <Text className="mt-1 m-0 leading-5">
-              {t("emails.footerAddress")}
-            </Text>
+            <Text className="m-0 font-semibold text-ink">{t("emails.footerCompany")}</Text>
+            <Text className="mt-1 m-0 leading-5">{t("emails.footerAddress")}</Text>
 
             <Text className="mt-4 m-0">
               <Link
@@ -140,27 +135,18 @@ export function EmailLayout({
                 {t("emails.footerPreferences")}
               </Link>
               {" · "}
-              <Link
-                href="mailto:suporte@dominio.com.br"
-                className="text-brand-primary underline"
-              >
+              <Link href="mailto:suporte@dominio.com.br" className="text-brand-primary underline">
                 {t("emails.footerHelp")}
               </Link>
               {" · "}
-              <Link
-                href="https://demobr.com.br/lgpd"
-                className="text-brand-primary underline"
-              >
+              <Link href="https://demobr.com.br/lgpd" className="text-brand-primary underline">
                 {t("emails.footerLegal")}
               </Link>
             </Text>
 
             {kind === "newsletter" && unsubscribeHref ? (
               <Text className="mt-3 m-0">
-                <Link
-                  href={unsubscribeHref}
-                  className="text-ink-subtle underline"
-                >
+                <Link href={unsubscribeHref} className="text-ink-subtle underline">
                   Cancelar inscrição
                 </Link>
               </Text>
@@ -169,9 +155,7 @@ export function EmailLayout({
             {footerNote ? (
               <Text className="mt-4 m-0 italic">{footerNote}</Text>
             ) : kind === "transactional" ? (
-              <Text className="mt-4 m-0 italic">
-                {t("emails.transactorNotice")}
-              </Text>
+              <Text className="mt-4 m-0 italic">{t("emails.transactorNotice")}</Text>
             ) : null}
           </Section>
         </Container>

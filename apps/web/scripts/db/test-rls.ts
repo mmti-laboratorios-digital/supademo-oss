@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 /**
  * apps/web/scripts/db/test-rls.ts
  *
@@ -19,9 +20,8 @@
  */
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
-import { workspaces, demos } from "../../db/schema/app";
 import * as schema from "../../db/schema";
+import { demos, workspaces } from "../../db/schema/app";
 
 const ADMIN_URL =
   process.env.ADMIN_URL ??
@@ -29,8 +29,7 @@ const ADMIN_URL =
   "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
 
 const RUNTIME_URL =
-  process.env.DATABASE_URL ??
-  "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
 
 type StepLog = { step: string; ok: boolean; detail: string };
 const log: StepLog[] = [];
@@ -76,9 +75,7 @@ async function main(): Promise<void> {
     const who = await runtimeClient<{ current_user: string; usename: string }[]>`
       SELECT current_user, current_user AS usename
     `;
-    console.log(
-      `\n▶ Rodando testes como: ${who[0]?.current_user} (sem BYPASSRLS)`,
-    );
+    console.log(`\n▶ Rodando testes como: ${who[0]?.current_user} (sem BYPASSRLS)`);
 
     // 2. Como app_user + tenant_a → insere demo + vê o próprio
     console.log("\n▶ [tenant_a] Inserindo demo…");
@@ -97,23 +94,13 @@ async function main(): Promise<void> {
     // 3. Como tenant_a → deve ver o demo
     console.log("\n▶ [tenant_a] Lendo o próprio demo…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', ${tenantA.id}, false)`;
-    const seenByA = await runtimeDb
-      .select()
-      .from(demos)
-      .where(sql`slug = 'rls-demo-tenant-a'`);
-    record(
-      "tenant_a vê o próprio demo",
-      seenByA.length === 1,
-      `viu ${seenByA.length} demo(s)`,
-    );
+    const seenByA = await runtimeDb.select().from(demos).where(sql`slug = 'rls-demo-tenant-a'`);
+    record("tenant_a vê o próprio demo", seenByA.length === 1, `viu ${seenByA.length} demo(s)`);
 
     // 4. Como tenant_b → NÃO deve ver o demo (CRÍTICO)
     console.log("\n▶ [tenant_b] Lendo demos (não deve ver nada do tenant_a)…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', ${tenantB.id}, false)`;
-    const seenByB = await runtimeDb
-      .select()
-      .from(demos)
-      .where(sql`slug = 'rls-demo-tenant-a'`);
+    const seenByB = await runtimeDb.select().from(demos).where(sql`slug = 'rls-demo-tenant-a'`);
     record(
       "tenant_b NÃO vê demo do tenant_a",
       seenByB.length === 0,
@@ -124,9 +111,7 @@ async function main(): Promise<void> {
     //    (descoberta pública via slug). Mas a policy de MODIFY restringe
     //    ao próprio tenant. Aqui verificamos que tenant_b consegue LER
     //    (descoberta) mas NÃO consegue MODIFICAR workspaces alheios.
-    console.log(
-      "\n▶ [tenant_b] UPDATE workspace do tenant_a (deve falhar)…",
-    );
+    console.log("\n▶ [tenant_b] UPDATE workspace do tenant_a (deve falhar)…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', ${tenantB.id}, false)`;
     let updateBlocked = false;
     let updateErr = "";
@@ -136,10 +121,7 @@ async function main(): Promise<void> {
         .set({ name: "HACKED by tenant_b" })
         .where(sql`slug = 'tenant-a'`);
       // Se update "passou", checamos se o nome realmente mudou
-      const after = await runtimeDb
-        .select()
-        .from(workspaces)
-        .where(sql`slug = 'tenant-a'`);
+      const after = await runtimeDb.select().from(workspaces).where(sql`slug = 'tenant-a'`);
       if (after[0]?.name !== "HACKED by tenant_b") {
         updateBlocked = true;
         updateErr = "0 rows affected (RLS filtered)";
@@ -157,10 +139,7 @@ async function main(): Promise<void> {
     // 6. SELECT sem contexto (null tenant) → deve zerar
     console.log("\n▶ [null] Lendo demos sem contexto de tenant…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', '', false)`;
-    const seenNull = await runtimeDb
-      .select()
-      .from(demos)
-      .where(sql`slug = 'rls-demo-tenant-a'`);
+    const seenNull = await runtimeDb.select().from(demos).where(sql`slug = 'rls-demo-tenant-a'`);
     record(
       "sem tenant → zero resultados",
       seenNull.length === 0,
@@ -182,16 +161,10 @@ async function main(): Promise<void> {
       insertBlocked = true;
       insertErr = (e as Error).message.split("\n")[0];
     }
-    record(
-      "INSERT sem tenant é bloqueado",
-      insertBlocked,
-      insertErr ? `(${insertErr})` : "",
-    );
+    record("INSERT sem tenant é bloqueado", insertBlocked, insertErr ? `(${insertErr})` : "");
 
     // 8. INSERT com contexto errado (tenant_b tentando inserir em tenant_a)
-    console.log(
-      "\n▶ [tenant_b] INSERT demo apontando workspace do tenant_a (deve falhar)…",
-    );
+    console.log("\n▶ [tenant_b] INSERT demo apontando workspace do tenant_a (deve falhar)…");
     await runtimeClient`SELECT set_config('app.current_tenant_id', ${tenantB.id}, false)`;
     let wrongInsertBlocked = false;
     let wrongErr = "";
@@ -205,11 +178,7 @@ async function main(): Promise<void> {
       wrongInsertBlocked = true;
       wrongErr = (e as Error).message.split("\n")[0];
     }
-    record(
-      "INSERT cross-tenant é bloqueado",
-      wrongInsertBlocked,
-      wrongErr ? `(${wrongErr})` : "",
-    );
+    record("INSERT cross-tenant é bloqueado", wrongInsertBlocked, wrongErr ? `(${wrongErr})` : "");
 
     // 9. Cleanup via admin
     console.log("\n▶ Cleanup…");

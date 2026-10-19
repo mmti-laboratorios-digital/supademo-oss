@@ -5,9 +5,7 @@ import { z } from "zod";
  * Falha rápido se algo crítico estiver faltando.
  */
 const envSchema = z.object({
-  NODE_ENV: z
-    .enum(["development", "test", "production"])
-    .default("development"),
+  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   APP_BASE_URL: z.string().url().default("http://localhost:3000"),
   PLAYER_BASE_URL: z.string().url().default("http://localhost:3000"),
   MARKETING_BASE_URL: z.string().url().default("http://localhost:3000"),

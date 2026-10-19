@@ -1,3 +1,9 @@
+import { randomUUID } from "node:crypto";
+import {
+  asaasWebhookPayload,
+  asaasWebhookSignature,
+} from "@demo.br/shared/test-utils/asaas-payloads";
+import { Client } from "pg";
 /**
  * apps/web/app/api/__tests__/webhook-asaas.sandbox.integration.test.ts
  * -----------------------------------------------------------------------------
@@ -29,13 +35,7 @@
  *   - MOCK_ASAAS_URL disponível (vitest.globalSetup.ts injeta)
  *   - Container postgres supademo-test em 55432 (já rodando em dev)
  */
-import { describe, it, expect, beforeAll, afterAll, beforeEach, vi } from "vitest";
-import { Client } from "pg";
-import { randomUUID } from "node:crypto";
-import {
-  asaasWebhookPayload,
-  asaasWebhookSignature,
-} from "@demo.br/shared/test-utils/asaas-payloads";
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 // ---------------------------------------------------------------------------
 // Env — must be set BEFORE we import the route handler (which calls env())
@@ -201,10 +201,7 @@ async function insertBareSubscription(
 // ---------------------------------------------------------------------------
 const WEBHOOK_SECRET = process.env.ASAAS_WEBHOOK_SECRET ?? "mock_webhook_secret_for_sandbox";
 
-async function postWebhook(
-  rawBody: string,
-  signature: string | null,
-): Promise<Response> {
+async function postWebhook(rawBody: string, signature: string | null): Promise<Response> {
   mockHeaders.clear();
   if (signature) {
     mockHeaders.set("asaas-signature", signature);
@@ -218,11 +215,14 @@ async function postWebhook(
   return await POST(req);
 }
 
-async function fetchSubscriptionStatus(asaasSubscriptionId: string): Promise<{
-  status: string;
-  plan_id: string;
-  cancel_at_period_end: boolean;
-} | undefined> {
+async function fetchSubscriptionStatus(asaasSubscriptionId: string): Promise<
+  | {
+      status: string;
+      plan_id: string;
+      cancel_at_period_end: boolean;
+    }
+  | undefined
+> {
   const r = await adminClient.query<{
     status: string;
     plan_id: string;

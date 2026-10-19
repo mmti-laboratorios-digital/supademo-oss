@@ -1,12 +1,12 @@
+import { createHmac } from "node:crypto";
+import { dsrLog, leads } from "@/db/schema/app";
+import { getDb } from "@/lib/db";
+import { env } from "@/lib/env";
+import { enqueue } from "@/lib/queue";
+import { sendEmail } from "@/lib/resend";
+import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createHmac } from "node:crypto";
-import { eq, sql } from "drizzle-orm";
-import { getDb } from "@/lib/db";
-import { leads, dsrLog } from "@/db/schema/app";
-import { env } from "@/lib/env";
-import { sendEmail } from "@/lib/resend";
-import { enqueue } from "@/lib/queue";
 
 export const runtime = "nodejs";
 
@@ -195,10 +195,7 @@ export async function DELETE(req: Request) {
 async function collectExport(email: string) {
   const db = getDb();
   const lower = email.toLowerCase();
-  const leadRows = await db
-    .select()
-    .from(leads)
-    .where(eq(leads.email, lower));
+  const leadRows = await db.select().from(leads).where(eq(leads.email, lower));
 
   return {
     email: lower,
@@ -211,7 +208,6 @@ async function collectExport(email: string) {
       createdAt: l.createdAt,
     })),
     exportedAt: new Date().toISOString(),
-    notice:
-      "Eventos analíticos são agregados e anonimizados — não vinculáveis a este email.",
+    notice: "Eventos analíticos são agregados e anonimizados — não vinculáveis a este email.",
   };
 }

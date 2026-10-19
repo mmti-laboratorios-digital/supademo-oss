@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { Plus } from "lucide-react";
-import type { Hotspot, HotspotType } from "@demo.br/shared";
 import { useTranslate } from "@/lib/i18n";
+import type { Hotspot, HotspotType } from "@demo.br/shared";
+import { Plus } from "lucide-react";
+import * as React from "react";
 
 /**
  * HotspotPicker — overlay interativo sobre a screenshot do step.
@@ -322,9 +322,7 @@ function HotspotHandle({
         borderColor: baseColor,
       }}
     >
-      <span className="sr-only">
-        {hotspot.label ?? t("editor.canvas.hotspotTypePointer")}
-      </span>
+      <span className="sr-only">{hotspot.label ?? t("editor.canvas.hotspotTypePointer")}</span>
       <span
         aria-hidden
         className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"

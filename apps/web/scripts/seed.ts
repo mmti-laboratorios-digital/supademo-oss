@@ -12,9 +12,9 @@
  *   pnpm --filter web exec tsx scripts/seed.ts
  */
 import { randomUUID } from "node:crypto";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
 
 // -----------------------------------------------------------------------------
 // Configura
@@ -172,11 +172,36 @@ async function main() {
     caption: string;
     hotspot: Hotspot;
   }> = [
-    { pos: 1, title: "Tela de login",          caption: "Faça login com seu e-mail corporativo",     hotspot: makeHotspotCallout(220, 180, 320, 56, "E-mail + senha") },
-    { pos: 2, title: "Dashboard inicial",      caption: "Veja seu funil em tempo real",              hotspot: makeHotspotPointer(640, 240, "Funil") },
-    { pos: 3, title: "Cadastro de lead",       caption: "Adicione leads manualmente",                hotspot: makeHotspotCallout(120, 420, 240, 64, "Novo lead") },
-    { pos: 4, title: "Kanban de oportunidades",caption: "Arraste cards para mudar a etapa",          hotspot: makeHotspotPointer(800, 360, "Drag & drop") },
-    { pos: 5, title: "Relatórios mensais",     caption: "Exporte relatórios em PDF",                 hotspot: makeHotspotCallout(960, 120, 200, 48, "Exportar") },
+    {
+      pos: 1,
+      title: "Tela de login",
+      caption: "Faça login com seu e-mail corporativo",
+      hotspot: makeHotspotCallout(220, 180, 320, 56, "E-mail + senha"),
+    },
+    {
+      pos: 2,
+      title: "Dashboard inicial",
+      caption: "Veja seu funil em tempo real",
+      hotspot: makeHotspotPointer(640, 240, "Funil"),
+    },
+    {
+      pos: 3,
+      title: "Cadastro de lead",
+      caption: "Adicione leads manualmente",
+      hotspot: makeHotspotCallout(120, 420, 240, 64, "Novo lead"),
+    },
+    {
+      pos: 4,
+      title: "Kanban de oportunidades",
+      caption: "Arraste cards para mudar a etapa",
+      hotspot: makeHotspotPointer(800, 360, "Drag & drop"),
+    },
+    {
+      pos: 5,
+      title: "Relatórios mensais",
+      caption: "Exporte relatórios em PDF",
+      hotspot: makeHotspotCallout(960, 120, 200, 48, "Exportar"),
+    },
   ];
 
   for (const s of d1Steps) {
@@ -208,9 +233,24 @@ async function main() {
   `);
 
   const d2Steps = [
-    { pos: 1, title: "Página inicial",  caption: "Conheça a visão geral",          hotspot: makeHotspotPointer(50, 50, "Visão") },
-    { pos: 2, title: "Recursos-chave",  caption: "Veja os 3 pilares",               hotspot: makeHotspotCallout(200, 200, 880, 240, "Pilares") },
-    { pos: 3, title: "Preços",          caption: "A partir de R$ 49/mês",          hotspot: makeHotspotPointer(900, 600, "Pro") },
+    {
+      pos: 1,
+      title: "Página inicial",
+      caption: "Conheça a visão geral",
+      hotspot: makeHotspotPointer(50, 50, "Visão"),
+    },
+    {
+      pos: 2,
+      title: "Recursos-chave",
+      caption: "Veja os 3 pilares",
+      hotspot: makeHotspotCallout(200, 200, 880, 240, "Pilares"),
+    },
+    {
+      pos: 3,
+      title: "Preços",
+      caption: "A partir de R$ 49/mês",
+      hotspot: makeHotspotPointer(900, 600, "Pro"),
+    },
   ];
   for (const s of d2Steps) {
     await db.execute(sql`
@@ -242,10 +282,30 @@ async function main() {
   `);
 
   const d3Steps = [
-    { pos: 1, title: "Setup inicial",     caption: "Crie sua conta em 30s",   hotspot: makeHotspotCallout(420, 80, 320, 48, "Criar conta") },
-    { pos: 2, title: "Configurar billing",caption: "PIX ou boleto recorrente", hotspot: makeHotspotPointer(360, 320, "Billing") },
-    { pos: 3, title: "Importar dados",    caption: "CSV de até 100 MB",        hotspot: makeHotspotCallout(160, 480, 240, 64, "Upload") },
-    { pos: 4, title: "Convidar time",     caption: "Convide por e-mail",       hotspot: makeHotspotPointer(880, 200, "Convidar") },
+    {
+      pos: 1,
+      title: "Setup inicial",
+      caption: "Crie sua conta em 30s",
+      hotspot: makeHotspotCallout(420, 80, 320, 48, "Criar conta"),
+    },
+    {
+      pos: 2,
+      title: "Configurar billing",
+      caption: "PIX ou boleto recorrente",
+      hotspot: makeHotspotPointer(360, 320, "Billing"),
+    },
+    {
+      pos: 3,
+      title: "Importar dados",
+      caption: "CSV de até 100 MB",
+      hotspot: makeHotspotCallout(160, 480, 240, 64, "Upload"),
+    },
+    {
+      pos: 4,
+      title: "Convidar time",
+      caption: "Convide por e-mail",
+      hotspot: makeHotspotPointer(880, 200, "Convidar"),
+    },
   ];
   for (const s of d3Steps) {
     await db.execute(sql`

@@ -180,7 +180,10 @@
           "description": "Leads captados pelo titular em seus demos (são leads DE TERCEIROS — só inclui se o titular pediu e tem base legal)",
           "properties": {
             "count": { "type": "integer", "minimum": 0 },
-            "note": { "type": "string", "description": "Aviso legal: leads são dados de terceiros" },
+            "note": {
+              "type": "string",
+              "description": "Aviso legal: leads são dados de terceiros"
+            },
             "items": {
               "type": "array",
               "items": {
@@ -230,7 +233,10 @@
                 "type": "object",
                 "properties": {
                   "asaas_id": { "type": "string" },
-                  "type": { "type": "string", "enum": ["payment", "refund", "chargeback", "subscription"] },
+                  "type": {
+                    "type": "string",
+                    "enum": ["payment", "refund", "chargeback", "subscription"]
+                  },
                   "status": { "type": "string" },
                   "amount_brl": { "type": "number" },
                   "date": { "type": "string", "format": "date-time" },

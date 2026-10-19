@@ -30,9 +30,7 @@ export function createPlayerStateMachine() {
   let state: PlayerState = "idle";
 
   const dispatch = (event: PlayerEvent): PlayerState => {
-    const next = transitions.find(
-      (t) => t.from === state && t.event === event,
-    );
+    const next = transitions.find((t) => t.from === state && t.event === event);
     if (!next) return state;
     state = next.to;
     return state;

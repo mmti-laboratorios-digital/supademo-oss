@@ -114,7 +114,10 @@ async function putJson<T>(url: string, body: unknown): Promise<T> {
   return (await res.json()) as T;
 }
 
-interface CreatedDemo { id: string; slug: string }
+interface CreatedDemo {
+  id: string;
+  slug: string;
+}
 
 // -----------------------------------------------------------------------------
 // Main

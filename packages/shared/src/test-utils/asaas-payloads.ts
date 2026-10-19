@@ -125,9 +125,10 @@ export function asaasWebhookPayload(opts: AsaasWebhookPayloadOpts): AsaasWebhook
       billingType,
       status: paymentStatus,
       dueDate,
-      confirmedDate: paymentStatus === "RECEIVED" || paymentStatus === "CONFIRMED"
-        ? new Date().toISOString()
-        : undefined,
+      confirmedDate:
+        paymentStatus === "RECEIVED" || paymentStatus === "CONFIRMED"
+          ? new Date().toISOString()
+          : undefined,
     },
   };
   return payload;

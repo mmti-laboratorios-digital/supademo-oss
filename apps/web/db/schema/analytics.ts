@@ -1,12 +1,12 @@
 import {
+  bigserial,
+  index,
+  jsonb,
   pgSchema,
+  text,
+  timestamp,
   uuid,
   varchar,
-  text,
-  jsonb,
-  bigserial,
-  timestamp,
-  index,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -29,16 +29,10 @@ export const events = analytics.table(
     countryCode: varchar("country_code", { length: 2 }),
     referrerHost: varchar("referrer_host", { length: 255 }),
     utm: jsonb("utm"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
-    idxDemoEvent: index("events_demo_event_created_idx").on(
-      t.demoId,
-      t.eventType,
-      t.createdAt,
-    ),
+    idxDemoEvent: index("events_demo_event_created_idx").on(t.demoId, t.eventType, t.createdAt),
     idxWorkspace: index("events_workspace_idx").on(t.workspaceId, t.createdAt),
   }),
 );

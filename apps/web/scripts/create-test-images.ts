@@ -1,3 +1,5 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 /**
  * apps/web/scripts/create-test-images.ts
  *
@@ -12,8 +14,6 @@
  *   pnpm --filter web exec tsx scripts/create-test-images.ts
  */
 import sharp from "sharp";
-import { mkdir, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
 
 const OUT_DIR = resolve(process.cwd(), "./test-fixtures");
 const IMG_DIR = resolve(OUT_DIR, "images");
@@ -119,10 +119,7 @@ async function main() {
     height: H,
     files: images.map((i) => i.name),
   };
-  await writeFile(
-    resolve(OUT_DIR, "manifest.json"),
-    JSON.stringify(meta, null, 2),
-  );
+  await writeFile(resolve(OUT_DIR, "manifest.json"), JSON.stringify(meta, null, 2));
   console.log(`  ✓ ${resolve(OUT_DIR, "manifest.json")}`);
 
   console.log("\n✅ Imagens de teste geradas em ./test-fixtures/");

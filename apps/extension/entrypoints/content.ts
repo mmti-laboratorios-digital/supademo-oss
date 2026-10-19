@@ -5,8 +5,8 @@
  * Encaminha seleção para o service worker via chrome.runtime.sendMessage.
  */
 
-import { getCSSPath } from "../lib/selectors";
 import { maskSensitiveValue, shouldMask } from "../lib/mask";
+import { getCSSPath } from "../lib/selectors";
 
 type CapturePayload = {
   elementTag: string;
@@ -26,8 +26,7 @@ function ensureOverlay(): void {
   if (overlayHost) return;
   overlayHost = document.createElement("div");
   overlayHost.id = "demobr-capture-overlay";
-  overlayHost.style.cssText =
-    "position:fixed;inset:0;pointer-events:none;z-index:2147483646;";
+  overlayHost.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:2147483646;";
   document.documentElement.appendChild(overlayHost);
 }
 
@@ -68,8 +67,7 @@ async function onClick(e: MouseEvent): Promise<void> {
   ringElement(rect);
 
   // LGPD: mascara campos sensíveis antes de enviar
-  const value =
-    target instanceof HTMLInputElement ? target.value : target.textContent ?? "";
+  const value = target instanceof HTMLInputElement ? target.value : (target.textContent ?? "");
   const maskedValue = shouldMask(target) ? maskSensitiveValue(value) : value;
 
   const payload: CapturePayload = {

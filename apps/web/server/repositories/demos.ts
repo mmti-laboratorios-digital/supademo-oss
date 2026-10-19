@@ -1,7 +1,7 @@
-import { eq, desc, and } from "drizzle-orm";
-import { withTenant } from "@/lib/db";
 import { demos, steps } from "@/db/schema/app";
+import { withTenant } from "@/lib/db";
 import type { Demo, Step } from "@demo.br/shared";
+import { and, desc, eq } from "drizzle-orm";
 
 /**
  * Repository pattern para isolar queries Drizzle dos componentes.
@@ -29,7 +29,9 @@ export async function listDemos(
       .from(demos)
       .where(where)
       .orderBy(desc(demos.updatedAt))
-      .limit(limit) as unknown as Promise<Pick<Demo, "id" | "slug" | "title" | "status" | "language" | "updatedAt">[]>;
+      .limit(limit) as unknown as Promise<
+      Pick<Demo, "id" | "slug" | "title" | "status" | "language" | "updatedAt">[]
+    >;
   });
 }
 

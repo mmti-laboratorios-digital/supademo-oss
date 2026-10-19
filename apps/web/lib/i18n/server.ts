@@ -1,9 +1,5 @@
+import { DEFAULT_LOCALE, type Locale, resolveLocale } from "@/lib/i18n";
 import { headers } from "next/headers";
-import {
-  DEFAULT_LOCALE,
-  resolveLocale,
-  type Locale,
-} from "@/lib/i18n";
 
 /**
  * Server-side: lê locale do header `x-locale` injetado pelo middleware.

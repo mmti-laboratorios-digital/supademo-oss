@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { Upload, Globe, Lock, Users, Eye, EyeOff } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
+import { Eye, EyeOff, Globe, Lock, Upload, Users } from "lucide-react";
+import * as React from "react";
 
 /**
  * PublishPanel — gerencia slug, cover, visibility e versões da demo.
@@ -60,10 +60,8 @@ export function PublishPanel({
   const slugValid = SLUG_REGEX.test(value.slug);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
-  const setField = <K extends keyof PublishPanelState>(
-    key: K,
-    val: PublishPanelState[K],
-  ) => onChange({ ...value, [key]: val });
+  const setField = <K extends keyof PublishPanelState>(key: K, val: PublishPanelState[K]) =>
+    onChange({ ...value, [key]: val });
 
   const handleCoverUpload = async (file: File) => {
     try {
@@ -99,9 +97,7 @@ export function PublishPanel({
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="space-y-4 p-4">
         <header>
-          <h3 className="text-sm font-semibold">
-            {t("editor.publish.title")}
-          </h3>
+          <h3 className="text-sm font-semibold">{t("editor.publish.title")}</h3>
         </header>
 
         {/* Slug */}
@@ -118,10 +114,7 @@ export function PublishPanel({
               id="publish-slug"
               value={value.slug}
               onChange={(e) =>
-                setField(
-                  "slug",
-                  e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""),
-                )
+                setField("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))
               }
               aria-invalid={value.slug.length > 0 && !slugValid}
               aria-describedby="slug-help"
@@ -131,9 +124,7 @@ export function PublishPanel({
           <p
             id="slug-help"
             className={`mt-1 text-[10px] ${
-              !slugValid && value.slug.length > 0
-                ? "text-destructive"
-                : "text-muted-foreground"
+              !slugValid && value.slug.length > 0 ? "text-destructive" : "text-muted-foreground"
             }`}
           >
             {!slugValid && value.slug.length > 0
@@ -141,9 +132,7 @@ export function PublishPanel({
               : t("editor.publish.slugHelp")}
           </p>
           {value.slugTaken ? (
-            <p className="mt-1 text-[10px] text-destructive">
-              {t("editor.publish.slugTaken")}
-            </p>
+            <p className="mt-1 text-[10px] text-destructive">{t("editor.publish.slugTaken")}</p>
           ) : null}
         </div>
 
@@ -171,13 +160,9 @@ export function PublishPanel({
             {t("editor.publish.upload")}
           </button>
           {value.coverR2Key ? (
-            <p className="mt-1 truncate text-[10px] text-muted-foreground">
-              {value.coverR2Key}
-            </p>
+            <p className="mt-1 truncate text-[10px] text-muted-foreground">{value.coverR2Key}</p>
           ) : null}
-          <p className="mt-1 text-[10px] text-muted-foreground">
-            {t("editor.publish.coverHelp")}
-          </p>
+          <p className="mt-1 text-[10px] text-muted-foreground">{t("editor.publish.coverHelp")}</p>
         </div>
 
         {/* Visibility */}
@@ -263,13 +248,9 @@ export function PublishPanel({
       </Card>
 
       <Card className="space-y-3 p-4">
-        <h3 className="text-sm font-semibold">
-          {t("editor.publish.history")}
-        </h3>
+        <h3 className="text-sm font-semibold">{t("editor.publish.history")}</h3>
         {value.versions.length === 0 ? (
-          <p className="text-xs text-muted-foreground">
-            {t("editor.publish.noVersions")}
-          </p>
+          <p className="text-xs text-muted-foreground">{t("editor.publish.noVersions")}</p>
         ) : (
           <ol className="space-y-1 text-xs">
             {value.versions.map((v) => (
@@ -277,9 +258,7 @@ export function PublishPanel({
                 key={v.id}
                 className="flex items-center justify-between rounded border border-border bg-background px-3 py-2"
               >
-                <span>
-                  {t("editor.publish.statusVersion", { version: v.number })}
-                </span>
+                <span>{t("editor.publish.statusVersion", { version: v.number })}</span>
                 <span className="text-muted-foreground">
                   {new Date(v.publishedAt).toLocaleString("pt-BR")}
                 </span>
@@ -320,9 +299,7 @@ function VisibilityOption({
       aria-checked={isActive}
       onClick={() => onChange(id)}
       className={`inline-flex items-center gap-2 rounded-md border px-3 py-2 text-left text-xs ${
-        isActive
-          ? "border-primary bg-primary/10 text-primary"
-          : "border-border hover:bg-muted"
+        isActive ? "border-primary bg-primary/10 text-primary" : "border-border hover:bg-muted"
       }`}
     >
       {icon}

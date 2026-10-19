@@ -32,10 +32,7 @@ export const initialState: PlayerStateData = {
  *
  * Retorna novo state. Se stepIds vazio, mantém currentStepId.
  */
-export function playerReducer(
-  state: PlayerStateData,
-  action: PlayerAction,
-): PlayerStateData {
+export function playerReducer(state: PlayerStateData, action: PlayerAction): PlayerStateData {
   switch (action.type) {
     case "START":
       return {

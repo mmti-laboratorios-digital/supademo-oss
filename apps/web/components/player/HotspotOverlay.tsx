@@ -18,12 +18,7 @@ export type HotspotOverlayProps = {
   disabled?: boolean;
 };
 
-export function HotspotOverlay({
-  hotspot,
-  stepId,
-  onActivate,
-  disabled,
-}: HotspotOverlayProps) {
+export function HotspotOverlay({ hotspot, stepId, onActivate, disabled }: HotspotOverlayProps) {
   const ariaLabel =
     hotspot.label ??
     (hotspot.type === "area"

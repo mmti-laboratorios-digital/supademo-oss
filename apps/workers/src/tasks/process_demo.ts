@@ -19,7 +19,10 @@ export const processDemo: Task = async (rawPayload) => {
 
   // Exemplo de uso de sharp (não roda sem arquivos reais):
   if (process.env.SHARP_DRY_RUN === "1") {
-    const buf = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=", "base64");
+    const buf = Buffer.from(
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+      "base64",
+    );
     const out = await sharp(buf).webp({ quality: 85 }).toBuffer();
     void out;
   }

@@ -3,19 +3,12 @@
  *
  * Cobertura do reducer puro do DemoPlayer — sem React, sem DOM.
  */
-import { describe, it, expect } from "vitest";
-import {
-  playerReducer,
-  initialState,
-  type PlayerAction,
-} from "../state-machine";
+import { describe, expect, it } from "vitest";
+import { type PlayerAction, initialState, playerReducer } from "../state-machine";
 
 const STEPS = ["step-1", "step-2", "step-3"];
 
-function act(
-  state: ReturnType<typeof playerReducer>,
-  action: PlayerAction,
-) {
+function act(state: ReturnType<typeof playerReducer>, action: PlayerAction) {
   return playerReducer(state, action);
 }
 

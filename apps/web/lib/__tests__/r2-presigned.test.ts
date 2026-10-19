@@ -3,19 +3,26 @@
  *
  * Testes determinísticos que mockam presignPut() — sem rede AWS.
  */
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock do lib/r2.ts antes do import
 vi.mock("../r2", () => ({
-  presignPut: vi.fn(async (args: { key: string; contentType: string; expiresInSeconds?: number; bucket: string }) => ({
-    url: `https://r2.example.com/${args.bucket}/${args.key}?X-Amz-Signature=fake&X-Amz-Expires=${args.expiresInSeconds ?? 600}`,
-    key: args.key,
-    bucket: args.bucket,
-  })),
+  presignPut: vi.fn(
+    async (args: {
+      key: string;
+      contentType: string;
+      expiresInSeconds?: number;
+      bucket: string;
+    }) => ({
+      url: `https://r2.example.com/${args.bucket}/${args.key}?X-Amz-Signature=fake&X-Amz-Expires=${args.expiresInSeconds ?? 600}`,
+      key: args.key,
+      bucket: args.bucket,
+    }),
+  ),
 }));
 
-import { signUploadUrl, buildKey } from "../r2-presigned";
 import { presignPut } from "../r2";
+import { buildKey, signUploadUrl } from "../r2-presigned";
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -116,8 +123,6 @@ describe("signUploadUrl", () => {
 
 describe("buildKey", () => {
   it("formata demos/{id}/steps/{id}.{ext}", () => {
-    expect(buildKey("abc", "xyz", "foo.webp")).toBe(
-      "demos/abc/steps/xyz/foo.webp",
-    );
+    expect(buildKey("abc", "xyz", "foo.webp")).toBe("demos/abc/steps/xyz/foo.webp");
   });
 });

@@ -119,10 +119,9 @@ export function computeFunnel(events: FunnelEvent[]): FunnelResult {
         ? null
         : (() => {
             const prevId = reachOrder[idx - 1];
-            return prevId === undefined ? null : reachCount.get(prevId) ?? null;
+            return prevId === undefined ? null : (reachCount.get(prevId) ?? null);
           })();
-    const pct_continue =
-      idx === 0 ? 100 : prev && prev > 0 ? (reach / prev) * 100 : 0;
+    const pct_continue = idx === 0 ? 100 : prev && prev > 0 ? (reach / prev) * 100 : 0;
     return {
       stepId,
       reach,
@@ -135,9 +134,6 @@ export function computeFunnel(events: FunnelEvent[]): FunnelResult {
     steps: stepsOut,
     totalSessions,
     completers,
-    conversionRate:
-      totalSessions > 0
-        ? Math.round((completers / totalSessions) * 10000) / 100
-        : 0,
+    conversionRate: totalSessions > 0 ? Math.round((completers / totalSessions) * 10000) / 100 : 0,
   };
 }

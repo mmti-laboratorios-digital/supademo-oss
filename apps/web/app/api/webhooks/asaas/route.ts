@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { eq } from "drizzle-orm";
-import { getAdminDb } from "@/lib/db";
 import { subscriptions, workspaces } from "@/db/schema/app";
+import { getAdminDb } from "@/lib/db";
 import { env } from "@/lib/env";
 import { enqueue } from "@/lib/queue";
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
@@ -55,9 +55,7 @@ export async function POST(req: Request) {
       if (!e.ASAAS_WEBHOOK_SECRET) {
         return NextResponse.json({ error: "WEBHOOK_NOT_CONFIGURED" }, { status: 503 });
       }
-      const expected = createHmac("sha256", e.ASAAS_WEBHOOK_SECRET)
-        .update(rawBody)
-        .digest("hex");
+      const expected = createHmac("sha256", e.ASAAS_WEBHOOK_SECRET).update(rawBody).digest("hex");
       if (
         signature.length !== expected.length ||
         !timingSafeEqual(Buffer.from(signature), Buffer.from(expected))
@@ -117,9 +115,7 @@ export async function POST(req: Request) {
   }
 }
 
-async function handlePaymentConfirmed(
-  payment: AsaasEvent["payment"] | undefined,
-) {
+async function handlePaymentConfirmed(payment: AsaasEvent["payment"] | undefined) {
   if (!payment?.subscription) return;
   const db = getAdminDb();
   const [sub] = await db
@@ -139,9 +135,7 @@ async function handlePaymentConfirmed(
     .where(eq(workspaces.id, sub.workspaceId));
 }
 
-async function handlePaymentOverdue(
-  payment: AsaasEvent["payment"] | undefined,
-) {
+async function handlePaymentOverdue(payment: AsaasEvent["payment"] | undefined) {
   if (!payment?.subscription) return;
   const db = getAdminDb();
   await db
@@ -150,9 +144,7 @@ async function handlePaymentOverdue(
     .where(eq(subscriptions.asaasSubscriptionId, payment.subscription));
 }
 
-async function handlePaymentRefunded(
-  payment: AsaasEvent["payment"] | undefined,
-) {
+async function handlePaymentRefunded(payment: AsaasEvent["payment"] | undefined) {
   if (!payment?.subscription) return;
   const db = getAdminDb();
   const [sub] = await db
@@ -171,9 +163,7 @@ async function handlePaymentRefunded(
     .where(eq(workspaces.id, sub.workspaceId));
 }
 
-async function handleSubscriptionUpdated(
-  sub: AsaasEvent["subscription"] | undefined,
-) {
+async function handleSubscriptionUpdated(sub: AsaasEvent["subscription"] | undefined) {
   if (!sub) return;
   const db = getAdminDb();
   await db
@@ -186,9 +176,7 @@ async function handleSubscriptionUpdated(
     .where(eq(subscriptions.asaasSubscriptionId, sub.id));
 }
 
-async function handleSubscriptionDeleted(
-  sub: AsaasEvent["subscription"] | undefined,
-) {
+async function handleSubscriptionDeleted(sub: AsaasEvent["subscription"] | undefined) {
   if (!sub) return;
   const db = getAdminDb();
   const [row] = await db

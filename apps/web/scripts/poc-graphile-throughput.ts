@@ -15,7 +15,7 @@
 import { performance as perf } from "node:perf_hooks";
 import pg from "pg";
 const { Client } = pg;
-import { makeWorkerUtils, run, WorkerUtils, WorkerOptions } from "graphile-worker";
+import { type WorkerOptions, type WorkerUtils, makeWorkerUtils, run } from "graphile-worker";
 
 const URL = process.env.PG_URL ?? "postgres://bench:bench@127.0.0.1:6543/bench";
 const N = Number(process.env.JOBS ?? "1000");
@@ -83,7 +83,8 @@ async function main() {
   // espera drenar — counter = N
   const waitStart = perf.now();
   while (counter < N) {
-    if (perf.now() - waitStart > 60_000) throw new Error(`worker não drenou em 60s (counter=${counter}/${N})`);
+    if (perf.now() - waitStart > 60_000)
+      throw new Error(`worker não drenou em 60s (counter=${counter}/${N})`);
     await new Promise((r) => setTimeout(r, 50));
   }
   const tDrain = perf.now() - waitStart;
@@ -97,7 +98,8 @@ async function main() {
     latencies.push(done - enq);
   }
   latencies.sort((a, b) => a - b);
-  const pick = (q: number) => latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * q))];
+  const pick = (q: number) =>
+    latencies[Math.min(latencies.length - 1, Math.floor(latencies.length * q))];
 
   await runner.stop();
 
@@ -108,7 +110,7 @@ async function main() {
   console.log(`- tempo total (enqueue → drain): ${totalMs.toFixed(0)}ms`);
   console.log(`- tempo enqueue puro: ${tEnq.toFixed(0)}ms`);
   console.log(`- tempo aguardando drain: ${tDrain.toFixed(0)}ms`);
-  console.log(`- throughput: ${((N / (totalMs / 1000)).toFixed(1))} jobs/s`);
+  console.log(`- throughput: ${(N / (totalMs / 1000)).toFixed(1)} jobs/s`);
   console.log(
     `- latência enqueue→execução (ms): min=${latencies[0].toFixed(1)} p50=${pick(0.5).toFixed(1)} p95=${pick(0.95).toFixed(1)} p99=${pick(0.99).toFixed(1)} max=${latencies[latencies.length - 1].toFixed(1)}`,
   );

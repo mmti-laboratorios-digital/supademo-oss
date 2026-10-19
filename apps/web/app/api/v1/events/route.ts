@@ -1,22 +1,15 @@
-import { NextResponse } from "next/server";
-import { z } from "zod";
-import { headers } from "next/headers";
 import { recordView } from "@/lib/analytics/events";
 import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export const runtime = "nodejs";
 
 const eventSchema = z.object({
   demoId: z.string().uuid(),
   stepId: z.string().uuid().optional(),
-  eventType: z.enum([
-    "view",
-    "step_seen",
-    "cta_click",
-    "complete",
-    "bounce",
-    "lead_captured",
-  ]),
+  eventType: z.enum(["view", "step_seen", "cta_click", "complete", "bounce", "lead_captured"]),
   utm: z.record(z.string()).optional(),
 });
 
