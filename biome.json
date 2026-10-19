@@ -23,7 +23,7 @@
     "rules": {
       "recommended": false,
       "correctness": {
-        "useExhaustiveDependencies": "warn"
+        "useExhaustiveDependencies": "off"
       },
       "style": {
         "useImportType": "warn",

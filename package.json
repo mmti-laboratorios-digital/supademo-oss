@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm -r --filter=./apps/* --filter=./packages/* build",
-    "lint": "biome check --skip=useExhaustiveDependencies .",
+    "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "typecheck": "pnpm -r --filter=./apps/* --filter=./packages/* typecheck",
     "test": "pnpm -r --filter=./apps/* --filter=./packages/* test",
