@@ -103,6 +103,25 @@ jobs:
       # Migrations: app_owner (BYPASSRLS). CI cria roles app_owner/readonly
       # via steps/setup-pg-roles abaixo antes de rodar migrations.
       DIRECT_URL:   postgres://app_owner:demobr@localhost:5432/supademo
+      # Clerk — placeholder (Playwright publica-only pages não usa auth)
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ci_placeholder
+      CLERK_SECRET_KEY: sk_test_ci_placeholder
+      CLERK_WEBHOOK_SIGNING_SECRET: whsec_ci_placeholder
+      APP_BASE_URL: http://127.0.0.1:3000
+      PLAYER_BASE_URL: http://127.0.0.1:3000
+      MARKETING_BASE_URL: http://127.0.0.1:3000
+      R2_ENDPOINT: https://example.com
+      R2_ACCESS_KEY: ci_placeholder
+      R2_SECRET_KEY: ci_placeholder
+      R2_BUCKET: ci_placeholder
+      R2_ACCOUNT_ID: ci_placeholder
+      ASAAS_API_KEY: ci_placeholder
+      ASAAS_WEBHOOK_TOKEN: ci_placeholder
+      RESEND_API_KEY: re_ci_placeholder
+      SENTRY_DSN: ""
+      POSTHOG_API_KEY: ph_ci_placeholder
+      POSTHOG_HOST: ""
+      ENCRYPTION_KEY: ci_placeholder_secret_key_32_chars_min!
       CI: "true"
     steps:
       - uses: actions/checkout@v4
