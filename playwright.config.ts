@@ -31,7 +31,7 @@ export default defineConfig({
   webServer: {
     command: "pnpm --filter web dev",
     url: BASE_URL,
-    timeout: 60_000,
+    timeout: 180_000,
     reuseExistingServer: !process.env.CI,
     env: {
       NODE_ENV: "test",
