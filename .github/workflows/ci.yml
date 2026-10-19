@@ -88,12 +88,12 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: app_user
-          POSTGRES_PASSWORD: app_user
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
           POSTGRES_DB: supademo
         ports: ["5432:5432"]
         options: >-
-          --health-cmd "pg_isready -U app_user"
+          --health-cmd "pg_isready -U app"
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
@@ -116,9 +116,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Create CI roles (app_owner BYPASSRLS + readonly)
         env:
-          PGPASSWORD: app_user
+          # CI roda como `app` (superset do app_user com CREATEROLE)
+          PGPASSWORD: app
         run: |
-          psql -h localhost -U app_user -d supademo -v ON_ERROR_STOP=1 <<SQL
+          psql -h localhost -U app -d supademo -v ON_ERROR_STOP=1 <<SQL
             DO \$\$
             BEGIN
               IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_owner') THEN
@@ -127,24 +128,15 @@ jobs:
               IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'readonly') THEN
                 CREATE ROLE readonly LOGIN PASSWORD 'readonly' NOSUPERUSER NOCREATEDB NOCREATEROLE;
               END IF;
+              IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_user') THEN
+                CREATE ROLE app_user LOGIN PASSWORD 'app_user' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+              END IF;
             END
             \$\$;
             ALTER ROLE app_owner BYPASSRLS;
             ALTER ROLE app_user NOBYPASSRLS;
-            GRANT CONNECT ON DATABASE supademo TO app_owner, readonly;
+            GRANT CONNECT ON DATABASE supademo TO app_owner, app_user, readonly;
             GRANT CREATE ON DATABASE supademo TO app_owner;
-            GRANT USAGE, CREATE ON SCHEMA app TO app_owner;
-            GRANT USAGE, CREATE ON SCHEMA analytics TO app_owner;
-            GRANT ALL ON ALL TABLES IN SCHEMA app TO app_owner;
-            GRANT ALL ON ALL TABLES IN SCHEMA analytics TO app_owner;
-            GRANT ALL ON ALL SEQUENCES IN SCHEMA app TO app_owner;
-            GRANT ALL ON ALL SEQUENCES IN SCHEMA analytics TO app_owner;
-            GRANT USAGE ON SCHEMA app TO readonly;
-            GRANT USAGE ON SCHEMA analytics TO readonly;
-            GRANT SELECT ON ALL TABLES IN SCHEMA app TO readonly;
-            GRANT SELECT ON ALL TABLES IN SCHEMA analytics TO readonly;
-            ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT ALL ON TABLES TO app_owner;
-            ALTER DEFAULT PRIVILEGES IN SCHEMA analytics GRANT ALL ON TABLES TO app_owner;
           SQL
       - run: pnpm --filter web db:migrate
       - run: pnpm test
