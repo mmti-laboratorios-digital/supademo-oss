@@ -118,7 +118,7 @@ jobs:
       ASAAS_API_KEY: ci_placeholder
       ASAAS_WEBHOOK_TOKEN: ci_placeholder
       RESEND_API_KEY: re_ci_placeholder
-      SENTRY_DSN: ""
+      SENTRY_DSN: https://placeholder@sentry.io/0
       POSTHOG_API_KEY: ph_ci_placeholder
       POSTHOG_HOST: ""
       ENCRYPTION_KEY: ci_placeholder_secret_key_32_chars_min!
