@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   unique,
+  uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -211,6 +212,36 @@ export const webhookDeliveries = app.table("webhook_deliveries", {
   deliveredAt: timestamp("delivered_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+/**
+ * Incoming webhook events (idempotency log).
+ *
+ * Asaas (billing provider) envia webhooks com `event.id` único.
+ * Gravamos (provider, eventId) com UNIQUE → reentregas resultam em
+ * `onConflictDoNothing` → side-effects não disparam duas vezes.
+ *
+ * Sem RLS (escopo global: provider é multi-tenant). Sentinel tenant_id
+ * representa webhooks cross-tenant; o tenant real é resolvido depois
+ * via payment.subscription ou subscription.id → workspace.
+ */
+export const webhookEvents = app.table(
+  "webhook_events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    tenantId: uuid("tenant_id").notNull(),
+    provider: varchar("provider", { length: 32 }).notNull(), // 'asaas' | 'clerk'
+    eventId: varchar("event_id", { length: 128 }).notNull(),
+    eventType: varchar("event_type", { length: 64 }).notNull(),
+    payload: jsonb("payload").notNull(),
+    receivedAt: timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
+    processedAt: timestamp("processed_at", { withTimezone: true }),
+    processingError: text("processing_error"),
+  },
+  (t) => ({
+    // UNIQUE INDEX — onConflictDoNothing depende disso.
+    providerEventIdx: uniqueIndex("webhook_events_provider_event_idx").on(t.provider, t.eventId),
+  }),
+);
 
 export const dsrLog = app.table("dsr_log", {
   id: uuid("id").primaryKey().defaultRandom(),

@@ -1,9 +1,9 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
-import { subscriptions, workspaces } from "@/db/schema/app";
+import { subscriptions, webhookEvents, workspaces } from "@/db/schema/app";
+import { verifyWebhook } from "@/lib/billing/asaas";
 import { getAdminDb } from "@/lib/db";
 import { env } from "@/lib/env";
 import { enqueue } from "@/lib/queue";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -37,8 +37,6 @@ type AsaasEvent = {
   };
 };
 
-const IDEMPOTENCY = new Map<string, number>();
-
 export async function POST(req: Request) {
   try {
     const e = env();
@@ -50,16 +48,18 @@ export async function POST(req: Request) {
 
     const rawBody = await req.text();
 
+    // Defesa em profundidade — sem nenhum segredo configurado, recusamos.
+    if (!e.ASAAS_WEBHOOK_SECRET && !e.ASAAS_API_KEY) {
+      return NextResponse.json({ error: "WEBHOOK_NOT_CONFIGURED" }, { status: 503 });
+    }
+
     if (signature) {
-      // Validação HMAC-SHA256(header.payload) — alguns eventos Asaas incluem isso.
+      // Validação HMAC-SHA256 — delega para a função pura testada em
+      // lib/billing/asaas.ts (que usa timingSafeEqual com encoding hex correto).
       if (!e.ASAAS_WEBHOOK_SECRET) {
         return NextResponse.json({ error: "WEBHOOK_NOT_CONFIGURED" }, { status: 503 });
       }
-      const expected = createHmac("sha256", e.ASAAS_WEBHOOK_SECRET).update(rawBody).digest("hex");
-      if (
-        signature.length !== expected.length ||
-        !timingSafeEqual(Buffer.from(signature), Buffer.from(expected))
-      ) {
+      if (!verifyWebhook(rawBody, signature, e.ASAAS_WEBHOOK_SECRET)) {
         return NextResponse.json({ error: "INVALID_SIGNATURE" }, { status: 401 });
       }
     } else if (token) {
@@ -72,41 +72,108 @@ export async function POST(req: Request) {
     }
 
     const event = JSON.parse(rawBody) as AsaasEvent;
-    const idempotencyKey = `${event.event}:${event.payment?.id ?? event.subscription?.id ?? ""}`;
-    const last = IDEMPOTENCY.get(idempotencyKey);
-    if (last && Date.now() - last < 60_000) {
+
+    // ─────────── Idempotência persistente ───────────
+    // Chave estável: provider + (event id composto). Usamos o Asaas `payment.id`
+    // ou `subscription.id` quando presentes; senão caímos no par (event, customer).
+    const asaasEventId =
+      event.payment?.id ??
+      event.subscription?.id ??
+      `${event.event}:${event.subscription?.customer ?? event.payment?.customer ?? "unknown"}`;
+
+    const idempotencyKey = `${event.event}:${asaasEventId}`;
+
+    const db = getAdminDb();
+    const inserted = await db
+      .insert(webhookEvents)
+      .values({
+        provider: "asaas",
+        eventId: idempotencyKey,
+        eventType: event.event,
+        // tenantId: tabela exige NOT NULL — webhook Asaas é multi-tenant; o
+        // tenant real é resolvido depois (via asaasSubscriptionId → subscription
+        // → workspace). Usamos um sentinel estável até a resolução.
+        tenantId: "00000000-0000-0000-0000-000000000000",
+        payload: event as unknown as Record<string, unknown>,
+      })
+      .onConflictDoNothing({
+        target: [webhookEvents.provider, webhookEvents.eventId],
+      })
+      .returning({ id: webhookEvents.id });
+
+    if (inserted.length === 0) {
+      // Já vimos esse evento antes — não reprocessar side-effects.
       return NextResponse.json({ ok: true, deduplicated: true });
     }
-    IDEMPOTENCY.set(idempotencyKey, Date.now());
 
-    switch (event.event) {
-      case "PAYMENT_CONFIRMED":
-      case "PAYMENT_RECEIVED":
-        await handlePaymentConfirmed(event.payment);
-        break;
-      case "PAYMENT_OVERDUE":
-        await handlePaymentOverdue(event.payment);
-        break;
-      case "PAYMENT_REFUNDED":
-        await handlePaymentRefunded(event.payment);
-        break;
-      case "SUBSCRIPTION_CREATED":
-      case "SUBSCRIPTION_UPDATED":
-        await handleSubscriptionUpdated(event.subscription);
-        break;
-      case "SUBSCRIPTION_DELETED":
-      case "SUBSCRIPTION_INACTIVATED":
-        await handleSubscriptionDeleted(event.subscription);
-        break;
-      default:
-        // noop — evento ignorado
-        break;
-    }
+    const insertedId = inserted[0]?.id;
+    const markProcessed = async (error?: string) => {
+      try {
+        await db
+          .update(webhookEvents)
+          .set({
+            processedAt: new Date(),
+            payload: {
+              ...(event as unknown as Record<string, unknown>),
+              __processingError: error ?? null,
+            },
+          })
+          .where(
+            and(
+              eq(webhookEvents.id, insertedId ?? "00000000-0000-0000-0000-000000000000"),
+              eq(webhookEvents.provider, "asaas"),
+              eq(webhookEvents.eventId, idempotencyKey),
+            ),
+          );
+      } catch (err) {
+        // Falha ao marcar é não-fatal — próxima replay será deduplicada.
+        console.error("[/api/webhooks/asaas] markProcessed falhou:", err);
+      }
+    };
+
+    // Helper para garantir que falhas também persistam um erro na linha.
+    const guarded = async (fn: () => Promise<void>) => {
+      try {
+        await fn();
+      } catch (err) {
+        await markProcessed(err instanceof Error ? err.message : String(err));
+        throw err;
+      }
+    };
+
+    await guarded(async () => {
+      switch (event.event) {
+        case "PAYMENT_CONFIRMED":
+        case "PAYMENT_RECEIVED":
+          await handlePaymentConfirmed(event.payment);
+          break;
+        case "PAYMENT_OVERDUE":
+          await handlePaymentOverdue(event.payment);
+          break;
+        case "PAYMENT_REFUNDED":
+          await handlePaymentRefunded(event.payment);
+          break;
+        case "SUBSCRIPTION_CREATED":
+        case "SUBSCRIPTION_UPDATED":
+          await handleSubscriptionUpdated(event.subscription);
+          break;
+        case "SUBSCRIPTION_DELETED":
+        case "SUBSCRIPTION_INACTIVATED":
+          await handleSubscriptionDeleted(event.subscription);
+          break;
+        default:
+          // noop — evento ignorado
+          break;
+      }
+    });
 
     await enqueue({
       type: "sync_billing",
-      asaasEventId: `${event.event}:${event.payment?.id ?? event.subscription?.id ?? ""}`,
+      asaasEventId: idempotencyKey,
     });
+
+    // Marca o evento como processado (best-effort).
+    void markProcessed();
 
     return NextResponse.json({ ok: true });
   } catch (err) {

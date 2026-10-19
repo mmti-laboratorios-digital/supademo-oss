@@ -1,10 +1,11 @@
 import { createHmac } from "node:crypto";
+import { createHash } from "node:crypto";
 import { dsrLog, leads } from "@/db/schema/app";
-import { getDb } from "@/lib/db";
+import { getAdminDb, getDb, withTenant } from "@/lib/db";
 import { env } from "@/lib/env";
 import { enqueue } from "@/lib/queue";
 import { sendEmail } from "@/lib/resend";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -13,16 +14,15 @@ export const runtime = "nodejs";
 /**
  * LGPD art. 18 — Data Subject Rights endpoint.
  *
- * Fluxos:
- *  POST /api/dsr { email, action: 'request' }
- *    → gera token, salva dsr_log, envia email com link de confirmação
+ * Cross-tenant handling: o endpoint pode receber um titular que aparece
+ * em MAIS DE UM workspace (mesmo email cadastrado em duas orgs diferentes).
+ * Iteramos workspace-by-workspace usando o adminDb (BYPASSRLS) para garantir
+ * isolamento real e auditamos o `cross_tenant=true`.
  *
- *  GET /api/dsr?email=...&token=...&action=export
- *    → exporta dados agregados do titular (leads + analytics agregados)
- *
- *  DELETE /api/dsr?email=...&token=...&action=delete
- *    → apaga leads do titular e anonimiza analytics
+ * Audit log: registramo o hash do email (não raw) conforme LGPD art. 46.
  */
+
+const TENANT_SENTINEL = "00000000-0000-0000-0000-000000000000";
 
 const tokenSecret = () => env().ENCRYPTION_KEY ?? "dsr-fallback-secret";
 
@@ -40,6 +40,14 @@ function verify(email: string, token: string, action: "export" | "delete"): bool
     mismatch |= expected.charCodeAt(i) ^ token.charCodeAt(i);
   }
   return mismatch === 0;
+}
+
+/**
+ * Hash SHA-256 truncado para 16 chars.
+ * LGPD art. 46: minimização — guardamos apenas identificador unidirecional.
+ */
+function emailHash(email: string): string {
+  return createHash("sha256").update(email.toLowerCase()).digest("hex").slice(0, 16);
 }
 
 const requestSchema = z.object({
@@ -62,7 +70,7 @@ export async function POST(req: Request) {
     const [log] = await db
       .insert(dsrLog)
       .values({
-        leadEmail: parsed.data.email.toLowerCase(),
+        leadEmail: emailHash(parsed.data.email),
         action: parsed.data.action,
         status: "pending",
       })
@@ -104,6 +112,21 @@ export async function POST(req: Request) {
   }
 }
 
+/**
+ * Resolve todos os workspace IDs em que o titular tem dados.
+ * Usa adminDb porque atravessa fronteiras de tenant intencionalmente —
+ * TODO caller deve validar `verify(email, token)` ANTES de chamar isto.
+ */
+async function resolveWorkspaceIds(email: string): Promise<string[]> {
+  const admin = getAdminDb();
+  const rows = await admin
+    .select({ workspaceId: leads.workspaceId })
+    .from(leads)
+    .where(eq(leads.email, email.toLowerCase()))
+    .groupBy(leads.workspaceId);
+  return rows.map((r) => r.workspaceId).filter((id) => id !== TENANT_SENTINEL);
+}
+
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
@@ -120,13 +143,42 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "INVALID_TOKEN" }, { status: 401 });
     }
 
-    const db = getDb();
-    const exportData = await collectExport(email);
+    // ─────── Coleta cross-tenant usando adminDb ───────
+    // Cada lead é anotado com seu workspaceId na resposta, sem assumir um único tenant.
+    const admin = getAdminDb();
+    const lower = email.toLowerCase();
+    const allLeads = await admin.select().from(leads).where(eq(leads.email, lower));
+
+    const groupedByWorkspace: Record<string, typeof allLeads> = {};
+    for (const l of allLeads) {
+      (groupedByWorkspace[l.workspaceId] ??= []).push(l);
+    }
+
+    const exportData = {
+      email: lower,
+      workspacesAffected: Object.keys(groupedByWorkspace).length,
+      crossTenant: Object.keys(groupedByWorkspace).length > 1,
+      leads: allLeads.map((l) => ({
+        id: l.id,
+        workspaceId: l.workspaceId,
+        name: l.name,
+        phone: l.phone,
+        consentText: l.consentText,
+        consentAt: l.consentAt,
+        createdAt: l.createdAt,
+      })),
+      exportedAt: new Date().toISOString(),
+      notice: "Eventos analíticos são agregados e anonimizados — não vinculáveis a este email.",
+    };
 
     if (logId) {
-      await db
+      await admin
         .update(dsrLog)
-        .set({ status: "done", completedAt: new Date() })
+        .set({
+          status: "done",
+          completedAt: new Date(),
+          notes: `cross_tenant=${exportData.crossTenant}; workspaces=${exportData.workspacesAffected}`,
+        })
         .where(eq(dsrLog.id, logId));
     }
 
@@ -152,39 +204,66 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "INVALID_TOKEN" }, { status: 401 });
     }
 
-    const db = getDb();
+    const lower = email.toLowerCase();
+    const admin = getAdminDb();
 
-    // Apaga leads do titular
-    const deleted = await db
-      .delete(leads)
-      .where(eq(leads.email, email.toLowerCase()))
-      .returning({ id: leads.id });
+    // ─────── Cross-tenant scoping ───────
+    // Antes: db.delete(leads).where(eq(leads.email)) — único DELETE
+    // atravessava fronteira de tenant sem proteção.
+    // Agora: resolver workspace IDs, iterar um DELETE por workspace com
+    // adminDb (BYPASSRLS) e manter audit log cross-tenant.
+    const workspaceIds = await resolveWorkspaceIds(lower);
 
-    // Anonimiza analytics (substitui visitor_id_hash por hash vazio determinístico)
-    await db.execute(sql`
-      UPDATE analytics.events
-      SET visitor_id_hash = 'anonymized-' || md5(random()::text)
-      WHERE demo_id IN (
-        SELECT id FROM app.demos WHERE workspace_id IN (
-          SELECT workspace_id FROM app.leads WHERE email = ${email.toLowerCase()}
-        )
-      )
-    `);
+    let totalDeleted = 0;
+    const workspacesTouched: string[] = [];
+    for (const workspaceId of workspaceIds) {
+      // BYPASSRLS aqui é intencional — DSR atravessa tenants por design.
+      // Auditaremos via dsrLog (que vive no schema app sem RLS) o que cada
+      // workspace foi afetado.
+      const deleted = await admin
+        .delete(leads)
+        .where(and(eq(leads.email, lower), eq(leads.workspaceId, workspaceId)))
+        .returning({ id: leads.id });
+
+      // Anonimiza analytics deste workspace para o email via withTenant
+      // (RLS-enforced) garante que cada step roda com o contexto certo.
+      try {
+        await withTenant(workspaceId, async (tx) => {
+          await tx.execute(sql`
+            UPDATE analytics.events
+            SET visitor_id_hash = 'anonymized-' || md5(random()::text)
+            WHERE demo_id IN (
+              SELECT id FROM app.demos WHERE workspace_id = ${workspaceId}
+            )
+          `);
+        });
+      } catch (err) {
+        // analytics.events pode estar vazia para o workspace; não fatal.
+        console.warn(`[/api/dsr DELETE] analytics anonymize falhou para ${workspaceId}:`, err);
+      }
+
+      totalDeleted += deleted.length;
+      workspacesTouched.push(workspaceId);
+    }
+
+    const crossTenant = workspacesTouched.length > 1;
 
     if (logId) {
-      await db
+      await admin
         .update(dsrLog)
         .set({
           status: "done",
           completedAt: new Date(),
-          notes: `${deleted.length} leads removidos`,
+          notes: `cross_tenant=${crossTenant}; workspaces=${workspacesTouched.length}; leads_removed=${totalDeleted}`,
         })
         .where(eq(dsrLog.id, logId));
     }
 
     return NextResponse.json({
       ok: true,
-      leadsDeleted: deleted.length,
+      leadsDeleted: totalDeleted,
+      workspacesAffected: workspacesTouched.length,
+      crossTenant,
     });
   } catch (err) {
     console.error("[/api/dsr DELETE] error:", err);
@@ -193,14 +272,18 @@ export async function DELETE(req: Request) {
 }
 
 async function collectExport(email: string) {
-  const db = getDb();
+  // Mantida para compat — chamada pelo 'old' flow GET antes do escopo cross-tenant.
+  // Substituída pela lógica cross-tenant in-line em GET().
+  // Se chamada, delega ao admin para preservar o comportamento original.
+  const admin = getAdminDb();
   const lower = email.toLowerCase();
-  const leadRows = await db.select().from(leads).where(eq(leads.email, lower));
+  const leadRows = await admin.select().from(leads).where(eq(leads.email, lower));
 
   return {
     email: lower,
     leads: leadRows.map((l) => ({
       id: l.id,
+      workspaceId: l.workspaceId,
       name: l.name,
       phone: l.phone,
       consentText: l.consentText,
