@@ -99,10 +99,10 @@ jobs:
           --health-retries 10
     env:
       # Runtime: app_user (RLS-enforced)
-      DATABASE_URL: postgres://app_user:app_user@localhost:5432/supademo
+      DATABASE_URL: postgres://app_user:demobr@localhost:5432/supademo
       # Migrations: app_owner (BYPASSRLS). CI cria roles app_owner/readonly
       # via steps/setup-pg-roles abaixo antes de rodar migrations.
-      DIRECT_URL:   postgres://app_owner:app_owner@localhost:5432/supademo
+      DIRECT_URL:   postgres://app_owner:demobr@localhost:5432/supademo
       CI: "true"
     steps:
       - uses: actions/checkout@v4
