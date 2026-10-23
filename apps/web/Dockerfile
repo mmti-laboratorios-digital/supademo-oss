@@ -31,7 +31,24 @@ WORKDIR /repo
 COPY apps/web ./apps/web
 COPY apps/workers ./apps/workers
 COPY packages ./packages
-ENV NEXT_TELEMETRY_DISABLED=1
+
+# NODE_ENV precisa ser production durante o build. Se vazar "development"
+# (ex.: de um .env carregado no shell), o prerender de /_error e /404 aborta
+# com "<Html> should not be imported outside of pages/_document".
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NODE_ENV=production
+
+# O Clerk valida a publishableKey no módulo, o que acontece já no prerender de
+# /_not-found — sem ela o `next build` aborta com
+# "Missing publishableKey ... exiting the build".
+#
+# NEXT_PUBLIC_* é INLINED no bundle pelo Next, então o valor aqui vira o que
+# roda em produção. O default abaixo só serve para o CI conseguir buildar sem
+# segredos: builds de produção precisam sobrescrever via
+#   docker build --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_ZGVtb2JyLWxvY2FsLmNsZXJrLmFjY291bnRzLmRldiQ=
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+
 RUN pnpm --filter web build
 
 # -----------------------------------------------------------------------------

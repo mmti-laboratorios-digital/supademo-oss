@@ -47,22 +47,29 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // ClerkProvider fica DENTRO do <body>, não envolvendo o <html>.
+  // A Clerk exige isso no App Router (ver guia Next.js): com o provider fora,
+  // o runtime Pages Router — que Next usa para exportar `/_error` e `/404` —
+  // acaba renderizando o <Html> do next/document fora de contexto e o build
+  // aborta com "<Html> should not be imported outside of pages/_document".
   return (
-    <ClerkProvider
-      appearance={{
-        variables: {
-          colorPrimary: "#2563eb",
-          borderRadius: "0.5rem",
-          fontFamily: "Inter, system-ui, sans-serif",
-        },
-      }}
-      localization={{
-        locale: "pt-BR",
-      }}
-    >
-      <html lang="pt-BR" suppressHydrationWarning className={inter.variable}>
-        <body className="min-h-dvh font-sans antialiased">{children}</body>
-      </html>
-    </ClerkProvider>
+    <html lang="pt-BR" suppressHydrationWarning className={inter.variable}>
+      <body className="min-h-dvh font-sans antialiased">
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#2563eb",
+              borderRadius: "0.5rem",
+              fontFamily: "Inter, system-ui, sans-serif",
+            },
+          }}
+          localization={{
+            locale: "pt-BR",
+          }}
+        >
+          {children}
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
