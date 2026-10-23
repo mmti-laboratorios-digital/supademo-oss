@@ -3,6 +3,7 @@
 import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@demo.br/shared";
 import * as React from "react";
 import { HotspotOverlay } from "./HotspotOverlay";
+import { initialState, playerReducer } from "./state-machine";
 
 export type DemoPlayerProps = {
   demo: DemoPlayerDemo;
@@ -12,13 +13,24 @@ export type DemoPlayerProps = {
   onEvent?: (e: DemoEvent) => void;
 };
 
-type State = "idle" | "playing" | "transitioning" | "completed";
-
 export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: DemoPlayerProps) {
-  const [state, setState] = React.useState<State>("idle");
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  // Fonte única de verdade do estado de navegação. O reducer puro
+  // (./state-machine.ts) é coberto por testes; aqui só despachamos ações.
+  const [player, dispatch] = React.useReducer(playerReducer, initialState);
+  const { state, currentStepId } = player;
+
+  const stepIds = React.useMemo(() => steps.map((s) => s.id), [steps]);
   const totalSteps = steps.length;
-  const currentStep = steps[currentIndex];
+
+  // O step exibido vem do ID (fonte da verdade do reducer), não do índice —
+  // assim BRANCH_SELECTED, que troca o step mantendo o índice, funciona.
+  const currentStep = React.useMemo(
+    () => steps.find((s) => s.id === currentStepId),
+    [steps, currentStepId],
+  );
+  // Índice resolvido do step exibido: mantém o contador "X / Y" coerente com
+  // a tela quando um branch troca o step.
+  const resolvedIndex = currentStep ? steps.indexOf(currentStep) : player.currentIndex;
 
   // prefers-reduced-motion — desativa transição fade do step.
   const [reduceMotion, setReduceMotion] = React.useState(false);
@@ -31,54 +43,55 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  // stepId explícito: evita closure obsoleta nos callbacks de transição.
   const emit = React.useCallback(
-    (type: DemoEvent["type"], extra: Partial<DemoEvent> = {}) => {
-      const event: DemoEvent = {
-        type,
-        demoId: demo.id,
-        stepId: currentStep?.id,
-        ts: Date.now(),
-        ...extra,
-      };
-      onEvent?.(event);
+    (type: DemoEvent["type"], stepId?: string) => {
+      onEvent?.({ type, demoId: demo.id, stepId, ts: Date.now() });
     },
-    [demo.id, currentStep, onEvent],
+    [demo.id, onEvent],
+  );
+
+  // Timeout de transição precisa ser cancelado no unmount e a cada avanço,
+  // senão um clique rápido enfileira timers e o índice salta steps.
+  const advanceTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  React.useEffect(
+    () => () => {
+      if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    },
+    [],
   );
 
   const start = React.useCallback(() => {
-    setCurrentIndex(0);
-    setState("playing");
-    emit("view");
-  }, [emit]);
+    dispatch({ type: "START", stepIds });
+    emit("view", stepIds[0]);
+  }, [emit, stepIds]);
 
   const advance = React.useCallback(() => {
-    setState("transitioning");
+    dispatch({ type: "TRANSITION" });
     const delay = reduceMotion ? 0 : 220;
-    setTimeout(() => {
-      setCurrentIndex((i) => {
-        const next = i + 1;
-        if (next >= totalSteps) {
-          setState("completed");
-          emit("complete");
-          return i;
-        }
-        emit("step_seen", { stepId: steps[next]?.id });
-        return next;
-      });
-      setState("playing");
+    advanceTimer.current = setTimeout(() => {
+      const nextIndex = resolvedIndex + 1;
+      const nextStepId = steps[nextIndex]?.id;
+      // O reducer decide entre avançar e concluir — dispacha completed quando
+      // não há próximo step.
+      dispatch({ type: "ADVANCE", stepIds });
+      if (nextStepId) emit("step_seen", nextStepId);
+      else emit("complete");
     }, delay);
-  }, [emit, steps, totalSteps, reduceMotion]);
+  }, [emit, reduceMotion, resolvedIndex, stepIds, steps]);
 
   const previous = React.useCallback(() => {
-    setCurrentIndex((i) => Math.max(0, i - 1));
-    setState("playing");
-  }, []);
+    dispatch({ type: "GO_BACK", stepIds });
+  }, [stepIds]);
 
   const restart = React.useCallback(() => {
-    setCurrentIndex(0);
-    setState("playing");
-    emit("view");
-  }, [emit]);
+    dispatch({ type: "RESTART", stepIds });
+    emit("view", stepIds[0]);
+  }, [emit, stepIds]);
+
+  const reset = React.useCallback(() => {
+    dispatch({ type: "RESET" });
+  }, []);
 
   // Keyboard nav: setas + Espaço + Enter + Esc para sair.
   React.useEffect(() => {
@@ -97,12 +110,12 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
         e.preventDefault();
         previous();
       } else if (e.key === "Escape") {
-        setState("idle");
+        reset();
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [advance, previous, start, state]);
+  }, [advance, previous, reset, start, state]);
 
   if (state === "idle") {
     return (
@@ -135,8 +148,8 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
   // Step announcement for screen readers
   const stepAnnouncement =
     locale === "pt-BR"
-      ? `Step ${currentIndex + 1} de ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`
-      : `Step ${currentIndex + 1} of ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`;
+      ? `Step ${resolvedIndex + 1} de ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`
+      : `Step ${resolvedIndex + 1} of ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`;
 
   return (
     <section
@@ -154,11 +167,11 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
             className="text-xs text-muted-foreground"
             aria-label={
               locale === "pt-BR"
-                ? `Step ${currentIndex + 1} de ${totalSteps}`
-                : `Step ${currentIndex + 1} of ${totalSteps}`
+                ? `Step ${resolvedIndex + 1} de ${totalSteps}`
+                : `Step ${resolvedIndex + 1} of ${totalSteps}`
             }
           >
-            {currentIndex + 1} / {totalSteps}
+            {resolvedIndex + 1} / {totalSteps}
           </span>
         </div>
         <button

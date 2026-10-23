@@ -63,6 +63,15 @@ $$;
 ALTER ROLE readonly NOBYPASSRLS;
 
 -- ----------------------------------------------------------------------------
+-- Schemas
+-- ----------------------------------------------------------------------------
+-- Precisam existir ANTES dos GRANTs abaixo. Historicamente este arquivo assumia
+-- que os schemas já existiam (o 0000_init.sql os criava), o que quebrava em
+-- qualquer execução standalone — inclusive é exatamente o caso deste arquivo.
+CREATE SCHEMA IF NOT EXISTS app;
+CREATE SCHEMA IF NOT EXISTS analytics;
+
+-- ----------------------------------------------------------------------------
 -- Grants no database
 -- ----------------------------------------------------------------------------
 GRANT CONNECT ON DATABASE supademo TO app_user, app_owner, readonly;

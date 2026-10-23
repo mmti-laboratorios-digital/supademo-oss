@@ -89,6 +89,37 @@ describe("DemoPlayer state machine — transitions", () => {
     expect(restarted.currentIndex).toBe(0);
     expect(restarted.currentStepId).toBe("step-1");
   });
+
+  it("TRANSITION vai para transitioning preservando índice e step", () => {
+    const started = act(initialState, { type: "START", stepIds: STEPS });
+    const advanced = act(started, { type: "ADVANCE", stepIds: STEPS });
+    const fading = act(advanced, { type: "TRANSITION" });
+    expect(fading.state).toBe("transitioning");
+    expect(fading.currentIndex).toBe(1);
+    expect(fading.currentStepId).toBe("step-2");
+  });
+
+  it("ADVANCE a partir de transitioning conclui o fluxo (não trava no fade)", () => {
+    let s = act(initialState, { type: "START", stepIds: STEPS });
+    s = act(s, { type: "ADVANCE", stepIds: STEPS });
+    s = act(s, { type: "ADVANCE", stepIds: STEPS });
+    expect(s.currentStepId).toBe("step-3");
+    const fading = act(s, { type: "TRANSITION" });
+    expect(fading.state).toBe("transitioning");
+    const done = act(fading, { type: "ADVANCE", stepIds: STEPS });
+    expect(done.state).toBe("completed");
+    expect(done.currentStepId).toBe("step-3");
+  });
+
+  it("TRANSITION fora de playing é ignorado (idle não pode fade)", () => {
+    expect(act(initialState, { type: "TRANSITION" })).toEqual(initialState);
+  });
+
+  it("RESET volta exatamente para initialState", () => {
+    let s = act(initialState, { type: "START", stepIds: STEPS });
+    s = act(s, { type: "ADVANCE", stepIds: STEPS });
+    expect(act(s, { type: "RESET" })).toEqual(initialState);
+  });
 });
 
 describe("DemoPlayer state machine — edge cases", () => {

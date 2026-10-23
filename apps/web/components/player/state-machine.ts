@@ -9,11 +9,13 @@ export type PlayerState = "idle" | "playing" | "transitioning" | "completed";
 
 export type PlayerAction =
   | { type: "START"; stepIds: string[] }
+  | { type: "TRANSITION" }
   | { type: "ADVANCE"; stepIds: string[]; nextId?: string }
   | { type: "GO_BACK"; stepIds: string[] }
   | { type: "BRANCH_SELECTED"; stepId: string }
   | { type: "COMPLETE" }
-  | { type: "RESTART"; stepIds: string[] };
+  | { type: "RESTART"; stepIds: string[] }
+  | { type: "RESET" };
 
 export type PlayerStateData = {
   state: PlayerState;
@@ -40,6 +42,17 @@ export function playerReducer(state: PlayerStateData, action: PlayerAction): Pla
         currentIndex: 0,
         currentStepId: action.stepIds?.[0] ?? null,
       };
+
+    // Estado transitório do fade entre steps. Não muda índice nem step —
+    // só sinaliza que o componente deve aplicar a transição visual antes
+    // do próximo ADVANCE.
+    case "TRANSITION":
+      if (state.state !== "playing") return state;
+      return { ...state, state: "transitioning" };
+
+    // Volta para a tela de início (usado pelo atalho Esc do teclado).
+    case "RESET":
+      return initialState;
 
     case "ADVANCE": {
       const stepIds = action.stepIds;
