@@ -230,12 +230,17 @@ export async function loadHomeContent(file = "home.mdx"): Promise<ParsedHome> {
 
   // Pull meta export
   const metaMatch = raw.match(/export const meta = \{([\s\S]*?)\};/);
+  // O badge fica no <Hero badge="..." />, não no export const meta.
+  const heroMatch = raw.match(/<Hero[\s\S]*?\/>/);
   const meta: HomeMeta = {
     title: extractString(metaMatch?.[1], "title") ?? "DemoBR",
     subtitle:
       extractString(metaMatch?.[1], "subtitle") ??
       "Demos interativas pra vender mais, sem uma reunião a mais.",
-    badge: extractString(metaMatch?.[1], "badge") ?? "Beta público",
+    badge:
+      (heroMatch ? extractJsxAttr(heroMatch[0], "badge") : undefined) ??
+      extractString(metaMatch?.[1], "badge") ??
+      "Beta público",
     primaryCta: {
       label: extractString(metaMatch?.[1], "ctaPrimary") ?? "Começar grátis",
       href: extractString(metaMatch?.[1], "ctaPrimaryHref") ?? "/sign-up",
@@ -282,6 +287,43 @@ function extractString(haystack: string | undefined, key: string): string | unde
   return m?.[1];
 }
 
+/**
+ * Extrai um atributo JSX de string literal (`name="valor"`) de uma tag MDX.
+ *
+ * `extractProp` serve para objetos JS (`{ name: "x" }`); aqui o formato é o
+ * de atributo JSX (`<FinalCta title="x" />`), que usa `=` em vez de `:`.
+ * O lookahead exige aspas para não confundir com props que apontam para
+ * expressões (ex: `title={meta.title}`), que não são string literals.
+ */
+function extractJsxAttr(tag: string, attr: string): string | undefined {
+  const re = new RegExp(`\\b${attr}\\s*=\\s*"([^"]*)"`);
+  const m = tag.match(re);
+  return m?.[1];
+}
+
+/**
+ * Extrai uma CTA aninhada em JSX: `primaryCta={{ label: "X", href: "/y" }}`.
+ * Aceita também o formato plano `primaryCtaLabel="X"` como fallback.
+ *
+ * O conteúdo dentro de `{{ ... }}` é um objeto JS (`label: "X"`), então usa
+ * `extractProp`. O fallback usa `extractJsxAttr` porque aí o formato é JSX
+ * plano (`primaryCtaLabel="X"`).
+ */
+function extractJsxCta(tag: string, attr: string): CtaLink {
+  const nested = tag.match(new RegExp(`\\b${attr}\\s*=\\s*\\{\\{([\\s\\S]*?)\\}\\s*\\}`));
+  if (nested?.[1]) {
+    const inner = nested[1];
+    return {
+      label: extractProp(inner, "label") ?? "",
+      href: extractProp(inner, "href") ?? "#",
+    };
+  }
+  return {
+    label: extractJsxAttr(tag, `${attr}Label`) ?? "",
+    href: extractJsxAttr(tag, `${attr}Href`) ?? "#",
+  };
+}
+
 function parseShowcase(jsx: string): DemoShowcaseItem[] {
   const objMatch = jsx.match(/items=\{\s*\[([\s\S]*?)\]\s*\}/);
   if (!objMatch) return [];
@@ -326,16 +368,10 @@ function parseFinalCta(jsx: string): ParsedHome["finalCta"] {
   if (!objMatch) throw new Error("unreachable");
   const block = objMatch[0];
   return {
-    title: extractProp(block, "title") ?? "",
-    subtitle: extractProp(block, "subtitle") ?? "",
-    primaryCta: {
-      label: extractProp(block, "primaryCtaLabel") ?? "",
-      href: extractProp(block, "primaryCtaHref") ?? "/sign-up",
-    },
-    secondaryCta: {
-      label: extractProp(block, "secondaryCtaLabel") ?? "",
-      href: extractProp(block, "secondaryCtaHref") ?? "#",
-    },
+    title: extractJsxAttr(block, "title") ?? "",
+    subtitle: extractJsxAttr(block, "subtitle") ?? "",
+    primaryCta: extractJsxCta(block, "primaryCta"),
+    secondaryCta: extractJsxCta(block, "secondaryCta"),
   };
 }
 
@@ -399,7 +435,15 @@ function splitTopLevelObjects(input: string): string[] {
 }
 
 function extractProp(obj: string, key: string): string | undefined {
-  const re = new RegExp(`(?:^|,)\\s*${key}\\s*:\\s*("[^"]*"|'[^']*'|true|false|\\[[^\\]]*\\])`);
+  // O prefixo aceita `{ ` e `, ` — no MDX toda propriedade vem depois de
+  // `{ ` (ex: `{ name: "X", industry: "Y" }`), então casar só com `^|,`
+  // deixava a PRIMEIRA propriedade de cada objeto vazia.
+  // O lookahead aceita também fim-de-string: quando o trecho analisado é um
+  // slice truncado (ex: o corpo de `cta={{ label: "x", href: "/y" }}`, que
+  // termina antes do `}}`), a última propriedade não tem `,` nem `}` depois.
+  const re = new RegExp(
+    `(?:^|[,{])\\s*${key}\\s*:\\s*("[^"]*"|'[^']*'|true|false|\\[[^\\]]*\\])(?=\\s*(?:[,}\\]]|$))`,
+  );
   const m = obj.match(re);
   if (!m) return undefined;
   const raw = m[1];

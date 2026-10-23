@@ -35,6 +35,11 @@ cd "$ROOT_DIR"
 ver_ge() {
   # ver_ge A B → retorna 0 se A >= B
   local a b
+  # Guarda-corpo: com `set -u`, uma comparação aritmética com texto não-numérico
+  # faz o bash tratar o texto como nome de variável e abortar com
+  # "X: unbound variable" (ex: ver_ge "Docker version 29.5.2" 24.0).
+  [[ "$1" =~ ^[0-9]+(\.[0-9]+)*$ ]] || return 1
+  [[ "$2" =~ ^[0-9]+(\.[0-9]+)*$ ]] || return 1
   IFS='.' read -r -a a <<<"$1"
   IFS='.' read -r -a b <<<"$2"
   local n=${#a[@]}
@@ -50,10 +55,20 @@ ver_ge() {
 have_cmd() { command -v "$1" >/dev/null 2>&1; }
 
 get_version() {
-  # extrai versão major.minor (sem pre-release)
+  # Extrai o primeiro número de versão (major[.minor[.patch]]) da primeira
+  # linha de `<cmd> --version`.
+  #
+  # Não ancora no início: cada tool formata differently —
+  #   node  → "v24.16.0"
+  #   pnpm  → "9.12.0"
+  #   docker → "Docker version 29.5.2, build c48d262e"
+  # O regex anterior (`.*v?([0-9]+\.[0-9]+...)`) fazia backtrack guloso e
+  # devolvia "6.0" para "v24.16.0", reprovando qualquer Node >= 10.
   "$1" --version 2>/dev/null \
     | head -n1 \
-    | sed -E 's/.*v?([0-9]+\.[0-9]+(\.[0-9]+)?).*/\1/'
+    | grep -oE '[0-9]+(\.[0-9]+)*' \
+    | head -n1 \
+    || true
 }
 
 wait_healthy() {
