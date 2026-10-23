@@ -61,22 +61,25 @@ jobs:
   # Check DPO placeholders (bloqueador de publicação até contratação formal)
   # Falha o CI se restar placeholder@demobr.com.br, DPO_NAME_AQUI,
   # [NOME_DO_DPO] ou {nome_do_DPO} em legal/.
+  #
+  # DESATIVADO POR ORA — DemoBR ainda está em desenvolvimento e não há DPO
+  # contratado. Reativar antes do go-live comercial. Ver legal/DPO.md.
   # ---------------------------------------------------------------------------
-  check-dpo-placeholders:
-    name: Check DPO placeholders
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.12.0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Check DPO placeholders
-        run: pnpm exec tsx scripts/check-dpo-missing.ts
+  # check-dpo-placeholders:
+  #   name: Check DPO placeholders
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 9.12.0
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 22
+  #         cache: pnpm
+  #     - run: pnpm install --frozen-lockfile
+  #     - name: Check DPO placeholders
+  #       run: pnpm exec tsx scripts/check-dpo-missing.ts
 
   # ---------------------------------------------------------------------------
   # Test (vitest + playwright)
