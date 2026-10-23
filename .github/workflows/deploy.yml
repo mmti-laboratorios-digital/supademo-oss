@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Determine tag
         id: tag
@@ -58,7 +58,7 @@ jobs:
       # Setup SSH
       # -------------------------------------------------------------------
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.HETZNER_SSH_KEY }}
 
