@@ -1,0 +1,62 @@
+# =============================================================================
+# DemoBR — .dockerignore
+# -----------------------------------------------------------------------------
+# Sem este arquivo, `COPY apps/web ./apps/web` traz o node_modules do host
+# (binários nativos darwin-arm64: sharp, esbuild) para dentro do container
+# linux — o build quebra ou o runtime nasge em runtime. Além disso, .env
+# vaza para as camadas da imagem.
+# =============================================================================
+
+# --- segredos (crítico: nunca podem entrar em layer) ------------------------
+.env
+.env.*
+!.env.example
+
+# --- dependências -----------------------------------------------------------
+node_modules
+**/node_modules
+.pnpm-store
+
+# --- build output -----------------------------------------------------------
+.next
+**/.next
+dist
+**/dist
+out
+build
+**/build
+
+# --- git ---------------------------------------------------------------------
+.git
+.gitignore
+.github
+
+# --- testes / tooling -------------------------------------------------------
+coverage
+**/coverage
+test-results
+playwright-report
+blob-report
+.nyc_output
+.turbo
+**/.turbo
+playwright/.cache
+
+# --- artefatos de teste ------------------------------------------------------
+apps/web/test-fixtures
+tests
+
+# --- não usado em runtime ---------------------------------------------------
+setup-report
+research
+marketing
+online-presence
+legal
+docs
+specs
+.claude
+.cursor
+.DS_Store
+**/.DS_Store
+*.log
+npm-debug.log*

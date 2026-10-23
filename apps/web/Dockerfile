@@ -9,10 +9,12 @@
 FROM node:22-alpine AS deps
 RUN corepack enable && corepack prepare pnpm@9.12.0 --activate
 WORKDIR /repo
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* tsconfig.json ./
+# O repo tem tsconfig.base.json na raiz — NÃO existe tsconfig.json. Copiar o
+# nome errado aborta o build com `"/tsconfig.json": not found`.
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml tsconfig.base.json ./
 COPY apps/web/package.json ./apps/web/package.json
 COPY apps/workers/package.json ./apps/workers/package.json
-COPY apps/extension/package.json ./apps/extension/package.json 2>/dev/null || true
+COPY apps/extension/package.json ./apps/extension/package.json
 COPY packages ./packages
 RUN pnpm install --frozen-lockfile --filter web... --filter ./packages/*
 
@@ -44,7 +46,12 @@ ENV NODE_ENV=production \
 RUN addgroup -S demobr && adduser -S demobr -G demobr
 WORKDIR /app
 
-# Standalone output do Next.js inclui node_modules mínimos
+# Standalone output do Next.js inclui node_modules mínimos.
+#
+# `output: "standalone"` (next.config.ts) NÃO copia `public/` nem `.next/static`
+# para dentro do standalone — daí os dois COPY explícitos. Se apps/web/public
+# não existir, o primeiro COPY aborta o build; por isso public/ é versionado
+# com pelo menos um asset.
 COPY --from=build --chown=demobr:demobr /repo/apps/web/public /app/public
 COPY --from=build --chown=demobr:demobr /repo/apps/web/.next/standalone /app
 COPY --from=build --chown=demobr:demobr /repo/apps/web/.next/static /app/.next/static
