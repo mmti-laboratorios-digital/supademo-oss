@@ -240,7 +240,7 @@ jobs:
         id: bundle
         run: |
           set -euo pipefail
-          DIST="$(find packages/player/dist -maxdepth 1 -type f \\( -name '*.js' -o -name '*.mjs' \\) | head -n1)"
+          DIST="$(find packages/player/dist -maxdepth 1 -type f \( -name '*.js' -o -name '*.mjs' \) | head -n1)"
           if [[ -z "$DIST" ]]; then
             echo "❌ Player bundle não encontrado em packages/player/dist/"
             exit 1
