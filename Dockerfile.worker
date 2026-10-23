@@ -14,7 +14,10 @@ COPY apps/workers/package.json ./apps/workers/
 COPY packages ./packages
 COPY apps/extension/package.json ./apps/extension/package.json
 COPY apps/web/package.json ./apps/web/package.json
-RUN pnpm install --frozen-lockfile --filter workers... --filter ./packages/*
+# O glob PRECISA estar quotado: sem aspas o shell expande `./packages/*` em
+# argumentos separados e o pnpm os trata como pacotes a adicionar, virando
+# `pnpm add` — onde `--frozen-lockfile` não existe.
+RUN pnpm install --frozen-lockfile --filter workers... --filter "./packages/*"
 
 # -----------------------------------------------------------------------------
 # Stage 2 — build (tsx → node)

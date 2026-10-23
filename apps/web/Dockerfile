@@ -16,7 +16,12 @@ COPY apps/web/package.json ./apps/web/package.json
 COPY apps/workers/package.json ./apps/workers/package.json
 COPY apps/extension/package.json ./apps/extension/package.json
 COPY packages ./packages
-RUN pnpm install --frozen-lockfile --filter web... --filter ./packages/*
+# O glob PRECISA estar quotado. Sem aspas, o /bin/sh do Docker expande
+# `./packages/*` em três argumentos (`player`, `shared`, `ui`) e o pnpm
+# interpreta os extras como pacotes a adicionar — o comando vira um
+# `pnpm add`, onde `--frozen-lockfile` não existe:
+#   ERROR Unknown option: 'frozen-lockfile' / For help, run: pnpm help add
+RUN pnpm install --frozen-lockfile --filter web... --filter "./packages/*"
 
 # -----------------------------------------------------------------------------
 # Stage 2 — build (Next.js standalone)
