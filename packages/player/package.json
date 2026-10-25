@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "description": "Player React leve e embarcável de demos interativos (build Vite). Não é vanilla — usa JSX/TSX.",
   "main": "./src/DemoPlayer.tsx",
   "types": "./src/DemoPlayer.tsx",
   "exports": {

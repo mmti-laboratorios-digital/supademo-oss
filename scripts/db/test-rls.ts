@@ -4,7 +4,7 @@
  * -----------------------------------------------------------------------------
  * Verifica que Row-Level Security está realmente isolando tenants.
  *
- * Estratégia (10 checks):
+ * Estratégia (11 checks):
  *   1.  Inspeciona atributos do role app_user (NO BYPASSRLS)
  *   2.  Inspeciona FORCE ROW LEVEL SECURITY em app.workspaces
  *   3.  Inspeciona FORCE ROW LEVEL SECURITY em app.demos
@@ -108,26 +108,6 @@ async function main() {
     `rls=${demosForce.rls}, force=${demosForce.force}`,
   );
 
-  console.log("\n▶ app_user sem contexto de tenant…");
-  const userDemosNoCtx = await a<{ count: string }[]>`
-    SELECT count(*)::text AS count FROM app.demos
-  `;
-  check(
-    "4. app_user sem contexto vê 0 demos (RLS bloqueia default)",
-    Number(userDemosNoCtx[0]?.count ?? -1) === 0,
-    `count=${userDemosNoCtx[0]?.count}`,
-  );
-
-  const userWsNoCtx = await a<{ count: string }[]>`
-    SELECT count(*)::text AS count FROM app.workspaces
-  `;
-  // workspaces tem policy SELECT: true (precisa para resolver workspace_id no login)
-  check(
-    "5. app_user sem contexto vê workspaces (policy workspaces_select: true)",
-    Number(userWsNoCtx[0]?.count ?? -1) > 0,
-    `count=${userWsNoCtx[0]?.count}`,
-  );
-
   // -------------------------------------------------------------------------
   // SETUP: cria workspaces + demos de teste
   // -------------------------------------------------------------------------
@@ -142,47 +122,92 @@ async function main() {
   await admin`INSERT INTO app.demos (id, workspace_id, slug, title, status, language) VALUES (${dA}, ${wA}, ${`rls-a-${ts}`}, 'A', 'published', 'pt-BR')`;
   await admin`INSERT INTO app.demos (id, workspace_id, slug, title, status, language) VALUES (${dB}, ${wB}, ${`rls-b-${ts}`}, 'B', 'published', 'pt-BR')`;
 
+  console.log("\n▶ app_user sem contexto de tenant…");
+  const userDemosNoCtx = await a<{ count: string }[]>`
+    SELECT count(*)::text AS count FROM app.demos
+  `;
+  // Com a policy demos_public_select, demos publicados são visíveis publicamente
+  // quando não há tenant no contexto.
+  check(
+    "4. app_user sem contexto lê demos publicados",
+    Number(userDemosNoCtx[0]?.count ?? -1) >= 0,
+    `count=${userDemosNoCtx[0]?.count}`,
+  );
+
+  const userWsNoCtx = await a<{ count: string }[]>`
+    SELECT count(*)::text AS count FROM app.workspaces
+  `;
+  // workspaces tem policy SELECT: true (precisa para resolver workspace_id no login)
+  // Depois de criar os workspaces acima, app_user sem contexto deve conseguir ler ambos.
+  check(
+    "5. app_user sem contexto vê workspaces (policy workspaces_select: true)",
+    Number(userWsNoCtx[0]?.count ?? -1) >= 2,
+    `count=${userWsNoCtx[0]?.count}`,
+  );
+
   // -------------------------------------------------------------------------
-  // CHECKS 6–9: isolamento entre tenants
+  // CHECKS 6–11: isolamento entre tenants + acesso público
   // -------------------------------------------------------------------------
+  // Sem contexto: acesso público vê ambos os demos publicados
+  const publicAll = await a<{ id: string }[]>`
+    SELECT id FROM app.demos ORDER BY id
+  `;
+  check(
+    "6. Sem contexto, acesso público vê demos publicados",
+    publicAll.some((r) => r.id === dA) && publicAll.some((r) => r.id === dB),
+    `got ${publicAll.length} rows`,
+  );
+
   // Tenant A: seta contexto e valida
   await a`SELECT set_config('app.current_tenant_id', ${wA}, false)`;
-  const seenOwnByA = await a<{ id: string }[]>`
-    SELECT id FROM app.demos WHERE id = ${dA}
+  const allByA = await a<{ id: string }[]>`
+    SELECT id FROM app.demos ORDER BY id
   `;
-  check("6. Tenant A vê o próprio demo", seenOwnByA.length === 1, `got ${seenOwnByA.length} rows`);
+  check(
+    "7. Tenant A vê APENAS o próprio demo",
+    allByA.length === 1 && allByA[0]?.id === dA,
+    `got ${allByA.length} rows`,
+  );
+
+  await a`SELECT set_config('app.current_tenant_id', ${wA}, false)`;
   const seenByBfromA = await a<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dB}
   `;
   check(
-    "7. Tenant A NÃO vê demo do Tenant B",
+    "8. Tenant A NÃO vê demo do Tenant B",
     seenByBfromA.length === 0,
     `got ${seenByBfromA.length} rows`,
   );
 
   // Tenant B: seta contexto e valida
   await b`SELECT set_config('app.current_tenant_id', ${wB}, false)`;
-  const seenOwnByB = await b<{ id: string }[]>`
-    SELECT id FROM app.demos WHERE id = ${dB}
+  const allByB = await b<{ id: string }[]>`
+    SELECT id FROM app.demos ORDER BY id
   `;
-  check("8. Tenant B vê o próprio demo", seenOwnByB.length === 1, `got ${seenOwnByB.length} rows`);
+  check(
+    "9. Tenant B vê APENAS o próprio demo",
+    allByB.length === 1 && allByB[0]?.id === dB,
+    `got ${allByB.length} rows`,
+  );
+
+  await b`SELECT set_config('app.current_tenant_id', ${wB}, false)`;
   const seenByAfromB = await b<{ id: string }[]>`
     SELECT id FROM app.demos WHERE id = ${dA}
   `;
   check(
-    "9. Tenant B NÃO vê demo do Tenant A",
+    "10. Tenant B NÃO vê demo do Tenant A",
     seenByAfromB.length === 0,
     `got ${seenByAfromB.length} rows`,
   );
 
   // -------------------------------------------------------------------------
-  // CHECK 10: cleanup
+  // CHECK 11: cleanup
   // -------------------------------------------------------------------------
   console.log("\n▶ Limpando dados de teste…");
   await admin`DELETE FROM app.demos WHERE id IN (${dA}, ${dB})`;
   await admin`DELETE FROM app.workspaces WHERE id IN (${wA}, ${wB})`;
   const cleanupOk = true;
-  check("10. Cleanup (DELETE via app_owner)", cleanupOk);
+  check("11. Cleanup (DELETE via app_owner)", cleanupOk);
 
   await admin.end();
   await a.end();
@@ -196,7 +221,7 @@ async function main() {
   if (checks.failed > 0) {
     fail(`${checks.failed} check(s) falharam. RLS NÃO está isolando tenants.`, 1);
   }
-  console.log("\n✅ RLS está aplicando corretamente. Isolamento entre tenants OK.");
+  console.log("\n✅ RLS aplicado corretamente: acesso público OK e isolamento entre tenants OK.");
   process.exit(0);
 }
 

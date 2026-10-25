@@ -8,7 +8,8 @@ set -euo pipefail
 BLUE='\033[0;34m'; GREEN='\033[0;32m'; RED='\033[0;31m'; NC='\033[0m'
 log() { printf "${BLUE}[test-rls]${NC} %s\n" "$*"; }
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+# scripts/web/scripts/test-rls.sh → monorepo root é 3 níveis acima
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 TEST_FILE="$ROOT_DIR/scripts/db/test-rls.ts"
 
 # Carrega .env se existir

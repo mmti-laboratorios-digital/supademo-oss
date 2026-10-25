@@ -161,6 +161,8 @@ jobs:
             GRANT CREATE ON DATABASE supademo TO app_owner;
           SQL
       - run: pnpm --filter web db:migrate
+      - name: Test Row-Level Security (multi-tenant isolation)
+        run: pnpm test:rls
       - run: pnpm test
       - name: Coverage check (vitest --coverage)
         run: pnpm --filter web exec vitest run --coverage --coverage.reporter=text-summary
