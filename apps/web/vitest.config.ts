@@ -32,6 +32,14 @@ export default defineConfig({
         "**/instrumentation*.ts",
         "**/middleware.ts",
       ],
+      // Thresholds fixados no patamar atual (14-10-2025) para evitar regressão.
+      // Subir gradualmente conforme novos testes forem adicionados.
+      thresholds: {
+        statements: 14,
+        branches: 61,
+        functions: 37,
+        lines: 14,
+      },
     },
   },
   resolve: {
