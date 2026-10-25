@@ -108,29 +108,6 @@ async function main() {
     `rls=${demosForce.rls}, force=${demosForce.force}`,
   );
 
-  console.log("\n▶ app_user sem contexto de tenant…");
-  const userDemosNoCtx = await a<{ count: string }[]>`
-    SELECT count(*)::text AS count FROM app.demos
-  `;
-  // Com a policy demos_public_select, demos publicados são visíveis publicamente
-  // quando não há tenant no contexto. Aqui validamos que a conexão consegue ler
-  // (a contagem exata depende dos dados de seed; o isolamento é testado abaixo).
-  check(
-    "4. app_user sem contexto lê demos publicados",
-    Number(userDemosNoCtx[0]?.count ?? -1) >= 0,
-    `count=${userDemosNoCtx[0]?.count}`,
-  );
-
-  const userWsNoCtx = await a<{ count: string }[]>`
-    SELECT count(*)::text AS count FROM app.workspaces
-  `;
-  // workspaces tem policy SELECT: true (precisa para resolver workspace_id no login)
-  check(
-    "5. app_user sem contexto vê workspaces (policy workspaces_select: true)",
-    Number(userWsNoCtx[0]?.count ?? -1) > 0,
-    `count=${userWsNoCtx[0]?.count}`,
-  );
-
   // -------------------------------------------------------------------------
   // SETUP: cria workspaces + demos de teste
   // -------------------------------------------------------------------------
@@ -144,6 +121,29 @@ async function main() {
   await admin`INSERT INTO app.workspaces (id, slug, name, plan_id) VALUES (${wB}, ${`rls-test-b-${ts}`}, 'RLS Test B', 'free')`;
   await admin`INSERT INTO app.demos (id, workspace_id, slug, title, status, language) VALUES (${dA}, ${wA}, ${`rls-a-${ts}`}, 'A', 'published', 'pt-BR')`;
   await admin`INSERT INTO app.demos (id, workspace_id, slug, title, status, language) VALUES (${dB}, ${wB}, ${`rls-b-${ts}`}, 'B', 'published', 'pt-BR')`;
+
+  console.log("\n▶ app_user sem contexto de tenant…");
+  const userDemosNoCtx = await a<{ count: string }[]>`
+    SELECT count(*)::text AS count FROM app.demos
+  `;
+  // Com a policy demos_public_select, demos publicados são visíveis publicamente
+  // quando não há tenant no contexto.
+  check(
+    "4. app_user sem contexto lê demos publicados",
+    Number(userDemosNoCtx[0]?.count ?? -1) >= 0,
+    `count=${userDemosNoCtx[0]?.count}`,
+  );
+
+  const userWsNoCtx = await a<{ count: string }[]>`
+    SELECT count(*)::text AS count FROM app.workspaces
+  `;
+  // workspaces tem policy SELECT: true (precisa para resolver workspace_id no login)
+  // Depois de criar os workspaces acima, app_user sem contexto deve conseguir ler ambos.
+  check(
+    "5. app_user sem contexto vê workspaces (policy workspaces_select: true)",
+    Number(userWsNoCtx[0]?.count ?? -1) >= 2,
+    `count=${userWsNoCtx[0]?.count}`,
+  );
 
   // -------------------------------------------------------------------------
   // CHECKS 6–11: isolamento entre tenants + acesso público
