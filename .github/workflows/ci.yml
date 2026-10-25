@@ -56,6 +56,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
+      - name: Validate OpenAPI spec
+        # redocly lint é estrito demais (estilo); swagger-cli valida só estrutura.
+        run: npx --yes @apidevtools/swagger-cli validate docs/api/openapi.yaml
 
   # ---------------------------------------------------------------------------
   # Check DPO placeholders (bloqueador de publicação até contratação formal)
@@ -184,8 +187,10 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter web exec playwright install --with-deps chromium
       - name: Run Playwright tests
-        # continue-on-error: o CI pode não ter Clerk keys reais. E2E públicos (sem auth)
-        # devem passar — clica-fora tests são cobertos por Continue on failure.
+        # continue-on-error: E2E precisa de publishableKey válida do Clerk
+        # para subir o dev server (middleware valida a key). CI usa placeholder,
+        # então o servidor não inicia e os testes não rodam. Mantém o bypass
+        # até ter uma chave de teste real ou um mock de Clerk no CI.
         continue-on-error: true
         run: pnpm test:e2e
       - uses: actions/upload-artifact@v4
