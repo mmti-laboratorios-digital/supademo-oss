@@ -74,3 +74,6 @@ pnpm-debug.log*
 public/sw.js
 public/workbox-*.js
 .swc/
+
+# IA
+.agent-context-mm
