@@ -5,6 +5,13 @@
 > **Autor:** arquiteto-chefe (síntese de research/demos, research/pricing, research/tech).
 > **Audiência:** engenharia, produto, design, GTM, jurídico (LGPD).
 > **Idioma do documento:** PT-BR (seção técnica pode usar termos EN consagrados).
+>
+> ⚠️ **Escopo do MVP:** ver [`docs/MVP-PLAN.md`](MVP-PLAN.md). Ele **prevalece**
+> sobre a §1 (Especificação do MVP) e sobre as `mvp_phases` de
+> `specs/mvp-scope.json`. Este RFC segue válido para **arquitetura, stack e
+> ADRs**. As decisões de escopo do MVP foram revisadas contra dados de mercado
+> (Supademo $4M ARR / 3.000 pagantes; State of Interactive Demos 2026) e
+> registradas como D1–D12 no MVP Plan.
 
 ---
 
@@ -16,65 +23,35 @@ Um produto **SaaS de demos interativas guiado por clicks** (modelo Supademo/Stor
 
 ## 1. Especificação do MVP
 
-### 1.1 O que ENTRA (priorizado, com critério de aceitação)
-
-| # | Feature | Critério de aceitação | Origem da pesquisa |
-|---|---|---|---|
-| **P0** | Cadastro por e-mail (workspace + 1 creator) + login com Google | E-mail/senha com verificação; OAuth Google; magic link opcional. Sessão persistida em cookie httpOnly+Secure+SameSite=Lax, 30 dias rolling. | Supademo Free (1 creator). |
-| **P0** | Captura via extensão Chrome MV3 (screenshot-based, não HTML clone) | Service worker MV3; popup com "Iniciar captura"; ao clicar em qualquer elemento, faz `chrome.tabs.captureVisibleTab` + screenshot do elemento + bounding box + URL + timestamp; encerra ao "Parar". Sem `tabCapture`/`offscreen` no MVP (evita friction no CWS). | GuiaFlow free e Supademo Free usam abordagem screenshot-only. |
-| **P0** | Editor de demo web (App Router) | Lista de steps capturados em ordem; arrastar para reordenar; editar título, descrição, hotspot (pointer/callout/area), CTA do step final (WhatsApp `wa.me/...`, link externo, e-mail `mailto:`). Auto-save a cada 2 s. | Supademo Editor, GuiaFlow editor. |
-| **P0** | Player público (rota `/d/[slug]`) | Carrega primeiro step, mostra overlay com hotspot, avança ao clicar no elemento alvo ou no botão "Próximo". Responsivo (mobile e desktop). LGPD banner no primeiro load com "Aceitar analytics" opcional. | Supademo `/demo`, GuiaFlow `/v/...`. |
-| **P0** | Publicação como **link permanente** com slug customizável (`app.dominio/d/meu-demo`) | Slug único por workspace, 3–32 chars `[a-z0-9-]`. Preview OG image customizável. | Supademo, GuiaFlow Pro. |
-| **P0** | Formulário de lead no step 1 (consentimento LGPD) | Campos: nome, e-mail, telefone (opcional). Checkbox de consentimento **obrigatório** com texto "Autorizo o [NOME_WORKSPACE] a me contatar sobre o produto demonstrado, conforme LGPD". IP NÃO armazenado; User-Agent hasheado (SHA-256 + salt rotativo). Export CSV. | LGPD art. 7º, 8º, 18º. GuiaFlow Pro §7. |
-| **P0** | CTA final WhatsApp `wa.me/...?text=...` | Texto pré-preenchido com nome do lead (se capturado) e ID do demo. | GuiaFlow Pro, padrão BR. |
-| **P0** | Analytics de visualização (anônimo, LGPD-safe) | Métricas por demo: views únicos (cookie first-party `_pk_id` 30 dias), completion rate (steps vistos / steps total), drop-off step, CTR do CTA final, device breakdown (mobile/desktop/tablet), país (via Accept-Language, NÃO IP geolocation). | GuiaFlow analytics §7 (sem cookie/IP, respeita DNT/GPC). |
-| **P0** | Billing PIX + boleto + cartão (Asaas) | Checkout hosted Asaas; webhook valida HMAC; upgrade de plano imediato após `payment.confirmed`; cancelamento ao fim do ciclo. NF-e emitida pela plataforma (CNPJ próprio). | Pix é nativo BR, obrigatório. Stripe fica para EN/Enterprise. |
-| **P0** | 3 tiers: Free / Pro R$ 49 / Business R$ 199 | Veja Seção 4. | Supademo Scale $50 ≈ R$ 250; GuiaFlow Pro R$ 36. |
-| **P1** | Embed (iframe + script embed.ly) | `<iframe src="https://app.dominio/embed/[id]">` responsivo, postMessage para eventos de analytics. | Supademo embed, GuiaFlow embed. |
-| **P1** | Domínio customizado para player (Pro/Business) | CNAME `demo.empresa.com.br` → player. TLS via Caddy on VPS (onion) ou Cloudflare for SaaS. | Supademo custom domain. |
-| **P1** | Tradução PT-BR ↔ EN do player e e-mails | Strings do player em `messages.pt-BR.json` / `messages.en.json`; troca por Accept-Language do viewer. E-mails transacionais: PT-BR default, EN se locale do workspace = EN. | GuiaFlow multilíngue. |
-| **P1** | Narração TTS pt-BR (Pro/Business) | Provider: **ElevenLabs** (qualidade) ou **Cartesia Sonic** (custo). Áudio gerado por job graphile-worker; cache em R2. Limite: Pro = 30 min/mês, Business = 200 min/mês. | Supademo AI voiceover, GuiaFlow BYOK narration. |
-| **P1** | AI text personalisation (PT-BR, EN) por step | Provider: **OpenRouter** com `anthropic/claude-3.5-sonnet` ou `openai/gpt-4o-mini`. BYOK opcional no Free; incluso no Pro/Business. Rate limit por workspace. | Supademo AI Command, GuiaFlow BYOK. |
-| **P1** | API REST + Webhook de eventos | `POST /api/v1/demos`, `GET /api/v1/events?demo_id=...`. Webhook `demo.viewed`, `demo.lead_captured`, `demo.completed` com HMAC-SHA256. | Supademo API (OpenAPI pública), padrão BR RD Station/HubSpot. |
-| **P1** | Integração HubSpot BR, RD Station, Kommo (CRM BR) | Mapeamento de lead form → contato; evento `demo.completed` → opportunity stage. OAuth por conector. | Guias Supademo,RD Station tem REST público. |
-| **P2** | Showcase (coleção de demos em um link) | Agrupa N demos em `/c/[slug]`; viewer navega entre eles. Cap: Pro 1, Business ilimitado. | Supademo Showcase, GuiaFlow demo hub. |
-| **P2** | Variáveis de personalização (`{{name}}`, `{{empresa}}`) | Tokens em título/descrição; resolução via query string `?name=...&empresa=...`. | Supademo tokens & variables. |
-| **P2** | Branching condicional (escolha do viewer) | Step bifurca em 2+ caminhos baseado em escolha do viewer. Cap: Business. | Supademo branching. |
-| **P2** | White-label player (logo + cor) | Upload logo (R2), cor primária via variável CSS. | Supademo branding, GuiaFlow themes. |
-| **P2** | DSR endpoint (LGPD art. 18) | `GET /api/dsr?email=...&token=...` lista; `DELETE /api/dsr/...` apaga leads + analytics; export `GET /api/dsr/export?token=...` JSON. Log de operações. | LGPD art. 18. |
-
-### 1.2 O que NÃO entra no MVP
-
-- **HTML clone / DOM capture** (Supademo Business/Growth): exige parsing de CSS/JS, fidelity de interações, ofuscação de dados sensíveis no DOM clonado. Custo de engenharia ≫ valor para MVP BR.
-- **Sandbox demo environments**: requer infra de proxy/snapshot por demo.
-- **Mobile demo (gravação de tela do telefone)**: exige app nativo ou emulador; adiável.
-- **Voice cloning**: caro, mercado secundário no BR.
-- **AI Demo Agent autônomo** (Supademo Scale+): requer LLM + RAG + orquestração multi-turn; adiável para o V2.
-- **SSO/SAML**: enterprise-only, fora do MVP.
-- **Multi-workspace** (múltiplas organizações na mesma conta): 1 usuário = 1 workspace no MVP.
-- **4K video / screen recording**: pesado em storage, fora do positioning.
-- **MCP server público** (estilo Supademo MCP): adicionar como ítem no V2 após ter API REST madura.
-- **Pagamento em USD / multi-currency**: EN-only no MVP, Asaas cobre BR; multi-currency no V2.
-- **App desktop (Electron)** que GuiaFlow tem: irrelevante no MVP (extensão Chrome cobre 95 % dos casos BR — desktops são majoritariamente Windows + Chrome).
-- **Editor multi-idioma do admin** (PT/ES/EN como GuiaFlow): somente PT-BR + EN no MVP.
-
-### 1.3 Out of scope do MVP+ (V1.1 → V2)
-
-- HTML-clone recording (Supademo Business tier) — reativa quando tivermos ≥ 50 clientes Pro ativos pedindo.
-- Sandbox demo environments — empurrado para V2; parceria com provedores de demo env (Demoboost-style).
-- AI Demo Agent autônomo (Supademo AI Demo Agent) — V2 com credits.
-- Mobile app demos.
-- Figma plugin.
-- App desktop Electron.
-- Voice cloning em PT-BR (depende de provedor com dataset brasileiro).
-- Multi-workspace + RBAC granular.
-- SSO/SAML (Enterprise).
-- Data residency customizada (LGPD + soberania).
-- App mobile (iOS/Android).
-- Marketplace de templates.
-- Programa de afiliados / referral.
-
----
+> ⚠️ **Ver [`docs/MVP-PLAN.md`](MVP-PLAN.md) §4 (Escopo do MVP) e §8 (Fases).**
+>
+> A tabela P0/P1/P2 que existia aqui foi **revisada contra dados de mercado de
+> Out/2026** (GetLatka: Supademo US$4M ARR / 3.000 pagantes; changelog oficial
+> do Supademo de jan/2023 a out/2026; State of Interactive Demos 2026) e **não
+> substitui mais o escopo do MVP**.
+>
+> O que mudou em relação a esta seção:
+>
+> | Item | Antes (aqui) | Agora (MVP Plan) |
+> |---|---|---|
+> | Embed | P1 | **P0** — já é Free no Supademo |
+> | White-label player | P2 | **P0** — o `ThemeEditor` já existe, só o player ignora |
+> | DSR endpoint LGPD | P2 | **já implementado** (`apps/web/app/api/dsr/route.ts`) |
+> | TTS pt-BR | P1 | Fase 2 — custo mensal, não de adoção |
+> | AI text personalisation | P1 | Fase 2 — dívida competitiva (o Free do Supademo já tem) |
+> | CRM BR (HubSpot/RD/Kommo) | P1 | V2 — tier alto no Supademo |
+> | Showcase /c/[slug] | P2 | Fase 2 — 1º upsell, decidido pelos dados do alpha |
+> | Domínio customizado | P1 | V2 — Growth+ no Supademo |
+> | — | — | 🆕 **Upload manual de screenshot** — P0, bloqueador do alpha |
+> | — | — | 🆕 **Badge "Powered by EasyDemo"** — P0, canal #1 do Supademo |
+> | — | — | 🆕 **Branding no player** — P0, parity gap interno |
+> | — | — | 🆕 **Legal (CNPJ, DPO, docs)** — P0, gate de lançamento BR |
+>
+> **Regra vigente:** MVP = paridade com o core do Supademo (Free + Scale) +
+> 3 gaps de mercado BR (PIX/BRL, LGPD/DSR, PT-BR). Tudo que o Supademo não tem
+> **e** não é gap BR fica fora até os dados pedirem. Decisões D1–D12 no MVP Plan §3.
+>
+> **Fases de execução, arquivos, gates e lead times:** MVP Plan §8, §9 e §11.
 
 ## 2. Arquitetura técnica
 
@@ -137,7 +114,7 @@ Um produto **SaaS de demos interativas guiado por clicks** (modelo Supademo/Stor
 │   │   ┌────────────────────────┐                                          │   │
 │   │   │ Caddy reverse proxy    │                                          │   │
 │   │   │ - TLS automático       │                                          │   │
-│   │   │ - compress達o           │                                          │   │
+│   │   │ - compressao            │                                          │   │
 │   │   └────────────────────────┘                                          │   │
 │   └──────────────────────────────────────────────────────────────────────┘   │
 │                                                                              │
@@ -486,108 +463,35 @@ CREATE TABLE app.dsr_log (
 
 ## 3. Roadmap de execução
 
-**Time de partida:** 1 Eng. Sênior full-stack (TS/Next) + 1 Designer (UI/UX + identidade visual) + 0,5 Eng. Front-end (extensão). **Total:** ~2,5 FTE.
-**Duração total até GA:** 24 semanas (6 meses). **Orçamento infra:** ≈ R$ 200/mês (Hetzner CX31 + Cloudflare + Resend + Sentry + domínio).
-
-### 3.1 Fase H1 — Fundação (semanas 1–6)
-
-| Entrega | Detalhe |
-|---|---|
-| Repositório + monorepo Next.js 15 + Docker Compose + CI | Estrutura inicial conforme Seção H. Biome + Vitest + Playwright configurados. |
-| Auth + workspaces + members | **Clerk** com e-mail/senha + Google OAuth + magic link. Clerk Organizations (workspaces) é o primário do nosso modelo multi-tenant — `auth().orgId()` injetado em cada request. Onboarding de 1 tela. |
-| Banco + migrations Drizzle | Schema `app.*` e `analytics.*` aplicados. Seed com 3 plans + 5 demos de exemplo. |
-| Landing page + `/pricing` | PT-BR + EN, 3 tiers, FAQ LGPD. |
-| Domínio `.com.br` + Cloudflare + DNS | Registro.br, Cloudflare proxy, Caddy TLS auto. |
-| Páginas legais | ToS, Política de Privacidade (LGPD), Política de Cookies. E-mail DPO público. |
-| Stub Stripe/Asaas | Integração mínima de checkout PIX (em sandbox). |
-
-**Critério de saída (H1):** usuário consegue se cadastrar, criar workspace, ver `/pricing`, e o sistema emite nota fiscal de teste (sandbox Asaas).
-
-**Métrica de sucesso:** 0 erros críticos Sentry em produção, 100 % rotas principais com Lighthouse ≥ 90.
-
-### 3.2 Fase H2 — Captura + Player + Editor básico (semanas 7–12)
-
-| Entrega | Detalhe |
-|---|---|
-| Extensão MV3 publicada na Chrome Web Store | Captura screenshot via `chrome.tabs.captureVisibleTab`; envia para API. |
-| API `POST /api/demos/[id]/steps` (multipart) | Salva screenshot em R2 (convertido para WebP via sharp). |
-| Editor `/app/[slug]/demos/[id]/edit` | Lista de steps, drag-and-drop, edição de título/descrição/CTA, auto-save. |
-| Player `/d/[slug]` SSR | Carrega primeiro step, renderiza overlay, avança ao clicar. |
-| Publicação + slug + OG image | `PUT /api/demos/[id]/publish`; graphile-worker job `generate_og_image` gera preview. | |
-| Conta Free funcional | 3 demos, links 30 dias, sem cartão. |
-
-**Critério de saída (H2):** creator grava 5 steps via extensão, edita título, publica, e o link público abre em navegador anônimo e exibe todos os steps na ordem correta.
-
-**Métrica de sucesso:** < 3 cliques para publicar primeiro demo; player carrega first contentful paint < 1 s em 3G BR.
-
-### 3.3 Fase H3 — Editor avançado + Billing + Analytics + LGPD (semanas 7–18, paralelo ao H2)
-
-| Entrega | Detalhe |
-|---|---|
-| Hotspots avançados | pointer/callout/area, multi-hotspot por step. |
-| Formulário de lead com consentimento LGPD | Step 1 form, export CSV. |
-| Analytics anônimo | Cookie first-party, eventos `view`/`step_seen`/`complete`/`cta_click`, dashboard básico. |
-| Billing Asaas completo | PIX + boleto + cartão, webhook HMAC, upgrade/downgrade/cancel. |
-| Planos Pro R$ 49 + Business R$ 199 | Limites enforced via API. |
-| TTS pt-BR (Pro/Business) | Integração ElevenLabs/Cartesia, graphile-worker `tts_job`, cache R2. |
-| AI text (P1) | OpenRouter Claude/GPT-4o-mini para geração de títulos. |
-| Embed + script embed.ly | `<iframe>` responsivo. |
-| DSR endpoint (LGPD art. 18) | `POST /api/dsr`, export/delete via token. |
-
-**Critério de saída (H3):** creator Free consegue capturar/editar/publicar/ver leads e analytics; upgrade para Pro via PIX funciona end-to-end com NF-e emitida; pedido DSR via e-mail é atendido em < 5 dias.
-
-**Métrica de sucesso:** ≥ 10 creators Free ativos fazendo 1 demo cada; 1 upgrade Pro concluído (co-founders/investors).
-
-### 3.4 Fase H4 — Scale + Diferenciação BR (semanas 19–24)
-
-| Entrega | Detalhe |
-|---|---|
-| Custom domain (Business) | CNAME + TLS via Caddy ou Cloudflare for SaaS. |
-| Showcase (coleção) | `/c/[slug]`, agrupa N demos. |
-| Variáveis de personalização | `{{name}}` tokens via query string. |
-| Branching condicional | Step bifurca. |
-| White-label player | Logo + cor. |
-| Webhook REST API + integrações HubSpot/RD/Kommo | `POST /api/v1/webhooks`, eventos `demo.viewed`/`demo.lead_captured`/`demo.completed`. |
-| API REST pública | OpenAPI 3.1 spec, `/api/v1/*`, auth via API key por workspace. |
-| i18n EN (P1) | Toggle no workspace, e-mails em EN se locale EN. |
-| Página `/integracoes` e blog PT-BR inicial (3 posts) | SEO organico. |
-
-**Critério de saída (H4) — GA comercial:** landing em PT-BR rankeia para "demo interativa" + "tour interativo produto" na primeira página do Google BR; 50 signups orgânicos; 5 clientes Pro pagando; NPS ≥ 40.
-
-**Métrica de sucesso:** MRR R$ 250+ (5 Pro) + CAC payback < 3 meses.
-
----
+> ⚠️ **Ver [`docs/MVP-PLAN.md`](MVP-PLAN.md) §8 (Fases PR1 e F0–F10) e §9 (Gates).**
+>
+> O roadmap H1–H4 (24 semanas, 2,5 FTE) que existia aqui foi substituído pelo
+> plano de fases F0–F10 com gates go/no-go verificáveis.
+>
+> **Por que a mudança de escala:** o H1–H4 era um plano de 24 semanas para
+> *chegar ao GA*. O MVP Plan é o recorte para **conseguir os 5–10 primeiros
+> clientes** — 22–26 dias de trabalho focalizado, com 9 gates que matam a
+> hipótese no ponto certo. O que está fora do MVP foi reclassificado como
+> Fase 2 / V2 na §4.2 do MVP Plan, não como "depois do GA".
+>
+> As fases do MVP Plan são executáveis por IA: cada uma tem arquivos exatos,
+> acceptance criteria e comandos de validação.
 
 ## 4. Pricing em R$
 
-| Tier | Preço | Cobrança | Limites principais | Features destacadas |
-|---|---|---|---|---|
-| **Free** | **R$ 0** | Sem cartão | • 3 demos publicados<br>• 10 steps por demo<br>• 50 views/mês<br>• Links expiram em 30 dias<br>• Marca d'água sutil no CTA<br>• 0 leads/mês | Editor completo, Captura via Chrome, Embed básico, Analytics anônimo, Formulário de lead **não incluso**, TTS não incluso, Domínio custom não incluso |
-| **Pro** | **R$ 49/mês** ou **R$ 490/ano** (17 % off) | PIX, boleto, cartão via Asaas; NF-e | • Demos **ilimitados**<br>• 30 steps por demo<br>• 5.000 views/mês (soft cap)<br>• 100 leads/mês<br>• 30 min TTS/mês<br>• 500 AI text req/mês<br>• Links permanentes<br>• **Sem marca d'água** | Tudo do Free + Formulário de lead LGPD, TTS pt-BR, AI text, Embed responsivo, 1 webhook, Custom domain **não incluso**, Variáveis de personalização **não incluso** |
-| **Business** | **R$ 199/mês** ou **R$ 1.990/ano** (17 % off) | PIX, boleto, cartão via Asaas; NF-e; **boleto bancário preferencial** | • Demos ilimitados<br>• 60 steps por demo<br>• 50.000 views/mês (soft cap)<br>• Leads **ilimitados**<br>• 200 min TTS/mês<br>• 2.000 AI text req/mês<br>• 3 webhooks<br>• 3 membros no workspace | Tudo do Pro + **Custom domain** (`demo.empresa.com.br`), Variáveis (`{{name}}`/`{{empresa}}`), Branching condicional, White-label (logo+cor), Showcase, Integração CRM (HubSpot/RD/Kommo), Suporte prioritário (e-mail 24h) |
-
-### Justificativa dos preços
-
-- **R$ 49 Pro**: ≈ **+36 %** sobre o GuiaFlow Pro (R$ 36), mas entregamos SaaS gerenciado com IA inclusa (vs BYOK), LGPD DSR endpoint, analytics de engagement, MCP server + OpenAPI 3.1 estilo GuiaFlow Pro (research/demos/guiaflow.md §5). Vs Supademo Scale ($50 USD ≈ R$ 275 com FX R$ 5,50/USD de research/pricing/competitors-pricing.md), é **≈ 82 % mais barato** — alinhado com research/demos/supademo.md e research/pricing/supademo-pricing.md. O Pro precisa ser < 1 hora de trabalho de um SDR BR para justificar — em 2026, R$ 49 é "decisão de cartão corporativo" sem审批 financeira.
-- **R$ 199 Business**: ancora empresa; metade de Supademo Business ($199 USD ≈ R$ 1.000), ainda mais distante da Supademo Scale. Custom domain + variáveis + branching são features enterprise justificam o salto.
-- **Trial**: 14 dias Pro sem cartão ao criar conta (experiência full, depois downgrade para Free).
-
-### Comparativo
-
-| | Free | Pro R$ 49 | Business R$ 199 | Supademo Scale $50 ≈ R$ 250 | GuiaFlow Pro R$ 36 |
-|---|---|---|---|---|---|
-| Demos | 3 | Ilimitado | Ilimitado | Ilimitado | Ilimitado |
-| Steps/demo | 10 | 30 | 60 | Ilimitado | Ilimitado |
-| Views/mês | 50 | 5.000 | 50.000 | Ilimitado | Analytics básico |
-| Leads/mês | — | 100 | Ilimitado | Via form | 100 |
-| TTS pt-BR | — | 30 min | 200 min | Sim (EN) | BYOK |
-| Custom domain | — | — | ✅ | ✅ (Scale) | — |
-| PIX nativo | — | ✅ | ✅ | ❌ | ✅ |
-| LGPD by design | ✅ | ✅ | ✅ | ⚠️ genérico | ✅ |
-| HubSpot BR/RD/Kommo | — | — | ✅ | HubSpot Global | — |
-| Suporte | Docs | E-mail | E-mail 24h | E-mail | E-mail |
-
----
+> ⚠️ **Ver [`docs/MVP-PLAN.md`](MVP-PLAN.md) §5 (Planos e limites), §5.1
+> (Justificativa dos preços) e §5.2 (Comparativo de mercado).**
+>
+> A tabela de pricing que existia aqui usava o modelo antigo de **view-cap**
+> (Free 50, Pro 5.000, Business 50.000 views/mês) e **formulário de lead fora do
+> Free**. O modelo vigente é **preço fechado por plano com views ilimitadas em
+> todos os planos** e **lead form disponível em todos** — decisões D1 e D2.
+>
+> O motivo está na §2.5 do MVP Plan: é o que o Supademo faz (cobra por creator
+> seat, viewers ilimitados) e é o principal churn lever do setor — o cliente
+> Aviso é público sobre ter trocado do Storylane por causa de viewer licensing.
+> No EasyDemo views ilimitadas não destroem margem porque o Cloudflare R2 não
+> cobra egress.
 
 ## 5. Diferenciação vs GuiaFlow e players BR
 
