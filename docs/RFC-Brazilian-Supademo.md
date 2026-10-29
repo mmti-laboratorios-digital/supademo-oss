@@ -114,7 +114,7 @@ Um produto **SaaS de demos interativas guiado por clicks** (modelo Supademo/Stor
 │   │   ┌────────────────────────┐                                          │   │
 │   │   │ Caddy reverse proxy    │                                          │   │
 │   │   │ - TLS automático       │                                          │   │
-│   │   │ - compress達o           │                                          │   │
+│   │   │ - compressao            │                                          │   │
 │   │   └────────────────────────┘                                          │   │
 │   └──────────────────────────────────────────────────────────────────────┘   │
 │                                                                              │

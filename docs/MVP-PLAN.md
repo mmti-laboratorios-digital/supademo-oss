@@ -1247,7 +1247,7 @@ comprar mídia antes de G6. Não publicar case fictício.
 | **G4** | Demo embarcada em HTML externo → `postMessage` chega + badge presente | página HTML de teste | voltar a F6 |
 | **G5** | Fluxo completo automatizado em E2E, **sem bypass** | `pnpm test:e2e` | resolver Clerk key no CI (F10) |
 | **G6** | 5–10 empresas BR no alpha, com funil medido (visitor → lead → upgrade) | `marketing/METRICS-DASHBOARD.md` | **para de construir**. Priorizar Fase 2 pelos dados |
-| **G7** | **Go-live público** — DPO real + CNPJ + endereço reais, job `check-dpo-placeholders` ativo, nenhum case study fictício, `docs/../legal/` revisado por advogado | `pnpm scripts:check-dpo` + `grep -rn 'placeholder@demobr' legal/` + revisão jurídica | **não abrir ao público**. Voltar a F8 |
+| **G7** | **Go-live público** — DPO real + CNPJ + endereço reais, job `check-dpo-placeholders` ativo, nenhum case study fictício, `legal/` revisado por advogado | `pnpm scripts:check-dpo` + `grep -rn 'placeholder@demobr' legal/` + revisão jurídica | **não abrir ao público**. Voltar a F8 |
 
 > **G6 é o gate mais importante.** Se ele não passar, o MVP está errado e nenhum
 > amount de feature nova conserta. O próximo passo vira decisão de produto, não
