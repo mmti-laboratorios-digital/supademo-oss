@@ -2,7 +2,12 @@
 
 > Visão de 1 página com **decisão principal** vs **alternativa rejeitada** vs **link para ADR**. Use este documento como índice executivo.
 
-**Status global:** todas as 12 decisões estão em **Accepted** e em produção no MVP. Revisões programadas: Q4 2026 (pós-launch público).
+**Status global:** as 13 decisões estão em **Accepted** e em produção no MVP. Revisões programadas: Q4 2026 (pós-launch público).
+
+> A decisão 003 (banco) teve a **versão do Postgres superseded** por
+> [ADR-013](ADRs/ADR-013-postgres-16-canonical.md): a canônica é **16**, que é o
+> que está no `docker-compose` desde o scaffold. O `17` documentado na ADR-003
+> nunca foi implementado.
 
 ## Tabela mestra
 
@@ -10,7 +15,7 @@
 |---|---|---|---|---|---|---|
 | 001 | Monorepo | **pnpm workspaces** + versions catalog | €0 | Turborepo | Cache remoto pago, abstração extra sem ganho no MVP | [ADR-001](ADRs/ADR-001-monorepo-pnpm-workspaces.md) |
 | 002 | Framework | **Next.js 15 App Router** + Route Handlers | €0 | NestJS + Next separados | Dois deploys, duplica auth/validação, consome RAM extra | [ADR-002](ADRs/ADR-002-nextjs-15-app-router.md) |
-| 003 | Banco | **Postgres 17 self-hosted** no Hetzner | €0 (já incluso) | Supabase / Neon / RDS | LGPD (residência), lock-in, custo de egress recorrente | [ADR-003](ADRs/ADR-003-postgres-17-self-hosted-hetzner.md) |
+| 003 | Banco | **Postgres 16 self-hosted** no Hetzner | €0 (já incluso) | Supabase / Neon / RDS | LGPD (residência), lock-in, custo de egress recorrente | [ADR-003](ADRs/ADR-003-postgres-17-self-hosted-hetzner.md) · versão em [ADR-013](ADRs/ADR-013-postgres-16-canonical.md) |
 | 004 | ORM | **Drizzle** + drizzle-zod | €0 | Prisma | Bundle ~500 KB vs ~7 KB; engine Rust separada; migrations não-SQL | [ADR-004](ADRs/ADR-004-drizzle-orm.md) |
 | 005 | Auth | **Clerk Pro** | $25 (R$ 150) | Auth.js / Lucia / Better-Auth / WorkOS | Organizations + SSO inclusos; só WorkOS tem SSO mas custa $125/mo e exige combinar com outro login | [ADR-005](ADRs/ADR-005-clerk-pro.md) |
 | 006 | Storage | **Cloudflare R2** + CDN Cloudflare | ~$2 (100 GB) | AWS S3 / MinIO / Backblaze B2 | Egress grátis (R2) vs $0.09/GB (S3) — economia anual > R$ 5k | [ADR-006](ADRs/ADR-006-cloudflare-r2-cdn.md) |
@@ -54,7 +59,7 @@
 ## Cadeia de dependências críticas
 
 ```
-Hetzner VPS ──┬── Postgres 17 (self-host)
+Hetzner VPS ──┬── Postgres 16 (self-host)
               └── Docker Compose ──┬── Next.js 15 (Next + Clerk SDK + Drizzle)
                                   ├── graphile-worker (Postgres-only)
                                   ├── pgBackRest → R2
@@ -72,7 +77,7 @@ PostHog Cloud ─────────┘── product analytics
 ## Princípios de revisão
 
 - **Cada ADR tem status** Accepted/Proposed/Rejected/Superseded.
-- **Revisão anual** em Q4 (todos os 12 ADRs).
+- **Revisão anual** em Q4 (todos os 13 ADRs).
 - **Mudança de contexto** (ex.: custo de egress cai, novo S3 compatível) ⇒ reabrir ADR relevante.
 - **Toda nova decisão** precisa de ADR em `docs/ADRs/ADR-NNN-titulo.md` antes de implementação.
 

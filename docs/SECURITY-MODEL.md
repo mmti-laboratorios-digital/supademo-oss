@@ -56,7 +56,7 @@ Next.js, graphile-worker, SigNoz, Caddy). Os princípios de segurança são:
                                   ▼ SET LOCAL app.current_workspace_id
 ┌──────────────────────────────────────────────────────────────────┐
 │ ZONE 4 — Data tier (maior privilégio)                                    │
-│   - Postgres 17 com RLS                                            │
+│   - Postgres 16 com RLS (versão canônica — ADR-013)                │
 │   - Cloudflare R2 (bucket privado para backups)                    │
 └──────────────────────────────────────────────────────────────────┘
                                   ▼ DPA assinado

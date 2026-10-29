@@ -171,7 +171,7 @@ paths citados no plano → 77 existem, 12 a criar (marcados 🆕), 0 problemas
       precisa de token com `admin:repo`
 - [ ] Repositório está **público** no GitHub → decidir se torna privado
 - [ ] Nome do repo é `supademo-oss` → renomear junto com o PR 1?
-- [ ] `docs/SLOs.md` e os 12 ADRs ainda dizem "DemoBR" → entram no PR 1
+- [ ] `docs/SLOs.md` e os ADRs ainda dizem "DemoBR" → entram no PR 1
 - [ ] `marketing/CASE-STUDIES/` tem 3 estudos **fictícios** → bloqueante de
       lançamento público (F10)
 - [ ] `EMAIL_DPO` no `.env.example` sem valor real → depende da contratação

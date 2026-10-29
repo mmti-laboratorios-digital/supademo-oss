@@ -6,7 +6,7 @@
 
 ## Context and Problem Statement
 
-DemoBR precisa de um ORM TypeScript-first para Postgres 17 que:
+DemoBR precisa de um ORM TypeScript-first para Postgres 16 (versão canônica — ver ADR-013) que:
 
 - Gere tipos automaticamente a partir do schema do banco.
 - Produza SQL auditável e próximo do gerado manualmente (para SRE revisar).

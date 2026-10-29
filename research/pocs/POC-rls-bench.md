@@ -2,6 +2,9 @@
 
 **Data**: 2026-10-18
 **Autor**: subagente DemoBR
+
+> ⚠️ **Nota de versão:** este POC foi executado com **PostgreSQL 17**, que **não é** a versão canônica do stack (a canônica é **16** — ver [`docs/ADRs/ADR-013-postgres-16-canonical.md`](../../docs/ADRs/ADR-013-postgres-16-canonical.md)). O registro fica intacto porque reflete o que realmente rodou; os números **não são version-matched** com a produção. Re-rodar com `postgres:16-alpine` antes de usar qualquer número como SLA.
+
 **Status**: ✅ CONCLUÍDA
 **Script**: [`apps/web/scripts/poc-rls-bench.ts`](../../apps/web/scripts/poc-rls-bench.ts)
 

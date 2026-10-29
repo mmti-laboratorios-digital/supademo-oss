@@ -34,7 +34,7 @@ flowchart TB
             WorkerNode[Node Worker<br/>graphile-worker]
         end
         subgraph DataContainers["Data Layer"]
-            PG[(Postgres 17<br/>+ RLS)]
+            PG[(Postgres 16<br/>+ RLS)]
             ClickHouse[(ClickHouse<br/>analytics opcional)]
             PgBackRest[pgBackRest<br/>backup to R2]
         end
@@ -404,7 +404,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                   │  - caddy                             │
                   │  - app (Next.js)                     │
                   │  - worker (graphile-worker)          │
-                  │  - db (Postgres 17)                  │
+                  │  - db (Postgres 16)                  │
                   │  - pgbouncer (opcional)              │
                   │  - signoz                            │
                   │  - clickhouse                        │
@@ -433,7 +433,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ Postgres 17 (1 banco, multi-schema lógico via tenant_id)     │
+│ Postgres 16 (1 banco, multi-schema lógico via tenant_id)     │
 │                                                               │
 │ Schemas (default public):                                   │
 │  - workspaces       (1 linha por organização)               │

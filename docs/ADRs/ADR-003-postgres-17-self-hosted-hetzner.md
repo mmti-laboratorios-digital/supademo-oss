@@ -1,8 +1,16 @@
 # ADR-003: PostgreSQL 17 self-hosted em Hetzner
 
-- **Status:** Accepted
+- **Status:** Superseded (parcialmente) — a versão do banco foi superseded por
+  [ADR-013](ADR-013-postgres-16-canonical.md). A decisão de **self-host no
+  Hetzner** (em vez de Supabase/Neon/RDS) permanece válida.
 - **Date:** 2026-10-18
 - **Deciders:** Tech lead DemoBR, Founding engineer
+- **Superseded by:** [ADR-013](ADR-013-postgres-16-canonical.md) — apenas no
+  que toca a versão do Postgres (a canônica é **16**)
+
+> ⚠️ **A versão 17 nunca foi implementada.** O `infra/docker-compose.yml` usa
+> `postgres:16-alpine` desde o scaffold (`cc36a17`). Ver ADR-013 para a
+> verificação no histórico e para as consequências.
 
 ## Context and Problem Statement
 
