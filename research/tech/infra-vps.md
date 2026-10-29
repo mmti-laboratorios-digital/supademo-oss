@@ -105,7 +105,7 @@ services:
     restart: unless-stopped
 
   db:
-    image: postgres:17-alpine
+    image: postgres:16-alpine
     environment:
       - POSTGRES_DB=demobr
       - POSTGRES_USER=app

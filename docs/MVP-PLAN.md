@@ -1331,7 +1331,7 @@ eventos de F5.
 | `docs/RFC-Brazilian-Supademo.md` | Arquitetura, stack, diferenciação, GTM, riscos, env vars |
 | `specs/mvp-scope.json` | Par machine-readable do plano (pricing, limites, fases, gates) |
 | `AGENTS.md` | Bootstrap automático para agentes de IA |
-| `docs/ADRs/` | 12 Architecture Decision Records |
+| `docs/ADRs/` | 13 Architecture Decision Records |
 | `docs/SLOs.md` | SLOs do MVP |
 | `marketing/` | Plano de lançamento, ICP/personas, métricas, case studies |
 
@@ -1355,7 +1355,7 @@ eventos de F5.
 ### Fontes internas
 
 - `docs/RFC-Brazilian-Supademo.md` — RFC (§1.1 = escopo P0/P1/P2 original)
-- `docs/ADRs/` — 12 ADRs
+- `docs/ADRs/` — 13 ADRs
 - `docs/SLOs.md` — SLOs do MVP
 - `specs/mvp-scope.json` — pricing, fases e exit criteria (machine-readable)
 - `marketing/LAUNCH-PLAN.md` — plano de lançamento T-14 a T+30

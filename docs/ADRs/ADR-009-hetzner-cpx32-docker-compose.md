@@ -1,8 +1,15 @@
 # ADR-009: Hetzner CPX32 + Docker Compose para orquestração
 
-- **Status:** Accepted
+- **Status:** Superseded (parcialmente) — a versão do banco foi superseded por
+  [ADR-013](ADR-013-postgres-16-canonical.md). A decisão de **orquestração com
+  Docker Compose na VPS Hetzner CPX32** permanece válida.
 - **Date:** 2026-10-18
 - **Deciders:** Tech lead DemoBR, Founding engineer
+- **Superseded by:** [ADR-013](ADR-013-postgres-16-canonical.md) — apenas no
+  que toca a versão do Postgres (a canônica é **16**)
+
+> ⚠️ **A versão 17 nunca foi implementada.** O `docker-compose.yml` usa
+> `postgres:16-alpine` desde o scaffold (`cc36a17`). Ver ADR-013.
 
 ## Context and Problem Statement
 

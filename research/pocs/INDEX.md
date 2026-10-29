@@ -2,6 +2,9 @@
 
 **Data**: 2026-10-18
 **Método**: cada POC foi executada **de verdade** (código real, números reais).
+
+> ⚠️ **Nota de versão:** este POC foi executado com **PostgreSQL 17**, que **não é** a versão canônica do stack (a canônica é **16** — ver [`docs/ADRs/ADR-013-postgres-16-canonical.md`](../../docs/ADRs/ADR-013-postgres-16-canonical.md)). O registro fica intacto porque reflete o que realmente rodou; os números **não são version-matched** com a produção. Re-rodar com `postgres:16-alpine` antes de usar qualquer número como SLA.
+
 Quando o ambiente bloqueou (sem credencial R2, sem Hetzner FSN), o bloqueio
 está **declarado** no relatório.
 

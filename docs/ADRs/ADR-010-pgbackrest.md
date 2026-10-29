@@ -20,7 +20,7 @@ DemoBR armazena **dados críticos de clientes B2B** (workspaces, demos, leads, b
 - **PITR real** (não só snapshots discretos).
 - **Criptografia AES-256** sem dependência de KMS externo.
 - **Compressão paralela** (backups grandes não podem saturar CPU).
-- **Compatibilidade** com Postgres 17 e `pgBackRest S3 backend` (R2 é S3-compatible).
+- **Compatibilidade** com Postgres 16 (versão canônica — ver ADR-013) e `pgBackRest S3 backend` (R2 é S3-compatible).
 - **Custo baixo** (R2 storage ~$0.015/GB).
 
 ## Considered Options

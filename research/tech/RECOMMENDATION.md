@@ -12,7 +12,7 @@
 | **Editor (extensão Chrome)** | MV3 vanilla TS + Vite + WXT, sem framework | MV3 é obrigatório; bundle precisa ser ≤ 1 MB; SW leve é crítico |
 | **Bibliotecas de tour/overlay** | `@floating-ui/dom` + `framer-motion` + `@guideflow/core` (FSM) | MIT, leves, acessíveis; intro.js/shepherd.js são AGPL — evitar |
 | **Backend / API** | Next.js Route Handlers + `next/server` | Já dispensa dentro do Next; sem necessidade de serviço separado |
-| **Banco de dados** | Postgres 17 + Drizzle ORM + RLS | Multi-tenant com segurança no DB, Drizzle bundle ~7KB, migrations SQL reviewable |
+| **Banco de dados** | Postgres 16 + Drizzle ORM + RLS | Multi-tenant com segurança no DB, Drizzle bundle ~7KB, migrations SQL reviewable |
 | **Filas / Workers** | `graphile-worker` (Postgres-only, sem Redis) | Zero infra extra, transacional, cron nativo, > 100k jobs/dia — suficiente |
 | **Object storage** | Cloudflare R2 (S3-compatible) | Egress grátis — economia de centenas de reais vs S3 em serving público |
 | **CDN / Edge** | Cloudflare (DNS + proxy + cache) | DDoS grátis + edge + integração nativa com R2 |
@@ -88,7 +88,7 @@
 
 ### 2.5 Banco de dados
 
-**Postgres 17** com:
+**Postgres 16** (versão canônica — ver `docs/ADRs/ADR-013-postgres-16-canonical.md`) com:
 - Schema `public` único
 - RLS ativado em todas tabelas tenant-scoped
 - `pgcrypto` para colunas PII
