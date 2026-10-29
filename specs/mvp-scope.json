@@ -4,6 +4,8 @@
   "primary_language": "pt-BR",
   "secondary_language": "en",
   "plan_doc": "docs/MVP-PLAN.md",
+  "progress_doc": "docs/MVP-PROGRESS.md",
+  "progress_doc_note": "Log append-only do que já foi feito e por quê. Uma entrada por fase concluída. Ao terminar uma fase, adicionar entrada ao final e atualizar a tabela Status atual no topo.",
   "plan_doc_note": "Fonte canônica do MVP (escopo, fases, gates, decisões D1-D12). Este arquivo é o par machine-readable: pricing, limites e fases devem espelhar o plan_doc. DPO/legais e o job check-dpo-placeholders ficam fora deste arquivo.",
   "plan_status": "planned — pricing e limites abaixo descrevem o ESTADO ALVO, implementado na migration 0004_flat_plans.sql (fase F0). Até lá, o schema em apps/web/db/schema/app.ts ainda reflecte o modelo antigo com max_views_per_month.",
   "mvp_features": [

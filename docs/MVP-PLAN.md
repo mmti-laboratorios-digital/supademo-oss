@@ -32,6 +32,59 @@ gaps de mercado brasileiro que o Supademo não cobre.
 **8 gates go/no-go** (G0, G1, G1.5, G2, G3, G4, G5, G6). Se um gate falhar, a
 correção é objective e o gate mata a hipótese no ponto certo.
 
+### 0.1 Protocolo de execução (para dev e para IA)
+
+> **Se você é uma IA lendo este arquivo para executar uma fase:** siga os 5
+> passos abaixo, na ordem. Não pule nenhum.
+
+**Passo 1 — Encontre sua fase.** A fase atribuída vem no prompt (ex.: "minha fase
+é F3"). Ela está na §8. Cada fase tem: objetivo, dependências, **arquivos a
+ler antes**, arquivos a tocar, acceptance criteria, comandos de validação e
+**o que não fazer**.
+
+**Passo 2 — Leia as invariantes da §6.** São 5 regras que, se violadas, quebram
+build, CI ou isolamento de dados. Custa 3 minutos e economiza horas.
+
+**Passo 3 — Leia a sua fase inteira na §8**, antes de abrir qualquer arquivo de
+código.
+
+**Passo 4 — Leia os "arquivos a ler antes"** da sua fase. Esses são os padrões a
+copiar, os contratos existentes e **o que já está pronto e deve ser
+reaproveitado** em vez de reimplementado.
+
+**Passo 5 — Edite só os "arquivos a tocar".** Depois rode os comandos de
+validação. Se algum check falhar, **não avance** — conserte e revalide.
+
+**Comandos de validação (rodam de vez):**
+
+```bash
+pnpm lint          # Biome — 209 arquivos
+pnpm typecheck     # tsc nos 4 pacotes
+pnpm test          # Vitest — 152 testes
+```
+
+> ⚠️ `pnpm test` precisa de `.env` carregado, senão 4 arquivos de teste de
+> integração falham com `DATABASE_URL: Required` — **não é regressão**:
+> `set -a; source .env; set +a`
+
+**Antes de começar, confirme:**
+
+- [ ] A fase depende só de fases já concluídas (campo "Depende de")
+- [ ] Você leu a §6 (invariantes)
+- [ ] Você leu os "arquivos a ler antes" da sua fase
+- [ ] Você entendeu o que **não** fazer na fase
+
+**Referência rápida dos documentos:**
+
+| Preciso de… | Onde está |
+|---|---|
+| O que fazer, em que ordem, até quando | **este arquivo** (§8) |
+| **O que já foi feito e por quê** | **`docs/MVP-PROGRESS.md`** — log append-only, uma entrada por fase |
+| Por que o sistema é assim (stack, arquitetura, env vars) | `docs/RFC-Brazilian-Supademo.md` |
+| Pricing e limites machine-readable | `specs/mvp-scope.json` |
+| Evidência de mercado por trás das decisões | §2 deste arquivo |
+| Decisões D1–D12 | §3 deste arquivo |
+
 ---
 
 ## 1. Contexto e produto
@@ -300,6 +353,51 @@ Fonte de verdade: tabela `app.plans` (`apps/web/db/schema/app.ts:130-142`) +
 > NULL = ilimitado), adicionar `max_creators`, ligar `lead_form` no Free, ajustar
 > `max_leads_per_month` do Free para 20, atualizar seeds.
 
+### 5.1 Justificativa dos preços
+
+**R$ 49 no Pro** — ≈ +36% sobre o GuiaFlow Pro (R$ 36, `research/demos/guiaflow.md`),
+em troca de SaaS gerenciado com IA inclusa (o GuiaFlow é BYOK), LGPD com DSR
+endpoint automatizado, analytics de engagement real e cobrança em PIX. Contra o
+Supademo Scale (US$ 50 ≈ R$ 275, FX R$ 5,50/USD), é **≈ 82% mais barato**
+(`research/pricing/competitors-pricing.md`). O Pro precisa custar menos que
+1 hora de trabalho de um SDR brasileiro para ser aprovado — a R$ 49 é decisão de
+cartão corporativo, sem aprovação financeira.
+
+**R$ 199 no Business** — ancora o cliente de time. Metade do Supademo Business
+(US$ 199 ≈ R$ 1.000) e distante do Scale. Custom domain, variáveis e branching
+justificam o salto.
+
+**Trial** — 14 dias Pro sem cartão ao criar conta (experiência full; depois
+cai pra Free).
+
+**Por que views ilimitadas (D1)** — é a regra do mercado, não um favor. O
+Supademo cobra por creator seat e deixa viewers ilimitados em todos os planos,
+inclusive o Free (`supademo.com/pricing`). O principal churn lever do setor é
+exatamente o viewer licensing: o cliente Aviso é público sobre ter trocado do
+Storylane porque este cobrava por viewer
+(`research/live-2026/g2-capterra-recent-reviews.md`). No EasyDemo o custo é
+praticamente zero — Cloudflare R2 não cobra egress.
+
+**Por que lead form no Free (D2)** — a prova de valor do produto é a captura
+de lead. O caso do beehiiv mostra 20% de conversão view→signup e +50% na
+conversão free-to-paid vs. site estático. Um Free que não captura lead não
+demonstra o valor central; a monetização vem do **volume**, não da
+funcionalidade.
+
+### 5.2 Comparativo de mercado
+
+| | Free | Pro R$ 49 | Business R$ 199 | Supademo Scale $50 ≈ R$ 275 | GuiaFlow Pro R$ 36 |
+|---|---|---|---|---|---|
+| Demos | 3 | ilimitado | ilimitado | ilimitado | ilimitado |
+| Steps/demo | 10 | 30 | 60 | ilimitado | ilimitado |
+| **Views/mês** | **ilimitado** | **ilimitado** | **ilimitado** | ilimitado | — |
+| Leads/mês | 20 | 100 | ilimitado | via form | 100 |
+| Lead form | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Custom domain | — | — | ✅ | ✅ (Scale) | — |
+| PIX / boleto / NF-e | — | ✅ | ✅ | ❌ | ✅ |
+| LGPD by design | ✅ | ✅ | ✅ | ⚠️ genérico | ✅ |
+| HubSpot BR / RD / Kommo | — | — | V2 | HubSpot Global | — |
+
 ---
 
 ## 6. Invariantes e anti-padrões
@@ -392,12 +490,86 @@ Fonte de verdade: tabela `app.plans` (`apps/web/db/schema/app.ts:130-142`) +
 
 ---
 
-## 8. Fases F0–F10
+## 8. Fases PR1 e F0–F10
 
 > **Para uma IA:** execute **uma fase por vez**, na ordem das dependências.
 > Ao final de cada fase, rode os comandos de validação listados. Se algum check
 > falhar, **não avance** — conserte antes.
 > Nunca edite arquivos fora da lista "Arquivos a tocar" da fase.
+>
+> **Antes de abrir qualquer arquivo**, leia os "Arquivos a ler antes" da sua
+> fase. É onde estão os padrões a copiar e o que já está pronto.
+>
+> **Ao terminar a fase, registre o que foi feito em
+> [`docs/MVP-PROGRESS.md`](MVP-PROGRESS.md)** — uma entrada nova no final do
+> arquivo, com o que passou a funcionar, as decisões tomadas, as armadilhas e a
+> validação rodada. É o que permite continuar depois ou por outro dev.
+
+### PR1 — Rename (DemoBR → EasyDemo)
+
+**Objetivo:** renomear a marca em todo o repositório antes de começar o MVP.
+
+**Por que primeiro:** 195 arquivos versionados, 1.618 ocorrências. Fazer isso
+depois do MVP mistura refactor com feature e deixa o diff impossível de revisar.
+Decisão D7.
+
+**Arquivos a ler antes:**
+- `package.json` (raiz) e os 7 `package.json` dos workspaces — npm scope e nomes
+- `pnpm-workspace.yaml` — lista de workspaces e regras de hoisting
+- `infra/postgres/init-roles.sql:77` — `GRANT CONNECT ON DATABASE supademo`
+- `infra/docker-compose.yml:9,33` — `POSTGRES_DB` e `PGWEB_DATABASE`
+- `legal/*.md` e `marketing/**` — revisar à mão; **não** é replacement cego
+- `research/**` — registro histórico de análise de mercado; renomear o nome do
+  projeto, mas preservar os trechos que descrevem os concorrentes
+
+**Identificadores não triviais:**
+
+| Identificador | De | Para |
+|---|---|---|
+| npm scope | `@demo.br/{player,shared,ui}` | `@easydemo/{player,shared,ui}` |
+| package root | `demobr` | `easydemo` |
+| domínios | `demobr.com.br` (+ `app.`/`api.`/`docs.`/`webhooks.`) | `easydemo.io` (+ os mesmos subdomínios) |
+| docker tags | `demobr/web`, `demobr/worker`, `demobr/demobr` | `easydemo/*` |
+| nome do banco | `supademo` | `easydemo` |
+
+**Arquivos a tocar:**
+- `package.json` (raiz) + `apps/web/package.json`, `apps/workers/package.json`,
+  `apps/extension/package.json`, `packages/{shared,player,ui}/package.json`
+- ~40 arquivos que importam `@demo.br/*`
+- 49 URLs em `apps/web/**`, `marketing/**`, `online-presence/**`, `docs/**`
+- `apps/web/Dockerfile`, `Dockerfile.worker`, `.dockerignore`,
+  `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`,
+  `.github/dependabot.yml`
+- `infra/postgres/init-roles.sql`, `infra/docker-compose.yml`,
+  `infra/docker-compose.prod.yml` e demais arquivos de `infra/`
+- ~12 arquivos em `scripts/`
+- `Makefile`, `CONTRIBUTING.md`, `README.md`, `LICENSE`, `.env.example`
+- `marketing/**` (316 refs), `legal/**` (286), `online-presidence/**` (227),
+  `docs/**` (139), `research/**` (108) — **revisão manual**
+
+**Acceptance criteria:**
+- [ ] `git grep -in demobr` retorna 0 no versionado
+- [ ] `git grep -in "@demo.br"` retorna 0
+- [ ] `pnpm install --frozen-lockfile` passa
+- [ ] `pnpm lint && pnpm typecheck && pnpm test` verdes
+- [ ] `pnpm build` passa
+- [ ] `legal/` e `research/` revisados à mão (não são replacement cego)
+
+**Validação:**
+```
+git grep -in demobr            # deve retornar nada
+git grep -in "@demo.br"        # deve retornar nada
+pnpm install --frozen-lockfile
+pnpm lint && pnpm typecheck && pnpm test
+pnpm build
+```
+
+**Não fazer:** não mexer em lógica de negócio — é rename puro. Não trocar o
+domínio dentro de exemplos de `research/` que descrevem o site de um
+concorrente. Não renomear o repositório no GitHub (muda URLs) — isso é
+decisão separada e precisa de permissão `admin`.
+
+---
 
 ### F0 — Pricing flat + views ilimitadas
 
@@ -405,6 +577,14 @@ Fonte de verdade: tabela `app.plans` (`apps/web/db/schema/app.ts:130-142`) +
 plano com views ilimitadas.
 
 **Depende de:** PR 1 (rename).
+
+**Arquivos a ler antes:**
+- `apps/web/db/schema/app.ts:130-142` — tabela `plans` e todos os campos de limite
+- `apps/web/db/migrations/0000_init.sql` — como os 3 planos são seedados hoje
+- `apps/web/lib/db.ts` — `withTenant()` / `getDb()`, que todo enforcement vai usar
+- `apps/web/server/repositories/demos.ts` e `apps/web/server/actions/demo.ts` — o padrão de repositório existente
+- `specs/mvp-scope.json` (`pricing_brl`) — a fonte machine-readable que este PR 2 atualiza
+- `docs/MVP-PLAN.md` §5 — a tabela de planos e limites alvo
 
 **Arquivos a tocar:**
 - 🆕 `apps/web/db/migrations/0004_flat_plans.sql`
@@ -446,6 +626,14 @@ aqui (é F4). Não mexer na página de pricing de marketing (é F4).
 **Objetivo:** o creator cria uma demo e a publica num link público.
 
 **Depende de:** F0.
+
+**Arquivos a ler antes:**
+- `apps/web/components/editor/DemoEditor.tsx:400-460` — as 3 chamadas que hoje falham (`:413` publish, `:433` unpublish, `:447` versions)
+- `apps/web/components/editor/PublishPanel.tsx` — a UI de publicação já pronta e o contrato que ela espera
+- `apps/web/app/api/v1/demos/[id]/route.ts` — o padrão de rota REST do projeto (auth, `withTenant`, `errorResponse`)
+- `apps/web/server/repositories/demos.ts` e `apps/web/server/actions/demo.ts` — onde mora o `publishDemo` que já existe como server action
+- `apps/web/app/(app)/demos/page.tsx` — a lista de demos e os 2 links que apontam pra `/demos/new`
+- `apps/web/app/(app)/layout.tsx:35` — o terceiro link pra `/demos/new`
 
 **Arquivos a tocar:**
 - 🆕 `apps/web/app/(app)/demos/new/page.tsx` — **HOJE RETORNA 404**
@@ -501,6 +689,13 @@ pnpm dev   # manual: criar → publicar → abrir /d/slug em aba anônima
 
 **Depende de:** F1.
 
+**Arquivos a ler antes:**
+- `apps/web/components/editor/PublishPanel.tsx:55-100` — **o padrão a copiar**: fetch em `/api/v1/upload/sign` → PUT no R2 → grava a referência
+- `apps/web/app/api/v1/upload/sign/route.ts` — o contrato do presigned PUT (o que aceita, TTL, tipo)
+- `apps/web/app/api/v1/demos/[id]/steps/route.ts:10-25` — o payload do step (`screenshotR2Key`, `sourceUrl`, `hotspot`)
+- `apps/web/components/editor/StepList.tsx:45-105` — onde `onAddStep` já é declarado e renderizado
+- `apps/web/components/editor/StepCanvas.tsx` — como o hotspot é posicionado no canvas
+
 **Arquivos a tocar:**
 - ✏️ `apps/web/components/editor/StepList.tsx` — `onAddStep` já está declarado
   (linha 51) e o botão já é renderizado (linhas 98–102), mas **nunca é passado**
@@ -549,6 +744,14 @@ criar endpoint novo de upload. Não mexer na extensão.
 no CTA.
 
 **Depende de:** F1.
+
+**Arquivos a ler antes:**
+- `apps/web/server/actions/lead.ts` — **já existe e valida**: consentimento (`z.literal(true)`), hash de IP/UA, `getDefaultConsentText`, insert em `app.leads`. Reaproveitar, não reimplementar.
+- `apps/web/lib/lgpd/consent.ts` — `getDefaultConsentText()`
+- `apps/web/components/editor/LeadFormEditor.tsx` — os campos e o texto de consentimento que o creator configura
+- `apps/web/components/player/DemoPlayer.tsx` — onde o form entra e como o `FinalCta` é renderizado (`:222`)
+- `apps/web/components/player/state-machine.ts` — os estados do player e o `completed`
+- `apps/web/db/schema/app.ts:163-184` — a tabela `leads` e os campos de consentimento
 
 **Arquivos a tocar:**
 - 🆕 `apps/web/components/player/LeadForm.tsx`
@@ -607,6 +810,14 @@ colocar o form como obrigatório por padrão. Não mexer no `ConsentBanner`
 
 **Depende de:** F0 (limites), F1 (plano no workspace).
 
+**Arquivos a ler antes:**
+- `apps/web/lib/billing/asaas.ts` — o client Asaas existente
+- `apps/web/lib/asaas.ts` — ⚠️ **duplicata** de `lib/billing/asaas.ts`; verificar qual está em uso e consolidar
+- `apps/web/app/api/webhooks/asaas/route.ts` — **o webhook HMAC já está pronto**, idempotência inclusa
+- `apps/web/lib/billing/__tests__/asaas.test.ts` — 21 testes do client Asaas; não quebrar
+- `apps/web/db/schema/app.ts:144-161` — tabela `subscriptions` (asaasSubscriptionId, status, período)
+- `apps/web/components/billing/PlanCard.tsx` — o contrato das props que a página de billing usa
+
 **Arquivos a tocar:**
 - 🆕 `apps/web/app/api/v1/billing/checkout/route.ts`
 - ✏️ `apps/web/lib/billing/asaas.ts`
@@ -663,6 +874,13 @@ integrar Stripe. Não mexer no plano Free além do que está na §5.
 
 **Depende de:** F0.
 
+**Arquivos a ler antes:**
+- `apps/web/lib/analytics/visitor.ts` — a lógica de leitura do cookie `_pk_id`; falta a escrita
+- `apps/web/lib/analytics/funnel.ts` — **já implementa** step→reach, `pct_continue` e completion rate. Reaproveitar.
+- `apps/web/lib/__tests__/analytics-funnel.test.ts` — os testes do funnel já existem
+- `apps/web/lib/analytics/events.ts` — os tipos de evento já suportados
+- `apps/web/app/(app)/demos/[id]/analytics/page.tsx` — a página que vai consumir o funnel
+
 **Arquivos a tocar:**
 - ✏️ `apps/web/lib/analytics/visitor.ts` — **setar o cookie**
 - ✏️ `apps/web/lib/analytics/events.ts`
@@ -709,6 +927,12 @@ persistir IP. Não usar fingerprint de browser.
 
 **Depende de:** F1.
 
+**Arquivos a ler antes:**
+- `apps/web/app/embed/[id]/page.tsx` — a rota de embed que já existe (sem chrome, sem o badge ainda)
+- `apps/web/components/player/DemoPlayer.tsx` — onde o badge entra e de onde o `postMessage` é disparado
+- `apps/web/next.config.ts:33-43` — os headers que o embed já recebe (`X-Frame-Options: ALLOWALL`, `Access-Control-Allow-Origin`)
+- `apps/web/components/editor/PublishPanel.tsx` — padrão de UI simples com copy-to-clipboard
+
 **Arquivos a tocar:**
 - 🆕 `apps/web/app/(app)/demos/[id]/embed/page.tsx` (snippet de embed)
 - ✏️ `apps/web/app/embed/[id]/page.tsx` (postMessage de analytics)
@@ -754,6 +978,12 @@ Showcase, Route Hub nem In-App Hub (Fase 2).
 
 **Depende de:** F1.
 
+**Arquivos a ler antes:**
+- `apps/web/components/editor/ThemeEditor.tsx` — a UI de branding que **existe** mas o player ignora
+- `apps/web/db/schema/app.ts:69-95` — a tabela `demos` e onde o branding é persistido
+- `packages/ui/` — as primitivas disponíveis (Radix + CVA + tailwind-merge)
+- `apps/web/app/d/[slug]/page.tsx` — o que o player público recebe hoje
+
 **Arquivos a tocar:**
 - ✏️ `apps/web/components/player/DemoPlayer.tsx` (aplicar logo + cor)
 - ✏️ `apps/web/components/editor/ThemeEditor.tsx` (só se o shape do tema não
@@ -789,6 +1019,12 @@ implementar custom domain (Fase 2).
 
 **Depende de:** — (pode rodar em paralelo a partir de F1).
 
+**Arquivos a ler antes:**
+- `legal/DPO.md` §10 e `legal/DPO-PROCESS.md` §3 — as instruções de preenchimento dos documentos
+- `scripts/check-dpo-missing.ts` — os padrões que o job procura (o que precisa sair do `legal/`)
+- `.github/workflows/ci.yml` — o job `check-dpo-placeholders` comentado, e onde reativá-lo
+- `legal/privacy-policy.md`, `legal/terms-of-service.md`, `legal/cookie-policy.md` — os 3 docs que citam CNPJ, endereço e DPO
+
 **Arquivos a tocar:**
 - ✏️ `legal/*.md` — 7 documentos, 286 referências a "DemoBR"
 - ✏️ `.github/workflows/ci.yml` — **reativar** o job `check-dpo-placeholders`
@@ -822,6 +1058,13 @@ vai quebrar a CI. Não inventar dados de DPO.
 **Objetivo:** captura autenticada funcionando.
 
 **Depende de:** F1. **Tem lead time externo** — começar a submissão já em F0.
+
+**Arquivos a ler antes:**
+- `apps/extension/lib/api.ts` — onde `authHeaders` hoje retorna `{}`
+- `apps/extension/components/recorder.ts` — a captura e o cálculo do hotspot (revisar o `clampPercent`, que divide por `window.innerWidth` sem saber o tamanho real da screenshot)
+- `apps/extension/components/uploader.ts` — o upload pro R2 que precisa do header de auth
+- `apps/extension/manifest.json` — as permissões atuais (só `activeTab`, `storage`, `scripting`)
+- `apps/web/lib/auth.ts` — como o workspace é resolvido no servidor
 
 **Arquivos a tocar:**
 - ✏️ `apps/extension/lib/api.ts` — `authHeaders` real
@@ -870,6 +1113,14 @@ pnpm lint && pnpm typecheck && pnpm test
 **Objetivo:** o fluxo completo roda sem bypass, e 5–10 empresas BR reais usam.
 
 **Depende de:** F1–F9.
+
+**Arquivos a ler antes:**
+- `tests/e2e/marketing.spec.ts`, `player-public.spec.ts`, `signup.spec.ts` — os 3 specs existentes e o estilo de assertion
+- `playwright.config.ts` — `webServer` e as env que o Next recebe no E2E
+- `.github/workflows/ci.yml` (job `test`) — as `env:` do job, de onde sai o `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` placeholder
+- `apps/web/lib/env.ts` — as vars que o app exige e seus defaults
+- `marketing/LAUNCH-PLAN.md` — o plano de lançamento que já existe (T-14 a T+30)
+- `marketing/ICP-PERSONAS.md` — as personas e o aviso de que não foram validadas
 
 **Arquivos a tocar:**
 - ✏️ `.github/workflows/ci.yml` — remover `continue-on-error: true` do step de
@@ -997,6 +1248,19 @@ eventos de F5.
 ---
 
 ## 12. Referências
+
+### Documentos do projeto
+
+| Documento | Papel |
+|---|---|
+| `docs/MVP-PLAN.md` | **Este.** O plano executável: escopo, evidências, decisões, invariantes, fases, gates |
+| `docs/MVP-PROGRESS.md` | **Log append-only.** O que já foi feito e por quê. Uma entrada por fase |
+| `docs/RFC-Brazilian-Supademo.md` | Arquitetura, stack, diferenciação, GTM, riscos, env vars |
+| `specs/mvp-scope.json` | Par machine-readable do plano (pricing, limites, fases, gates) |
+| `AGENTS.md` | Bootstrap automático para agentes de IA |
+| `docs/ADRs/` | 12 Architecture Decision Records |
+| `docs/SLOs.md` | SLOs do MVP |
+| `marketing/` | Plano de lançamento, ICP/personas, métricas, case studies |
 
 ### Fontes primárias (externas)
 

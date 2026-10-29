@@ -71,8 +71,10 @@ specs/         # mvp-scope.json
 
 ## Documentação
 
-- [RFC completa](docs/RFC-Brazilian-Supademo.md)
-- [MVP Plan](docs/MVP-PLAN.md) — escopo, fases F0–F10 e gates do MVP
+- [MVP Plan](docs/MVP-PLAN.md) — **comece aqui**: escopo, fases F0–F10, gates e decisões do MVP
+- [MVP Progress](docs/MVP-PROGRESS.md) — **o que já foi feito** e por quê (log de execução)
+- [AGENTS.md](AGENTS.md) — protocolo de execução para agentes de IA
+- [RFC completa](docs/RFC-Brazilian-Supademo.md) — arquitetura, stack, GTM e env vars
 - [MVP scope](specs/mvp-scope.json) — par machine-readable do MVP Plan
 - [Research](research/)
 
