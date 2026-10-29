@@ -1,8 +1,11 @@
 {
-  "product": "DemoBR",
+  "product": "EasyDemo",
   "tagline": "Demos interativas do seu produto, em PT-BR, com PIX e LGPD.",
   "primary_language": "pt-BR",
   "secondary_language": "en",
+  "plan_doc": "docs/MVP-PLAN.md",
+  "plan_doc_note": "Fonte canônica do MVP (escopo, fases, gates, decisões D1-D12). Este arquivo é o par machine-readable: pricing, limites e fases devem espelhar o plan_doc. DPO/legais e o job check-dpo-placeholders ficam fora deste arquivo.",
+  "plan_status": "planned — pricing e limites abaixo descrevem o ESTADO ALVO, implementado na migration 0004_flat_plans.sql (fase F0). Até lá, o schema em apps/web/db/schema/app.ts ainda reflecte o modelo antigo com max_views_per_month.",
   "mvp_features": [
     "Cadastro por e-mail + Google OAuth + magic link (Better-Auth, cookie httpOnly)",
     "Captura via extensão Chrome MV3 (screenshot-based, sem tabCapture no MVP)",
@@ -44,7 +47,25 @@
     "Marketplace de templates",
     "Programa de referral/afiliados (V1.1)",
     "Multi-tenant RBAC granular",
-    "Data residency customizada"
+    "Data residency customizada",
+    "Showcase /c/[slug] (Fase 2 — 1º upsell; Supademo entregou no mês 5 com pricing flat. Decidir com os dados dos 5 clientes do alpha)",
+    "Demo versioning (Fase 2 — Supademo põe em Growth+ $450; stub 501 no MVP)",
+    "Branching condicional (Fase 2 — Supademo põe em Scale+)",
+    "Variáveis de personalização {{name}}/{{empresa}} (Fase 2 — Scale+ no Supademo)",
+    "Blur/redaction de screenshot (Fase 2 — bloqueante antes de vertical fintech/saúde; workers/src/tasks/redact_pii.ts já existe, reavaliar custo)",
+    "Texto auto do hotspot (Fase 2 — precisa de IA/OpenRouter; Supademo tinha no mês 1 sem IA)",
+    "TTS voiceover pt-BR (Fase 2 — multiplicador de margem, não de adoção; custo R$60/mês)",
+    "AI text generation no Free (Fase 2 — dívida competitiva: o Free do Supademo já inclui AI text personalization)",
+    "Preset WhatsApp de CTA (Fase 2 — o CTA genérico já cobre; Supademo não tem e funciona)",
+    "Integrações CRM BR (HubSpot/RD Station/Kommo) (V2 — tier alto no Supademo)",
+    "Custom domain (V2 — Growth+ no Supademo)",
+    "AI Command / AI Demo Agent / MCP server (V2 — modelo de negócio novo por créditos)",
+    "Route Hub / In-App Demo Hub (V2 — distribuição avançada)",
+    "Cobrança por creator seat adicional com proration (V2 — flat no MVP)",
+    "Stripe como gateway (V2 — Asaas é o checkout BR do MVP)",
+    "Pastas de biblioteca / folders (P2 — ruído com 3 demos no Free)",
+    "Multi-select de steps (P2 — conveniência de editor)",
+    "Tool grátis adjacente para topo de funil (Fase 2 GTM — candidato: screenshot → guia passo-a-passo; o Supademo tira 12k visitas/mês disso)"
   ],
   "stack": {
     "frontend": "Next.js 15 App Router + React 19 + TypeScript 5.6",
@@ -75,21 +96,23 @@
     "multi_tenancy": "RLS: SET LOCAL app.current_tenant_id por conexão; FORCE ROW LEVEL SECURITY para evitar bypass do owner"
   },
   "pricing_brl": {
+    "model": "preço fechado por plano, creators inclusos. Views ilimitadas em todos os planos (incl. Free) — cobrança por creator seat, nunca por viewer. Ver decisão D1 em docs/MVP-PLAN.md.",
     "free": {
       "price": 0,
       "currency": "BRL",
       "billing": "no_card",
+      "max_creators": 1,
       "limits": {
         "max_demos": 3,
         "max_steps_per_demo": 10,
-        "max_views_per_month": 50,
-        "max_leads_per_month": 0,
+        "max_views_per_month": null,
+        "max_leads_per_month": 20,
         "tts_minutes_per_month": 0,
         "ai_text_requests_per_month": 0,
         "link_ttl_days": 30,
         "custom_domain": false,
         "watermark_on_cta": true,
-        "lead_form": false
+        "lead_form": true
       }
     },
     "pro": {
@@ -99,10 +122,11 @@
       "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
       "trial_days": 14,
+      "max_creators": 1,
       "limits": {
         "max_demos": null,
         "max_steps_per_demo": 30,
-        "max_views_per_month": 5000,
+        "max_views_per_month": null,
         "max_leads_per_month": 100,
         "tts_minutes_per_month": 30,
         "ai_text_requests_per_month": 500,
@@ -122,10 +146,11 @@
       "currency": "BRL",
       "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
+      "max_creators": 3,
       "limits": {
         "max_demos": null,
         "max_steps_per_demo": 60,
-        "max_views_per_month": 50000,
+        "max_views_per_month": null,
         "max_leads_per_month": null,
         "tts_minutes_per_month": 200,
         "ai_text_requests_per_month": 2000,
@@ -200,73 +225,215 @@
   ],
   "mvp_phases": [
     {
-      "name": "H1 — Fundação",
-      "weeks": "1-6",
-      "team_size_fte": 2.5,
+      "id": "PR1",
+      "name": "PR 1 — Rename (DemoBR → EasyDemo)",
+      "parallel_with": "F0, F9",
       "deliverables": [
-        "Repositório + monorepo Next.js 15 + Docker Compose + CI (GitHub Actions)",
-        "Auth + workspaces + members (Better-Auth com e-mail/senha + Google OAuth)",
-        "Banco PostgreSQL 16 + migrations Drizzle aplicadas + seed dos 3 plans",
-        "Landing page + /pricing em PT-BR + EN",
-        "Domínio .com.br no Registro.br + Cloudflare proxy + Caddy TLS",
-        "Páginas legais: ToS, Política de Privacidade LGPD, Política de Cookies, e-mail DPO",
-        "Integração Asaas sandbox (PIX end-to-end de teste)"
+        "npm scope @demo.br/* → @easydemo/* (3 pacotes + ~40 imports)",
+        "package root demobr → easydemo",
+        "49 URLs demobr.com.br → easydemo.io (+ app. api. docs. webhooks.)",
+        "Docker tags demobr/* → easydemo/*",
+        "Banco supademo → easydemo (infra/postgres/init-roles.sql, docker-compose)",
+        "195 arquivos versionados, 1618 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
       ],
-      "exit_criteria": "Usuário consegue cadastrar, criar workspace, ver /pricing e o sistema emite NF-e de teste (sandbox Asaas).",
-      "success_metric": "0 erros críticos Sentry em produção; 100% rotas principais com Lighthouse >= 90."
+      "exit_criteria": "git grep -in demobr retorna 0 no versionado; lint + typecheck + 152 testes + build verdes.",
+      "success_metric": "G0"
     },
     {
-      "name": "H2 — Captura + Player + Editor básico",
-      "weeks": "7-12",
-      "team_size_fte": 2.5,
+      "id": "F0",
+      "name": "F0 — Pricing flat + views ilimitadas",
+      "depends_on": ["PR1"],
       "deliverables": [
-        "Extensão Chrome MV3 publicada na Chrome Web Store",
-        "API POST /api/demos/[id]/steps (multipart, screenshot -> R2 como WebP via sharp)",
-        "Editor /app/[slug]/demos/[id]/edit com drag-and-drop + auto-save",
-        "Player SSR /d/[slug] responsivo com overlay de hotspot",
-        "Publicação com slug + OG image via BullMQ og-image-job",
-        "Conta Free funcional (3 demos, links 30 dias, sem cartão)"
+        "Migration 0004_flat_plans.sql (drop max_views_per_month, add max_creators, lead_form no Free, seeds)",
+        "apps/web/lib/plans.ts (getPlanLimits, assertWithinLimits)",
+        "specs/mvp-scope.json pricing_brl atualizado"
       ],
-      "exit_criteria": "Creator grava 5 steps via extensão, edita título, publica, e o link público abre em navegador anônimo exibindo todos os steps na ordem.",
-      "success_metric": "< 3 cliques para publicar primeiro demo; player FCP < 1s em 3G BR."
+      "exit_criteria": "Migration aplica sem erro; getPlanLimits retorna maxViewsPerMonth null e leadForm true; assertWithinLimits bloqueia 4º demo e 21º lead no Free.",
+      "success_metric": "G0"
     },
     {
-      "name": "H3 — Editor avançado + Billing + Analytics + LGPD",
-      "weeks": "7-18",
-      "team_size_fte": 2.5,
-      "parallel_with": "H2",
+      "id": "F1",
+      "name": "F1 — Publicação real",
+      "depends_on": ["F0"],
       "deliverables": [
-        "Hotspots avançados (pointer/callout/area, multi-hotspot por step)",
-        "Formulário de lead no step 1 com consentimento LGPD + export CSV",
-        "Analytics anônimo (cookie first-party _pk_id 30d, sem IP, geolocalização via Accept-Language)",
-        "Dashboard analytics básico (views, completion, drop-off step, CTR CTA, device, country)",
-        "Billing Asaas completo (PIX + boleto + cartão, webhook HMAC, upgrade/downgrade/cancel)",
-        "Planos Pro R$ 49 + Business R$ 199 com limites enforced na API",
-        "TTS pt-BR (ElevenLabs/Cartesia) com BullMQ tts-job + cache R2",
-        "AI text generation (OpenRouter Claude/GPT-4o-mini)",
-        "Embed iframe + script embed.ly",
-        "DSR endpoint LGPD art. 18 (export/delete via token, audit log em app.dsr_log)"
+        "Rota /demos/new (hoje 404, linkada em (app)/layout.tsx:35 e demos/page.tsx:48,56)",
+        "POST /api/v1/demos/[id]/publish e /unpublish (chamados por DemoEditor.tsx:413,433 — não existem)",
+        "server/repositories/demos.ts: publishDemo, unpublishDemo",
+        "Hero demo helper como hint passivo no editor (D8)"
       ],
-      "exit_criteria": "Creator Free captura/edita/publica/visualiza leads e analytics; upgrade Pro via PIX funciona end-to-end com NF-e; DSR via e-mail atendido em < 5 dias.",
-      "success_metric": ">= 10 creators Free ativos fazendo 1 demo cada; >= 1 upgrade Pro concluído."
+      "exit_criteria": "Demo criada no painel → publicada → /d/[slug] abre em anônimo com todos os steps em ordem. Slug inválido/duplicado retorna 400. Demo sem step não publica.",
+      "success_metric": "G1"
     },
     {
-      "name": "H4 — Scale + Diferenciação BR",
-      "weeks": "19-24",
-      "team_size_fte": 2.5,
+      "id": "F2",
+      "name": "F2 — Upload manual de screenshot",
+      "blocking": true,
+      "depends_on": ["F1"],
       "deliverables": [
-        "Custom domain para player (Business) via CNAME + Caddy ou Cloudflare for SaaS",
-        "Showcase /c/[slug] (coleção de demos)",
-        "Variáveis de personalização {{name}}/{{empresa}} via query string",
-        "Branching condicional (escolha do viewer)",
-        "White-label player (logo + cor primária)",
-        "API REST pública + Webhooks com HMAC-SHA256 + integrações HubSpot BR/RD Station/Kommo",
-        "i18n EN (toggle no workspace, e-mails em EN se locale EN)",
-        "Página /integracoes + 3 posts de blog PT-BR iniciais",
-        "Programa de afiliados (20% MRR recorrente por 12 meses)"
+        "StepList.tsx: onAddStep declarado (:51) e renderizado (:98-102) mas nunca passado",
+        "DemoEditor.tsx: handler de upload reaproveitando o padrão de PublishPanel.tsx:68",
+        "Botão criar demo em branco em /demos/new"
       ],
-      "exit_criteria": "Landing em PT-BR rankeia para 'demo interativa' + 'tour interativo produto' na primeira página do Google BR; 50 signups orgânicos; 5 clientes Pro pagando; NPS >= 40.",
-      "success_metric": "MRR >= R$ 250 (5 Pro) + CAC payback < 3 meses."
+      "exit_criteria": "Demo criada SEM extensão via upload de PNG, editada e publicada; link público renderiza. BLOQUEADOR: a extensão não está na Chrome Web Store e o review leva dias/semanas — sem este caminho o alpha não acontece.",
+      "success_metric": "G1.5"
+    },
+    {
+      "id": "F3",
+      "name": "F3 — Lead form + CTA genérico",
+      "depends_on": ["F1"],
+      "deliverables": [
+        "components/player/LeadForm.tsx (novo)",
+        "DemoPlayer.tsx renderiza form quando leadFormEnabled (gate do step 1)",
+        "app/d/[slug]/page.tsx:59 — finalCta: null → demo.finalCta (hoje hardcoded, CTA nunca aparece)",
+        "app/embed/[id]/page.tsx — mesma correção",
+        "POST /api/v1/leads (wrapper sobre server/actions/lead.ts, que já valida consentimento e hasheia IP/UA)",
+        "Painel /demos/[id]/leads com export CSV"
+      ],
+      "exit_criteria": "Lead aparece em /demos/[id]/leads com consentText e consentAt; submit sem consentimento bloqueado; CTA visível ao completar o demo.",
+      "success_metric": "G2"
+    },
+    {
+      "id": "F4",
+      "name": "F4 — Billing",
+      "depends_on": ["F0", "F1"],
+      "deliverables": [
+        "POST /api/v1/billing/checkout",
+        "lib/billing/asaas.ts: createSubscription (consolidar com lib/asaas.ts duplicado)",
+        "Webhook payment.confirmed → subscriptions + plano do workspace (webhook HMAC já existe em api/webhooks/asaas/route.ts)",
+        "(app)/billing/page.tsx:11 ler plano real, :40 corrigir ctaHref, :54 remover mailto:vendas@dominio.com.br",
+        "Enforcement de limites via assertWithinLimits em create demo/step/lead"
+      ],
+      "exit_criteria": "Checkout sandbox Asaas → webhook payment.confirmed → plano do workspace vira pro; 4º demo no Free bloqueado com mensagem de upgrade.",
+      "success_metric": "G3"
+    },
+    {
+      "id": "F5",
+      "name": "F5 — Analytics",
+      "depends_on": ["F0"],
+      "deliverables": [
+        "lib/analytics/visitor.ts — SETAR o cookie _pk_id (hoje só lê, nunca faz cookies().set() → cada view é um visitor novo)",
+        "lib/analytics/events.ts — step_seen, cta_click, lead_captured, complete",
+        "Painel /demos/[id]/analytics: completion rate, drop-off por step, CTA CTR, device, país",
+        "Reaproveitar lib/analytics/funnel.ts (já implementado e testado)"
+      ],
+      "exit_criteria": "Duas views do mesmo navegador = 1 visitor; drop-off por step aparece no dashboard; CTA CTR = cliques / viewers que chegaram ao último step.",
+      "success_metric": "G3 (pré-requisito de G6)"
+    },
+    {
+      "id": "F6",
+      "name": "F6 — Embed + badge Powered by EasyDemo",
+      "depends_on": ["F1"],
+      "deliverables": [
+        "Painel /demos/[id]/embed com snippet copiável",
+        "app/embed/[id]/page.tsx — postMessage de eventos (validar event.origin)",
+        "Badge Powered by EasyDemo no rodapé do player (oculto em ?preview=editor e para o dono logado)"
+      ],
+      "exit_criteria": "Demo em HTML externo → postMessage chega com step_viewed e cta_click; origin inválido ignorado; badge presente no player público.",
+      "success_metric": "G4"
+    },
+    {
+      "id": "F7",
+      "name": "F7 — Branding no player",
+      "depends_on": ["F1"],
+      "deliverables": [
+        "Player aplica logo + cor primária do workspace (ThemeEditor já existe no editor; o player ignora)",
+        "Respeitar watermark_on_cta do plano"
+      ],
+      "exit_criteria": "Demo de workspace com branding aparece com logo e cor; sem branding usa tema padrão; watermark do Free aparece no CTA.",
+      "success_metric": "G1"
+    },
+    {
+      "id": "F8",
+      "name": "F8 — Legal + go-live",
+      "parallel_with": ["F1"],
+      "deliverables": [
+        "legal/*.md — CNPJ, endereço e e-mail do DPO reais (hoje placeholder@demobr.com.br e {nome_do_DPO})",
+        "Reativar job check-dpo-placeholders no .github/workflows/ci.yml",
+        "scripts/check-dpo-missing.ts aceita o valor real"
+      ],
+      "exit_criteria": "pnpm scripts:check-dpo passa com os valores reais; job de DPO reativado e verde na CI.",
+      "success_metric": "G6 (bloqueante de lançamento público)"
+    },
+    {
+      "id": "F9",
+      "name": "F9 — Extensão Chrome",
+      "lead_time_warning": "Submeter na Chrome Web Store no início (F0) — review de conta nova leva dias a semanas",
+      "depends_on": ["F1"],
+      "deliverables": [
+        "apps/extension/lib/api.ts — authHeaders real (hoje retorna {})",
+        "POST /api/v1/me",
+        "apps/extension/components/uploader.ts e recorder.ts",
+        "manifest.json enxuto: só activeTab, storage, scripting (sem <all_urls>, sem tabCapture)",
+        "Submissão na Chrome Web Store"
+      ],
+      "exit_criteria": "Extensão autenticada sobe e envia screenshot ao R2; hotspot cai na posição correta (revisar clampPercent, que divide por window.innerWidth sem saber o tamanho real da screenshot).",
+      "success_metric": "G1.5 (via upload manual enquanto CWS aprova)"
+    },
+    {
+      "id": "F10",
+      "name": "F10 — E2E + alpha GTM",
+      "depends_on": ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
+      "deliverables": [
+        "Secret NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY real (pk_test_) no CI → remover continue-on-error do step de Playwright",
+        "tests/e2e/full-flow.spec.ts: criar → upload → editar → publicar → /d/[slug] anônimo → lead → /demos/[id]/leads",
+        "Substituir ou remover os 3 case studies fictícios em marketing/CASE-STUDIES/ (bloqueante de lançamento público)",
+        "Executar marketing/LAUNCH-PLAN.md; 3-5 entrevistas com a persona #1 (ICP-PERSONAS.md declara que não foram validadas)",
+        "Instrumentar marketing/METRICS-DASHBOARD.md"
+      ],
+      "exit_criteria": "pnpm test:e2e verde sem bypass; 5-10 empresas BR no alpha com funil medido (visitor → lead → upgrade); nenhum case study fictício publicado.",
+      "success_metric": "G5, G6"
+    }
+  ],
+  "mvp_gates": [
+    {
+      "id": "G0",
+      "name": "Rename limpo",
+      "criteria": "git grep -in demobr = 0; CI verde",
+      "phase": "PR1"
+    },
+    {
+      "id": "G1",
+      "name": "Publicação end-to-end",
+      "criteria": "Demo criada → publicada → /d/[slug] 200 em anônimo com todos os steps",
+      "phase": "F1"
+    },
+    {
+      "id": "G1.5",
+      "name": "Captura sem extensão",
+      "criteria": "Demo criada via upload manual → publicada → link abre",
+      "phase": "F2",
+      "blocking": true
+    },
+    {
+      "id": "G2",
+      "name": "Lead capturado",
+      "criteria": "Lead no player → /demos/[id]/leads com consentimento registrado",
+      "phase": "F3"
+    },
+    {
+      "id": "G3",
+      "name": "Pagamento",
+      "criteria": "Checkout sandbox Asaas → webhook → plano vira pro",
+      "phase": "F4"
+    },
+    {
+      "id": "G4",
+      "name": "Distribuição",
+      "criteria": "Demo em HTML externo → postMessage chega + badge presente",
+      "phase": "F6"
+    },
+    {
+      "id": "G5",
+      "name": "E2E sem bypass",
+      "criteria": "pnpm test:e2e verde com o fluxo completo",
+      "phase": "F10"
+    },
+    {
+      "id": "G6",
+      "name": "Alpha validado",
+      "criteria": "5-10 empresas BR usando, com funil medido (visitor → lead → upgrade)",
+      "phase": "F10",
+      "note": "Gate mais importante. Se não passar, o MVP está errado e feature nova não conserta."
     }
   ],
   "infra_costs_brl_monthly": {
@@ -292,7 +459,8 @@
       "dsr_endpoint": "/api/dsr",
       "dsr_sla_days": 15,
       "data_residency": "VPS BR preferencial; R2 com cifragem para backup",
-      "dpo_email": "dpo@dominio.com.br"
+      "dpo_email": "dpo@dominio.com.br",
+      "dpo_status": "PENDENTE — EasyDemo não tem DPO contratado. Os 24 placeholders em legal/ bloqueiam o lançamento público (job check-dpo-placeholders desativado na CI até a contratação). Fase F8. Ver legal/DPO.md e legal/DPO-PROCESS.md."
     },
     "marco_civil": {
       "logs_retention_days": 365,

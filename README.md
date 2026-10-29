@@ -4,6 +4,8 @@
 
 Clone brasileiro do Supademo, otimizado para o mercado BR com pagamento via PIX/boleto, conformidade LGPD de ponta a ponta e player PT-BR-first.
 
+> **Licença:** projeto proprietário, de uso interno — todos os direitos reservados. Ver [`LICENSE`](LICENSE).
+
 ## Stack
 
 - **Next.js 15** App Router + React 19 + TypeScript 5.6
@@ -47,6 +49,7 @@ pnpm extension:dev     # Chrome extension
 ```
 
 Estrutura completa: ver `docs/RFC-Brazilian-Supademo.md`.
+Escopo e execução do MVP: ver `docs/MVP-PLAN.md`.
 
 ## Layout
 
@@ -69,7 +72,8 @@ specs/         # mvp-scope.json
 ## Documentação
 
 - [RFC completa](docs/RFC-Brazilian-Supademo.md)
-- [MVP scope](specs/mvp-scope.json)
+- [MVP Plan](docs/MVP-PLAN.md) — escopo, fases F0–F10 e gates do MVP
+- [MVP scope](specs/mvp-scope.json) — par machine-readable do MVP Plan
 - [Research](research/)
 
 ## Licença

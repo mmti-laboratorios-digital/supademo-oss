@@ -92,4 +92,6 @@ Abra uma **issue** com:
 
 ## 📜 Licença
 
-Ao contribuir você concorda que seu código é licenciado sob MIT (veja `LICENSE`).
+Este projeto é **proprietário e de uso interno** — todos os direitos reservados
+(veja `LICENSE`). Contribuições são feitas sob contrato de cessão para a
+EasyDemo e não concedem licença MIT nem qualquer direito de uso a terceiros.

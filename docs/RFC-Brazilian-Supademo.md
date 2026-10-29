@@ -5,6 +5,13 @@
 > **Autor:** arquiteto-chefe (síntese de research/demos, research/pricing, research/tech).
 > **Audiência:** engenharia, produto, design, GTM, jurídico (LGPD).
 > **Idioma do documento:** PT-BR (seção técnica pode usar termos EN consagrados).
+>
+> ⚠️ **Escopo do MVP:** ver [`docs/MVP-PLAN.md`](MVP-PLAN.md). Ele **prevalece**
+> sobre a §1 (Especificação do MVP) e sobre as `mvp_phases` de
+> `specs/mvp-scope.json`. Este RFC segue válido para **arquitetura, stack e
+> ADRs**. As decisões de escopo do MVP foram revisadas contra dados de mercado
+> (Supademo $4M ARR / 3.000 pagantes; State of Interactive Demos 2026) e
+> registradas como D1–D12 no MVP Plan.
 
 ---
 
