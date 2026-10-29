@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-29",
+  "plan": "docs/MVP-PLAN.md",
+  "progress_log": "docs/MVP-PROGRESS.md",
+  "scope": "specs/mvp-scope.json",
+  "purpose": "Checklist vivo, step a step, do MVP. É aqui que a IA (ou o dev) marca o que já fez, para que qualquer pessoa — ou qualquer IA — consiga retomar de onde parou.",
+  "status_values": {
+    "pending": "não começou",
+    "in_progress": "começou, não terminou",
+    "done": "terminado e commitado",
+    "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
+  },
+  "current": {
+    "phase": "PR1",
+    "step": null,
+    "status": "pending"
+  },
+  "phases": [
+    {
+      "id": "PR1",
+      "name": "Rename (DemoBR → EasyDemo)",
+      "gate": "G0",
+      "gates": [
+        "G0"
+      ],
+      "branch": "chore/rename-easydemo",
+      "depends_on": [],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "PR1.1", "title": "Criar a branch chore/rename-easydemo a partir da main", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "PR1.2", "title": "Renomear npm scope @demo.br/* → @easydemo/* e package root demobr → easydemo nos 8 package.json + pnpm-workspace.yaml + os ~40 imports", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "PR1.3", "title": "Renomear domínios demobr.com.br → easydemo.io (+ app./api./docs./webhooks.) nas 49 URLs de apps/web, marketing, online-presence e docs", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "PR1.4", "title": "Renomear docker tags demobr/* → easydemo/* e o banco supademo → easydemo em infra/ (compose, init-roles, prod)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "PR1.5", "title": "Renomear scripts/ (~12 arquivos) + Makefile, CONTRIBUTING.md, README.md, LICENSE e .env.example", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "PR1.6", "title": "Revisar marketing/ (316 refs) e legal/ (286 refs) à mão — não é replacement cego", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "PR1.7", "title": "Revisar online-presence/ (227 refs) e research/ (108 refs) à mão, preservando os trechos que descrevem o site de um concorrente", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "PR1.8", "title": "Rodar pnpm install --frozen-lockfile e ajustar o lockfile", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 9, "id": "PR1.9", "title": "Passar pnpm lint, pnpm typecheck, pnpm test e pnpm build", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 10, "id": "PR1.10", "title": "Confirmar git grep -in demobr = 0 e git grep -in \"@demo.br\" = 0; registrar no docs/MVP-PROGRESS.md e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F0",
+      "name": "Pricing flat + views ilimitadas",
+      "gate": "G0.5",
+      "gates": [
+        "G0.5"
+      ],
+      "branch": "feat/f0-pricing-flat",
+      "depends_on": [
+        "PR1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F0.1", "title": "0004_flat_plans.sql: manter max_views_per_month e setar NULL nos 3 planos (não dropar), adicionar max_creators integer, lead_form true no Free, max_leads_per_month do Free = 20, seeds conforme §5", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F0.2", "title": "Atualizar apps/web/db/schema/app.ts (tabela plans, linhas 130–142) e db/migrations/meta/_journal.json", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F0.3", "title": "Criar apps/web/lib/plans.ts com getPlanLimits(planId) e assertWithinLimits(workspaceId, resource, count) — resource ∈ demo|step|lead, usando withTenant", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F0.4", "title": "Atualizar specs/mvp-scope.json → pricing_brl com a §5", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F0.5", "title": "Rodar pnpm --filter web db:migrate e validar getPlanLimits(\"free\") → maxViewsPerMonth null, leadForm true", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F0.6", "title": "Validar que assertWithinLimits rejeita o 4º demo e o 21º lead no Free", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F0.7", "title": "Gate G0.5: conferir que os preços no banco batem com specs/mvp-scope.json e lib/plans.ts; rodar lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F1",
+      "name": "Publicação real",
+      "gate": "G1",
+      "gates": [
+        "G1"
+      ],
+      "branch": "feat/f1-publicacao",
+      "depends_on": [
+        "F0"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F1.1", "title": "Criar apps/web/app/(app)/demos/new/page.tsx: server action que cria a demo (status draft, slug random) e redireciona pra /demos/{id}/edit; se demoId vier por query, reutilizar", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F1.2", "title": "Criar api/v1/demos/[id]/publish/route.ts: validar slug (3–32 chars, [a-z0-9-], único no workspace), exigir ≥1 step, setar status published + published_at", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F1.3", "title": "Criar api/v1/demos/[id]/unpublish/route.ts: voltar pra draft, limpar published_at", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F1.4", "title": "Adicionar publishDemo e unpublishDemo em server/repositories/demos.ts, usando withTenant(orgId, ...)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F1.5", "title": "Implementar o Hero helper (D8) no editor: hint passivo de 10–12 steps e hotspot de 15–18 palavras", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F1.6", "title": "Deixar /versions retornando 501 e esconder o botão correspondente", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F1.7", "title": "Validar manualmente: criar demo → publicar → /d/{slug} em aba anônima; slug inválido, duplicado ou demo sem step → 400", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "F1.8", "title": "Gate G1 + lint/typecheck/test; registrar no docs/MVP-PROGRESS.md e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F2",
+      "name": "Upload manual de screenshot",
+      "gate": "G1.5",
+      "gates": [
+        "G1.5"
+      ],
+      "branch": "feat/f2-upload-manual",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F2.1", "title": "StepList.tsx: garantir que o DemoEditor passe a função onAddStep real — a prop já é declarada (linha 51) e o botão já é renderizado (98–102), mas nunca é passada", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F2.2", "title": "DemoEditor.tsx: handler que abre file picker (PNG/JPG) → presigned URL em /api/v1/upload/sign → PUT no R2 → cria o step via POST /api/v1/demos/{id}/steps", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F2.3", "title": "(app)/demos/new/page.tsx: botão \"criar demo em branco\" que abre o editor sem extensão", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F2.4", "title": "Tratar imagem acima do limite com mensagem clara", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F2.5", "title": "Validar: demo criada sem extensão → step com hotspot posicionável → publicada → renderiza em /d/[slug]", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F2.6", "title": "Gate G1.5 (alpha travado sem isso) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F3",
+      "name": "Lead form + CTA genérico",
+      "gate": "G2",
+      "gates": [
+        "G2"
+      ],
+      "branch": "feat/f3-lead-cta",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F3.1", "title": "Criar apps/web/components/player/LeadForm.tsx: nome, e-mail, telefone (opcional), checkbox de consentimento LGPD desmarcado por padrão, texto do consentimento vindo do demo; label real e aria-describedby no erro", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F3.2", "title": "DemoPlayer.tsx: renderizar o form quando demo.leadFormEnabled, como gate do step 1", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F3.3", "title": "app/d/[slug]/page.tsx:59 — trocar finalCta: null por finalCta: demo.finalCta (o schema já tem a coluna JSONB final_cta)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F3.4", "title": "app/embed/[id]/page.tsx: mesma correção do CTA", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F3.5", "title": "Criar api/v1/leads/route.ts: wrapper REST sobre o server action server/actions/lead.ts que já existe, respeitando o withTenant do workspace do demo", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F3.6", "title": "Criar (app)/demos/[id]/leads/page.tsx: listar os leads do demo + export CSV", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F3.7", "title": "Validar: lead aparece em /demos/{id}/leads com consentText e consentAt; submit sem consentimento → 400; CTA visível ao completar; form ausente com leadFormEnabled false", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "F3.8", "title": "Gate G2 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F4",
+      "name": "Billing",
+      "gate": "G3",
+      "gates": [
+        "G3"
+      ],
+      "branch": "feat/f4-billing",
+      "depends_on": [
+        "F0",
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F4.1", "title": "Criar api/v1/billing/checkout/route.ts: sessão de assinatura no Asaas via lib/billing/asaas.ts, devolver a URL de checkout, aceitar plan e workspaceId", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F4.2", "title": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer), mapeando BRL → centavos (R$49 = 4900)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F4.3", "title": "Consolidar a duplicata apps/web/lib/asaas.ts em lib/billing/asaas.ts, sem quebrar os 21 testes de lib/billing/__tests__/asaas.test.ts", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F4.4", "title": "Webhook payment.confirmed: gravar em app.subscriptions e atualizar o plano do workspace; tratar payment.failed e cancelamento", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F4.5", "title": "(app)/billing/page.tsx: ler o plano real do workspace (linha 11), corrigir ctaHref pro path real (linha 40), remover o mailto fictício (linha 54)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F4.6", "title": "Enforcement: chamar assertWithinLimits ao criar demo, step e lead", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F4.7", "title": "Validar: checkout sandbox → webhook payment.confirmed → plano pro; 4º demo no Free bloqueado com mensagem de upgrade; cancelamento volta ao Free", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "F4.8", "title": "Gate G3 + pnpm scripts:test-webhook-asaas + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F5",
+      "name": "Analytics",
+      "gate": "G5",
+      "gates": [
+        "G5"
+      ],
+      "branch": "feat/f5-analytics",
+      "depends_on": [
+        "F0"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F5.1", "title": "lib/analytics/visitor.ts: setVisitorCookie() — gera id, hasheia com salt, grava httpOnly + sameSite lax + maxAge de VISITOR_COOKIE_TTL_DAYS (30) + secure em produção; chamar em /d/[slug] e /embed/[id]", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F5.2", "title": "lib/analytics/events.ts: garantir step_seen, cta_click, lead_captured e complete", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F5.3", "title": "(app)/demos/[id]/analytics/page.tsx: completion rate, drop-off por step, CTA CTR, device e país — consumindo lib/analytics/funnel.ts que já está pronto", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F5.4", "title": "components/analytics/StatsChart.tsx: renderizar completion e drop-off", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F5.5", "title": "Validar: 2 views do mesmo navegador = 1 visitor; drop-off com os steps corretos; CTA CTR = cliques / viewers que chegaram ao último step", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F5.6", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F6",
+      "name": "Embed + badge Powered by EasyDemo",
+      "gate": "G4",
+      "gates": [
+        "G4"
+      ],
+      "branch": "feat/f6-embed-badge",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F6.1", "title": "Criar (app)/demos/[id]/embed/page.tsx: snippet copiável <iframe src=\"https://easydemo.io/embed/{id}\" ...> com altura responsiva e loading lazy", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F6.2", "title": "app/embed/[id]/page.tsx: postMessage de step_viewed, cta_click, lead_captured e complete para window.parent, validando event.origin antes de processar", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F6.3", "title": "DemoPlayer.tsx: badge Powered by EasyDemo no player público e no embed — ocultar no preview do editor (?preview=editor) e quando o viewer logado é o dono do workspace", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F6.4", "title": "Validar: snippet funciona em página HTML externa; postMessage chega no parent; event.origin inválido é ignorado; badge presente no público e ausente no preview/dono", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F6.5", "title": "Gate G4 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F7",
+      "name": "Branding no player",
+      "gate": "G5",
+      "gates": [
+        "G5"
+      ],
+      "branch": "feat/f7-branding",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F7.1", "title": "Fazer o player ler a config de branding do workspace — via endpoint público ou metadata no demo, sem tenant no contexto público", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F7.2", "title": "DemoPlayer.tsx: aplicar logo + cor primária", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F7.3", "title": "Respeitar watermark_on_cta do plano", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F7.4", "title": "Validar: demo de workspace com branding aparece com logo e cor; demo sem branding usa o tema padrão; watermark_on_cta do Free aparece no CTA", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F7.5", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F8",
+      "name": "Legal + go-live",
+      "gate": "G7",
+      "gates": [
+        "G7"
+      ],
+      "branch": "feat/f8-legal",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F8.1", "title": "Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e {nome_do_DPO} nos 7 documentos de legal/", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F8.2", "title": "Revisão por advogado de privacy-policy.md, terms-of-service.md e cookie-policy.md", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F8.3", "title": "scripts/check-dpo-missing.ts: aceitar o valor real do DPO", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F8.4", "title": ".github/workflows/ci.yml: reativar o job check-dpo-placeholders", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F8.5", "title": "Validar: pnpm scripts:check-dpo passa; grep -rn 'placeholder@demobr\\|{nome_do_DPO}\\|\\[NOME_DO_DPO\\]' legal/ retorna vazio; job verde na CI", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F8.6", "title": "Gate G7 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F9",
+      "name": "Extensão Chrome",
+      "gate": "G5",
+      "gates": [
+        "G5"
+      ],
+      "branch": "feat/f9-extensao",
+      "depends_on": [
+        "F1"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F9.1", "title": "Criar api/v1/me/route.ts: retorna o workspace do usuário logado", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F9.2", "title": "apps/extension/lib/api.ts: obter o token de sessão do Clerk e mandar Authorization Bearer — hoje authHeaders retorna {}", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F9.3", "title": "apps/extension/components/uploader.ts: enviar o header de auth no upload pro R2", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F9.4", "title": "apps/extension/components/recorder.ts: corrigir o clampPercent — hoje divide por window.innerWidth sem saber o tamanho real da screenshot", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F9.5", "title": "apps/extension/manifest.json: manter só activeTab, storage e scripting — não pedir <all_urls>, tabCapture nem offscreen", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F9.6", "title": "Submeter na Chrome Web Store — lead time de dias a semanas, começar já no F0", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F9.7", "title": "Validar: extensão sobe e envia screenshot ao R2 autenticado; hotspot cai na posição correta; manifest sem permissões excessivas", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "F9.8", "title": "Gate G5 + pnpm extension:build + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    },
+    {
+      "id": "F10",
+      "name": "E2E + alpha GTM",
+      "gate": "G5 + G6",
+      "gates": [
+        "G5",
+        "G6"
+      ],
+      "branch": "feat/f10-e2e-alpha",
+      "depends_on": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6",
+        "F7",
+        "F8",
+        "F9"
+      ],
+      "status": "pending",
+      "steps": [
+        { "n": 1, "id": "F10.1", "title": "Configurar no CI os secrets NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (chave pk_test_ real do free tier) e CLERK_SECRET_KEY", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "F10.2", "title": "Remover o continue-on-error: true do step de Playwright em .github/workflows/ci.yml", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 3, "id": "F10.3", "title": "Criar tests/e2e/full-flow.spec.ts: criar demo → upload manual → editar → publicar → abrir /d/[slug] em contexto anônimo → submeter lead → verificar em /demos/{id}/leads", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 4, "id": "F10.4", "title": "Ajustar tests/e2e/marketing.spec.ts, player-public.spec.ts, signup.spec.ts e playwright.config.ts", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "F10.5", "title": "marketing/CASE-STUDIES/*: substituir os 3 estudos fictícios por reais ou remover — bloqueante de lançamento público", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F10.6", "title": "Executar marketing/LAUNCH-PLAN.md (T-14 a T+30: Product Hunt, soft launch, compare pages)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 7, "id": "F10.7", "title": "marketing/ICP-PERSONAS.md: fazer 3–5 entrevistas com a persona #1 (Pedro, PMM)", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 8, "id": "F10.8", "title": "marketing/METRICS-DASHBOARD.md: instrumentar o funil", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 9, "id": "F10.9", "title": "Gate G5 (pnpm test:e2e verde sem bypass) + Gate G6 (5–10 empresas BR no alpha com funil medido); registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+      ]
+    }
+  ]
+}

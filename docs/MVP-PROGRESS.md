@@ -15,7 +15,10 @@ tags: [execucao, log, progresso, handover]
 > decisões e de armadilhas encontradas. Se algo precisa ser corrigido depois,
 > registre isso na entrada nova.
 >
-> Este arquivo + o histórico do git respondem "onde paramos" e "por que".
+> Este arquivo + o histórico do git respondem "onde paramos" e "por quê".
+>
+> **Para saber o próximo passo exato:** `pnpm scripts:mvp-status`. Ele lê
+> `specs/mvp-tasks.json` e imprime a fase atual, o passo a fazer e o placar.
 
 ## Status atual
 
@@ -24,15 +27,22 @@ tags: [execucao, log, progresso, handover]
 | **Fase em andamento** | — (nenhuma; pronto pra começar) |
 | **Última fase concluída** | — (preparação) |
 | **Próxima fase** | **PR1** — rename DemoBR → EasyDemo |
+| **Próximo passo** | `PR1.1` — criar a branch `chore/rename-easydemo` |
 | **Bloqueios** | nenhum |
-| **Branch** | `docs` (pré-execução) → criar branch por fase |
-| **Gate atual** | — (ainda em G0) |
-| **Gates do MVP** | G0 rename · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E · G6 alpha · **G7 go-live público** |
+| **Branch** | `chore/rename-easydemo` (criar) → 1 branch por fase |
+| **Gate atual** | G0 (rename) |
+| **Passos concluídos** | 0 / 86 |
+| **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
 
 Copie o modelo abaixo, cole **no final** do arquivo e preencha. Seja específico:
 o próximo dev não vai ler o diff do git, vai ler isto.
+
+> **E os passos intermediários?** Eles ficam em `specs/mvp-tasks.json`, marcados
+> como `done` + `done_at` + `commit` + `note` **a cada passo**, no mesmo commit
+> em que o passo foi feito. O log abaixo é o **porquê** da fase — não substitui
+> o checklist.
 
 ````markdown
 ### AAAA-MM-DD — F<n> — <nome da fase>
@@ -230,3 +240,107 @@ git check-ignore -v infra/cloud-init.yaml   → .gitignore:80
 
 **Ficou pra depois (débito desta fase)**
 - [ ] Nenhum — os 3 links e o `.gitignore` foram corrigidos aqui.
+
+### 2026-10-29 — Protocolo de execução da IA — checklist vivo, passo a passo
+
+**Estado:** ✅ concluída
+**Branch:** `feature/mvp-execution-protocol` · **Commit:** (este commit) · **Gate:** — (pré-G0, não é fase de MVP)
+
+**O que passou a funcionar**
+- Um dev (ou uma IA) retoma o MVP com **um comando**: `pnpm scripts:mvp-status`
+  imprime a fase atual, o próximo passo, o gate, a branch e o placar das 12
+  fases. Não precisa ler plano nem log.
+- Cada fase tem **passos numerados** (86 no total, 12 fases) com status
+  persistido. Terminar um passo = marcar `done` com `done_at`, `commit` e uma
+  frase de `note` no mesmo commit.
+- O protocolo do "não parar no meio" virou **regra escrita** (§0.2 do plano), com
+  as 4 regras que não se negociam e o tratamento de passo bloqueado.
+- **4 fases que não tinham gate** (F0, F5, F7, F9) agora têm: G0.5 (novo) para
+  o F0, e o G5 absorve F5/F7/F9 explicitamente.
+
+**Arquivos criados**
+- `specs/mvp-tasks.json` — **checklist vivo**: 12 fases, 86 passos, cada um com
+  `status` (`pending`/`in_progress`/`done`/`blocked`), `done_at`, `commit` e
+  `note`. É a fonte da verdade do progresso.
+- `scripts/mvp-status.ts` — `pnpm scripts:mvp-status`. Lê o checklist e imprime
+  fase atual, próximo passo, gate, branch e placar. Detecta fase bloqueada por
+  dependência não concluída.
+- `scripts/mvp-task.ts` — `pnpm scripts:mvp-task <PASSO> done "<nota>"`. Marca o
+  passo, atualiza o status da fase e aponta o `current` para o próximo passo.
+  Evita que alguém edite o JSON à mão e corrompa o checklist.
+
+**Arquivos modificados**
+- `docs/MVP-PLAN.md` — nova **§0.2 "Protocolo de execução da IA (obrigatório)"**
+  (o loop em 8 passos, as 4 regras, os 3 arquivos, como retomar). As 12 fases
+  ganharam `**Gate:**` + `**Passos:**`. §9 ganhou o **G0.5** e o G5 agora
+  declara cobrir F5/F7/F9. §8 e §8.0 apontam o checklist. §12 lista os arquivos
+  novos. TL;DR: 9 → 10 gates.
+- `AGENTS.md` — o bootstrap automático agora manda **começar por
+  `pnpm scripts:mvp-status`**, traz o loop completo, as 4 regras, os 3 arquivos
+  e o passo a passo do registro.
+- `specs/mvp-scope.json` — `plan_status` corrigido (a migration `0004` **não
+  existe**; o texto dizia "implementado na"). Gates: +G0.5, G5 com `covers_phases`,
+  e `mvp_phases[].gate` preenchido. Referência ao `mvp-tasks.json`.
+- `docs/MVP-PROGRESS.md` — Status atual com "Próximo passo" e "Passos
+  concluídos"; o modelo de registro agora explica que os passos ficam no JSON.
+- `docs/README.md` — `mvp-tasks.json`, `mvp-status.ts` e `mvp-task.ts` no mapa;
+  gates 9 → 10.
+- `docs/RFC-Brazilian-Supademo.md` — 9 → 10 gates.
+- `biome.json` — `specs/mvp-tasks.json` com o formatter desligado (o arquivo é
+  máquina-escrito e fica ilegível com um passo por linha; o linter continua
+  ativo).
+- `package.json` — `scripts:mvp-status` e `scripts:mvp-task`.
+- 7 arquivos com **caracteres CJK acidentais** corrigidos (`research/demos/storylane.md`,
+  `setup-report/PHASE-5-legal-audit.md`, `setup-report/PHASE-14-runtime-validation.md`,
+  `docs/ADRs/ADR-012-pt-br-first-i18n.md`, `marketing/LAUNCH-PLAN.md`,
+  `legal/incident-response-plan.md`, `legal/privacy-policy.md`) — pré-existentes,
+  mesma classe de bug do `compress達o` já corrigido antes. **O repo agora tem
+  zero CJK.**
+
+**Decisões tomadas durante a execução**
+- **D1:** o checklist vive em **`specs/mvp-tasks.json`**, e não dentro do
+  `MVP-PROGRESS.md`. Motivo: o log é append-only e narrativo — usarlo também
+  como checklist gera conflito entre "não edite entradas antigas" e "marque o
+  passo". São dois papéis, dois arquivos.
+- **D2:** o plano **não duplica** os 86 passos. Cada fase tem `**Passos:** N
+  (ID1–IDN)` apontando para o JSON. O plano guarda o *contexto* ("O que fazer",
+  "Arquivos a ler antes", "Acceptance criteria"); o JSON guarda o *estado*. Os
+  dois duplicando o texto é garantia de divergência.
+- **D3:** **G0.5 foi criado** porque o F0 é a fundação. Sem ele, um pricing errado
+  faz G1–G7 passarem sobre dado errado — cada gate aprova, o produto cobra
+  errado. É o gate mais barato de todo o plano (comparar 2 blocos) e protege
+  todos os outros.
+- **D4:** F5, F7 e F9 **não ganharam gates próprios** — são absorvidas pelo G5
+  (E2E do F10), que agora declara explicitamente o que cada uma precisa
+  comprovar. Criar 3 gates separados inflaria o plano sem aumentar a garantia.
+
+**Armadilhas / o que a fase ensina**
+- **`plan_status` do `mvp-scope.json` dizia "implementado na migration
+  `0004_flat_plans.sql`"** — e a migration **não existe** (só 0000–0003). Um
+  estado-alvo escrito como se já estivesse feito faz o próximo pular a F0.
+  Corrigido para "a implementar na".
+- **Fase sem gate é fase que passa sem verificação.** F0, F5, F7 e F9 estavam
+  assim. O sintoma: `mvp_gates` mapeava 9 gates para 12 fases e ninguém
+  olhava a diferença — as fases sem gate entravam na `main` com "CI verde" como único
+  critério, o que não prova nada sobre o comportamento.
+- **`AGENTS.md` é lido por IA que não vai te perguntar.** Por isso o protocolo
+  precisa ser explícito e imperativo, não implícito. "Registre o que foi feito"
+  não basta; "marque o passo `done` com `commit` e `note` **no mesmo commit**"
+  funciona.
+
+**Validação rodada**
+```
+specs/mvp-tasks.json                     → JSON válido, 12 fases, 86 passos, IDs únicos
+specs/mvp-scope.json                     → JSON válido, 10 gates, mvp_phases[].gate preenchido
+pnpm scripts:mvp-status                  → imprime fase, próximo passo, gate e placar
+pnpm lint / typecheck / test             → 209 arquivos, 4/4 pacotes, 152/152
+links relativos (todos os .md)           → 0 quebrados
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] A CI não roda `pnpm scripts:mvp-status` — dá pra adicionar um job que
+      falha se o checklist tiver `in_progress` travado. Útil depois que o
+      primeiro dev usar o fluxo de verdade.
+- [ ] `specs/mvp-tasks.json` não tem histórico de quem fez cada passo. O
+      `commit` cobre a autoria, mas um campo `agent` ajudaria quando mais de
+      uma IA trabalha no mesmo repo.

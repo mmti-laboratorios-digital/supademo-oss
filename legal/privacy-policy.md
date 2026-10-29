@@ -149,7 +149,7 @@ Detalhamento na [`cookie-policy.md`](./cookie-policy.md). Resumo:
 - **Cookies de analytics**: primeira-parte, com opt-out via banner.
 - **Cookies de preferência**: idioma (`locale`), tema. Não compartilhados.
 
-A DemoBR não usa cookies de广告 (publicidade comportamental) de terceiros.
+A DemoBR não usa cookies de publicidade comportamental de terceiros.
 
 ---
 

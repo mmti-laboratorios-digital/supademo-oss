@@ -29,8 +29,8 @@ gaps de mercado brasileiro que o Supademo não cobre.
 **Nada de feature inventada:** a regra é paridade com o core validado do Supademo
 + os gaps de mercado BR. Tudo que o Supademo não tem e não é gap BR sai do MVP.
 
-**9 gates go/no-go** (G0, G1, G1.5, G2, G3, G4, G5, G6, G7). Se um gate falhar, a
-correção é objective e o gate mata a hipótese no ponto certo.
+**10 gates go/no-go** (G0, G0.5, G1, G1.5, G2, G3, G4, G5, G6, G7). Se um gate
+falhar, a correção é objective e o gate mata a hipótese no ponto certo.
 
 ### 0.1 Protocolo de execução (para dev e para IA)
 
@@ -74,11 +74,123 @@ pnpm test          # Vitest — 152 testes
 - [ ] Você leu os "arquivos a ler antes" da sua fase
 - [ ] Você entendeu o que **não** fazer na fase
 
-**Referência rápida dos documentos:**
+### 0.2 Protocolo de execução da IA (obrigatório)
+
+> **Se você é uma IA executando este MVP:** esta seção é **obrigatória**. Ela
+> define o contrato de execução. Não improvise, não pule etapas, não pare no
+> meio. O objetivo é que qualquer dev — ou qualquer IA — consiga **retomar de
+> onde a outra parou** sem ler o histórico do git.
+
+#### Os 3 arquivos que você vai usar
+
+| Arquivo | Papel | Quem escreve |
+|---|---|---|
+| **`docs/MVP-PLAN.md`** | **O quê** — o escopo, o porquê, os passos de cada fase | humano (raro). Não edite durante a execução |
+| **`specs/mvp-tasks.json`** | **Onde estou** — checklist vivo, passo a passo, com status | **você, a cada passo** |
+| **`docs/MVP-PROGRESS.md`** | **Por quê** — log narrativo, append-only, uma entrada por fase | você, ao fim da fase |
+
+> `specs/mvp-tasks.json` é a **fonte da verdade do progresso**. O
+> `MVP-PROGRESS.md` é o diário. O plano é o contrato. Não escreva progresso em
+> lugar nenhum além desses três.
+
+#### O loop — repita até a fase acabar
+
+```
+┌─ 1. ONDE EU ESTOU? ────────────────────────────────────────┐
+│  pnpm scripts:mvp-status                                   │
+│  → imprime a fase atual, o próximo passo e o que falta     │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 2. EXECUTAR O PRÓXIMO PASSO ──────────────────────────────┐
+│  Um passo por vez. Confira o passo na §8 da fase.           │
+│  Só edite os "Arquivos a tocar" daquela fase.               │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 3. MARCAR COMO CONCLUÍDO (obrigatório) ───────────────────┐
+│  pnpm scripts:mvp-task <PASSO> done "<o que foi feito>"      │
+│  → grava status, done_at, commit e note no passo, no         │
+│    specs/mvp-tasks.json. Para passo travado: blocked.        │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 4. COMMIT ────────────────────────────────────────────────┐
+│  Um commit por passo (ou por bloco coeso de passos).       │
+│  Conventional Commits em PT-BR.                             │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 5. TEM MAIS PASSO? → VOLTA PRO PASSO 1 ──────────────────┐
+│  A fase só termina quando TODOS os passos dela estão       │
+│  "done" (ou "blocked", com a nota do que falta).           │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼ (só quando a fase acabou)
+┌─ 6. VALIDAR ──────────────────────────────────────────────┐
+│  pnpm lint && pnpm typecheck && pnpm test                  │
+│  + os comandos da §8 da fase. Se falhar: corrija, reexecute.│
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 7. REGISTRAR (obrigatório) ──────────────────────────────┐
+│  docs/MVP-PROGRESS.md → ADICIONE uma entrada no FINAL      │
+│  (nunca edite entradas antigas). Marque a fase como "done" │
+│  em specs/mvp-tasks.json.                                  │
+└──────────────────────────┬─────────────────────────────────┘
+                           ▼
+┌─ 8. ABRIR O PR ───────────────────────────────────────────┐
+│  1 fase = 1 branch = 1 PR. O gate da fase (§9) precisa     │
+│  passar antes do merge na main.                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+#### As 4 regras que não se negociam
+
+1. **Não pare no meio de um passo.** Um passo é a unidade de trabalho. Se um
+   check falhar, **corrija e reexecute** — não reporte como concluído e não
+   deixe pela metade.
+2. **Não pare no meio de uma fase.** Se sobrou passo, ele é seu. A única
+   exceção: o passo está **bloqueado por dependência externa** (DPO, CNPJ,
+   conta de sandbox, aprovação da Chrome Web Store). Aí marque
+   `"status": "blocked"` com uma nota que diga **o que falta e quem resolve**,
+   **siga para o próximo passo** e registre a pendência no
+   `docs/MVP-PROGRESS.md`.
+3. **Só pare quando não sobrou nada.** Ou seja: todos os passos da fase estão
+   `done`, ou os que faltam estão `blocked` **e** registrados. Antes de
+   encerrar sua sessão, rode `pnpm scripts:mvp-status` e confirme que o
+   checklist está consistente.
+4. **Escreva o progresso, sempre.** Passou um passo → marque no
+   `specs/mvp-tasks.json`. Terminou a fase → escreva no
+   `docs/MVP-PROGRESS.md`. Se você fizer isso sempre, a próxima pessoa retoma
+   em **minutos**, sem ler diff.
+
+> **Por que o `note` importa:** "o que foi feito" em uma frase é o que permite
+> a outro dev (ou outra IA) continuar sem contexto. Escreva o **efeito**, não o
+> diff: `"commit": "a1b2c3d", "note": "slug duplicado volta 400 com mensagem em
+> PT-BR"`. O diff está no git; o que falta no git é o **porquê**.
+
+#### Como retomar (para quem chega depois)
+
+```bash
+pnpm scripts:mvp-status
+```
+
+Imprime a fase atual, o próximo passo, o gate, a branch e o placar das 12
+fases. Use `--verbose` para ver todos os passos, inclusive os pendentes.
+
+#### Como marcar um passo (o comando que você vai usar o tempo todo)
+
+```bash
+pnpm scripts:mvp-task <PASSO> done "<o que foi feito, em uma frase>"
+pnpm scripts:mvp-task <PASSO> blocked "<o que falta e quem resolve>"
+```
+
+O `PASSO` é o id do checklist (`F3.2`) ou o número (`3.2`). O script grava
+`status`, `done_at`, `commit` e `note` em `specs/mvp-tasks.json`, atualiza o
+status da fase e aponta o `current` para o próximo passo. **Não edite o JSON
+na mão** — o comando evita JSON corrompido e mantém o formato estável.
+
+#### Referência rápida dos documentos:
 
 | Preciso de… | Onde está |
 |---|---|
 | O que fazer, em que ordem, até quando | **este arquivo** (§8) |
+| **Onde estou agora (passo a passo)** | **`specs/mvp-tasks.json`** + `pnpm scripts:mvp-status` |
 | **O que já foi feito e por quê** | **`docs/MVP-PROGRESS.md`** — log append-only, uma entrada por fase |
 | Por que o sistema é assim (stack, arquitetura, env vars) | `docs/RFC-Brazilian-Supademo.md` |
 | Pricing e limites machine-readable | `specs/mvp-scope.json` |
@@ -496,22 +608,31 @@ funcionalidade.
 ## 8. Fases PR1 e F0–F10
 
 > **Para uma IA:** execute **uma fase por vez**, na ordem das dependências.
-> Ao final de cada fase, rode os comandos de validação listados. Se algum check
-> falhar, **não avance** — conserte antes.
+> Cada fase tem **passos numerados** — execute **um passo por vez** e **marque
+> como concluído** em [`specs/mvp-tasks.json`](../specs/mvp-tasks.json) no
+> mesmo commit. Ao final de cada fase, rode os comandos de validação listados.
+> Se algum check falhar, **não avance** — conserte antes.
 > Nunca edite arquivos fora da lista "Arquivos a tocar" da fase.
 >
 > **Antes de abrir qualquer arquivo**, leia os "Arquivos a ler antes" da sua
 > fase. É onde estão os padrões a copiar e o que já está pronto.
 >
+> **Ao terminar cada passo:** marque o status em `specs/mvp-tasks.json`
+> (`done` + `done_at` + `commit` + uma frase em `note`). É o que permite
+> continuar depois ou por outro dev, sem ler o diff.
+>
 > **Ao terminar a fase, registre o que foi feito em
 > [`docs/MVP-PROGRESS.md`](MVP-PROGRESS.md)** — uma entrada nova no final do
 > arquivo, com o que passou a funcionar, as decisões tomadas, as armadilhas e a
-> validação rodada. É o que permite continuar depois ou por outro dev.
+> validação rodada.
+>
+> **O protocolo completo, com o loop e as 4 regras que não se negociam, está na
+> [§0.2](#02-protocolo-de-execução-da-ia-obrigatório).**
 
 ### 8.0 Fluxo git por fase
 
-> **Antes de começar:** confirme o estado em `docs/MVP-PROGRESS.md` §"Status
-> atual" — fase em andamento, última concluída, bloqueios.
+> **Antes de começar:** rode `pnpm scripts:mvp-status` — ele imprime a fase
+> atual, o próximo passo e o gate. É o comando que substitui ler o log inteiro.
 
 **Unidade de trabalho: 1 fase = 1 branch = 1 PR.**
 
@@ -521,7 +642,8 @@ funcionalidade.
 | **PR** | 1 por fase. Título no padrão Conventional Commits em PT-BR (`feat(billing): checkout PIX via Asaas`) |
 | **Base** | `main` — nunca commitar direto nela (protegida, exige peer review) |
 | **Gate** | A fase só entra na `main` quando o **gate dela** passa (ver §9) e a CI está verde |
-| **Progresso** | A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR** da fase |
+| **Progresso — passo a passo** | O status de cada passo fica em **`specs/mvp-tasks.json`**. Marque o passo como `done` **no mesmo commit** em que ele foi feito. |
+| **Progresso — por fase** | A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR** da fase |
 | **Ordem** | Só inicia a fase F*n+1* depois que a F*n* foi mergeada e registrada no log |
 
 **Paralelismo — o que pode rodar junto:**
@@ -547,10 +669,13 @@ log por fase.
 
 **Antes de abrir o PR:**
 
+- [ ] **Todos os passos da fase estão `done`** (ou `blocked`, com nota) em
+      `specs/mvp-tasks.json` — confira com `pnpm scripts:mvp-status`
 - [ ] A fase tem "Acceptance criteria" todo marcado
 - [ ] Os comandos de validação da fase passaram
-- [ ] A entrada no `docs/MVP-PROGRESS.md` foi adicionada
-- [ ] A tabela "Status atual" foi atualizada
+- [ ] A entrada no `docs/MVP-PROGRESS.md` foi adicionada no **final** do arquivo
+- [ ] A tabela "Status atual" do `docs/MVP-PROGRESS.md` foi atualizada
+- [ ] A fase está marcada como `done` em `specs/mvp-tasks.json`
 - [ ] `git grep -in demobr` retorna 0 (se o PR1 já foi mergeado)
 
 ### PR1 — Rename (DemoBR → EasyDemo)
@@ -560,6 +685,25 @@ log por fase.
 **Por que primeiro:** 195 arquivos versionados, 1.618 ocorrências. Fazer isso
 depois do MVP mistura refactor com feature e deixa o diff impossível de revisar.
 Decisão D7.
+**Gate:** G0 · **Passos:** 10 (`PR1.1`–`PR1.10` — status vivo em `specs/mvp-tasks.json`)
+
+**O que fazer:**
+1. Branch `chore/rename-easydemo` a partir da `main`.
+2. npm scope `@demo.br/*` → `@easydemo/*` e package root `demobr` → `easydemo`
+   nos 8 `package.json` + `pnpm-workspace.yaml` + os ~40 imports.
+3. Domínios `demobr.com.br` → `easydemo.io` (+ `app.`/`api.`/`docs.`/`webhooks.`)
+   nas 49 URLs de `apps/web`, `marketing`, `online-presence` e `docs`.
+4. Docker tags `demobr/*` → `easydemo/*` e banco `supademo` → `easydemo` em
+   `infra/` (compose, `init-roles.sql`, prod).
+5. `scripts/` (~12 arquivos) + `Makefile`, `CONTRIBUTING.md`, `README.md`,
+   `LICENSE`, `.env.example`.
+6. `marketing/` (316 refs) e `legal/` (286 refs) — **revisão à mão**.
+7. `online-presence/` (227 refs) e `research/` (108 refs) — **revisão à mão**,
+   preservando os trechos que descrevem o site de um concorrente.
+8. `pnpm install --frozen-lockfile` e ajustar o lockfile.
+9. `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
+10. `git grep -in demobr` = 0 e `git grep -in "@demo.br"` = 0 → registrar no
+    `docs/MVP-PROGRESS.md` e abrir o PR.
 
 **Arquivos a ler antes:**
 - `package.json` (raiz) e os 7 `package.json` dos workspaces — npm scope e nomes
@@ -625,6 +769,7 @@ decisão separada e precisa de permissão `admin`.
 plano com views ilimitadas.
 
 **Depende de:** PR 1 (rename).
+**Gate:** G0.5 · **Passos:** 7 (`F0.1`–`F0.7` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/db/schema/app.ts:130-142` — tabela `plans` e todos os campos de limite
@@ -675,6 +820,7 @@ aqui (é F4). Não mexer na página de pricing de marketing (é F4).
 **Objetivo:** o creator cria uma demo e a publica num link público.
 
 **Depende de:** F0.
+**Gate:** G1 · **Passos:** 8 (`F1.1`–`F1.8` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/components/editor/DemoEditor.tsx:400-460` — as 3 chamadas que hoje falham (`:413` publish, `:433` unpublish, `:447` versions)
@@ -737,6 +883,7 @@ pnpm dev   # manual: criar → publicar → abrir /d/slug em aba anônima
 **Objetivo:** permitir criar uma demo **sem** instalar a extensão Chrome.
 
 **Depende de:** F1.
+**Gate:** G1.5 · **Passos:** 6 (`F2.1`–`F2.6` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/components/editor/PublishPanel.tsx:55-100` — **o padrão a copiar**: fetch em `/api/v1/upload/sign` → PUT no R2 → grava a referência
@@ -793,6 +940,7 @@ criar endpoint novo de upload. Não mexer na extensão.
 no CTA.
 
 **Depende de:** F1.
+**Gate:** G2 · **Passos:** 8 (`F3.1`–`F3.8` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/server/actions/lead.ts` — **já existe e valida**: consentimento (`z.literal(true)`), hash de IP/UA, `getDefaultConsentText`, insert em `app.leads`. Reaproveitar, não reimplementar.
@@ -858,6 +1006,7 @@ colocar o form como obrigatório por padrão. Não mexer no `ConsentBanner`
 **Objetivo:** o creator paga R$49 no PIX e o plano dele muda.
 
 **Depende de:** F0 (limites), F1 (plano no workspace).
+**Gate:** G3 · **Passos:** 8 (`F4.1`–`F4.8` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/lib/billing/asaas.ts` — o client Asaas existente
@@ -922,6 +1071,7 @@ integrar Stripe. Não mexer no plano Free além do que está na §5.
 **Objetivo:** saber se o funil converte.
 
 **Depende de:** F0.
+**Gate:** G5 · **Passos:** 6 (`F5.1`–`F5.6` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/lib/analytics/visitor.ts` — a lógica de leitura do cookie `_pk_id`; falta a escrita
@@ -975,6 +1125,7 @@ persistir IP. Não usar fingerprint de browser.
 **Objetivo:** a demo vai pro site do cliente e traz os próximos clientes.
 
 **Depende de:** F1.
+**Gate:** G4 · **Passos:** 5 (`F6.1`–`F6.5` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/app/embed/[id]/page.tsx` — a rota de embed que já existe (sem chrome, sem o badge ainda)
@@ -1026,6 +1177,7 @@ Showcase, Route Hub nem In-App Hub (Fase 2).
 **Objetivo:** a demo aparece com a marca do cliente.
 
 **Depende de:** F1.
+**Gate:** G5 · **Passos:** 5 (`F7.1`–`F7.5` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/web/components/editor/ThemeEditor.tsx` — a UI de branding que **existe** mas o player ignora
@@ -1042,9 +1194,11 @@ Showcase, Route Hub nem In-App Hub (Fase 2).
 cores, mas **o player ignora**. É um parity gap interno: o Supademo tem custom
 branding e **96,8% dos top demos** usam (§2.4).
 
-**O que fazer:** o player lê a config de branding do workspace (via RLS, sem
-tenant no contexto público → endpoint público ou metadata no demo) e aplica
-logo + cor primária. Respeitar `watermark_on_cta` do plano.
+**O que fazer:**
+1. Fazer o player ler a config de branding do workspace — via endpoint público ou
+   metadata no demo, sem tenant no contexto público.
+2. `DemoPlayer.tsx`: aplicar logo + cor primária.
+3. Respeitar `watermark_on_cta` do plano.
 
 **Acceptance criteria:**
 - [ ] Demo de workspace com branding aparece com logo e cor
@@ -1067,6 +1221,7 @@ implementar custom domain (Fase 2).
 **Objetivo:** poder vender no Brasil.
 
 **Depende de:** — (pode rodar em paralelo a partir de F1).
+**Gate:** G7 · **Passos:** 6 (`F8.1`–`F8.6` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `legal/DPO.md` §10 e `legal/DPO-PROCESS.md` §3 — as instruções de preenchimento dos documentos
@@ -1082,6 +1237,14 @@ implementar custom domain (Fase 2).
 **Contexto:** o job `Check DPO placeholders` foi **desativado** (comentado) no
 workflow porque o projeto não tem DPO contratado. Ele bloqueia o merge por
 padrão com exit 1 quando sobram placeholders.
+
+**O que fazer:**
+1. Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e
+   `{nome_do_DPO}` nos 7 documentos de `legal/`.
+2. Revisão por advogado de `privacy-policy.md`, `terms-of-service.md` e
+   `cookie-policy.md`.
+3. `scripts/check-dpo-missing.ts`: aceitar o valor real do DPO.
+4. `.github/workflows/ci.yml`: **reativar** o job `check-dpo-placeholders`.
 
 **Pendências legais (bloqueantes de lançamento público):**
 - [ ] CNPJ real em todos os documentos
@@ -1123,6 +1286,7 @@ fictício como se fossem reais.
 **Objetivo:** captura autenticada funcionando.
 
 **Depende de:** F1. **Tem lead time externo** — começar a submissão já em F0.
+**Gate:** G5 · **Passos:** 8 (`F9.1`–`F9.8` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `apps/extension/lib/api.ts` — onde `authHeaders` hoje retorna `{}`
@@ -1178,6 +1342,7 @@ pnpm lint && pnpm typecheck && pnpm test
 **Objetivo:** o fluxo completo roda sem bypass, e 5–10 empresas BR reais usam.
 
 **Depende de:** F1–F9.
+**Gate:** G5 + G6 · **Passos:** 9 (`F10.1`–`F10.9` — status vivo em `specs/mvp-tasks.json`)
 
 **Arquivos a ler antes:**
 - `tests/e2e/marketing.spec.ts`, `player-public.spec.ts`, `signup.spec.ts` — os 3 specs existentes e o estilo de assertion
@@ -1240,14 +1405,21 @@ comprar mídia antes de G6. Não publicar case fictício.
 | Gate | Critério | Como verificar | Se falhar |
 |---|---|---|---|
 | **G0** | Rename: `grep -ri demobr` = 0 no versionado; CI verde | `git grep -in demobr` | corrigir e re-push **antes** de F0 |
+| **G0.5** | Pricing do banco bate com o spec: `plans.max_views_per_month` = `NULL` nos 3 planos, `max_creators` = 1/1/3, `lead_form` = `true` no Free, `max_leads_per_month` = 20/100/`NULL` — e `lib/plans.ts` devolve exatamente a §5 | `pnpm --filter web db:migrate` + comparar `getPlanLimits()` com `specs/mvp-scope.json` → `pricing_brl` | corrigir a F0. **Não seguir pra F1** — todo gate downstream valida contra o pricing, e preço errado aprova tudo errado |
 | **G1** | Demo criada no painel → publicada → `/d/[slug]` abre em anônimo com todos os steps em ordem | manual no `pnpm dev` | voltar a F1 |
 | **G1.5** | Demo criada **sem extensão** → publicada → link abre | manual, upload manual | voltar a F2 — **alpha travado sem isso** |
 | **G2** | Lead submetido no player → aparece em `/demos/{id}/leads` com consentimento registrado | manual + `pnpm test` | voltar a F3 |
 | **G3** | Checkout sandbox Asaas → webhook `payment.confirmed` → plano do workspace vira `pro` | `pnpm scripts:test-webhook-asaas` | voltar a F4 |
 | **G4** | Demo embarcada em HTML externo → `postMessage` chega + badge presente | página HTML de teste | voltar a F6 |
-| **G5** | Fluxo completo automatizado em E2E, **sem bypass** | `pnpm test:e2e` | resolver Clerk key no CI (F10) |
+| **G5** | Fluxo completo automatizado em E2E, **sem bypass** — e **cobre as 3 fases que não têm gate próprio**: F5 (analytics: 2 views do mesmo navegador = 1 visitor, drop-off por step, CTA CTR), F7 (branding: logo + cor aplicados, `watermark_on_cta` do Free no CTA) e F9 (extensão: upload autenticado no R2, hotspot na posição correta, manifest sem permissões excessivas) | `pnpm test:e2e` | resolver Clerk key no CI (F10) |
 | **G6** | 5–10 empresas BR no alpha, com funil medido (visitor → lead → upgrade) | `marketing/METRICS-DASHBOARD.md` | **para de construir**. Priorizar Fase 2 pelos dados |
 | **G7** | **Go-live público** — DPO real + CNPJ + endereço reais, job `check-dpo-placeholders` ativo, nenhum case study fictício, `legal/` revisado por advogado | `pnpm scripts:check-dpo` + `grep -rn 'placeholder@demobr' legal/` + revisão jurídica | **não abrir ao público**. Voltar a F8 |
+
+> **Cobertura dos gates:** as 12 fases estão mapeadas assim — PR1→G0 · F0→G0.5 ·
+> F1→G1 · F2→G1.5 · F3→G2 · F4→G3 · F6→G4 · F8→G7 · **F5, F7 e F9→G5** (o
+> E2E do F10 valida as três) · F10→G5+G6. O **G0.5 existe porque o F0 é a
+> fundação**: sem ele, um pricing errado faz todos os gates seguintes passarem
+> sobre dado errado.
 
 > **G6 é o gate mais importante.** Se ele não passar, o MVP está errado e nenhum
 > amount de feature nova conserta. O próximo passo vira decisão de produto, não
@@ -1328,6 +1500,8 @@ eventos de F5.
 | `docs/README.md` | **Mapa de toda a documentação** — o que cada arquivo é, quando abrir, quando não mexer |
 | `docs/MVP-PLAN.md` | **Este.** O plano executável: escopo, evidências, decisões, invariantes, fases, gates |
 | `docs/MVP-PROGRESS.md` | **Log append-only.** O que já foi feito e por quê. Uma entrada por fase |
+| `specs/mvp-tasks.json` | **Checklist vivo, passo a passo.** Onde a execução está agora — o que está `done`, `pending` ou `blocked`. É o que permite retomar de onde parou |
+| `scripts/mvp-status.ts` | `pnpm scripts:mvp-status` — imprime a fase atual, o próximo passo, o gate e o placar das 12 fases |
 | `docs/RFC-Brazilian-Supademo.md` | Arquitetura, stack, diferenciação, GTM, riscos, env vars |
 | `specs/mvp-scope.json` | Par machine-readable do plano (pricing, limites, fases, gates) |
 | `AGENTS.md` | Bootstrap automático para agentes de IA |

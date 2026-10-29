@@ -7,7 +7,7 @@
   "progress_doc": "docs/MVP-PROGRESS.md",
   "progress_doc_note": "Log append-only do que já foi feito e por quê. Uma entrada por fase concluída. Ao terminar uma fase, adicionar entrada ao final e atualizar a tabela Status atual no topo.",
   "plan_doc_note": "Fonte canônica do MVP (escopo, fases, gates, decisões D1-D12). Este arquivo é o par machine-readable: pricing, limites e fases devem espelhar o plan_doc. DPO/legais e o job check-dpo-placeholders ficam fora deste arquivo.",
-  "plan_status": "planned — pricing e limites abaixo descrevem o ESTADO ALVO, implementado na migration 0004_flat_plans.sql (fase F0). Até lá, o schema em apps/web/db/schema/app.ts ainda reflecte o modelo antigo com max_views_per_month.",
+  "plan_status": "planned — pricing e limites abaixo descrevem o ESTADO ALVO, a implementar na migration 0004_flat_plans.sql (fase F0). Até lá, o schema em apps/web/db/schema/app.ts ainda reflecte o modelo antigo com max_views_per_month. O gate G0.5 valida que o banco bate com este bloco antes de qualquer outra fase.",
   "mvp_features": [
     "Cadastro por e-mail + Google OAuth + magic link (Better-Auth, cookie httpOnly)",
     "Captura via extensão Chrome MV3 (screenshot-based, sem tabCapture no MVP)",
@@ -239,7 +239,8 @@
         "195 arquivos versionados, 1618 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
       ],
       "exit_criteria": "git grep -in demobr retorna 0 no versionado; lint + typecheck + 152 testes + build verdes.",
-      "success_metric": "G0"
+      "success_metric": "G0",
+      "gate": "G0"
     },
     {
       "id": "F0",
@@ -251,7 +252,8 @@
         "specs/mvp-scope.json pricing_brl atualizado"
       ],
       "exit_criteria": "Migration aplica sem erro; getPlanLimits retorna maxViewsPerMonth null e leadForm true; assertWithinLimits bloqueia 4º demo e 21º lead no Free.",
-      "success_metric": "G0"
+      "success_metric": "G0",
+      "gate": "G0.5"
     },
     {
       "id": "F1",
@@ -264,7 +266,8 @@
         "Hero demo helper como hint passivo no editor (D8)"
       ],
       "exit_criteria": "Demo criada no painel → publicada → /d/[slug] abre em anônimo com todos os steps em ordem. Slug inválido/duplicado retorna 400. Demo sem step não publica.",
-      "success_metric": "G1"
+      "success_metric": "G1",
+      "gate": "G1"
     },
     {
       "id": "F2",
@@ -277,7 +280,8 @@
         "Botão criar demo em branco em /demos/new"
       ],
       "exit_criteria": "Demo criada SEM extensão via upload de PNG, editada e publicada; link público renderiza. BLOQUEADOR: a extensão não está na Chrome Web Store e o review leva dias/semanas — sem este caminho o alpha não acontece.",
-      "success_metric": "G1.5"
+      "success_metric": "G1.5",
+      "gate": "G1.5"
     },
     {
       "id": "F3",
@@ -292,7 +296,8 @@
         "Painel /demos/[id]/leads com export CSV"
       ],
       "exit_criteria": "Lead aparece em /demos/[id]/leads com consentText e consentAt; submit sem consentimento bloqueado; CTA visível ao completar o demo.",
-      "success_metric": "G2"
+      "success_metric": "G2",
+      "gate": "G2"
     },
     {
       "id": "F4",
@@ -306,7 +311,8 @@
         "Enforcement de limites via assertWithinLimits em create demo/step/lead"
       ],
       "exit_criteria": "Checkout sandbox Asaas → webhook payment.confirmed → plano do workspace vira pro; 4º demo no Free bloqueado com mensagem de upgrade.",
-      "success_metric": "G3"
+      "success_metric": "G3",
+      "gate": "G3"
     },
     {
       "id": "F5",
@@ -319,7 +325,8 @@
         "Reaproveitar lib/analytics/funnel.ts (já implementado e testado)"
       ],
       "exit_criteria": "Duas views do mesmo navegador = 1 visitor; drop-off por step aparece no dashboard; CTA CTR = cliques / viewers que chegaram ao último step.",
-      "success_metric": "G3 (pré-requisito de G6)"
+      "success_metric": "G3 (pré-requisito de G6)",
+      "gate": "G5"
     },
     {
       "id": "F6",
@@ -331,7 +338,8 @@
         "Badge Powered by EasyDemo no rodapé do player (oculto em ?preview=editor e para o dono logado)"
       ],
       "exit_criteria": "Demo em HTML externo → postMessage chega com step_viewed e cta_click; origin inválido ignorado; badge presente no player público.",
-      "success_metric": "G4"
+      "success_metric": "G4",
+      "gate": "G4"
     },
     {
       "id": "F7",
@@ -342,7 +350,8 @@
         "Respeitar watermark_on_cta do plano"
       ],
       "exit_criteria": "Demo de workspace com branding aparece com logo e cor; sem branding usa tema padrão; watermark do Free aparece no CTA.",
-      "success_metric": "G1"
+      "success_metric": "G1",
+      "gate": "G5"
     },
     {
       "id": "F8",
@@ -354,7 +363,8 @@
         "scripts/check-dpo-missing.ts aceita o valor real"
       ],
       "exit_criteria": "pnpm scripts:check-dpo passa com os valores reais; job de DPO reativado e verde na CI.",
-      "success_metric": "G7 — Go-live público (DPO + CNPJ + legal revisado). O alpha (G6) pode rodar com o DPO pendente."
+      "success_metric": "G7 — Go-live público (DPO + CNPJ + legal revisado). O alpha (G6) pode rodar com o DPO pendente.",
+      "gate": "G7"
     },
     {
       "id": "F9",
@@ -369,7 +379,8 @@
         "Submissão na Chrome Web Store"
       ],
       "exit_criteria": "Extensão autenticada sobe e envia screenshot ao R2; hotspot cai na posição correta (revisar clampPercent, que divide por window.innerWidth sem saber o tamanho real da screenshot).",
-      "success_metric": "G1.5 (via upload manual enquanto CWS aprova)"
+      "success_metric": "G1.5 (via upload manual enquanto CWS aprova)",
+      "gate": "G5"
     },
     {
       "id": "F10",
@@ -383,7 +394,8 @@
         "Instrumentar marketing/METRICS-DASHBOARD.md"
       ],
       "exit_criteria": "pnpm test:e2e verde sem bypass; 5-10 empresas BR no alpha com funil medido (visitor → lead → upgrade); nenhum case study fictício publicado.",
-      "success_metric": "G5, G6"
+      "success_metric": "G5, G6",
+      "gate": "G5 + G6"
     }
   ],
   "mvp_gates": [
@@ -392,6 +404,14 @@
       "name": "Rename limpo",
       "criteria": "git grep -in demobr = 0; CI verde",
       "phase": "PR1"
+    },
+    {
+      "id": "G0.5",
+      "name": "Pricing bate com o spec",
+      "criteria": "plans.max_views_per_month = NULL nos 3 planos; max_creators = 1/1/3; lead_form = true no Free; max_leads_per_month = 20/100/NULL; getPlanLimits() devolve exatamente o pricing_brl deste arquivo",
+      "phase": "F0",
+      "blocking": true,
+      "note": "Sem este gate todo gate downstream valida contra dado errado."
     },
     {
       "id": "G1",
@@ -427,8 +447,9 @@
     {
       "id": "G5",
       "name": "E2E sem bypass",
-      "criteria": "pnpm test:e2e verde com o fluxo completo",
-      "phase": "F10"
+      "criteria": "Fluxo completo automatizado em E2E, sem bypass — e cobre as 3 fases sem gate próprio: F5 (analytics: 2 views do mesmo navegador = 1 visitor, drop-off por step, CTA CTR), F7 (branding: logo + cor aplicados, watermark_on_cta do Free no CTA) e F9 (extensão: upload autenticado no R2, hotspot na posição correta, manifest sem permissões excessivas)",
+      "phase": "F10",
+      "covers_phases": ["F10", "F5", "F7", "F9"]
     },
     {
       "id": "G6",
@@ -510,5 +531,7 @@
     "Diferenciação vs Supademo: PIX/boleto nativos, NF-e, pt-BR first (research/demos/supademo.md §Pontos fracos).",
     "Payments: Asaas escolhido conforme research/tech/payments-brazil.md §2 — PIX recorrente nativo + boleto + cartão + sandbox + subscriptions endpoint dedicado."
   ],
-  "gtm_sources": "research/pricing/gtm-channels.md (keywords + benchmarks PLG SaaS BR)"
+  "gtm_sources": "research/pricing/gtm-channels.md (keywords + benchmarks PLG SaaS BR)",
+  "tasks": "specs/mvp-tasks.json",
+  "tasks_note": "Checklist vivo, passo a passo, com status. É onde a execução está agora — `pnpm scripts:mvp-status` imprime o próximo passo."
 }

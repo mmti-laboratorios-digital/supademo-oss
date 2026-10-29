@@ -320,7 +320,7 @@ exit=0
 - **Exit code:** `0`
 - **Status:** ✅ **OK** (com criação de arquivo)
 - **Ação:** commitar `apps/web/scripts/db/test-rls-admin.ts` (arquivo novo de 165 linhas).
-- **Nota:** `app_owner` viu **5 demos** (incluindo o que ficou de uma execução anterior do `test-rls.ts` que foi parcialmente "limpa" mas留下了 um demo órfão). Cleanup deste arquivo remove `tenant-admin-a` e `tenant-admin-b` apenas — não afeta o `tour-exemplo` do seed-test.
+- **Nota:** `app_owner` viu **5 demos** (incluindo o que ficou de uma execução anterior do `test-rls.ts` que foi parcialmente "limpa" mas deixou um demo órfão). Cleanup deste arquivo remove `tenant-admin-a` e `tenant-admin-b` apenas — não afeta o `tour-exemplo` do seed-test.
 
 ---
 

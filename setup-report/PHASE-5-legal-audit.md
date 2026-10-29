@@ -154,7 +154,7 @@
 
 **Pontos fracos:**
 - **§3.1**: Linha 53 — `__stripe_mid` (legado) gera ambiguidade. Stripe pode não ser efetivamente usado. Advogado deve opinar se mantém.
-- **§3.2**: Linha 59-61 — `_pk_id`, `_pk_ses`, `ph_phc_*` —声称 ser todos PostHog; verificar se nomes coincidem com implementação real.
+- **§3.2**: Linha 59-61 — `_pk_id`, `_pk_ses`, `ph_phc_*` —afirmando ser todos PostHog; verificar se nomes coincidem com implementação real.
 - **§5**: Linha 137-138 — base legal "consentimento" para analytics — se analytics for estritamente agregado, pode ser legítimo interesse (art. 7º, IX). Advogado deve opinar.
 - **§4.4**: DNT/GPC — base legal tratamento para DNT é variável por jurisdição. No Brasil, lei 13.709 não trata explicitamente. Advogado deve avaliar.
 - **Banner**: detalhes do banner (4.1) — sem prover print/screenshot, advogado pode pedir exemplo real.

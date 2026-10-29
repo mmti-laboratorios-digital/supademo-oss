@@ -376,7 +376,7 @@ press-kit/
 - Datas específicas (terça-feira X de mês Y) **dependem do ritmo de desenvolvimento real** (MVP em 24 semanas segundo RFC §0).
 - Métricas-alvo são **metas internas**, não contratadas. Ajustar após feedback W4.
 - Hotmart vs Lemon Squeezy para afiliados **depende de custos atuais e conversão BR**; avaliar antes do lançamento do programa.
-- Guest posts em SaaS Break e Gralio são **hipóteses** (sites existem em Out/2026); verificar se aceitam投稿 pago ou se é troca de conteúdo.
+- Guest posts em SaaS Break e Gralio são **hipóteses** (sites existem em Out/2026); verificar se aceitam post pago ou se é troca de conteúdo.
 
 ---
 

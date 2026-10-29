@@ -283,7 +283,7 @@ Recomendamos trocar sua senha e revisar suas conexões ativas."
 | Chave de API exposta | Rotacionar; auditar uso retroativo |
 | Vulnerabilidade em código | Patch + hotfix + revisão de git history |
 | Tenant com dados vazados | Restaurar para último backup íntegro; notificar cliente |
-| RLS bypass | Patch + restaurar +監査 total |
+| RLS bypass | Patch + restaurar + auditoria total |
 | Bucket R2 público | Reconfigurar ACL; verificar logs de acesso |
 | Conta Clerk comprometida | Resetar senha + rotacionar API keys + revisar audit log |
 

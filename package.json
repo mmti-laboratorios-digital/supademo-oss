@@ -41,6 +41,8 @@
     "scripts:test-pii": "pnpm --filter web exec tsx scripts/test-pii-redaction.ts",
     "scripts:test-webhook-asaas": "pnpm --filter web exec tsx scripts/test-webhook-asaas.ts",
     "scripts:check-dpo": "pnpm exec tsx scripts/check-dpo-missing.ts",
+    "scripts:mvp-status": "pnpm exec tsx scripts/mvp-status.ts",
+    "scripts:mvp-task": "pnpm exec tsx scripts/mvp-task.ts",
     "prepare": "node -e \"console.log('DemoBR — pnpm install detectado')\""
   },
   "devDependencies": {

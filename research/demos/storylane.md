@@ -10,7 +10,7 @@
 - **Trust center:** https://trust.storylane.io/
 - **Reviews wall:** https://www.storylane.io/reviews
 - **G2:** 4.7/5 (≈1.500+ reviews) — frequentemente top-rated em "ease of use".
-- **Investidores:** Y Combinator,进来的 outros.
+- **Investidores:** Y Combinator, entre outros.
 
 ## Modelo de negócio
 SaaS B2B com **Demo Suite** (interactive demos + sandboxes + hubs) e **RepX** (AI website agent). Planos (fonte third-party levelupdemo.com, 2026): Free → Starter ~$50/mo → Growth ~$625/mo → Premium ~$1.500/mo → Enterprise (custom). RepX é usage-based conversacional.
