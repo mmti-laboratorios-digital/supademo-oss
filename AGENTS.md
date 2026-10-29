@@ -109,6 +109,7 @@ pnpm test          # Vitest — 152 testes
 
 | Preciso de… | Onde está |
 |---|---|
+| **Mapa de toda a documentação** | **`docs/README.md`** — o que cada arquivo é, quando abrir, quando não mexer |
 | O que fazer, em que ordem, até quando | `docs/MVP-PLAN.md` §8 |
 | **O que já foi feito e por quê** | **`docs/MVP-PROGRESS.md`** (log append-only) |
 | Por que o sistema é assim (stack, arquitetura, env vars) | `docs/RFC-Brazilian-Supademo.md` §2 e §8 |
@@ -119,6 +120,7 @@ pnpm test          # Vitest — 152 testes
 | Fluxo git por fase | `docs/MVP-PLAN.md` §8.0 |
 | Gates go/no-go | `docs/MVP-PLAN.md` §9 |
 | ADRs (decisões de arquitetura) | `docs/ADRs/` |
+| Marketing, GTM e lançamento | `marketing/README.md` |
 
 ## Escopo do MVP
 

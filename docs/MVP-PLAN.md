@@ -1325,6 +1325,7 @@ eventos de F5.
 
 | Documento | Papel |
 |---|---|
+| `docs/README.md` | **Mapa de toda a documentação** — o que cada arquivo é, quando abrir, quando não mexer |
 | `docs/MVP-PLAN.md` | **Este.** O plano executável: escopo, evidências, decisões, invariantes, fases, gates |
 | `docs/MVP-PROGRESS.md` | **Log append-only.** O que já foi feito e por quê. Uma entrada por fase |
 | `docs/RFC-Brazilian-Supademo.md` | Arquitetura, stack, diferenciação, GTM, riscos, env vars |
