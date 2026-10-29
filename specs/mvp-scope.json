@@ -354,7 +354,7 @@
         "scripts/check-dpo-missing.ts aceita o valor real"
       ],
       "exit_criteria": "pnpm scripts:check-dpo passa com os valores reais; job de DPO reativado e verde na CI.",
-      "success_metric": "G6 (bloqueante de lançamento público)"
+      "success_metric": "G7 — Go-live público (DPO + CNPJ + legal revisado). O alpha (G6) pode rodar com o DPO pendente."
     },
     {
       "id": "F9",
@@ -436,6 +436,13 @@
       "criteria": "5-10 empresas BR usando, com funil medido (visitor → lead → upgrade)",
       "phase": "F10",
       "note": "Gate mais importante. Se não passar, o MVP está errado e feature nova não conserta."
+    },
+    {
+      "id": "G7",
+      "name": "Go-live público",
+      "criteria": "DPO real + CNPJ + endereço reais; job check-dpo-placeholders ativo; nenhum case study fictício; legal/ revisado por advogado",
+      "phase": "F8",
+      "note": "Diferente do G6: o alpha pode rodar com DPO pendente (grupo fechado de early users), mas abrir ao público exige conformidade legal real."
     }
   ],
   "infra_costs_brl_monthly": {

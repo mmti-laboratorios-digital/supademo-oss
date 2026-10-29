@@ -470,7 +470,7 @@ CREATE TABLE app.dsr_log (
 >
 > **Por que a mudança de escala:** o H1–H4 era um plano de 24 semanas para
 > *chegar ao GA*. O MVP Plan é o recorte para **conseguir os 5–10 primeiros
-> clientes** — 22–26 dias de trabalho focalizado, com 8 gates que matam a
+> clientes** — 22–26 dias de trabalho focalizado, com 9 gates que matam a
 > hipótese no ponto certo. O que está fora do MVP foi reclassificado como
 > Fase 2 / V2 na §4.2 do MVP Plan, não como "depois do GA".
 >

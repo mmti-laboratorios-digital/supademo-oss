@@ -27,13 +27,14 @@ tags: [execucao, log, progresso, handover]
 | **Bloqueios** | nenhum |
 | **Branch** | `docs` (pré-execução) → criar branch por fase |
 | **Gate atual** | — (ainda em G0) |
+| **Gates do MVP** | G0 rename · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
 
 Copie o modelo abaixo, cole **no final** do arquivo e preencha. Seja específico:
 o próximo dev não vai ler o diff do git, vai ler isto.
 
-```markdown
+````markdown
 ### AAAA-MM-DD — F<n> — <nome da fase>
 
 **Estado:** ✅ concluída | ⏳ em andamento | ❌ abortada
@@ -64,7 +65,7 @@ o próximo dev não vai ler o diff do git, vai ler isto.
 
 **Ficou pra depois (débito desta fase)**
 - [ ] <item> — <onde vai ser decidido>
-```
+````
 
 ## Log
 
@@ -75,7 +76,7 @@ o próximo dev não vai ler o diff do git, vai ler isto.
 **Gate:** — (pré-G0)
 
 **O que passou a funcionar**
-- O MVP está especificado em nível executável: 12 fases (PR1 + F0–F10), 8 gates
+- O MVP está especificado em nível executável: 12 fases (PR1 + F0–F10), 9 gates
   go/no-go, arquivos exatos, acceptance criteria e comandos de validação.
 - Um dev (ou uma IA) nova consegue pegar uma fase e executá-la sem contexto
   prévio: `AGENTS.md` na raiz define o protocolo, e cada fase lista "arquivos a
@@ -90,7 +91,7 @@ o próximo dev não vai ler o diff do git, vai ler isto.
 
 **Arquivos modificados**
 - `specs/mvp-scope.json` — pricing flat (views ilimitadas, lead form no Free),
-  12 fases, 8 gates, 35 itens de out_of_scope
+  12 fases, 9 gates, 35 itens de out_of_scope
 - `docs/RFC-Brazilian-Supademo.md` — §1/§3/§4 viraram ponteiros pro MVP Plan;
   sobrou arquitetura, diferenciação, GTM, riscos e env vars
 - `README.md` — links reordenados (MVP Plan primeiro)

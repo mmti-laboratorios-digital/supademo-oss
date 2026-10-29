@@ -29,7 +29,7 @@ gaps de mercado brasileiro que o Supademo não cobre.
 **Nada de feature inventada:** a regra é paridade com o core validado do Supademo
 + os gaps de mercado BR. Tudo que o Supademo não tem e não é gap BR sai do MVP.
 
-**8 gates go/no-go** (G0, G1, G1.5, G2, G3, G4, G5, G6). Se um gate falhar, a
+**9 gates go/no-go** (G0, G1, G1.5, G2, G3, G4, G5, G6, G7). Se um gate falhar, a
 correção é objective e o gate mata a hipótese no ponto certo.
 
 ### 0.1 Protocolo de execução (para dev e para IA)
@@ -349,9 +349,12 @@ Fonte de verdade: tabela `app.plans` (`apps/web/db/schema/app.ts:130-142`) +
 | Trial | — | 14 dias | 14 dias |
 | NF-e | — | sim | sim |
 
-> **Migration `0004_flat_plans.sql`**: remover `max_views_per_month` (ou deixar
-> NULL = ilimitado), adicionar `max_creators`, ligar `lead_form` no Free, ajustar
-> `max_leads_per_month` do Free para 20, atualizar seeds.
+> **Migration `0004_flat_plans.sql`** — a coluna `max_views_per_month` **não
+> deve ser dropada**: mantenha-a e sete `NULL` nos 3 planos, onde `NULL`
+> significa **ilimitado**. `DROP COLUMN` em tabela populada é destrutivo e
+> irreversível sem dump, e não há ganho em remover a coluna. A migration também
+> adiciona `max_creators`, liga `lead_form` no Free, ajusta
+> `max_leads_per_month` do Free para 20 e atualiza os seeds.
 
 ### 5.1 Justificativa dos preços
 
@@ -505,6 +508,51 @@ funcionalidade.
 > arquivo, com o que passou a funcionar, as decisões tomadas, as armadilhas e a
 > validação rodada. É o que permite continuar depois ou por outro dev.
 
+### 8.0 Fluxo git por fase
+
+> **Antes de começar:** confirme o estado em `docs/MVP-PROGRESS.md` §"Status
+> atual" — fase em andamento, última concluída, bloqueios.
+
+**Unidade de trabalho: 1 fase = 1 branch = 1 PR.**
+
+| Item | Convenção |
+|---|---|
+| **Branch** | `feat/f<n>-<slug>` (ex.: `feat/f3-lead-form`), `fix/f<n>-<slug>` se for correção. PR1 usa `chore/rename-easydemo` |
+| **PR** | 1 por fase. Título no padrão Conventional Commits em PT-BR (`feat(billing): checkout PIX via Asaas`) |
+| **Base** | `main` — nunca commitar direto nela (protegida, exige peer review) |
+| **Gate** | A fase só entra na `main` quando o **gate dela** passa (ver §9) e a CI está verde |
+| **Progresso** | A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR** da fase |
+| **Ordem** | Só inicia a fase F*n+1* depois que a F*n* foi mergeada e registrada no log |
+
+**Paralelismo — o que pode rodar junto:**
+
+```
+main
+ ├── F2 (upload manual)  ─┐  independentes entre si
+ ├── F5 (analytics)      ─┤  → podem ser feitas em paralelo, em branches distintas
+ ├── F6 (embed + badge)  ─┤
+ ├── F7 (branding)       ─┘
+ └── F8 (legal) ───────────  depende de gente externa (DPO + advogado)
+```
+
+> ⚠️ **Mesmo em paralelo, dois devs não podem tocar o mesmo arquivo sem
+> coordenar.** Antes de começar, confira os "Arquivos a tocar" das fases
+> paralelas: se houver sobreposição, sequelize. Ex.: F3 e F6 **não** podem ir
+> juntos — ambos tocam `components/player/DemoPlayer.tsx`.
+
+**Se o review for o gargalo** (a `main` exige 1 approving review de admin),
+fases adjacentes e independentes podem ser agrupadas em um PR — **desde que o
+gate de cada fase passe individualmente**. Nesse caso, registre uma entrada de
+log por fase.
+
+**Antes de abrir o PR:**
+
+- [ ] A fase tem "Acceptance criteria" todo marcado
+- [ ] Os comandos de validação da fase passaram
+- [ ] A entrada no `docs/MVP-PROGRESS.md` foi adicionada
+- [ ] A tabela "Status atual" foi atualizada
+- [ ] `git grep -in demobr` retorna 0 (se o PR1 já foi mergeado)
+
 ### PR1 — Rename (DemoBR → EasyDemo)
 
 **Objetivo:** renomear a marca em todo o repositório antes de começar o MVP.
@@ -594,10 +642,11 @@ plano com views ilimitadas.
 - ✏️ `specs/mvp-scope.json` (bloco `pricing_brl`)
 
 **O que fazer:**
-1. `0004_flat_plans.sql`: remover `max_views_per_month` do `app.plans`
-   (ou deixar NULL = ilimitado), adicionar coluna `max_creators integer`, ligar
-   `lead_form: true` no Free, ajustar `max_leads_per_month` do Free para 20,
-   atualizar os seeds dos 3 planos com os valores da §5 deste doc.
+1. `0004_flat_plans.sql`: **manter** a coluna `max_views_per_month` e setar
+   `NULL` nos 3 planos (`NULL` = ilimitado). **Não** fazer `DROP COLUMN` — é
+   destrutivo e irreversível sem dump. Adicionar coluna `max_creators integer`,
+   ligar `lead_form: true` no Free, ajustar `max_leads_per_month` do Free para
+   20, atualizar os seeds dos 3 planos com os valores da §5 deste doc.
 2. `lib/plans.ts`: exportar `getPlanLimits(planId)` e
    `assertWithinLimits(workspaceId, resource, count)` — resource ∈
    `demo | step | lead`. Usar `withTenant` pra contar recursos do workspace.
@@ -1042,6 +1091,21 @@ padrão com exit 1 quando sobram placeholders.
 - [ ] Revisão por advogado de ToS, Privacidade e Cookies
 - [ ] Job de DPO reativado e passando
 
+**Acceptance criteria:**
+- [ ] `pnpm scripts:check-dpo` passa sem placeholders pendentes
+- [ ] O job `check-dpo-placeholders` está **reativado** no `.github/workflows/ci.yml`
+      e roda verde na CI
+- [ ] `grep -rn 'placeholder@demobr\|{nome_do_DPO}\|\[NOME_DO_DPO\]' legal/` retorna vazio
+- [ ] CNPJ e endereço reais presentes em Privacidade, Termos e Cookies
+- [ ] E-mail do encarregado (DPO) real, diferente do placeholder, em todos os 7 docs
+- [ ] `pnpm lint && pnpm typecheck && pnpm test` verdes
+
+> ⚠️ **Esta fase é dependência externa** — o DPO precisa ser contratado e o
+> advogado precisa revisar. Se não houver contratação até o momento de
+> executá-la, **não invente os dados**: registre a pendência em
+> `docs/MVP-PROGRESS.md` e siga para a próxima fase. O gate **G7** (Go-live)
+> é que bloqueia o lançamento público, não o alpha.
+
 **Validação:**
 ```
 pnpm scripts:check-dpo
@@ -1049,7 +1113,8 @@ pnpm lint && pnpm typecheck && pnpm test
 ```
 
 **Não fazer:** não reativar o job antes de os placeholders estarem reais —
-vai quebrar a CI. Não inventar dados de DPO.
+vai quebrar a CI. Não inventar dados de DPO. Não usar CNPJ, endereço ou e-mail
+fictício como se fossem reais.
 
 ---
 
@@ -1182,10 +1247,17 @@ comprar mídia antes de G6. Não publicar case fictício.
 | **G4** | Demo embarcada em HTML externo → `postMessage` chega + badge presente | página HTML de teste | voltar a F6 |
 | **G5** | Fluxo completo automatizado em E2E, **sem bypass** | `pnpm test:e2e` | resolver Clerk key no CI (F10) |
 | **G6** | 5–10 empresas BR no alpha, com funil medido (visitor → lead → upgrade) | `marketing/METRICS-DASHBOARD.md` | **para de construir**. Priorizar Fase 2 pelos dados |
+| **G7** | **Go-live público** — DPO real + CNPJ + endereço reais, job `check-dpo-placeholders` ativo, nenhum case study fictício, `docs/../legal/` revisado por advogado | `pnpm scripts:check-dpo` + `grep -rn 'placeholder@demobr' legal/` + revisão jurídica | **não abrir ao público**. Voltar a F8 |
 
 > **G6 é o gate mais importante.** Se ele não passar, o MVP está errado e nenhum
 > amount de feature nova conserta. O próximo passo vira decisão de produto, não
 > de engenharia.
+
+> **G6 e G7 são gates diferentes.** O **alpha** (G6) pode rodar com o DPO
+> pendente — é um grupo fechado de early users, não há liberação pública. O
+> **go-live público** (G7) exige DPO, CNPJ e documentos legais reais. Num produto
+> que vende "LGPD by design", publicar com `placeholder@demobr.com.br` nos
+> documentos legais destrói a proposta de valor.
 
 ---
 

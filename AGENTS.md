@@ -15,16 +15,28 @@ um link público, e o visitante interage, deixa o contato e cai no CTA.
 ## Protocolo de execução (obrigatório, nesta ordem)
 
 1. **Leia `docs/MVP-PLAN.md` §0** — TL;DR + o protocolo completo (~3 min).
-2. **Leia `docs/MVP-PLAN.md` §6** — as invariantes. São 5 regras que, se violadas,
+2. **Leia `docs/MVP-PROGRESS.md` §"Status atual"** — fase em andamento, última
+   concluída, bloqueios. Confirme que a fase que você vai pegar está livre e que
+   as fases de dependência dela já foram mergeadas (~1 min).
+3. **Leia `docs/MVP-PLAN.md` §6** — as invariantes. São 5 regras que, se violadas,
    quebram build, CI ou isolamento de dados (~3 min).
-3. **Leia a §8 do plano, só a sua fase.** O prompt que te trouxer a fase vem com
-   o identificador (ex.: "minha fase é F3").
-4. **Leia os "Arquivos a ler antes" da sua fase.** É onde estão os padrões a
+4. **Leia a §8 do plano, só a sua fase.** O prompt que te trouxer a fase vem com
+   o identificador (ex.: "minha fase é F3"). Leia também a **§8.0 (Fluxo git por
+   fase)**.
+5. **Leia os "Arquivos a ler antes" da sua fase.** É onde estão os padrões a
    copiar, os contratos existentes e **o que já está pronto e deve ser
    reaproveitado** em vez de reimplementado.
-5. **Edite só os "Arquivos a tocar".** Depois rode os comandos de validação.
+6. **Edite só os "Arquivos a tocar".** Depois rode os comandos de validação.
    Se algum check falhar, **não avance** — conserte e revalide.
-6. **Registre o que foi feito** em `docs/MVP-PROGRESS.md` (passo 6 abaixo).
+7. **Registre o que foi feito** em `docs/MVP-PROGRESS.md` (seção abaixo).
+
+## Fluxo git por fase
+
+1 fase = 1 branch = 1 PR. Branch `feat/f<n>-<slug>`. Base `main`.
+A fase só entra na `main` quando o **gate dela** (§9 do plano) passa e a CI
+está verde. A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR**.
+
+Detalhes, paralelismo e agrupamento de fases: `docs/MVP-PLAN.md` §8.0.
 
 ## Registro de execução (obrigatório)
 
@@ -104,6 +116,7 @@ pnpm test          # Vitest — 152 testes
 | Evidência de mercado por trás das decisões | `docs/MVP-PLAN.md` §2 |
 | Decisões D1–D12 | `docs/MVP-PLAN.md` §3 |
 | Invariantes e anti-padrões | `docs/MVP-PLAN.md` §6 |
+| Fluxo git por fase | `docs/MVP-PLAN.md` §8.0 |
 | Gates go/no-go | `docs/MVP-PLAN.md` §9 |
 | ADRs (decisões de arquitetura) | `docs/ADRs/` |
 
