@@ -2,7 +2,7 @@
 
 > **Mapa de navegação da documentação do repositório.**
 >
-> 128 arquivos de doc espalhados em 8 diretórios. Este arquivo diz **o que cada
+> 141 arquivos `.md` espalhados em 11 diretórios. Este arquivo diz **o que cada
 > um é**, **quando abrir** e **quando NÃO mexer**. Ele é espelhado pelo
 > `marketing/README.md` (mesmo padrão) e complementa o `AGENTS.md` (que é o
 > bootstrap automático para agentes de IA).
@@ -20,8 +20,8 @@ Plataforma de demos interativas de produto: o creator captura telas pela
 extensão Chrome, monta um passo a passo clicável no editor, publica um link
 público, e o visitante interage, deixa o contato e cai no CTA.
 
-**Status:** PR #24, #26 e #27 mergeados na `main`. CI verde. Documentação do
-MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
+**Status:** PR #24, #26, #27, #29, #30 e #31 mergeados na `main`. CI verde.
+Documentação do MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 
 ---
 
@@ -133,6 +133,19 @@ MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 | `observability/otel-collector.yaml` | Coleta de traces e métricas |
 | `hetzner/` | cloud-init e README de provisionamento do VPS |
 
+### `setup-report/` (24 arquivos — histórico)
+
+> **Registro de execução das sessões de setup do projeto.** São relatórios do
+> que foi rodado e decidido na época (Playwright, E2E, Hetzner, RLS, DPO,
+> porta do Postgres, cobertura). **Histórico — não edite.** Serve pra saber
+> *o que já foi tentado* e *por que uma decisão foi tomada*.
+
+| Arquivo | O que é |
+|---|---|
+| `PHASE-1..14-*` | Relatório por fase do setup (install, cobertura, E2E, RLS, Hetzner, legal, DPO, runtime) |
+| `CONCLAVE-*.md` | Revisões por lente (dev, PM/legal, SRE, fix-priority, pr-checklist) |
+| `INDEX.md` | Índice do pacote (quando existir) |
+
 ### `.github/`
 
 | Arquivo | O que é |
@@ -142,6 +155,14 @@ MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 | `dependabot.yml` | Atualizações automáticas de dependência |
 | `PULL_REQUEST_TEMPLATE.md` | Template de PR |
 | `copilot-instructions.md` | ⚠️ **não existe** — o Copilot lê `AGENTS.md` nativamente |
+
+### `apps/` e `tests/` (4 arquivos)
+
+| Arquivo | O que é |
+|---|---|
+| `apps/web/tests/setup-playwright.md` | Como instalar o Playwright e as deps de Linux no CI (linka os reports em `setup-report/`) |
+| `apps/web/a11y/REPORT.md` | Resultado da auditoria de acessibilidade do player |
+| `tests/COVERAGE-REPORT.md` | Relatório de cobertura de testes — histórico |
 
 ---
 

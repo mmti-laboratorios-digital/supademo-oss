@@ -75,5 +75,9 @@ public/sw.js
 public/workbox-*.js
 .swc/
 
+# Infra provisionada (gerado em runtime por scripts/provision-hetzner.sh —
+# embute a chave SSH pública do dev e o domínio de produção)
+infra/cloud-init.yaml
+
 # IA
 .agent-context-mm
