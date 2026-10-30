@@ -645,6 +645,7 @@ funcionalidade.
 | **Progresso — passo a passo** | O status de cada passo fica em **`specs/mvp-tasks.json`**. Marque o passo como `done` **no mesmo commit** em que ele foi feito. |
 | **Progresso — por fase** | A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR** da fase |
 | **Ordem** | Só inicia a fase F*n+1* depois que a F*n* foi mergeada e registrada no log |
+| **Limpeza** | Mergeado, **delete a branch**: `git push origin --delete <branch>`. Sem isso as branches se acumulam e ninguém sabe qual é a branch da fase atual. Antes de deletar, confirme que está 100% mergeada: `git merge-base --is-ancestor origin/<branch> origin/main` |
 
 **Paralelismo — o que pode rodar junto:**
 
