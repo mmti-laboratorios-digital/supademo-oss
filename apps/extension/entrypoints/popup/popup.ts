@@ -2,8 +2,8 @@
  * Popup UI — start/stop, lista de steps capturados, link para upload.
  */
 
-import { getApi } from "../lib/api";
-import { getSession, setSession } from "../lib/store";
+import { getApi } from "../../lib/api";
+import { getSession, setSession } from "../../lib/store";
 
 const api = getApi();
 

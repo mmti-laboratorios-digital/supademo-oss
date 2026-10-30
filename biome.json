@@ -12,7 +12,8 @@
       "**/test-results/**",
       "**/coverage/**",
       "**/.git/**",
-      "**/.storybook/**"
+      "**/.storybook/**",
+      "**/.wxt/**"
     ]
   },
   "organizeImports": {

@@ -6,7 +6,7 @@ import { defineConfig } from "wxt";
  * WXT preenche automaticamente:
  *  - background.service_worker (a partir de ./entrypoints/background.ts)
  *  - content_scripts (a partir de ./entrypoints/content.ts)
- *  - action.default_popup (a partir de ./entrypoints/popup.html)
+ *  - action.default_popup (a partir de ./entrypoints/popup/index.html)
  *  - icons
  *
  * Apenas declaramos overrides manuais aqui.

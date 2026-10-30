@@ -21,6 +21,10 @@ next-env.d.ts
 build/
 dist/
 
+# Extensão Chrome (WXT)
+apps/extension/.output/
+apps/extension/.wxt/
+
 # Storybook
 storybook-static/
 
