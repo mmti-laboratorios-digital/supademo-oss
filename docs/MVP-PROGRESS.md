@@ -345,3 +345,91 @@ links relativos (todos os .md)           → 0 quebrados
 - [ ] `specs/mvp-tasks.json` não tem histórico de quem fez cada passo. O
       `commit` cobre a autoria, mas um campo `agent` ajudaria quando mais de
       uma IA trabalha no mesmo repo.
+
+### 2026-10-30 — PR1 — Rename (DemoBR → EasyDemo)
+
+**Estado:** ✅ concluída
+**Branch:** `chore/rename-easydemo` · **Commit:** (este PR) · **Gate:** G0
+
+**O que passou a funcionar**
+- A marca do produto é **EasyDemo** em todo o repositório: código, docs, infra,
+  marketing, legal, research, workflows e assets. O npm scope é `@easydemo/*`,
+  o domínio é `easydemo.io`, o banco é `easydemo`, e os containers/tags docker
+  são `easydemo-*`.
+- O **Supademo (concorrente) ficou intacto** — 611 ocorrências e 111 URLs para
+  `supademo.com` continuam apontando pro concorrente. É o que mantém honesta a
+  base de evidência que justifica o MVP.
+- **A extensão Chrome builda de novo.** Estava quebrada desde o scaffold.
+
+**Arquivos modificados** — 195 arquivos, ~1.600 ocorrências
+- npm scope `@demo.br/*` → `@easydemo/*` (42 arquivos) + package root `demobr` → `easydemo`
+- domínios `demobr.com.br` e hosts `demo.br` → `easydemo.io` (64 arquivos, 341 ocorrências)
+- marca `DemoBR`/`demobr`/`DEMOBR` → `EasyDemo`/`easydemo`/`EASYDEMO` (189 arquivos)
+- banco `supademo` → `easydemo` — **só as 52 ocorrências que são o nosso** (compose,
+  `init-roles.sql`, `ROLES.md`, `.env.example`, `ci.yml`, `Makefile`,
+  `drizzle.config.ts`, seed e testes de integração); container `supademo-test` → `easydemo-test`
+- containers/tags docker `demobr-*` → `easydemo-*`, `demobr/web` → `easydemo/web`
+- headers do webhook `x-demobr-{event-id,signature}` → `x-easydemo-*`
+- blog comparativo `demobr-vs-supademo-vs-guideflow.mdx` → `easydemo-vs-supademo-vs-guideflow.mdx`
+- `docs/MVP-PLAN.md` §8 — gate por fase, passos numerados, critério de aceite com
+  exclusões, ordem correta do `pnpm install`, regra `supademo` banco-vs-concorrente
+
+**Decisões tomadas durante a execução**
+- **D1:** o critério de aceite do grep **exclui 3 arquivos** — `docs/MVP-PLAN.md`,
+  `docs/MVP-PROGRESS.md` e `specs/mvp-tasks.json` — porque eles **documentam** o
+  rename e portanto citam o nome antigo como alvo da busca. Sem a exclusão o
+  critério era impossível de satisfazer. O log é append-only: reescrever
+  entradas antigas violaria a regra do arquivo.
+- **D2:** o nome do repositório no GitHub (`supademo-oss`) **não** foi tocado.
+  Renomear o repo muda URL e exige permissão `admin` — decisão separada, já
+  registrada como pendência.
+- **D3:** os buckets R2 reais (`demo-public`/`demo-private`) **não** foram
+  renomeados — são infra viva, não referência de marca. Em vez disso, o
+  ADR-006 e o `openapi.yaml`, que citavam `demobr-public`/`demobr-private`
+  (divergentes do config), foram **alinados ao que o infra usa de fato**.
+- **D4:** `demo_branch`/`demo_branches`/`Demo Branching` **não** foram tocados —
+  é a feature de branching, não a marca.
+
+**Armadilhas / o que a fase ensina**
+- **Um `sed` cego em `supademo` corromperia a base de evidência.** `supademo` é
+  ao mesmo tempo o nome do banco e o do concorrente: 52 ocorrências do nosso,
+  ~265 do Supademo (pricing, comparações, benchmarks em `research/` e
+  `marketing/`). Renomear em bloco teria falsificado a pesquisa de mercado que
+  justifica o MVP inteiro.
+- **O scope `@demo.br/` corrompeu o checklist que o documenta.** A string
+  `@demo.br/*` aparece nos títulos dos passos de `specs/mvp-tasks.json` — e o
+  replace em bloco a reescreveu, deixando "Renomear scope @easydemo/* →
+  @easydemo/*". Restaurado à mão. O mesmo vale para `docs/MVP-PLAN.md`.
+- **A sintaxe de exclusão do `git grep` é `':(exclude)path'`, não `':!path'`.**
+  A segunda é de `git ls-files` e o `git grep` a ignora silenciosamente — o
+  comando "passava" sem excluir nada. Só percebi porque o gate acusou 27
+  ocorrências onde deviam ser 0.
+- **`pnpm install --frozen-lockfile` falha depois de trocar o npm scope** (o
+  lockfile fica desatualizado). A ordem é `pnpm install` → regenera → depois
+  `--frozen-lockfile` valida.
+- **A extensão nunca foi buildada em CI** — o job de build é do Docker da
+  `apps/web`. Por isso dois bugs do scaffold sobreviveram 3 meses: entrypoint
+  `popup` duplicado (`popup.html` + `popup.ts` na raiz de `entrypoints/`) e
+  `content.ts` no estilo antigo do WXT (sem `export default defineContentScript`).
+  O WXT 0.19 exige o default export. A CI **não** builda a extensão — gap real.
+
+**Validação rodada**
+```
+git grep -in demobr -- . ':(exclude)docs/MVP-PLAN.md' ...        → 0
+git grep -in '@demo\.br' -- . ':(exclude)...'                     → 0
+pnpm install --frozen-lockfile                                    → passa
+pnpm lint                                                         → 212 arquivos, 0 erros
+pnpm typecheck                                                    → 4/4 pacotes
+pnpm test                                                         → 152/152
+pnpm build                                                        → verde (web + extensão)
+pnpm extension:build                                              → 39.03 kB, 8 arquivos
+links relativos (158, todos os .md)                              → 0 quebrados
+'Supademo' (concorrente)                                         → 611 ocorrências, 111 URLs intactas
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] Renomear o repositório no GitHub (`supademo-oss` → `easydemo-oss`) — exige `admin`
+- [ ] Atualizar a descrição do repo no GitHub ("open-source", "Postgres 17", "DemoBR")
+- [ ] A CI não builda a extensão Chrome — adicionar um job `pnpm extension:build`
+- [ ] `host_permissions: ["<all_urls>"]` no `wxt.config.ts` — revisar na F9 (o
+      plano da F9 diz para não pedir `<all_urls>`; hoje está pedido)

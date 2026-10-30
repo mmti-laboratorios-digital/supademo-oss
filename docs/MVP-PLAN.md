@@ -719,7 +719,7 @@ de revisar. Decisão D7.
     > `docs/MVP-PROGRESS.md`, `specs/mvp-tasks.json`) ficam de fora do grep:
     > eles citam o nome antigo **como alvo da busca**, e o log é append-only.
     > Comando:
-    > `git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'`
+    > `git grep -in demobr -- . ':(exclude)docs/MVP-PLAN.md' ':(exclude)docs/MVP-PROGRESS.md' ':(exclude)specs/mvp-tasks.json'`
 
 **Arquivos a ler antes:**
 - `package.json` (raiz) e os 7 `package.json` dos workspaces — npm scope e nomes
@@ -767,8 +767,8 @@ de revisar. Decisão D7.
 ```
 # 0 = ok. Exclui os 3 arquivos que documentam o rename (eles citam o
 # nome antigo como alvo da busca; o log é append-only).
-git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'
-git grep -in '@demo\.br' -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'
+git grep -in demobr -- . ':(exclude)docs/MVP-PLAN.md' ':(exclude)docs/MVP-PROGRESS.md' ':(exclude)specs/mvp-tasks.json'
+git grep -in '@demo\.br' -- . ':(exclude)docs/MVP-PLAN.md' ':(exclude)docs/MVP-PROGRESS.md' ':(exclude)specs/mvp-tasks.json'
 pnpm install --frozen-lockfile
 pnpm lint && pnpm typecheck && pnpm test
 pnpm build
@@ -1425,7 +1425,7 @@ comprar mídia antes de G6. Não publicar case fictício.
 
 | Gate | Critério | Como verificar | Se falhar |
 |---|---|---|---|
-| **G0** | Rename: `grep -ri demobr` = 0 nos arquivos de conteúdo; CI verde | `git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'` | corrigir e re-push **antes** de F0 |
+| **G0** | Rename: `grep -ri demobr` = 0 nos arquivos de conteúdo; CI verde | `git grep -in demobr -- . ':(exclude)docs/MVP-PLAN.md' ':(exclude)docs/MVP-PROGRESS.md' ':(exclude)specs/mvp-tasks.json'` | corrigir e re-push **antes** de F0 |
 | **G0.5** | Pricing do banco bate com o spec: `plans.max_views_per_month` = `NULL` nos 3 planos, `max_creators` = 1/1/3, `lead_form` = `true` no Free, `max_leads_per_month` = 20/100/`NULL` — e `lib/plans.ts` devolve exatamente a §5 | `pnpm --filter web db:migrate` + comparar `getPlanLimits()` com `specs/mvp-scope.json` → `pricing_brl` | corrigir a F0. **Não seguir pra F1** — todo gate downstream valida contra o pricing, e preço errado aprova tudo errado |
 | **G1** | Demo criada no painel → publicada → `/d/[slug]` abre em anônimo com todos os steps em ordem | manual no `pnpm dev` | voltar a F1 |
 | **G1.5** | Demo criada **sem extensão** → publicada → link abre | manual, upload manual | voltar a F2 — **alpha travado sem isso** |
