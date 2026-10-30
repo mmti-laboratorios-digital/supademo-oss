@@ -20,8 +20,8 @@ export default function AboutPage() {
       <section className="prose prose-neutral dark:prose-invert">
         <h2>Nossa história</h2>
         <p>
-          A EasyDemo começou em 2025 quando o Alex, então PM numa startup de fintech, ficou cansado de
-          gravar a mesma demo em Loom toda semana. Existiam ferramentas gringas boas — Supademo,
+          A EasyDemo começou em 2025 quando o Alex, então PM numa startup de fintech, ficou cansado
+          de gravar a mesma demo em Loom toda semana. Existiam ferramentas gringas boas — Supademo,
           Guideflow, Storylane — mas o checkout era em USD, a NF-e não existia, e o player não
           falava pt-BR direito.
         </p>
