@@ -134,6 +134,11 @@ async function main() {
   }
 
   // 5) Plans
+  // Espelha `docs/MVP-PLAN.md` §5 e o bloco `pricing_brl` de
+  // `specs/mvp-scope.json`. `maxViewsPerMonth: null` = ilimitado (decisão D1
+  // — cobrança por creator seat, nunca por viewer). A migration
+  // 0004_flat_plans.sql é a que materializa isso no banco; este seed existe
+  // para o banco recem-criado, que já vem com os planos seedados.
   await db
     .insert(plans)
     .values([
@@ -142,36 +147,75 @@ async function main() {
         namePtBr: "Free",
         nameEn: "Free",
         priceBrlCents: 0,
+        maxCreators: 1,
+        maxDemos: 3,
         maxStepsPerDemo: 10,
-        maxLeadsPerMonth: 0,
-        maxViewsPerMonth: 50,
+        maxLeadsPerMonth: 20,
+        maxViewsPerMonth: null,
         ttsMinutesPerMonth: 0,
         aiTextRequestsPerMonth: 0,
-        features: ["3 demos", "links 30d", "analytics anônimo"],
+        linkTtlDays: 30,
+        customDomain: false,
+        watermarkOnCta: true,
+        leadForm: true,
+        features: [
+          "3 demos",
+          "10 steps/demo",
+          "views ilimitadas",
+          "20 leads/mês",
+          "links 30d",
+          "analytics anônimo",
+        ],
       },
       {
         id: "pro",
         namePtBr: "Pro",
         nameEn: "Pro",
         priceBrlCents: 4900,
+        maxCreators: 1,
+        maxDemos: null,
         maxStepsPerDemo: 30,
         maxLeadsPerMonth: 100,
-        maxViewsPerMonth: 5000,
+        maxViewsPerMonth: null,
         ttsMinutesPerMonth: 30,
         aiTextRequestsPerMonth: 500,
-        features: ["Demos ilimitados", "100 leads/mês", "PIX + boleto + cartão"],
+        linkTtlDays: 30,
+        customDomain: false,
+        watermarkOnCta: false,
+        leadForm: true,
+        features: [
+          "Demos ilimitados",
+          "30 steps/demo",
+          "views ilimitadas",
+          "100 leads/mês",
+          "30 min TTS",
+          "PIX + boleto + cartão",
+        ],
       },
       {
         id: "business",
         namePtBr: "Business",
         nameEn: "Business",
         priceBrlCents: 19900,
+        maxCreators: 3,
+        maxDemos: null,
         maxStepsPerDemo: 60,
         maxLeadsPerMonth: null,
-        maxViewsPerMonth: 50000,
+        maxViewsPerMonth: null,
         ttsMinutesPerMonth: 200,
         aiTextRequestsPerMonth: 2000,
-        features: ["Custom domain", "CRM BR", "Branching", "White-label", "Suporte 24h"],
+        linkTtlDays: 30,
+        customDomain: true,
+        watermarkOnCta: false,
+        leadForm: true,
+        features: [
+          "Custom domain",
+          "Views ilimitadas",
+          "Leads ilimitados",
+          "Branching",
+          "White-label",
+          "Suporte 24h",
+        ],
       },
     ])
     .onConflictDoNothing();

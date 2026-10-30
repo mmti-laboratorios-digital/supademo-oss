@@ -7,7 +7,7 @@
   "progress_doc": "docs/MVP-PROGRESS.md",
   "progress_doc_note": "Log append-only do que já foi feito e por quê. Uma entrada por fase concluída. Ao terminar uma fase, adicionar entrada ao final e atualizar a tabela Status atual no topo.",
   "plan_doc_note": "Fonte canônica do MVP (escopo, fases, gates, decisões D1-D12). Este arquivo é o par machine-readable: pricing, limites e fases devem espelhar o plan_doc. DPO/legais e o job check-dpo-placeholders ficam fora deste arquivo.",
-  "plan_status": "planned — pricing e limites abaixo descrevem o ESTADO ALVO, a implementar na migration 0004_flat_plans.sql (fase F0). Até lá, o schema em apps/web/db/schema/app.ts ainda reflecte o modelo antigo com max_views_per_month. O gate G0.5 valida que o banco bate com este bloco antes de qualquer outra fase.",
+  "plan_status": "pricing flat IMPLEMENTADO na fase F0 (migration 0004_flat_plans.sql + apps/web/lib/plans.ts). O bloco pricing_brl abaixo é o estado ALVO e materializado: a tabela app.plans foi seedada com esses valores e o gate G0.5 valida que getPlanLimits() devolve exatamente o que está aqui. Módulos que precisam de limite devem ler apps/web/lib/plans.ts, nunca app.plans direto.",
   "mvp_features": [
     "Cadastro por e-mail + Google OAuth + magic link (Better-Auth, cookie httpOnly)",
     "Captura via extensão Chrome MV3 (screenshot-based, sem tabCapture no MVP)",
@@ -99,10 +99,23 @@
   },
   "pricing_brl": {
     "model": "preço fechado por plano, creators inclusos. Views ilimitadas em todos os planos (incl. Free) — cobrança por creator seat, nunca por viewer. Ver decisão D1 em docs/MVP-PLAN.md.",
+    "source": "docs/MVP-PLAN.md §5 · tabela app.plans (seed da migration 0004_flat_plans.sql) · apps/web/lib/plans.ts",
+    "gate": "G0.5 — getPlanLimits(plan) tem que bater com pricing_brl[plan]: max_creators, price (price_monthly × 100) e cada chave de limits.",
+    "null_means": "ilimitado",
+    "notes": [
+      "max_views_per_month: a coluna é mantida e vale NULL nos 3 planos (NULL = ilimitado, decisão D1). DROP COLUMN em tabela populada é destrutivo e desnecessário — ver migration 0004_flat_plans.sql.",
+      "custom_domain: true no Business vem do §5 (plano comercial). A implementação do domínio customizado é V2 (§4.2), então o flag não habilita nada até a fase existir.",
+      "tts_minutes_per_month e ai_text_requests_per_month: colunas que já existiam desde a migration 0000. As features correspondentes são Fase 2 (§4.2) — os limites são a promessa comercial de quando elas existirem.",
+      "branching, showcase e personalization_tokens: feature_flags false até a fase correspondente (§4.2). white_label é o branding no player, que entra no MVP (F7, §4.1)."
+    ],
     "free": {
-      "price": 0,
+      "price_monthly": 0,
+      "price_annual": 0,
       "currency": "BRL",
       "billing": "no_card",
+      "billing_methods": [],
+      "nfe": false,
+      "trial_days": 0,
       "max_creators": 1,
       "limits": {
         "max_demos": 3,
@@ -115,12 +128,21 @@
         "custom_domain": false,
         "watermark_on_cta": true,
         "lead_form": true
+      },
+      "feature_flags": {
+        "personalization_tokens": false,
+        "branching": false,
+        "showcase": false,
+        "white_label": false,
+        "webhooks_per_workspace": 0,
+        "members_in_workspace": 1
       }
     },
     "pro": {
       "price_monthly": 49,
       "price_annual": 490,
       "currency": "BRL",
+      "billing": "subscription",
       "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
       "trial_days": 14,
@@ -132,12 +154,16 @@
         "max_leads_per_month": 100,
         "tts_minutes_per_month": 30,
         "ai_text_requests_per_month": 500,
+        "link_ttl_days": 30,
         "custom_domain": false,
         "watermark_on_cta": false,
-        "lead_form": true,
+        "lead_form": true
+      },
+      "feature_flags": {
         "personalization_tokens": false,
         "branching": false,
         "showcase": false,
+        "white_label": false,
         "webhooks_per_workspace": 1,
         "members_in_workspace": 1
       }
@@ -146,8 +172,10 @@
       "price_monthly": 199,
       "price_annual": 1990,
       "currency": "BRL",
+      "billing": "subscription",
       "billing_methods": ["PIX", "boleto", "cartao"],
       "nfe": true,
+      "trial_days": 14,
       "max_creators": 3,
       "limits": {
         "max_demos": null,
@@ -156,12 +184,15 @@
         "max_leads_per_month": null,
         "tts_minutes_per_month": 200,
         "ai_text_requests_per_month": 2000,
+        "link_ttl_days": 30,
         "custom_domain": true,
         "watermark_on_cta": false,
-        "lead_form": true,
-        "personalization_tokens": true,
-        "branching": true,
-        "showcase": true,
+        "lead_form": true
+      },
+      "feature_flags": {
+        "personalization_tokens": false,
+        "branching": false,
+        "showcase": false,
         "white_label": true,
         "webhooks_per_workspace": 3,
         "members_in_workspace": 3
@@ -228,17 +259,17 @@
   "mvp_phases": [
     {
       "id": "PR1",
-      "name": "PR 1 — Rename (EasyDemo → EasyDemo)",
+      "name": "PR 1 — Rename da marca para EasyDemo",
       "parallel_with": "F0, F9",
       "deliverables": [
-        "npm scope @easydemo/* → @easydemo/* (3 pacotes + ~40 imports)",
-        "package root easydemo → easydemo",
-        "49 URLs easydemo.io → easydemo.io (+ app. api. docs. webhooks.)",
-        "Docker tags easydemo/* → easydemo/*",
-        "Banco supademo → easydemo (infra/postgres/init-roles.sql, docker-compose)",
-        "195 arquivos versionados, 1618 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
+        "npm scope do produto → @easydemo/* (3 pacotes + ~40 imports)",
+        "package root → easydemo",
+        "domínio do produto → easydemo.io (+ app. api. docs. webhooks.)",
+        "Docker tags → easydemo/*",
+        "Banco local supademo → easydemo (infra/postgres/init-roles.sql, docker-compose) — só as ~52 ocorrências do nosso banco, nunca as do concorrente",
+        "195 arquivos versionados, ~1.600 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
       ],
-      "exit_criteria": "git grep -in easydemo retorna 0 no versionado; lint + typecheck + 152 testes + build verdes.",
+      "exit_criteria": "grep da marca antiga = 0 nos arquivos de conteúdo (comando exato em docs/MVP-PLAN.md §9, que exclui os 3 arquivos que documentam o rename); lint + typecheck + 152 testes + build verdes.",
       "success_metric": "G0",
       "gate": "G0"
     },
@@ -247,8 +278,8 @@
       "name": "F0 — Pricing flat + views ilimitadas",
       "depends_on": ["PR1"],
       "deliverables": [
-        "Migration 0004_flat_plans.sql (drop max_views_per_month, add max_creators, lead_form no Free, seeds)",
-        "apps/web/lib/plans.ts (getPlanLimits, assertWithinLimits)",
+        "Migration 0004_flat_plans.sql (manter max_views_per_month e setar NULL nos 3 planos, add max_creators/link_ttl_days/custom_domain/watermark_on_cta/lead_form, seeds da §5)",
+        "apps/web/lib/plans.ts (getPlanLimits, assertWithinLimits, countWorkspaceResources)",
         "specs/mvp-scope.json pricing_brl atualizado"
       ],
       "exit_criteria": "Migration aplica sem erro; getPlanLimits retorna maxViewsPerMonth null e leadForm true; assertWithinLimits bloqueia 4º demo e 21º lead no Free.",
@@ -402,7 +433,7 @@
     {
       "id": "G0",
       "name": "Rename limpo",
-      "criteria": "git grep -in easydemo = 0; CI verde",
+      "criteria": "grep da marca antiga = 0 nos arquivos de conteúdo (comando exato em docs/MVP-PLAN.md §9, que exclui os 3 arquivos que documentam o rename); CI verde",
       "phase": "PR1"
     },
     {
