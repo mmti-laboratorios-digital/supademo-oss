@@ -186,5 +186,5 @@ instale manualmente via usuário (sem `--with-deps`):
 - [Playwright — `install`](https://playwright.dev/docs/browsers#install-browsers)
 - [Playwright — Linux deps](https://playwright.dev/docs/browsers#install-system-dependencies)
 - [Playwright Docker — `mcr.microsoft.com/playwright`](https://playwright.dev/docs/docker)
-- Report de execução real: [`setup-report/PHASE-3-e2e.md`](../../setup-report/PHASE-3-e2e.md)
-- Report desta decisão: [`setup-report/PHASE-11-playwright-deps.md`](../../setup-report/PHASE-11-playwright-deps.md)
+- Report de execução real: [`setup-report/PHASE-3-e2e.md`](../../../setup-report/PHASE-3-e2e.md)
+- Report desta decisão: [`setup-report/PHASE-11-playwright-deps.md`](../../../setup-report/PHASE-11-playwright-deps.md)

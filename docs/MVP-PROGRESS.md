@@ -175,3 +175,58 @@ paths citados no plano → 77 existem, 12 a criar (marcados 🆕), 0 problemas
 - [ ] `marketing/CASE-STUDIES/` tem 3 estudos **fictícios** → bloqueante de
       lançamento público (F10)
 - [ ] `EMAIL_DPO` no `.env.example` sem valor real → depende da contratação
+
+### 2026-10-29 — Higiene de docs — links, .gitignore e mapa de documentação
+
+**Estado:** ✅ concluída
+**Branch:** `fix/docs-hygiene` · **Commit:** (este commit) · **Gate:** — (pré-G0, não é fase de MVP)
+
+**O que passou a funcionar**
+- Os 157 links relativos de todos os `.md` do repo resolvem. Antes, 3 apontavam
+  para arquivo inexistente.
+- `infra/cloud-init.yaml` não pode mais ser commitado por acidente depois de um
+  provisioning.
+- O mapa de docs cobre 11 diretórios e 141 arquivos `.md` — os 3 arquivos soltos
+  (`apps/web/tests/setup-playwright.md`, `apps/web/a11y/REPORT.md`,
+  `tests/COVERAGE-REPORT.md`) e o `setup-report/` (24 arquivos) entraram no mapa.
+
+**Arquivos modificados**
+- `apps/web/tests/setup-playwright.md` — 2 links com off-by-one: de
+  `apps/web/tests/`, `../../setup-report/` resolve em `apps/setup-report/`;
+  o certo é `../../../setup-report/`. Os 2 arquivos existem na raiz.
+- `infra/hetzner/README.md` — o link `../cloud-init.yaml` apontava pra um
+  artefato gerado em runtime (não versionado). Virou referência explícita,
+  com o caminho do template versionado ao lado.
+- `.gitignore` — `infra/cloud-init.yaml` ignorado. O arquivo embute a **chave
+  SSH pública do dev** e o **domínio de produção** (verificado: não embute
+  senha de banco nem token), e um `git add -A` depois do provisioning commitaria
+  os dois.
+- `docs/README.md` — contagem corrigida (128 → 141 arquivos, 8 → 11 diretórios),
+  `setup-report/` e os 3 arquivos soltos mapeados, status dos PRs atualizado
+  (#29, #30, #31).
+
+**Decisões tomadas durante a execução**
+- **D1:** o link pro `cloud-init.yaml` gerado virou **code span** em vez de link.
+  O arquivo não existe no repo — um link é sempre quebrado até o primeiro
+  provisioning, e um code span comunica "esse arquivo aparece em runtime"
+  sem quebrar o link-checker.
+- **D2:** `setup-report/` entrou no mapa como **histórico, não editável** —
+  igual ao `research/`. São relatórios de sessões passadas.
+
+**Armadilhas / o que a fase ensina**
+- **Link relativo com profundidade errada passa despercebido.** O arquivo
+  apontado existia, então uma conferência por "o arquivo existe?" dava false
+  positive. O que quebra é a **resolução do caminho relativo** — só se
+  resolvendo contra a raiz do repo.
+- **Os 24 "links quebrados" dos templates de marketing não são bug** — são tags
+  de merge (`{{link_retry}}`, `{{calendly_link}}`) que o merge tool substitui.
+  Não "consertar": quebraria o template.
+
+**Validação rodada**
+```
+links relativos (157 checados, todos os .md)  → 0 quebrados
+git check-ignore -v infra/cloud-init.yaml   → .gitignore:80
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] Nenhum — os 3 links e o `.gitignore` foram corrigidos aqui.

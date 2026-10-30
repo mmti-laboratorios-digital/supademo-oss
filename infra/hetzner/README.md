@@ -294,7 +294,9 @@ hcloud server delete demobr-prod-01
 
 - Script autoritativo: [`scripts/provision-hetzner.sh`](../../scripts/provision-hetzner.sh)
 - Relatório de validação: [`setup-report/PHASE-4-hetzner.md`](../../setup-report/PHASE-4-hetzner.md)
-- Cloud-init gerado (em runtime): [`../cloud-init.yaml`](../cloud-init.yaml)
+- Cloud-init gerado (em runtime, **não versionado**): `infra/cloud-init.yaml` —
+  criado por `scripts/provision-hetzner.sh`. Não está no repo; use a referência
+  versionada abaixo como template.
 - Cloud-init referência (versionado): [`cloud-init.example.yaml`](./cloud-init.example.yaml)
 - Setup Cloudflare (R2 + DNS): [`scripts/setup-cloudflare.sh`](../../scripts/setup-cloudflare.sh)
 - Hetzner pricing: <https://www.hetzner.com/cloud>
