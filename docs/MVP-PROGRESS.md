@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | — (nenhuma; pronto pra começar) |
-| **Última fase concluída** | — (preparação) |
-| **Próxima fase** | **PR1** — rename DemoBR → EasyDemo |
-| **Próximo passo** | `PR1.1` — criar a branch `chore/rename-easydemo` |
+| **Fase em andamento** | **F0** — concluída, PR aberto (aguardando merge) |
+| **Última fase concluída** | **F0** — Pricing flat + views ilimitadas (gate G0.5 ✅) |
+| **Próxima fase** | **F1** — Publicação real (gate G1) — só depois do merge do F0 |
+| **Próximo passo** | `F1.1` — rota `/demos/new` (hoje retorna 404) |
 | **Bloqueios** | nenhum |
-| **Branch** | `chore/rename-easydemo` (criar) → 1 branch por fase |
-| **Gate atual** | G0 (rename) |
-| **Passos concluídos** | 0 / 86 |
+| **Branch** | `feat/f0-pricing-flat` (PR aberto) → 1 branch por fase |
+| **Gate atual** | G0.5 (pricing) ✅ → próximo G1 (publicação) |
+| **Passos concluídos** | 17 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -433,3 +433,130 @@ links relativos (158, todos os .md)                              → 0 quebrados
 - [ ] A CI não builda a extensão Chrome — adicionar um job `pnpm extension:build`
 - [ ] `host_permissions: ["<all_urls>"]` no `wxt.config.ts` — revisar na F9 (o
       plano da F9 diz para não pedir `<all_urls>`; hoje está pedido)
+
+### 2026-10-30 — F0 — Pricing flat + views ilimitadas
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f0-pricing-flat` · **Commit:** (este PR) · **Gate:** G0.5
+
+**O que passou a funcionar**
+- O modelo de cobrança é **preço fechado por plano, com views ilimitadas nos 3
+  planos** (decisão D1). O `app.plans` no banco passou a ser a fonte de verdade
+  dos limites: **Free** R$0 (1 creator, 3 demos, 10 steps/demo, 20 leads/mês,
+  lead form ligado, watermark no CTA) · **Pro** R$49 (demos ilimitados, 30
+  steps/demo, 100 leads/mês) · **Business** R$199 (3 creators, 60 steps/demo,
+  leads ilimitados, domínio customizado).
+- **`apps/web/lib/plans.ts` enforcement de verdade**: `assertWithinLimits(
+  workspaceId, resource, count)` rejeita o 4º demo, o 21º lead e o 11º step no
+  Free, com `PlanLimitError` em PT-BR apontando o upgrade. `countWorkspaceResources`
+  conta o consumo com RLS — um tenant não enxerga o consumo de outro.
+- **O gate G0.5 virou automático.** `apps/web/lib/__tests__/plans.test.ts`
+  compara o que está no banco com `specs/mvp-scope.json` → `pricing_brl` (36
+  campos). O pricing não diverge mais do spec sem quebrar o build.
+
+**Arquivos criados**
+- `apps/web/db/migrations/0004_flat_plans.sql` — 5 colunas novas
+  (`max_creators`, `link_ttl_days`, `custom_domain`, `watermark_on_cta`,
+  `lead_form`), `max_views_per_month` mantida e setada `NULL` nos 3 planos, e
+  os seeds dos 3 planos com os valores da §5.
+- `apps/web/lib/plans.ts` — `getPlanLimits`, `assertWithinLimits`,
+  `countWorkspaceResources`, `getWorkspacePlanId`, `PlanLimitError`.
+- `apps/web/lib/__tests__/plans.test.ts` — 11 casos: gate G0.5, os 3 planos com
+  views ilimitadas, rejeição do 4º demo / 21º lead / 11º step, Business sem
+  limite, e a contagem com RLS entre tenants.
+
+**Arquivos modificados**
+- `apps/web/db/schema/app.ts` — tabela `plans` com as 5 colunas novas.
+- `apps/web/db/migrations/meta/_journal.json` — entry `0004_flat_plans`.
+- `specs/mvp-scope.json` — `pricing_brl` reescrito para espelhar a §5;
+  `plan_status` atualizado; corrigidos 3 artefatos corrompidos pelo rename.
+- `scripts/seed.ts` — o seed dos planos ainda gravava o modelo antigo de
+  view-cap (50 / 5.000 / 50.000 views, Free com 0 leads).
+- `packages/shared/src/types/billing.ts` — o tipo `Plan` espelha a §5.
+
+**Decisões tomadas durante a execução**
+- **`max_views_per_month` NÃO foi dropada.** A §5 manda manter e setar `NULL`
+  (é o que significa "ilimitado"). `DROP COLUMN` em tabela populada é destrutivo
+  e irreversível sem dump, e o código precisa distinguir "ilimitado" de "zero".
+- **`count` em `assertWithinLimits` é a quantidade pós-operação.** Assim o
+  critério de aceite do gate é literal: `assertWithinLimits(ws, "demo", 4)`
+  rejeita o 4º demo. O caller conta e soma 1.
+- **5 colunas novas, não 2.** O gate G0.5 só nomeia `max_creators` e `lead_form`,
+  mas a §5 tem 10 limites e exige que `getPlanLimits()` devolva *exatamente* o
+  `pricing_brl`. `link_ttl_days`, `custom_domain` e `watermark_on_cta` também
+  precisam morar em coluna — senão voltariam pelo `features` jsonb, que é uma
+  lista de strings de marketing, impossível de parsear com segurança.
+- **`pricing_brl.limits` passou a ser exatamente o que o banco guarda**; os flags
+  de feature foram para `feature_flags`. E os flags de Fase 2 (§4.2) estão
+  `false`: o Business "inclui" branching, mas branching não existe no MVP —
+  dizer o contrário é vender feature que não existe.
+- **Corrigi 3 artefatos corrompidos pelo rename no `specs/mvp-scope.json`**:
+  "PR 1 — Rename (EasyDemo → EasyDemo)", "npm scope @easydemo/* →
+  @easydemo/*" e o critério do G0 ("git grep -in easydemo = 0" — que hoje
+  procuraria a marca **nova** e acharia milhares de acertos). O texto foi
+  reescrito **sem** o token da marca antiga, porque o gate G0 faz `git grep`
+  dela e `specs/mvp-scope.json` não está na lista de exclusão.
+- **O deliverable da F0 no spec mandava "drop max_views_per_month"** — contradiz
+  a §5 e a nota do plano. Corrigido para "manter e setar NULL".
+- **`custom_domain: true` no Business é uma tensão conhecida** entre a §5
+  (plano comercial) e a §4.2 (domínio customizado é V2). Segui a §5, que é o
+  contrato da fase, e registrei a tensão no bloco `notes` do spec.
+
+**Armadilhas / o que a fase ensina**
+- **O seed `0000_init.sql` nunca setou os limites.** O `INSERT` trazia só `id,
+  name_pt_br, name_en, price_brl_cents, features` — as colunas `max_demos`,
+  `max_leads_per_month` etc. existiam, mas ficavam `NULL`. Ou seja: **até a
+  0004, o "Free" do banco não limitava nada** (`max_demos NULL` = ilimitado).
+  A 0004 é o que dá sentido à coluna.
+- **`name_pt_br` do plano Pro era `'Business'`** (erro do seed original) —
+  corrigido na 0004.
+- **A migration precisa de `--> statement-breakpoint`.** O drizzle-kit 0.28
+  divide o arquivo por esse marcador; sem ele o arquivo inteiro vira um
+  statement só.
+- **Snapshot não é obrigatório.** `meta/` só tem snapshot de 0000 e 0001; 0002 e
+  0003 são SQL escrito à mão sem snapshot e o `drizzle-kit migrate` aplica os
+  dois. A 0004 segue o mesmo padrão.
+- **`drizzle-kit migrate` usa o driver `pg`, não o `postgres.js` do runtime.**
+  São duas conexões diferentes: `DIRECT_URL` (app_owner) para migration,
+  `DATABASE_URL` (app_user, RLS) para runtime.
+- **O gate compara o BANCO com o SPEC, não o código com o spec.** Se usasse só
+  `getPlanLimits()`, um bug no mapper passaria despercebido — o check do G0.5
+  consulta o banco via SQL e compara com o JSON.
+- **`count()` do Drizzle devolve `number`** (tem `mapWith(Number)`), mas o
+  TypeScript tipa o destructuring como possivelmente `undefined` — precisa de
+  `row?.value ?? 0`.
+- **O banco local da máquina se chama `supademo`** (o `.env` é anterior ao
+  rename e é gitignored) enquanto o docker-compose usa `easydemo`. Não é
+  inconsistência do repo; a 0004 roda nos dois.
+
+**Validação rodada**
+```
+pnpm --filter web db:migrate                → 0004 aplicada; 2ª rodada idempotente
+G0.5: app.plans vs specs/mvp-scope.json     → 36/36 campos (12 × 3 planos)
+getPlanLimits("free")                        → maxViewsPerMonth null, leadForm true
+assertWithinLimits(ws,"demo",4)              → PlanLimitError (Free)
+assertWithinLimits(ws,"lead",21)             → PlanLimitError (Free)
+assertWithinLimits(ws,"demo",9999)           → ok (Business, ilimitado)
+pnpm lint                                    → 214 arquivos, 0 erros
+pnpm typecheck                               → 4/4 pacotes
+pnpm test                                    → 163/163 (152 + 11 novos)
+pnpm build                                   → verde
+grep da marca antiga                         → 0
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] **As páginas de marketing e o painel de billing ainda anunciam o modelo
+      antigo** — "50 views/mês", "5.000 views/mês", "50.000 views/mês" em
+      `apps/web/app/(marketing)/content/pricing-detail.mdx`, `home.mdx`, no
+      blog comparativo e em `apps/web/app/(app)/billing/page.tsx`. O §8 da F0
+      proíbe mexer nisso (é F4), mas até lá o produto vende views ilimitadas e
+      o site diz o contrário. **É o item mais visível do débito.**
+- [ ] `assertWithinLimits` ainda não é chamado em lugar nenhum — o enforcement
+      entra de fato na F4 (criar demo / step / lead).
+- [ ] `app.plans.features` continua sendo uma lista de strings de marketing,
+      enquanto a matriz de features por plano vive no `pricing_brl.feature_flags`
+      do spec. Na F4, decidir se os dois se fundem.
+- [ ] O tipo `Plan` do `@easydemo/shared` foi atualizado, mas nada o consome
+      ainda — a F4 vai precisar dele (ou do `PlanLimits` do `lib/plans.ts`).
+- [ ] `custom_domain: true` no Business (com a feature em V2, §4.2) continua
+      como tensão conhecida.
