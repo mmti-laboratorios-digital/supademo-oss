@@ -29,7 +29,7 @@ $ git log --all -S "postgres:17-alpine" -- infra/
 (vazio — o compose NUNCA usou 17)
 
 $ git log --all -S "postgres:16-alpine" -- infra/
-cc36a17 feat: initial scaffold — DemoBR v1.0
+cc36a17 feat: initial scaffold — EasyDemo v1.0
 ```
 
 O `17` **nunca foi implementado**. Ele entrou por draft em 2 dos 6 arquivos de

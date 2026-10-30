@@ -1,5 +1,5 @@
 # =============================================================================
-# DemoBR — CI workflow
+# EasyDemo — CI workflow
 # Triggers: push em main, PR contra main
 # Jobs: lint → typecheck → test → build → lighthouse-budget
 # =============================================================================
@@ -62,10 +62,10 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # Check DPO placeholders (bloqueador de publicação até contratação formal)
-  # Falha o CI se restar placeholder@demobr.com.br, DPO_NAME_AQUI,
+  # Falha o CI se restar placeholder@easydemo.io, DPO_NAME_AQUI,
   # [NOME_DO_DPO] ou {nome_do_DPO} em legal/.
   #
-  # DESATIVADO POR ORA — DemoBR ainda está em desenvolvimento e não há DPO
+  # DESATIVADO POR ORA — EasyDemo ainda está em desenvolvimento e não há DPO
   # contratado. Reativar antes do go-live comercial. Ver legal/DPO.md.
   # ---------------------------------------------------------------------------
   # check-dpo-placeholders:
@@ -96,7 +96,7 @@ jobs:
         env:
           POSTGRES_USER: app
           POSTGRES_PASSWORD: app
-          POSTGRES_DB: supademo
+          POSTGRES_DB: easydemo
         ports: ["5432:5432"]
         options: >-
           --health-cmd "pg_isready -U app"
@@ -105,10 +105,10 @@ jobs:
           --health-retries 10
     env:
       # Runtime: app_user (RLS-enforced)
-      DATABASE_URL: postgres://app_user:demobr@localhost:5432/supademo
+      DATABASE_URL: postgres://app_user:easydemo@localhost:5432/easydemo
       # Migrations: app_owner (BYPASSRLS). CI cria roles app_owner/readonly
       # via steps/setup-pg-roles abaixo antes de rodar migrations.
-      DIRECT_URL:   postgres://app_owner:demobr@localhost:5432/supademo
+      DIRECT_URL:   postgres://app_owner:easydemo@localhost:5432/easydemo
       # Clerk — placeholder (Playwright publica-only pages não usa auth)
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ci_placeholder
       CLERK_SECRET_KEY: sk_test_ci_placeholder
@@ -144,24 +144,24 @@ jobs:
           # CI roda como `app` (superset do app_user com CREATEROLE)
           PGPASSWORD: app
         run: |
-          psql -h localhost -U app -d supademo -v ON_ERROR_STOP=1 <<SQL
+          psql -h localhost -U app -d easydemo -v ON_ERROR_STOP=1 <<SQL
             DO \$\$
             BEGIN
               IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_owner') THEN
-                CREATE ROLE app_owner LOGIN PASSWORD 'demobr' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+                CREATE ROLE app_owner LOGIN PASSWORD 'easydemo' NOSUPERUSER NOCREATEDB NOCREATEROLE;
               END IF;
               IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'readonly') THEN
-                CREATE ROLE readonly LOGIN PASSWORD 'demobr' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+                CREATE ROLE readonly LOGIN PASSWORD 'easydemo' NOSUPERUSER NOCREATEDB NOCREATEROLE;
               END IF;
               IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_user') THEN
-                CREATE ROLE app_user LOGIN PASSWORD 'demobr' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+                CREATE ROLE app_user LOGIN PASSWORD 'easydemo' NOSUPERUSER NOCREATEDB NOCREATEROLE;
               END IF;
             END
             \$\$;
             ALTER ROLE app_owner BYPASSRLS;
             ALTER ROLE app_user NOBYPASSRLS;
-            GRANT CONNECT ON DATABASE supademo TO app_owner, app_user, readonly;
-            GRANT CREATE ON DATABASE supademo TO app_owner;
+            GRANT CONNECT ON DATABASE easydemo TO app_owner, app_user, readonly;
+            GRANT CREATE ON DATABASE easydemo TO app_owner;
           SQL
       - run: pnpm --filter web db:migrate
       - name: Test Row-Level Security (multi-tenant isolation)
@@ -214,7 +214,7 @@ jobs:
         with:
           context: .
           file: apps/web/Dockerfile
-          tags: demobr/web:${{ github.sha }}
+          tags: easydemo/web:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           load: true
@@ -223,7 +223,7 @@ jobs:
         with:
           context: .
           file: Dockerfile.worker
-          tags: demobr/worker:${{ github.sha }}
+          tags: easydemo/worker:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           load: true
@@ -245,7 +245,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @demo.br/player build
+      - run: pnpm --filter @easydemo/player build
       - name: Measure gzipped bundle
         id: bundle
         run: |

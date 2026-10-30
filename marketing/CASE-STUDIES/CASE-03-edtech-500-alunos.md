@@ -13,7 +13,7 @@
 | **Empresa** | Edtech Z (cursos online para PMs e devs) |
 | **Setor** | Edtech |
 | **Funcionários** | 25 |
-| **Plano DemoBR usado** | Business (R$ 199/mês) |
+| **Plano EasyDemo usado** | Business (R$ 199/mês) |
 | **Resultado principal** | **500 alunos ativados em 30 dias** sem reuniões + **−80% calls de onboarding** |
 | **Período** | 6 semanas (jul–ago/2026) |
 
@@ -56,14 +56,14 @@ O **onboarding era manual**: aluno novo recebia email + era convidado pra 1 call
 
 ## Solução
 
-Edtech Z adotou **DemoBR Business** em julho/2026 com 2 focos:
+Edtech Z adotou **EasyDemo Business** em julho/2026 com 2 focos:
 
 1. **Substituir a call de onboarding** por demo interativa que aluno faz sozinho.
 2. **Embedar a demo** na área logada do aluno + no email de boas-vindas.
 
 ### Como fizeram
 
-| Recurso DemoBR | Como Edtech Z usou |
+| Recurso EasyDemo | Como Edtech Z usou |
 |---|---|
 | **Captura via extensão Chrome** | Gravou tour de "primeiros passos" do LMS (10 steps). |
 | **Branching condicional** | "Você é PM, dev ou growth?" → demo específica pra cada perfil. |
@@ -118,14 +118,14 @@ Dia 1: Demo interativa na área logada
 - **Economia de CS**: 80h/mês × R$ 60/h = **R$ 4.800/mês economizado**
 - **Receita incremental** (mais alunos completam módulo 1 → upgrade coaching): ~R$ 8.000/mês
 - **Total**: **~R$ 12.800/mês**
-- **Custo DemoBR Business**: R$ 199/mês
+- **Custo EasyDemo Business**: R$ 199/mês
 - **ROI**: **~64x**
 
 ---
 
 ## Screenshot conceitual
 
-> **Conceito do screenshot:** Tela do LMS Edtech Z com player DemoBR embedado mostrando onboarding por áudio (TTS pt-BR).
+> **Conceito do screenshot:** Tela do LMS Edtech Z com player EasyDemo embedado mostrando onboarding por áudio (TTS pt-BR).
 >
 > **Mockup textual:**
 >
@@ -134,7 +134,7 @@ Dia 1: Demo interativa na área logada
 > │ Edtech Z · Sua trilha começa aqui               │
 > ├──────────────────────────────────────────────────┤
 > │ ┌──────────────────────────────────────────┐    │
-> │ │  [Player DemoBR embedado]                │    │
+> │ │  [Player EasyDemo embedado]                │    │
 > │ │   Etapa 3 de 10                           │    │
 > │ │   🎧 "Agora clique em 'Meus Cursos'..."  │    │
 > │ │   [▶ Play narration]  [⏭ Pular]          │    │
@@ -155,7 +155,7 @@ Dia 1: Demo interativa na área logada
 | Ação | Plano |
 |---|---|
 | Demo interativa por curso | Criar 12 demos (1 por curso) até Q1 2027 |
-| AI voice cloning PT-BR | Quando DemoBR lançar Q1 2027, clonar voz do mentor principal |
+| AI voice cloning PT-BR | Quando EasyDemo lançar Q1 2027, clonar voz do mentor principal |
 | Sandbox demo pra clientes B2B | Permitir aluno testar LMS antes de comprar (Q1 2027) |
 
 ---

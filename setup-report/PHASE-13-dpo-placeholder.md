@@ -1,29 +1,29 @@
-# 📋 Phase 13 — Placeholder DPO — DemoBR
+# 📋 Phase 13 — Placeholder DPO — EasyDemo
 
 > **Sumário da Mission 13 (preenchimento de placeholder de DPO +
 > documentos jurídicos pendentes)**, executada em **18/Out/2026** como
-> parte do trabalho pré-publicação jurídica da DemoBR.
+> parte do trabalho pré-publicação jurídica da EasyDemo.
 >
 > **Status**: 🟡 **Estrutura criada — placeholders ativos por
 > design**. A contratação formal do DPO é responsabilidade do
-> **usuário humano** (sócios da DemoBR LTDA), não do subagente.
+> **usuário humano** (sócios da EasyDemo LTDA), não do subagente.
 
 ---
 
 ## 1. Contexto
 
-A DemoBR é um SaaS de demos interativas que trata dados pessoais
+A EasyDemo é um SaaS de demos interativas que trata dados pessoais
 de múltiplas categorias (creators, leads, visitantes). A LGPD
 (Lei 13.709/2018) art. 41 obriga **todo agente de tratamento** a
 nomear um **Encarregado de Proteção de Dados** (comumente chamado
 **DPO**, nomenclatura herdada do GDPR).
 
 A ausência de nomeação válida é infração administrativa
-sancionável pela ANPD. Até a contratação formal do DPO, a DemoBR
+sancionável pela ANPD. Até a contratação formal do DPO, a EasyDemo
 **não pode publicar a política de privacidade** com nome/e-mail
 pessoal inventados — daí o uso de **placeholders honestos**:
 
-- `placeholder@demobr.com.br` (canal de e-mail com encaminhamento
+- `placeholder@easydemo.io` (canal de e-mail com encaminhamento
   para a liderança)
 - `DPO_NAME_AQUI`, `[NOME_DO_DPO]`, `{nome_do_DPO}` (para nome)
 
@@ -65,7 +65,7 @@ humano precisa fazer** quando o DPO for contratado.
 
 ### 3.1 Quem
 
-- **Sócios / CEO** da DemoBR LTDA — aprovam a contratação.
+- **Sócios / CEO** da EasyDemo LTDA — aprovam a contratação.
 - **CTO** — acompanha o onboarding técnico do DPO.
 - **DPO contratado** — após assinatura do contrato.
 
@@ -105,10 +105,10 @@ pnpm exec tsx scripts/check-dpo-missing.ts
 #      email.real@dpo.com.br      → e-mail real do DPO
 #    nos comandos abaixo
 
-# Padrão 1: placeholder@demobr.com.br → email.real@dpo.com.br
-grep -rl 'placeholder@demobr\.com\.br' legal/ \
+# Padrão 1: placeholder@easydemo.io → email.real@dpo.com.br
+grep -rl 'placeholder@easydemo\.io' legal/ \
   | grep -vE '(DPO\.md|DPO-PROCESS\.md|ADVOGADO-CHECKLIST\.md|CHANGELOG-DPO\.md|README\.md)' \
-  | xargs sed -i 's|placeholder@demobr\.com\.br|email.real@dpo.com.br|g'
+  | xargs sed -i 's|placeholder@easydemo\.io|email.real@dpo.com.br|g'
 
 # Padrão 2: {nome_do_DPO} → nome real
 grep -rl '{nome_do_DPO}' legal/ \
@@ -146,8 +146,8 @@ Substitua o bloco "Status atual" por:
 - **E-mail**: email.real@dpo.com.br
 - **Telefone**: +55 (XX) XXXXX-XXXX *(opcional)*
 - **CPF**: XXX.XXX.XXX-XX *(sigiloso, visível apenas à ANPD)*
-- **Página pública**: https://www.demobr.com.br/dpo
-- **Formulário DSR**: https://app.demobr.com.br/privacidade/solicitacao
+- **Página pública**: https://www.easydemo.io/dpo
+- **Formulário DSR**: https://app.easydemo.io/privacidade/solicitacao
 
 **Histórico de nomeações:**
 
@@ -155,7 +155,7 @@ Substitua o bloco "Status atual" por:
 |---------|-------------|------------|
 | DD/MMM/AAAA → atual | NOME_DO_DPO_REAL | Primeira nomeação formal (LGPD art. 41) |
 
-O encarregado é o canal oficial de comunicação entre a DemoBR, os
+O encarregado é o canal oficial de comunicação entre a EasyDemo, os
 titulares e a **ANPD (Autoridade Nacional de Proteção de Dados)**.
 ```
 
@@ -183,7 +183,7 @@ Substitua o placeholder pela entrada definitiva:
 
 E remova a nota "PENDENTE de contratação formal".
 
-#### d) Página `https://www.demobr.com.br/dpo`
+#### d) Página `https://www.easydemo.io/dpo`
 
 Publicar a página com:
 
@@ -206,7 +206,7 @@ disponível em https://www.gov.br/anpd/ (quando habilitado).
 [ ] `legal/privacy-policy.md` §11 editado manualmente (ver §4.2a)
 [ ] `legal/CHANGELOG-DPO.md` §4 + §1 atualizados (ver §4.2b)
 [ ] `legal/README.md` §Contato atualizado (ver §4.2c)
-[ ] `https://www.demobr.com.br/dpo` publicada (ver §4.2d)
+[ ] `https://www.easydemo.io/dpo` publicada (ver §4.2d)
 [ ] Comunicação à ANPD enviada (ver §4.2e)
 [ ] `pnpm exec tsx scripts/check-dpo-missing.ts` retorna exit 0
 [ ] CI verde (job `check-dpo-placeholders` passa)
@@ -225,7 +225,7 @@ O subagente que executou esta mission **NÃO**:
 - ❌ Inventou OAB para o DPO.
 - ❌ Publicou os documentos com status "Vigente" (continuam como
   "Modelo (rascunho)").
-- ❌ Comunicou nomeação à ANPD em nome da DemoBR (responsabilidade
+- ❌ Comunicou nomeação à ANPD em nome da EasyDemo (responsabilidade
   legal do controlador).
 - ❌ Substituiu o placeholder por nome real (responsabilidade do
   usuário humano).
@@ -239,7 +239,7 @@ O subagente **FEZ**:
 - ✅ Documentou **processo de contratação** em 4 fases + checklist
   de onboarding.
 - ✅ Documentou **SLAs** do DPO (DSR, ANPD, treinamento, reporte).
-- ✅ Substituiu `dpo@demobr.com.br` por `placeholder@demobr.com.br`
+- ✅ Substituiu `dpo@easydemo.io` por `placeholder@easydemo.io`
   em **9 documentos** (privacy-policy, dpa, dsr, cookie,
   subprocessors, incident-response, terms-of-service, rtbf-template,
   rtbf-data-export-schema.json).
@@ -273,7 +273,7 @@ false
 
 O script também cobre:
 
-- ✅ Detecção de `placeholder@demobr.com.br` em `.md` e `.json`.
+- ✅ Detecção de `placeholder@easydemo.io` em `.md` e `.json`.
 - ✅ Detecção de `DPO_NAME_AQUI`, `DPO_NAME`, `[NOME_DO_DPO]`,
   `{nome_do_DPO}` (case-sensitive e case-insensitive).
 - ✅ Whitelist para arquivos históricos (`DPO.md`, `DPO-PROCESS.md`,

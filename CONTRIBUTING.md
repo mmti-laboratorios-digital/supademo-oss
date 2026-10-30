@@ -1,6 +1,6 @@
-# Contributing to DemoBR
+# Contributing to EasyDemo
 
-Obrigado por contribuir com **DemoBR** — clone brasileiro do Supademo, focado no mercado PT-BR com PIX/boleto, LGPD de ponta a ponta e player em pt-BR.
+Obrigado por contribuir com **EasyDemo** — clone brasileiro do Supademo, focado no mercado PT-BR com PIX/boleto, LGPD de ponta a ponta e player em pt-BR.
 
 ## 🚦 Status atual
 
@@ -45,7 +45,7 @@ Todos devem passar antes de merge.
 - **`apps/extension`** — Chrome MV3 via WXT
 - **`apps/workers`** — graphile-worker (Postgres-only queue)
 - **`packages/shared`** — tipos, schemas Zod, i18n
-- **`packages/player`** — `@demo.br/player` (React publicável)
+- **`packages/player`** — `@easydemo/player` (React publicável)
 - **`packages/ui`** — primitives shadcn-style
 - **`infra/`** — docker-compose, postgres config, observability
 - **`scripts/`** — 14 scripts operacionais

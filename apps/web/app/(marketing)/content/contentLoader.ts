@@ -201,7 +201,7 @@ export async function loadBlogPost(file: string): Promise<ParsedBlogPost> {
       publishedAt: fm.publishedAt ?? new Date().toISOString(),
       category:
         (fm.category as BlogFrontmatter["category"]) ?? ("Guias" as BlogFrontmatter["category"]),
-      author: fm.author ?? "DemoBR",
+      author: fm.author ?? "EasyDemo",
       readingTimeMin: Number.parseInt(fm.readingTimeMin ?? "5", 10),
     },
     blocks: faq.length ? [...blocks, { type: "faq", items: faq }] : blocks,
@@ -233,7 +233,7 @@ export async function loadHomeContent(file = "home.mdx"): Promise<ParsedHome> {
   // O badge fica no <Hero badge="..." />, não no export const meta.
   const heroMatch = raw.match(/<Hero[\s\S]*?\/>/);
   const meta: HomeMeta = {
-    title: extractString(metaMatch?.[1], "title") ?? "DemoBR",
+    title: extractString(metaMatch?.[1], "title") ?? "EasyDemo",
     subtitle:
       extractString(metaMatch?.[1], "subtitle") ??
       "Demos interativas pra vender mais, sem uma reunião a mais.",

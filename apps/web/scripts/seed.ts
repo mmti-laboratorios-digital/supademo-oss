@@ -21,7 +21,7 @@ import postgres from "postgres";
 // -----------------------------------------------------------------------------
 // Convenção do projeto: porta 55432 no host (não 5432) — ver infra/docker-compose.yml.
 const DATABASE_URL =
-  process.env.DATABASE_URL ?? "postgres://app_user:app_user@localhost:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:app_user@localhost:55432/easydemo";
 
 if (!/^postgres(?:ql)?:\/\//.test(DATABASE_URL)) {
   console.error("❌ DATABASE_URL inválida:", DATABASE_URL);
@@ -137,13 +137,13 @@ async function main() {
       (${workspaceId}, 'demo', 'Demo Workspace', 'pt-BR', 'pro', '#0066FF', now(), now())
   `);
 
-  console.log("▶ Criando membro demo@demo.br…");
+  console.log("▶ Criando membro demo@easydemo.io…");
   const memberId = randomUUID();
   await db.execute(sql`
     INSERT INTO app.members
       (id, workspace_id, email, name, role, email_verified_at, created_at)
     VALUES
-      (${memberId}, ${workspaceId}, 'demo@demo.br', 'Demo User', 'owner', now(), now())
+      (${memberId}, ${workspaceId}, 'demo@easydemo.io', 'Demo User', 'owner', now(), now())
   `);
 
   // ---------------------------------------------------------------------------
@@ -160,7 +160,7 @@ async function main() {
        'Onboarding do CRM',
        'Tour de 5 passos mostrando o cadastro de lead, funil de vendas e relatórios do CRM fictício.',
        'published', 'pt-BR', true,
-       'Autorizo a DemoBR a me contatar sobre o CRM demonstrado, conforme LGPD.',
+       'Autorizo a EasyDemo a me contatar sobre o CRM demonstrado, conforme LGPD.',
        ${sql.json({ type: "whatsapp", url: "https://wa.me/5511999999999?text=Quero+conhecer+o+CRM", label: "Falar pelo WhatsApp" })}::jsonb,
        ${sql.json({ name: "Visitante", empresa: "Sua empresa" })}::jsonb,
        now(), now(), now())
@@ -228,7 +228,7 @@ async function main() {
        'Tour do produto',
        'Visão geral de 3 passos do produto principal.',
        'published', 'pt-BR', false, null,
-       ${sql.json({ type: "link", url: "https://app.demo.br", label: "Começar grátis" })}::jsonb,
+       ${sql.json({ type: "link", url: "https://app.easydemo.io", label: "Começar grátis" })}::jsonb,
        now(), now(), now())
   `);
 
@@ -276,7 +276,7 @@ async function main() {
        'Caso de uso SaaS',
        'Demo de 4 passos mostrando um caso de uso SaaS recorrente.',
        'draft', 'pt-BR', true,
-       'Autorizo a DemoBR a entrar em contato conforme LGPD.',
+       'Autorizo a EasyDemo a entrar em contato conforme LGPD.',
        ${sql.json({ type: "mailto", url: "mailto:contato@dominio.com.br", label: "Falar por e-mail" })}::jsonb,
        null, now(), now())
   `);
@@ -327,7 +327,7 @@ async function main() {
     VALUES
       (${randomUUID()}, ${workspaceId}, ${d1Id},
        'Maria Lead', 'maria@lead.com.br', '+5511988887777',
-       'Autorizo a DemoBR a me contatar sobre o CRM demonstrado, conforme LGPD.',
+       'Autorizo a EasyDemo a me contatar sobre o CRM demonstrado, conforme LGPD.',
        ${sql.json({ empresa: "Lead S/A", cargo: "Head de Vendas" })}::jsonb,
        now())
   `);
@@ -342,7 +342,7 @@ async function main() {
   console.log("✅ Seed concluído");
   console.log(banner);
   console.log("Workspace:    Demo Workspace (slug: demo)");
-  console.log("User:         demo@demo.br (role: owner)");
+  console.log("User:         demo@easydemo.io (role: owner)");
   console.log("Demos:");
   console.log("  • /d/onboarding-crm   (publicado, 5 steps, lead-form ON)");
   console.log("  • /d/tour-do-produto  (publicado, 3 steps, lead-form OFF)");

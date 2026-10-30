@@ -7,7 +7,7 @@
  * as funções PURAS — testáveis sem mockar fetch.
  */
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { SubscriptionStatus } from "@demo.br/shared";
+import type { SubscriptionStatus } from "@easydemo/shared";
 
 /**
  * Mapeia status Asaas → status interno (canonical).

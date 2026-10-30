@@ -3,8 +3,8 @@
      viewBox="0 0 1280 720"
      width="1280" height="720"
      role="img"
-     aria-label="DemoBR — YouTube thumbnail template">
-  <title>DemoBR — YouTube thumbnail template</title>
+     aria-label="EasyDemo — YouTube thumbnail template">
+  <title>EasyDemo — YouTube thumbnail template</title>
   <desc>Reusable YouTube thumbnail template. Title text centralizado reservado para edição.</desc>
 
   <defs>
@@ -91,7 +91,7 @@
           font-weight="600"
           fill="#FFFFFF"
           fill-opacity="0.85">
-      demobr.com.br
+      easydemo.io
       <tspan fill="#38B2AC" dx="14">#demosinterativas</tspan>
     </text>
   </g>

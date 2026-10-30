@@ -11,11 +11,11 @@
 ## ✉️ Modelo 1 — Primeiro contato (cold outreach)
 
 ```
-Assunto: DemoBR — revisão de modelos jurídicos (LGPD/SaaS) — orçamento estimado
+Assunto: EasyDemo — revisão de modelos jurídicos (LGPD/SaaS) — orçamento estimado
 
 Olá Dr(a). [NOME_DO_ADVOGADO],
 
-Somos a [NOME_DA_EMPRESA] ([DEMOBR]), startup brasileira lançando SaaS
+Somos a [NOME_DA_EMPRESA] ([EASYDEMO]), startup brasileira lançando SaaS
 de demos interativas (modelo Supademo). Nossa stack é multi-tenant
 com dados de creators e leads capturados por demos interativos.
 
@@ -117,12 +117,12 @@ Atenciosamente,
 ## ✉️ Modelo 3 — Follow-up após cold outreach (se não respondeu)
 
 ```
-Assunto: DemoBR — revisão jurídica (LGPD/SaaS) — segundo contato
+Assunto: EasyDemo — revisão jurídica (LGPD/SaaS) — segundo contato
 
 Olá Dr(a). [NOME],
 
 Espero que esteja bem! Mandei mensagem há [NÚMERO_DE_DIAS] dias
-sobre a revisão dos modelos jurídicos da DemoBR, mas talvez tenha
+sobre a revisão dos modelos jurídicos da EasyDemo, mas talvez tenha
 passado batido na sua inbox.
 
 Em resumo: somos uma startup SaaS brasileira lançando plataforma
@@ -150,10 +150,10 @@ Antes de enviar, personalize:
 1. [NOME_DO_ADVOGADO] — Pesquise OAB ativa, publicação em LGPD,
    palestras sobre o tema. Demonstrar que você sabe quem ele(a) é.
 
-2. [NOME_DA_EMPRESA] — Confirme se DemoBR é a marca principal ou
+2. [NOME_DA_EMPRESA] — Confirme se EasyDemo é a marca principal ou
    se há razão social diferente.
 
-3. [DEMOBR] — Uso informal/apelido — opcional.
+3. [EASYDEMO] — Uso informal/apelido — opcional.
 
 4. [VALOR_MINIMO] / [VALOR_MAXIMO] — Pesquise o mercado:
    • Revisão completa de ~10 documentos jurídicos para LGPD/SaaS
@@ -187,7 +187,7 @@ Antes de enviar, personalize:
   https://www.oab.org.br
 
 • LinkedIn — pesquisar "advogado LGPD" + filtrar por:
-  – Localização (cidade da sede da DemoBR)
+  – Localização (cidade da sede da EasyDemo)
   – Empresa (consultorias conhecidas: Opice Blum, Bordin &
     Villela, Mattos Filho, Tozzini Freire, e-Pixel,
     Verrusio, ...) — para referência de tamanho/qualidade.
@@ -225,7 +225,7 @@ IMPORTANTE: sempre confirmar:
 Antes de mandar o e-mail, confirme:
 
 ```
-[ ] Nome da empresa correto (DemoBR LTDA vs. pessoa física)
+[ ] Nome da empresa correto (EasyDemo LTDA vs. pessoa física)
 [ ] Endereço comercial disponível
 [ ] CNPJ disponível (para o contrato)
 [ ] Escopo bem definido (11 documentos)
@@ -243,5 +243,5 @@ Antes de mandar o e-mail, confirme:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

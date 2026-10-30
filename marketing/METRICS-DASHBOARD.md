@@ -1,4 +1,4 @@
-# Metrics Dashboard — DemoBR (primeiros 90 dias)
+# Metrics Dashboard — EasyDemo (primeiros 90 dias)
 
 > **Data:** 2026-10-18.
 > **Premissa:** MVP live em T-0 (terça-feira). Métricas acompanhadas diariamente na primeira semana, semanalmente até W12, mensalmente após.
@@ -273,7 +273,7 @@ Upgrade Pro
 ## 10. Relatórios mensais (template)
 
 ```markdown
-# DemoBR — Relatório Mensal — [mês/ano]
+# EasyDemo — Relatório Mensal — [mês/ano]
 
 ## TL;DR
 - 1 linha: o que melhorou, o que piorou, decisão principal.
@@ -307,7 +307,7 @@ Upgrade Pro
 ## 11. Limitações declaradas
 
 - **Metas são projeções** baseadas em `research/pricing/SYNTHESIS.md` §7 e benchmarks SaaS B2B BR 2026; não há dado histórico real.
-- **CVR Free→Paid BR 2–5%** é benchmark setorial (`gtm-channels.md` §B); DemoBR pode estar acima ou abaixo.
+- **CVR Free→Paid BR 2–5%** é benchmark setorial (`gtm-channels.md` §B); EasyDemo pode estar acima ou abaixo.
 - **NSM "150 workspaces com ≥10 views/mês no W12"** é ambiciosa — pode precisar de ajuste após W4.
 - **Churn Pro 5%/mês** é hipótese pessimista; benchmark top-decile SaaS B2B é 3–4%.
 - **LTV/CAC ≥ 5x** assume churn controlado; se churn for maior, LTV cai.

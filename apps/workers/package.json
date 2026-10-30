@@ -13,7 +13,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "3.682.0",
     "@aws-sdk/s3-request-presigner": "3.682.0",
-    "@demo.br/shared": "workspace:*",
+    "@easydemo/shared": "workspace:*",
     "dotenv": "16.4.5",
     "drizzle-orm": "0.36.0",
     "graphile-worker": "0.16.6",

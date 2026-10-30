@@ -29,7 +29,7 @@ SELECT rolname, rolsuper, rolbypassrls FROM pg_roles
 WHERE rolname IN ('app_owner', 'app_user', 'readonly');
 ```
 
-Saída real (container `demobr-postgres` rodando em `127.0.0.1:55432`):
+Saída real (container `easydemo-postgres` rodando em `127.0.0.1:55432`):
 
 ```
  rolname  | rolsuper | rolbypassrls
@@ -49,7 +49,7 @@ Saída real (container `demobr-postgres` rodando em `127.0.0.1:55432`):
 
 ```bash
 $ cat apps/web/.env | grep DATABASE_URL
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo
 
 $ cat .env.example | grep DATABASE_URL
 DATABASE_URL=postgres://app_user:CHANGEME@localhost:5432/supademo
@@ -63,7 +63,7 @@ DATABASE_URL=postgres://app_user:CHANGEME@localhost:5432/supademo
 
 ```bash
 $ cat apps/web/.env | grep DIRECT_URL
-DIRECT_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo
+DIRECT_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo
 
 $ cat .env.example | grep DIRECT_URL
 DIRECT_URL=postgres://app_owner:CHANGEME@localhost:5432/supademo
@@ -89,8 +89,8 @@ DIRECT_URL=postgres://app_owner:CHANGEME@localhost:5432/supademo
 ### 1. `test-rls.ts` — app_user RLS-enforced (10/10 OK)
 
 ```bash
-$ DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
-  ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+$ DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo \
+  ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   tsx scripts/db/test-rls.ts
 ```
 
@@ -115,8 +115,8 @@ Total: 10/10 checks OK
 ### 2. `test-rls-admin.ts` — app_owner BYPASSRLS (PASS)
 
 ```bash
-$ DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
-  ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+$ DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo \
+  ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   tsx scripts/db/test-rls-admin.ts
 ```
 
@@ -171,7 +171,7 @@ $ DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
 | Senhas dos roles estão hardcoded em `init-roles.sql`              | Documentado   | `'app_user'`, `'app_owner'`, `'readonly'` são defaults. `scripts/generate-secrets.sh` substitui por senha aleatória ao gerar `.env`. **Senha nunca deve ser commitada em produção.** |
 | Role `readonly` não existe no DB de teste atual                   | Não-bloqueante | Criado por `init-roles.sql` em produção. Se for usado em CI/dev, rodar `init-roles.sql` ou o step CI criado nesta phase. |
 | `init-roles.sql` é executado por superuser (`app`)               | Por design    | Roles só podem ser criados por superuser. Em produção, esse role existe (POSTGRES_USER=app). |
-| Senha em `apps/web/.env` é `demobr` (visível no repo)             | OK para dev   | Substituir em produção via `scripts/generate-secrets.sh` ou similar.               |
+| Senha em `apps/web/.env` é `easydemo` (visível no repo)             | OK para dev   | Substituir em produção via `scripts/generate-secrets.sh` ou similar.               |
 
 ---
 
@@ -182,19 +182,19 @@ $ DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
 docker compose -f infra/docker-compose.yml up -d postgres
 
 # 2. Criar roles app_user/app_owner/readonly (idempotente)
-PGPASSWORD=demobr psql -h 127.0.0.1 -p 5432 -U app -d supademo \
+PGPASSWORD=easydemo psql -h 127.0.0.1 -p 5432 -U app -d supademo \
   -f infra/postgres/init-roles.sql
 
 # 3. Aplicar migrations (cria tabelas + policies + FORCE RLS)
-DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:5432/supademo \
+DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:5432/supademo \
   pnpm --filter web db:push
 
 # 4. Validar
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:5432/supademo \
-ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:5432/supademo \
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:5432/supademo \
+ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:5432/supademo \
   npx tsx scripts/db/test-rls.ts       # 10/10 OK
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:5432/supademo \
-ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:5432/supademo \
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:5432/supademo \
+ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:5432/supademo \
   npx tsx scripts/db/test-rls-admin.ts # BYPASSRLS confirmado
 ```
 

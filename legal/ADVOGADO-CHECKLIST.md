@@ -1,4 +1,4 @@
-# ⚖️ Checklist para Revisão Jurídica — DemoBR LTDA
+# ⚖️ Checklist para Revisão Jurídica — EasyDemo LTDA
 
 > Documento destinado ao(à) advogado(a) especializado(a) em proteção
 > de dados que fará a revisão obrigatória dos modelos em `legal/`
@@ -30,7 +30,7 @@ Para cada item, marque:
 ### 1.1 Identidade jurídica do controlador
 
 ```
-[ ] CNPJ real da DemoBR LTDA (não pode ser XX.XXX.XXX/0001-XX)
+[ ] CNPJ real da EasyDemo LTDA (não pode ser XX.XXX.XXX/0001-XX)
 [ ] Endereço comercial completo (rua, nº, complemento, bairro,
     cidade/UF, CEP)
 [ ] Razão social exata conforme contrato social
@@ -51,9 +51,9 @@ Para cada item, marque:
     ou consultoria especializada)
 [ ] Nome completo do DPO
 [ ] CPF do DPO (para eventual notificação ANPD)
-[ ] E-mail funcional (atualmente placeholder dpo@demobr.com.br)
+[ ] E-mail funcional (atualmente placeholder dpo@easydemo.io)
 [ ] Telefone de contato (opcional — alguns modelos exigem)
-[ ] Página pública do DPO em www.demobr.com.br/dpo (LGPD art. 41, §1º)
+[ ] Página pública do DPO em www.easydemo.io/dpo (LGPD art. 41, §1º)
 [ ] Comunicar nomeação à ANPD (art. 41, §1º) — formulário disponível
     em https://www.gov.br/anpd/
 [ ] Definir política interna para casos em que DPO esteja ausente
@@ -318,7 +318,7 @@ Validação obrigatória por advogado(a) consumerista/civilista:
     armazenamento de logs. Risco de borderless access US Cloud Act.
 [ ] Asaas — confirmar que o termos de serviço equivale a um
     DPA assinado (não é o mesmo, mas é comum para pagamento).
-[ ] PostHog "EU opt-in" — confirmar se DemoBR já configurou
+[ ] PostHog "EU opt-in" — confirmar se EasyDemo já configurou
     data residency EU (não está claro se está ativo ou se é
     apenas opção disponível).
 ```
@@ -395,7 +395,7 @@ Registre-os para governança periódica:
    - Cloud Act (EUA) — subpoena governamental pode afetar
      dados em servidores norte-americanos.
 
-⚪ Decisão judicial específica contra DemoBR:
+⚪ Decisão judicial específica contra EasyDemo:
    - Vazamento de dados (mesmo com todas as medidas, há risco
      residual de ataque zero-day).
    - Indenização por danos morais coletivos (ação civil pública
@@ -466,7 +466,7 @@ ADVOGADO(A) RESPONSÁVEL:
 
 ASSINATURAS (realizar ao final):
   Advogado(a): _________________________  Data: ___/___/______
-  Representante legal DemoBR (CEO): ______  Data: ___/___/______
+  Representante legal EasyDemo (CEO): ______  Data: ___/___/______
   DPO designado: _______________________  Data: ___/___/______
 ```
 
@@ -475,7 +475,7 @@ ASSINATURAS (realizar ao final):
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```
 
 > ⚖️ **Disclaimer**: este documento é uma ferramenta de triagem

@@ -1,6 +1,6 @@
 # TEMPLATE-06 — Affiliate Program (recrutamento)
 
-> **Quando usar:** recrutar microinfluenciadores SaaS BR (1k–50k seguidores LinkedIn/Twitter/Instagram) para o programa de afiliados DemoBR.
+> **Quando usar:** recrutar microinfluenciadores SaaS BR (1k–50k seguidores LinkedIn/Twitter/Instagram) para o programa de afiliados EasyDemo.
 > **Estrutura:** 20% recorrente por 12 meses (alinhado com `LAUNCH-PLAN.md` §4.6).
 > **Ferramenta:** Hotmart OU Lemon Squeezy (decidir antes do launch).
 > **Persona-alvo:** PMMs, founders de SaaS, professores de marketing digital, consultores de RevOps BR.
@@ -14,12 +14,12 @@
 | `{{nome}}` | "Carla" |
 | `{{seguidores}}` | "5k seguidores" / "12k na newsletter" |
 | `{{nicho}}` | "marketing SaaS" / "RevOps" / "PLG para startups" |
-| `{{link_afiliados}}` | `https://app.demobr.com.br/afiliados/signup?ref={{ref_code}}` |
-| `{{link_dashboard_demo}}` | `https://app.demobr.com.br/afiliados/dashboard` |
+| `{{link_afiliados}}` | `https://app.easydemo.io/afiliados/signup?ref={{ref_code}}` |
+| `{{link_dashboard_demo}}` | `https://app.easydemo.io/afiliados/dashboard` |
 
 ---
 
-## Por que DemoBR faz sentido pra afiliados
+## Por que EasyDemo faz sentido pra afiliados
 
 | Argumento | Como explicar |
 |---|---|
@@ -35,7 +35,7 @@
 
 ### Subject
 
-> `{{nome}}, programa de afiliados DemoBR (20% recorrente, nicho {{nicho}})`
+> `{{nome}}, programa de afiliados EasyDemo (20% recorrente, nicho {{nicho}})`
 
 ### Body
 
@@ -43,7 +43,7 @@
 >
 > Acompanho seu trabalho em {{nicho}} há um tempo — {{linha_pessoal}}.
 >
-> Estou lançando o **programa de afiliados do DemoBR** (ferramenta de demos interativas, BR-first, com PIX e LGPD) e acho que faz sentido pra você.
+> Estou lançando o **programa de afiliados do EasyDemo** (ferramenta de demos interativas, BR-first, com PIX e LGPD) e acho que faz sentido pra você.
 >
 > **Como funciona:**
 >
@@ -53,7 +53,7 @@
 >
 > **Por que você pode ganhar bem com isso:**
 >
-> - **Ticket médio** do DemoBR: R$ 49 Pro + R$ 199 Business = média ~R$ 100/mês.
+> - **Ticket médio** do EasyDemo: R$ 49 Pro + R$ 199 Business = média ~R$ 100/mês.
 > - **Sua comissão**: ~R$ 20/mês por cliente ativo.
 > - **10 clientes ativos** = R$ 200/mês recorrente pra você.
 > - **50 clientes ativos** = R$ 1.000/mês recorrente.
@@ -73,9 +73,9 @@
 > Programa aberto até **{{data_limite}}**. Topa?
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
-> PS: DemoBR está em launch no Product Hunt essa semana — pode aproveitar o buzz.
+> PS: EasyDemo está em launch no Product Hunt essa semana — pode aproveitar o buzz.
 
 ---
 
@@ -83,7 +83,7 @@
 
 > Oi {{nome}}, vi seu post sobre {{tema_específico}} e lembrei de você.
 >
-> Estou abrindo o programa de afiliados do DemoBR (ferramenta de demos BR, com PIX). **20% recorrente por 12 meses**, ticket médio R$ 100/mês.
+> Estou abrindo o programa de afiliados do EasyDemo (ferramenta de demos BR, com PIX). **20% recorrente por 12 meses**, ticket médio R$ 100/mês.
 >
 > Pode fazer sentido pra você, considerando seu público de {{nicho}}.
 >
@@ -131,7 +131,7 @@
 | **Saque mínimo** | R$ 50 |
 | **Frequência** | Mensal (D+5 do mês) |
 | **Método** | PIX |
-| **NF-e / recibo** | Recibo simples gerado pela plataforma DemoBR |
+| **NF-e / recibo** | Recibo simples gerado pela plataforma EasyDemo |
 
 ---
 
@@ -140,11 +140,11 @@
 ### Permitido
 - Divulgar em LinkedIn, Twitter, Instagram, blog pessoal, newsletter, YouTube.
 - Cupom próprio (ex: `CARLA20`).
-- Banners da DemoBR.
+- Banners da EasyDemo.
 - Reviews honestos (negativos também — é o que faz a afiliada parecer confiável).
 
 ### Proibido
-- **Google Ads em keywords da DemoBR** (navattic, supademo, demo interativa). Reservamos esses termos.
+- **Google Ads em keywords da EasyDemo** (navattic, supademo, demo interativa). Reservamos esses termos.
 - **Spam** (DM em massa, grupos de WhatsApp, comment spam).
 - **Discurso de ódio, político, discriminatório**.
 - **Fraude** (clicks falsos, signups com email descartável, self-referral).
@@ -160,11 +160,11 @@
 
 > Resumo dos pontos críticos:
 >
-> 1. DemoBR se reserva o direito de aprovar/rejeitar afiliados.
+> 1. EasyDemo se reserva o direito de aprovar/rejeitar afiliados.
 > 2. Comissão é paga apenas sobre clientes **pagos** (trial não conta).
 > 3. Reembolso do cliente dentro de 14 dias = estorno da comissão.
 > 4. Cancelamento do cliente = fim da comissão após o mês corrente.
-> 5. DemoBR pode alterar % e regras com 30 dias de aviso.
+> 5. EasyDemo pode alterar % e regras com 30 dias de aviso.
 > 6. Disputas são resolvidas via arbitration em São Paulo, Brasil.
 
 > ⚠️ **Jurídico validar** antes do launch.

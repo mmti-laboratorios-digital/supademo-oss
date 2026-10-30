@@ -9,7 +9,7 @@
  *      espera a mensagem "Ready", mede tempo até 1ª resposta.
  *
  *  Bloco B é **opcional** (controlado por RUN_NEXT=1) — `next dev` no
- *  monorepo DemoBR puxa todo o build cache, então o cold-start real só
+ *  monorepo EasyDemo puxa todo o build cache, então o cold-start real só
  *  é confiável em CI limpo.
  */
 import { type ChildProcess, spawn } from "node:child_process";

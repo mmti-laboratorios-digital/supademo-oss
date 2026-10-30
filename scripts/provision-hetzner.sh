@@ -29,7 +29,7 @@ fi
 # -----------------------------------------------------------------------------
 # 2. Contexto (token)
 # -----------------------------------------------------------------------------
-CONTEXT="${HCLOUD_CONTEXT:-demobr-prod}"
+CONTEXT="${HCLOUD_CONTEXT:-easydemo-prod}"
 if ! hcloud context list 2>/dev/null | grep -q "$CONTEXT"; then
   printf "${YELLOW}hcloud context '$CONTEXT' não existe. Vamos criar.${NC}\n"
   printf "Token Hetzner Cloud (https://console.hetzner.cloud → Security → API Tokens): "
@@ -45,7 +45,7 @@ fi
 # -----------------------------------------------------------------------------
 # 3. SSH key (upload se ainda não existir)
 # -----------------------------------------------------------------------------
-SSH_KEY="${DEMOBR_SSH_KEY:-$HOME/.ssh/id_ed25519.pub}"
+SSH_KEY="${EASYDEMO_SSH_KEY:-$HOME/.ssh/id_ed25519.pub}"
 if [[ ! -f "$SSH_KEY" ]]; then
   ssh-keygen -t ed25519 -N "" -f "${SSH_KEY%.pub}"
 fi
@@ -67,7 +67,7 @@ SSH_AUTHORIZED="$(cat "$SSH_KEY")"
 cat > "$CLOUD_INIT" <<YAML
 #cloud-config
 # -----------------------------------------------------------------------------
-# cloud-init para VPS DemoBR (Hetzner Cloud)
+# cloud-init para VPS EasyDemo (Hetzner Cloud)
 # Stack: Docker + UFW + fail2ban + Caddy (Cloudflare DNS challenge)
 # -----------------------------------------------------------------------------
 package_update: true
@@ -155,21 +155,21 @@ runcmd:
   - dpkg-reconfigure -plow unattended-upgrades
 
   # ---- Prepara diretório de deploy ----
-  - mkdir -p /opt/demobr
+  - mkdir -p /opt/easydemo
   - echo "${SSH_AUTHORIZED}" > /root/.ssh/authorized_keys_via_cloudinit
   - chmod 600 /root/.ssh/authorized_keys_via_cloudinit
 
-final_message: "DemoBR VPS pronto em \$HOSTNAME após \$UPTIME segundos."
+final_message: "EasyDemo VPS pronto em \$HOSTNAME após \$UPTIME segundos."
 YAML
 ok "cloud-init.yaml gerado."
 
 # -----------------------------------------------------------------------------
 # 5. Cria VPS (modo dry-run por padrão)
 # -----------------------------------------------------------------------------
-SERVER_TYPE="${DEMOBR_SERVER_TYPE:-cx22}"
-IMAGE="${DEMOBR_IMAGE:-ubuntu-24.04}"
-LOCATION="${DEMOBR_LOCATION:-fsn1}"
-SERVER_NAME="${DEMOBR_SERVER_NAME:-demobr-prod-01}"
+SERVER_TYPE="${EASYDEMO_SERVER_TYPE:-cx22}"
+IMAGE="${EASYDEMO_IMAGE:-ubuntu-24.04}"
+LOCATION="${EASYDEMO_LOCATION:-fsn1}"
+SERVER_NAME="${EASYDEMO_SERVER_NAME:-easydemo-prod-01}"
 
 printf "\n${YELLOW}Plano de provisionamento:${NC}\n"
 printf "  Nome:    %s\n" "$SERVER_NAME"

@@ -20,7 +20,7 @@ Esta pasta complementa `research/` (que contém SYNTHESIS.md com dados coletados
 | [`nps-csat-benchmarks.md`](./nps-csat-benchmarks.md) | NPS/CSAT benchmark do setor | Sites institucionais (Supademo, Navattic, Storylane public ratings) |
 | [`paid-ads-strategy.md`](./paid-ads-strategy.md) | Quem anuncia + palavras-chave | Estado da arte inferido via ADL/precedentes (limitação importante) |
 | [`mcp-server-guide.md`](./supademo-mcp-server-guide.md) | Guia MCP do Supademo (síntese técnica) | docs.supademo.com |
-| [`market-movements.md`](./market-movements.md) | Síntese: o que mudou + impacto no DemoBR | Cruzamento de todos acima |
+| [`market-movements.md`](./market-movements.md) | Síntese: o que mudou + impacto no EasyDemo | Cruzamento de todos acima |
 
 ## Limitações conhecidas (importantes)
 

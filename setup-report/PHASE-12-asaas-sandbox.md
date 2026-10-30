@@ -108,7 +108,7 @@ Test Files  1 passed (1)
 Pré-requisitos:
 - Container postgres `supademo-test` rodando em `127.0.0.1:55432`
 - `apps/web/.env.test` ou `/.env.test` no repo root com
-  `DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo`
+  `DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo`
   + `ASAAS_WEBHOOK_SECRET=...`
 
 Smoke (subir mock + rodar test + cleanup) — equivalente ao que o CI faria:

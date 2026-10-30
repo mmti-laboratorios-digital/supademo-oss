@@ -1,9 +1,9 @@
-import { demoCreateSchema, leadCreateSchema } from "@demo.br/shared";
-import type { EventType } from "@demo.br/shared";
+import { demoCreateSchema, leadCreateSchema } from "@easydemo/shared";
+import type { EventType } from "@easydemo/shared";
 /**
  * apps/web/lib/__tests__/validators.test.ts
  *
- * Valida os zod schemas canônicos do @demo.br/shared.
+ * Valida os zod schemas canônicos do @easydemo/shared.
  * Cobre: Demo slug regex, Lead consent+email, Event eventType.
  */
 import { describe, expect, it } from "vitest";
@@ -110,7 +110,7 @@ describe("Lead validator", () => {
 
 describe("Event validator", () => {
   // Não temos um eventSchema canônico no shared — mas validamos manualmente
-  // que os tipos aceitos correspondem ao union em @demo.br/shared.
+  // que os tipos aceitos correspondem ao union em @easydemo/shared.
   it.each(VALID_EVENT_TYPES)("eventType %s é válido", (type) => {
     // Validação simples: string presente e dentro do whitelist
     expect(VALID_EVENT_TYPES).toContain(type);

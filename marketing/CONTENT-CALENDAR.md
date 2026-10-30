@@ -1,4 +1,4 @@
-# Calendário Editorial — 12 Semanas (DemoBR)
+# Calendário Editorial — 12 Semanas (EasyDemo)
 
 > **Data:** 2026-10-18.
 > **Premissa:** semana 0 = semana de launch público (terça-feira). W-1 e W-2 são prep; W1–W12 são sustain.
@@ -51,11 +51,11 @@
 | Dia | Atividade | Tipo | Entregável |
 |---|---|---|---|
 | 2ª | P5 pilar "Quanto custa plataforma demo interativa" (final) | P | Publicado |
-| 2ª | Compare page #1 (DemoBR vs Supademo) (draft) | C | 1.500 palavras |
+| 2ª | Compare page #1 (EasyDemo vs Supademo) (draft) | C | 1.500 palavras |
 | 2ª | LinkedIn post "5 dias pro lançamento" + beta tester call | L | Post + DM 10 PMMs |
 | 3ª | Blog post #1 "Como capturar demo com extensão Chrome" | B | 1.500 palavras |
 | 3ª | Contato 5 PMMs BR (LinkedIn DM early access) | — | 5 respostas |
-| 4ª | Compare page #2 (DemoBR vs GuiaFlow) (final) | C | Publicado |
+| 4ª | Compare page #2 (EasyDemo vs GuiaFlow) (final) | C | Publicado |
 | 4ª | Blog post #2 "10 erros que matam sua demo interativa" | B | 1.500 palavras |
 | 4ª | BetaList submit | — | Página live |
 | 5ª | Chrome Web Store status check + screenshot final | — | Status OK |
@@ -83,11 +83,11 @@
 | 2ª | LinkedIn post teaser final | L | Post |
 | **3ª** | **PH LIVE 09:00–17:00 BRT** | — | PH Top 10 meta |
 | **3ª** | **YouTube Live 12:00 BRT (60 min)** | W | ≥ 100 viewers |
-| **3ª** | Email waitlist blast: "DemoBR is live + 30% off" | — | 30% open |
+| **3ª** | Email waitlist blast: "EasyDemo is live + 30% off" | — | 30% open |
 | **3ª** | LinkedIn post #1: "3 anos construindo isso" | L | Reach ≥ 2.000 |
 | 4ª | LinkedIn post #2: recap do launch + métricas reais | L | Post |
 | 4ª | Slack RevOps BR + Customer Success Network BR | — | 2 posts |
-| 5ª | Compare page #3 (DemoBR vs Navattic) (final) | C | Publicado |
+| 5ª | Compare page #3 (EasyDemo vs Navattic) (final) | C | Publicado |
 | 5ª | Twitter thread com screenshots de uso | L | Thread |
 | 6ª | Resposta ativa de comentários PH + DMs | — | 50+ respostas |
 
@@ -107,7 +107,7 @@
 |---|---|---|---|
 | 2ª | LinkedIn post "build in public #2" (métricas reais W0) | L | Post |
 | 3ª | Blog post #4 "5 exemplos reais de demo interativa" | B | 1.500 palavras |
-| 3ª | Compare page #4 (DemoBR vs Arcade) (final) | C | Publicado |
+| 3ª | Compare page #4 (EasyDemo vs Arcade) (final) | C | Publicado |
 | 4ª | Webinar W1: "Como SaaS B2B PME reduziu ciclo de venda 30%" | W | 60 min, 30+ attendees |
 | 4ª | Demo de exemplo #4 (E-commerce) — gravar e publicar | D | `/d/exemplo-ecommerce` |
 | 5ª | Blog post #5 "Demo interativa vs Loom vs Zoom" | B | 1.500 palavras |
@@ -127,7 +127,7 @@
 | Dia | Atividade | Tipo | Entregável |
 |---|---|---|---|
 | 2ª | LinkedIn post "build in public #3" (código aberto? mercado) | L | Post |
-| 3ª | Compare page #5 (DemoBR vs Storylane) (final) | C | Publicado |
+| 3ª | Compare page #5 (EasyDemo vs Storylane) (final) | C | Publicado |
 | 3ª | Blog post #6 "LGPD para demos interativas: guia completo" | B | 2.500 palavras |
 | 4ª | Webinar W2: "Onboarding assíncrono: 500 alunos em horas" | W | 60 min |
 | 4ª | Demo de exemplo #5 (Agência marketing) — gravar e publicar | D | `/d/exemplo-agencia` |
@@ -149,7 +149,7 @@
 |---|---|---|---|
 | 2ª | LinkedIn post "build in public #4" (primeira contratação?) | L | Post |
 | 3ª | Blog post #8 "Demo interativa para imobiliárias" | B | 1.500 palavras |
-| 3ª | Compare page atualização (DemoBR vs Getdemo) | C | Refresh |
+| 3ª | Compare page atualização (EasyDemo vs Getdemo) | C | Refresh |
 | 4ª | Webinar W3: "Tour de apartamento à distância" | W | 60 min |
 | 4ª | Demo de exemplo #6 (Fintech) — gravar e publicar | D | `/d/exemplo-fintech` |
 | 5ª | Blog post #9 "Edtech: como treinar 500 alunos sem reunião" | B | 1.500 palavras |
@@ -170,9 +170,9 @@
 
 | Dia | Atividade | Tipo | Entregável |
 |---|---|---|---|
-| 2ª | LinkedIn post "1 mês de DemoBR: números reais" | L | Post (público) |
+| 2ª | LinkedIn post "1 mês de EasyDemo: números reais" | L | Post (público) |
 | 3ª | Blog post #10 "E-commerce: como usar demo interativa pra reduzir devolução" | B | 1.500 palavras |
-| 3ª | Compare page atualização (DemoBR vs Supademo) | C | Refresh |
+| 3ª | Compare page atualização (EasyDemo vs Supademo) | C | Refresh |
 | 4ª | Webinar W4: "PRD to demo: PM usa antes da call" | W | 60 min |
 | 4ª | Demo de exemplo #7 (Marketplace) — gravar e publicar | D | `/d/exemplo-marketplace` |
 | 5ª | Blog post #11 "Agência de marketing: como multiplicar fechamento 3x" | B | 1.500 palavras |
@@ -192,7 +192,7 @@
 
 | Dia | Atividade | Tipo | Entregável |
 |---|---|---|---|
-| 2ª | LinkedIn post "Quanto DemoBR ganha vs Supademo" | L | Post |
+| 2ª | LinkedIn post "Quanto EasyDemo ganha vs Supademo" | L | Post |
 | 3ª | Blog post #12 "Como embedar demo no seu site" | B | 1.500 palavras |
 | 4ª | Webinar W5: "Cases reais de clientes (painel)" | W | 60 min |
 | 5ª | Blog post #13 "De TOTVS a Zenvia: PMMs BR" | B | 1.500 palavras |
@@ -214,7 +214,7 @@
 | 3ª | Blog post #14 "Como time de vendas usa demo no outbound" | B | 1.500 palavras |
 | 4ª | Webinar W6: "DSR endpoint e LGPD na prática" | W | 60 min |
 | 5ª | Blog post #15 "Cases de PMMs BR" | B | 1.500 palavras |
-| 5ª | LinkedIn post #8: "Top 5 perguntas de PMMs sobre DemoBR" | L | Carrossel |
+| 5ª | LinkedIn post #8: "Top 5 perguntas de PMMs sobre EasyDemo" | L | Carrossel |
 | 6ª | Convite a 30 microinfluenciadores SaaS BR | — | 30 DMs |
 
 **Métrica W6:**
@@ -230,7 +230,7 @@
 |---|---|---|---|
 | 2ª | LinkedIn post "Bug do mês: o que aprendemos" | L | Post |
 | 3ª | Refresh top 3 pilares (atualizar com dados W4) | L | Update |
-| 4ª | Webinar W7: "Como migrar do Supademo pra DemoBR" | W | 60 min |
+| 4ª | Webinar W7: "Como migrar do Supademo pra EasyDemo" | W | 60 min |
 | 5ª | Blog post #16 "Pricing de demo: como precificar" | B | 1.500 palavras |
 | 5ª | LinkedIn post #9: "ROI de demo interativa (com cálculo)" | L | Post |
 | 6ª | Demo de exemplo #8 (RH-tech) — gravar e publicar | D | `/d/exemplo-rh` |
@@ -318,7 +318,7 @@
 
 | Dia | Atividade | Tipo | Entregável |
 |---|---|---|---|
-| 2ª | LinkedIn post "3 meses de DemoBR" | L | Post público |
+| 2ª | LinkedIn post "3 meses de EasyDemo" | L | Post público |
 | 3ª | Blog post #25 "12 semanas, 25 posts: o que aprendemos" | B | 2.500 palavras |
 | 4ª | Webinar W12: "Demo interativa no próximo ano (tendências)" | W | 60 min |
 | 5ª | Email waitlist update: "Próximos passos" | — | Email |

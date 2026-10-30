@@ -1,11 +1,11 @@
-# Service Level Objectives — DemoBR
+# Service Level Objectives — EasyDemo
 
 > SLOs do MVP e metas pós-estabilidade. Cada SLO tem métrica, target,
 > janela de medição, e **error budget** associado. Acompanhamento em
 > `/admin/observability/slos` (dashboard SigNoz).
 
 **Versão:** 1.0
-**Owner:** Tech lead DemoBR
+**Owner:** Tech lead EasyDemo
 **Última revisão:** 2026-10-18
 **Próxima revisão:** 2027-04-18 (semestral)
 
@@ -298,7 +298,7 @@ Alert se > 86400 (24h).
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      DemoBR SLOs — MVP                              │
+│                      EasyDemo SLOs — MVP                              │
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                     │
 │  API REST                          Player público                   │
@@ -332,6 +332,6 @@ Alert se > 86400 (24h).
 
 ---
 
-**Mantido por**: Tech lead DemoBR.
-**Dashboard**: <https://demobr.com.br/admin/observability/slos>
+**Mantido por**: Tech lead EasyDemo.
+**Dashboard**: <https://easydemo.io/admin/observability/slos>
 **Runbook geral**: `runbooks/observability.md`

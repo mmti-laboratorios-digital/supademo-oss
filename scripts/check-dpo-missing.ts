@@ -5,12 +5,12 @@
  * Verifica que NÃO restam placeholders relacionados ao Encarregado (DPO)
  * nos documentos jurídicos em `legal/*.md` e `legal/*.json`.
  *
- * Este script é BLOQUEADOR no CI: garante que a DemoBR não publique
+ * Este script é BLOQUEADOR no CI: garante que a EasyDemo não publique
  * documentos com nome de DPO inventado ou com placeholders visíveis.
  *
  * Placeholders a detectar (LGPD art. 41):
- *   - placeholder@demobr.com.br
- *   - dpo@demobr.com.br (endereço antigo a ser substituído quando o DPO
+ *   - placeholder@easydemo.io
+ *   - dpo@easydemo.io (endereço antigo a ser substituído quando o DPO
  *     formal for contratado — uso atual restrito a DPO.md e DPO-PROCESS.md,
  *     que documentam intencionalmente o histórico)
  *   - DPO_NAME_AQUI
@@ -23,8 +23,8 @@
  *
  * Whitelist: arquivos em `legal/` que documentam intencionalmente o
  * placeholder (DPO.md, DPO-PROCESS.md, ADVOGADO-CHECKLIST.md) podem
- * conter `dpo@demobr.com.br` em menções históricas. Apenas
- * `placeholder@demobr.com.br` é considerado placeholder operacional.
+ * conter `dpo@easydemo.io` em menções históricas. Apenas
+ * `placeholder@easydemo.io` é considerado placeholder operacional.
  *
  * Exit code:
  *   0 → sem placeholders pendentes
@@ -53,8 +53,8 @@ const LEGAL_DIR = join(ROOT, "legal");
  */
 const PLACEHOLDER_PATTERNS: Array<{ pattern: RegExp; label: string }> = [
   {
-    pattern: /placeholder@demobr\.com\.br/gi,
-    label: "placeholder@demobr.com.br",
+    pattern: /placeholder@easydemo\.io/gi,
+    label: "placeholder@easydemo.io",
   },
   {
     pattern: /\bDPO_NAME_AQUI\b/g,
@@ -83,7 +83,7 @@ const PLACEHOLDER_PATTERNS: Array<{ pattern: RegExp; label: string }> = [
 ];
 
 /**
- * Arquivos onde `placeholder@demobr.com.br` é usado intencionalmente
+ * Arquivos onde `placeholder@easydemo.io` é usado intencionalmente
  * (documentam o estado atual "DPO pendente"). Esses arquivos são
  * isentos da verificação para esse padrão específico.
  */
@@ -156,8 +156,8 @@ async function scanFile(filePath: string): Promise<Finding[]> {
   const findings: Finding[] = [];
 
   for (const { pattern, label } of PLACEHOLDER_PATTERNS) {
-    // Padrão `placeholder@demobr.com.br` é isento nos arquivos whitelisted
-    if (label === "placeholder@demobr.com.br" && isWhitelisted) {
+    // Padrão `placeholder@easydemo.io` é isento nos arquivos whitelisted
+    if (label === "placeholder@easydemo.io" && isWhitelisted) {
       continue;
     }
 
@@ -257,7 +257,7 @@ async function main(): Promise<void> {
     console.error("pelo nome/e-mail real em todos os arquivos. Veja instruções em");
     console.error("  legal/DPO.md §10 e legal/DPO-PROCESS.md §3 (Fase 3).");
     console.error("");
-    console.error("Para localizar programaticamente: grep -rn 'placeholder@demobr' legal/");
+    console.error("Para localizar programaticamente: grep -rn 'placeholder@easydemo' legal/");
   }
 
   process.exit(report.ok ? 0 : 1);

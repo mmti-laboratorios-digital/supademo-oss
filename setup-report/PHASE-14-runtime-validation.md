@@ -23,7 +23,7 @@
 | 9 | Coverage                              | ✅ OK  | **135/135 passing**; cobertura lines 13.86%, func 62.72%    |
 | 10| Playwright E2E                        | ✅ OK  | 7/7 passing (1 skipped — clerk auth)                        |
 | 11| `next build`                          | ✅ OK (com fix) | **Bug encontrado:** `packages/shared/index.ts` re-exportava `test-utils/asaas-payloads` (server-only `node:crypto`) que vazava para bundle do client via `lib/i18n/index.tsx`. **Corrigido**: removido re-export |
-| 12| `check-dpo-missing.ts`                | ✅ OK  | 23 ocorrências de `placeholder@demobr.com.br` em `legal/*` (esperado, antes da contratação formal do DPO) |
+| 12| `check-dpo-missing.ts`                | ✅ OK  | 23 ocorrências de `placeholder@easydemo.io` em `legal/*` (esperado, antes da contratação formal do DPO) |
 | 13| Cleanup                               | ✅ OK  | DB: 3 workspaces, 3 demos, 3 steps; containers preservados  |
 
 **Veredito global:** 🟢 **PASS** com 3 ações corretivas aplicadas (ownership transfer, manual mark drizzle, build fix em shared/index.ts).
@@ -41,11 +41,11 @@ $ docker compose -f infra/docker-compose.yml up -d postgres
 [+] Running 4/4
  ✔ Network infra_default   Created
  ✔ Volume infra_pgdata     Created
- ✔ Container demobr-postgres  Creating
- ✔ Container demobr-postgres  Created
- ⠋ Container demobr-postgres  Starting
+ ✔ Container easydemo-postgres  Creating
+ ✔ Container easydemo-postgres  Created
+ ⠋ Container easydemo-postgres  Starting
 Error response from daemon: failed to set up container networking:
-driver failed programming external connectivity on endpoint demobr-postgres (...):
+driver failed programming external connectivity on endpoint easydemo-postgres (...):
 Bind for 0.0.0.0:55432 failed: port is already allocated
 ```
 
@@ -150,8 +150,8 @@ $ docker exec supademo-test psql -U app -d supademo -c "\dt"
 
 ```bash
 $ cd /home/dan/saas/supademo-oss/apps/web
-$ ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
-  DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+$ ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
+  DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   pnpm exec drizzle-kit migrate 2>&1 | tail -5
 [⣷] applying migrations...error: permission denied for database supademo
 exit=1
@@ -418,7 +418,7 @@ dev alive
 ```
 $ pnpm test:e2e
 
-> demobr@0.1.0 test:e2e
+> easydemo@0.1.0 test:e2e
 > pnpm --filter web exec playwright test --config ../../playwright.config.ts
 
 Running 8 tests using 1 worker
@@ -473,8 +473,8 @@ node:crypto
 ### Diagnóstico
 
 - `lib/i18n/index.tsx` é um arquivo `"use client"` (client bundle).
-- Ele faz `import { messagesPtBR, messagesEn } from "@demo.br/shared"`.
-- `@demo.br/shared` aponta para `packages/shared/src/index.ts`, que tinha:
+- Ele faz `import { messagesPtBR, messagesEn } from "@easydemo/shared"`.
+- `@easydemo/shared` aponta para `packages/shared/src/index.ts`, que tinha:
 
 ```ts
 export * from "./test-utils/asaas-payloads";
@@ -496,8 +496,8 @@ Removido o re-export de `test-utils/asaas-payloads` do `index.ts`:
 -export * from "./test-utils/asaas-payloads";
 +// NOTE: ./test-utils/asaas-payloads uses `node:crypto` and is server/test only.
 +// Do NOT re-export here — it pollutes the client bundle via lib/i18n/index.tsx
-+// which imports from "@demo.br/shared". Import directly from
-+// "@demo.br/shared/test-utils/asaas-payloads" in server/test code.
++// which imports from "@easydemo/shared". Import directly from
++// "@easydemo/shared/test-utils/asaas-payloads" in server/test code.
  export { default as messagesPtBR } from "./i18n/messages.pt-BR.json";
  export { default as messagesEn } from "./i18n/messages.en.json";
 ```
@@ -508,9 +508,9 @@ Arquivos que usam `asaas-payloads` continuam funcionando pois importam **diretam
 $ grep -rn "asaas-payloads" apps/web --include="*.ts" --include="*.tsx"
 apps/web/scripts/fire-asaas-webhook.ts:34:
   import { asaasWebhookPayload, asaasWebhookSignature }
-    from "@demo.br/shared/test-utils/asaas-payloads";
+    from "@easydemo/shared/test-utils/asaas-payloads";
 apps/web/app/api/__tests__/webhook-asaas.sandbox.integration.test.ts:38:
-  } from "@demo.br/shared/test-utils/asaas-payloads";
+  } from "@easydemo/shared/test-utils/asaas-payloads";
 ```
 
 Ambos continuam válidos — paths diretos continuam funcionando.
@@ -553,30 +553,30 @@ exit=0
 $ cd /home/dan/saas/supademo-oss
 $ pnpm exec tsx scripts/check-dpo-missing.ts 2>&1 | tail -30
 
-  legal/RTBF-data-export-schema.json:432  "contact_dpo": "placeholder@demobr.com.br"
-  legal/RTBF-template.md:84   E-mail do DPO: placeholder@demobr.com.br
-  legal/RTBF-template.md:160  e-mail placeholder@demobr.com.br
-  legal/RTBF-template.md:177  E-mail: placeholder@demobr.com.br
-  legal/RTBF-template.md:189  placeholder@demobr.com.br
+  legal/RTBF-data-export-schema.json:432  "contact_dpo": "placeholder@easydemo.io"
+  legal/RTBF-template.md:84   E-mail do DPO: placeholder@easydemo.io
+  legal/RTBF-template.md:160  e-mail placeholder@easydemo.io
+  legal/RTBF-template.md:177  E-mail: placeholder@easydemo.io
+  legal/RTBF-template.md:189  placeholder@easydemo.io
   legal/RTBF-template.md:175  {nome_do_DPO}
-  legal/cookie-policy.md:160  placeholder@demobr.com.br
-  legal/dpa-data-processing-agreement.md:235  placeholder@demobr.com.br
-  legal/dpa-data-processing-agreement.md:256  placeholder@demobr.com.br
-  legal/dpa-data-processing-agreement.md:314  placeholder@demobr.com.br
-  legal/dsr-endpoint-policy.md:52   placeholder@demobr.com.br
-  legal/dsr-endpoint-policy.md:247  placeholder@demobr.com.br
-  legal/incident-response-plan.md:42  DPO designado ... placeholder@demobr.com.br
-  legal/incident-response-plan.md:264  placeholder@demobr.com.br
-  legal/privacy-policy.md:22  E-mail do encarregado (DPO): placeholder@demobr.com.br
-  legal/privacy-policy.md:28  placeholder@demobr.com.br
-  legal/privacy-policy.md:207  placeholder@demobr.com.br
-  legal/privacy-policy.md:283  placeholder@demobr.com.br
-  legal/privacy-policy.md:304  placeholder@demobr.com.br
-  legal/privacy-policy.md:314  placeholder@demobr.com.br
-  legal/subprocessors-list.md:138  DPO (placeholder funcional): placeholder@demobr.com.br
-  legal/terms-of-service.md:69   placeholder@demobr.com.br
-  legal/terms-of-service.md:331  DSR ... placeholder@demobr.com.br
-  legal/terms-of-service.md:333  DPO ... placeholder@demobr.com.br
+  legal/cookie-policy.md:160  placeholder@easydemo.io
+  legal/dpa-data-processing-agreement.md:235  placeholder@easydemo.io
+  legal/dpa-data-processing-agreement.md:256  placeholder@easydemo.io
+  legal/dpa-data-processing-agreement.md:314  placeholder@easydemo.io
+  legal/dsr-endpoint-policy.md:52   placeholder@easydemo.io
+  legal/dsr-endpoint-policy.md:247  placeholder@easydemo.io
+  legal/incident-response-plan.md:42  DPO designado ... placeholder@easydemo.io
+  legal/incident-response-plan.md:264  placeholder@easydemo.io
+  legal/privacy-policy.md:22  E-mail do encarregado (DPO): placeholder@easydemo.io
+  legal/privacy-policy.md:28  placeholder@easydemo.io
+  legal/privacy-policy.md:207  placeholder@easydemo.io
+  legal/privacy-policy.md:283  placeholder@easydemo.io
+  legal/privacy-policy.md:304  placeholder@easydemo.io
+  legal/privacy-policy.md:314  placeholder@easydemo.io
+  legal/subprocessors-list.md:138  DPO (placeholder funcional): placeholder@easydemo.io
+  legal/terms-of-service.md:69   placeholder@easydemo.io
+  legal/terms-of-service.md:331  DSR ... placeholder@easydemo.io
+  legal/terms-of-service.md:333  DPO ... placeholder@easydemo.io
 
 Ação: após a contratação formal do DPO, substitua os placeholders
 pelo nome/e-mail real em todos os arquivos.
@@ -584,7 +584,7 @@ exit=0
 ```
 
 - **Exit code:** `0`
-- **Status:** ✅ **OK** — script reporta **23 ocorrências** de `placeholder@demobr.com.br` em 9 arquivos `legal/*` + 1 JSON. Também reporta 1 placeholder `{nome_do_DPO}`. Tudo esperado e documentado em `legal/DPO-PROCESS.md §3 (Fase 3)`.
+- **Status:** ✅ **OK** — script reporta **23 ocorrências** de `placeholder@easydemo.io` em 9 arquivos `legal/*` + 1 JSON. Também reporta 1 placeholder `{nome_do_DPO}`. Tudo esperado e documentado em `legal/DPO-PROCESS.md §3 (Fase 3)`.
 
 ---
 
@@ -599,7 +599,7 @@ NAME      IMAGE     COMMAND   SERVICE   CRED    STATUS    PORTS
 ```
 
 ```
-$ docker ps --format "table ..." | grep -E "supademo|demobr"
+$ docker ps --format "table ..." | grep -E "supademo|easydemo"
 supademo-test  postgres:16-alpine  Up 6 hours  0.0.0.0:55432->5432/tcp
 ```
 
@@ -655,7 +655,7 @@ Recriado conforme padrão do `test-rls.ts`. Cobre:
 
 ### 2. `packages/shared/src/index.ts` (FIX)
 
-Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de `node:crypto` para o client bundle via `lib/i18n/index.tsx → @demo.br/shared`. Comentário explicativo adicionado.
+Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de `node:crypto` para o client bundle via `lib/i18n/index.tsx → @easydemo/shared`. Comentário explicativo adicionado.
 
 ```diff
  export * from "./types/demo";
@@ -666,8 +666,8 @@ Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de 
 -export * from "./test-utils/asaas-payloads";
 +// NOTE: ./test-utils/asaas-payloads uses `node:crypto` and is server/test only.
 +// Do NOT re-export here — it pollutes the client bundle via lib/i18n/index.tsx
-+// which imports from "@demo.br/shared". Import directly from
-+// "@demo.br/shared/test-utils/asaas-payloads" in server/test code.
++// which imports from "@easydemo/shared". Import directly from
++// "@easydemo/shared/test-utils/asaas-payloads" in server/test code.
  export { default as messagesPtBR } from "./i18n/messages.pt-BR.json";
  export { default as messagesEn } from "./i18n/messages.en.json";
  export * from "./i18n/translate";
@@ -696,7 +696,7 @@ Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de 
 4. **`drizzle.config.ts`** — opcionalmente adicionar `migrationsSchema: "drizzle"` config explícito.
 5. **`0000_init.sql`** — substituir `CREATE POLICY` por wrapper `DO $$ ... IF NOT EXISTS` para idempotência full (PG 16 não suporta `IF NOT EXISTS` em `CREATE POLICY`).
 6. **`build` warnings** — investigar (provavelmente ESLint, sem impacto runtime).
-7. **DPF placeholder → DPO real** — após contratação, rodar `sed -i 's/placeholder@demobr.com.br/<email-real>/g' legal/*` + atualizar `{nome_do_DPO}` placeholder.
+7. **DPF placeholder → DPO real** — após contratação, rodar `sed -i 's/placeholder@easydemo.io/<email-real>/g' legal/*` + atualizar `{nome_do_DPO}` placeholder.
 
 ---
 

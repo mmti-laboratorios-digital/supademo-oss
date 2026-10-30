@@ -1,10 +1,10 @@
-import { translate } from "@demo.br/shared/i18n/translate";
+import { translate } from "@easydemo/shared/i18n/translate";
 import { Container, Heading, Hr, Link, Section, Tailwind, Text } from "@react-email/components";
 import type * as React from "react";
 
 /**
  * Shared email layout. Renders:
- *   - Logo "▶ DemoBR" header.
+ *   - Logo "▶ EasyDemo" header.
  *   - Children (the email body).
  *   - Footer with company info + preference/legal/help links (PT-BR).
  *
@@ -129,7 +129,7 @@ export function EmailLayout({
 
             <Text className="mt-4 m-0">
               <Link
-                href="https://demobr.com.br/account/preferences"
+                href="https://easydemo.io/account/preferences"
                 className="text-brand-primary underline"
               >
                 {t("emails.footerPreferences")}
@@ -139,7 +139,7 @@ export function EmailLayout({
                 {t("emails.footerHelp")}
               </Link>
               {" · "}
-              <Link href="https://demobr.com.br/lgpd" className="text-brand-primary underline">
+              <Link href="https://easydemo.io/lgpd" className="text-brand-primary underline">
                 {t("emails.footerLegal")}
               </Link>
             </Text>
@@ -165,6 +165,6 @@ export function EmailLayout({
 }
 
 export const EmailPreviewProps: EmailLayoutProps = {
-  preheader: "DemoBR — Demos interativas em PT-BR.",
+  preheader: "EasyDemo — Demos interativas em PT-BR.",
   children: null,
 };

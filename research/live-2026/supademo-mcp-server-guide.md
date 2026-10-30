@@ -3,7 +3,7 @@
 **Coletado em:** 18 out 2026
 **Source URL canônica:** https://docs.supademo.com/customize/mcp-server.md
 
-> Este arquivo é um guia de referência técnica do MCP server do Supademo — relevante porque DemoBR/qualquer player B2B PLG que quiser manter feature parity no Tier 1 em 2026-2027 precisa entender **qual é o contrato de tools** que Supademo expôs a Claude / ChatGPT / Gemini / Cursor / Copilot.
+> Este arquivo é um guia de referência técnica do MCP server do Supademo — relevante porque EasyDemo/qualquer player B2B PLG que quiser manter feature parity no Tier 1 em 2026-2027 precisa entender **qual é o contrato de tools** que Supademo expôs a Claude / ChatGPT / Gemini / Cursor / Copilot.
 
 ---
 
@@ -199,18 +199,18 @@ Outro exemplo:
 
 ---
 
-## Implicações para DemoBR
+## Implicações para EasyDemo
 
 **Tema 1 — Parity técnico:**
 
-Para ser competitivo com Supademo/Storylane/Arcade em 2026-2027, DemoBR precisa:
+Para ser competitivo com Supademo/Storylane/Arcade em 2026-2027, EasyDemo precisa:
 - Expor **no mínimo 30-50 MCP tools** para Claude/ChatGPT/Cursor.
 - Cobrir: demos (CRUD + steps + hotspots + chapters), analytics, trackable links, voiceover/translation.
 - Plano Free também deveria ter MCP mínimo (tier defensivo contra Supademo Scale $38).
 
 **Tema 2 — Multi-tenant & scope:**
 
-Supademo MCP tem OAuth scoped a workspace + role. DemoBR deveria ter:
+Supademo MCP tem OAuth scoped a workspace + role. EasyDemo deveria ter:
 - `list_workspaces` (workspace switching)
 - `list_demos` com scope `me` vs `workspace`
 - `set_demo_tags` etc.
@@ -218,13 +218,13 @@ Supademo MCP tem OAuth scoped a workspace + role. DemoBR deveria ter:
 
 **Tema 3 — Video + AI agent parity:**
 
-Supademo AI Demo Agent é o "killer" wedge. DemoBR precisa de um **AI Agent conversacional em pt-BR** que use MCP internamente — esse é o **gap de mercado claro**: ninguém oferece AI sales agent conversacional em pt-BR para demos interativas.
+Supademo AI Demo Agent é o "killer" wedge. EasyDemo precisa de um **AI Agent conversacional em pt-BR** que use MCP internamente — esse é o **gap de mercado claro**: ninguém oferece AI sales agent conversacional em pt-BR para demos interativas.
 
 **Tema 4 — Design patterns úteis:**
 
 - **Bulk operations** (1-100 items per call) — economy de tokens.
 - **`update_steps` com null to remove** — pattern útil para "remove zoom from all".
-- **Embedded docs:** Supademo embed demo via `@supademo/embed` para incluir tutoriais interativos dentro do doc do MCP — DemoBR poderia replicar.
+- **Embedded docs:** Supademo embed demo via `@supademo/embed` para incluir tutoriais interativos dentro do doc do MCP — EasyDemo poderia replicar.
 
 ## Fonts
 

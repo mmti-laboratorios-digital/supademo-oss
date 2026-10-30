@@ -39,7 +39,7 @@
 >
 > Oi {{nome}},
 >
-> Obrigada pela call de {{data_call}}. Foi ótimo entender o {{problema_discutido}} da {{empresa}} e como DemoBR pode ajudar.
+> Obrigada pela call de {{data_call}}. Foi ótimo entender o {{problema_discutido}} da {{empresa}} e como EasyDemo pode ajudar.
 >
 > **Recap do que conversamos:**
 >
@@ -53,7 +53,7 @@
 >
 > **Case similar que pode ajudar:**
 >
-> {{case_similar}}. A {{empresa_case}} enfrentava dor parecida com a sua — {{métrica_resultado}}. Adaptaram em {{tempo_adaptacao}} usando DemoBR Pro (R$ 49/mês).
+> {{case_similar}}. A {{empresa_case}} enfrentava dor parecida com a sua — {{métrica_resultado}}. Adaptaram em {{tempo_adaptacao}} usando EasyDemo Pro (R$ 49/mês).
 >
 > Quer ver a demo do case? Link: [{{link_case}}]
 >
@@ -66,7 +66,7 @@
 > Se tiver qualquer dúvida, responde esse email — eu mesma respondo.
 >
 > — Ana
-> DemoBR
+> EasyDemo
 
 ---
 
@@ -111,9 +111,9 @@
 
 - Link da demo criada na call (sempre)
 - 1 case similar (com métrica real ou fictícia — ver `CASE-STUDIES/`)
-- Link do trial Pro: `https://app.demobr.com.br/signup?ref=call-{{nome}}`
-- Link da central de ajuda: `https://docs.demobr.com.br`
-- Calendly pra agendar onboarding assistido: `https://calendly.com/demobr/onboarding`
+- Link do trial Pro: `https://app.easydemo.io/signup?ref=call-{{nome}}`
+- Link da central de ajuda: `https://docs.easydemo.io`
+- Calendly pra agendar onboarding assistido: `https://calendly.com/easydemo/onboarding`
 
 ---
 

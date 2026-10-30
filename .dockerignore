@@ -1,5 +1,5 @@
 # =============================================================================
-# DemoBR — .dockerignore
+# EasyDemo — .dockerignore
 # -----------------------------------------------------------------------------
 # Sem este arquivo, `COPY apps/web ./apps/web` traz o node_modules do host
 # (binários nativos darwin-arm64: sharp, esbuild) para dentro do container

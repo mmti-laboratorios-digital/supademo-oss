@@ -1,4 +1,4 @@
-# CONCLAVE PO — PR #1 Greenlight Checklist · DemoBR v0.1
+# CONCLAVE PO — PR #1 Greenlight Checklist · EasyDemo v0.1
 
 > **Persona:** PO/PM SaaS B2B (8 anos GTM/PLG LATAM).
 > **Data:** 2026-10-18.
@@ -56,7 +56,7 @@
 | # | Gap | Mitigação no PR description |
 |---|-----|------------------------------|
 | **G7** | DPO é placeholder (issue #6) | Declarar "DPO placeholder funcional até contratação formal" |
-| **G8** | CNPJ/identidade jurídica placeholder (issue #7) | Declarar "DemoBR LTDA em constituição" |
+| **G8** | CNPJ/identidade jurídica placeholder (issue #7) | Declarar "EasyDemo LTDA em constituição" |
 | **G9** | Cookie banner não implementado (issue #8) | Declarar "cookie banner opt-in antes do primeiro cliente pagante" |
 | **G10** | Idempotency in-memory no webhook Asaas (issue #10) | Declarar "PR de fix (#10) aberto na sequência" |
 | **G11** | Pricing não validado com clientes reais (issue #11) | Declarar "MVP pricing R$ 49/R$ 199 sem validação empírica" |
@@ -77,7 +77,7 @@
 ### 3.1 Escopo do PR (o que vai dentro)
 
 ```
-[CHORE] Open Source Scaffold · DemoBR v0.1
+[CHORE] Open Source Scaffold · EasyDemo v0.1
 ├── infra/
 │   ├── postgres/         (init-roles.sql, ROLES.md, pgbackrest config)
 │   ├── hetzner/          (CPX32 setup README)
@@ -154,7 +154,7 @@
 ### 3.3 Backlog explícito (não-bloqueante para PR #1)
 
 - DPO placeholder (issue #6) — bloqueador de go-live comercial
-- Constituição DemoBR LTDA com CNPJ real (issue #7)
+- Constituição EasyDemo LTDA com CNPJ real (issue #7)
 - Banner de cookies opt-in (issue #8)
 - Conectar DemoPlayer ao reducer puro (issue #9)
 - Mover idempotency do webhook Asaas para DB (issue #10)
@@ -173,7 +173,7 @@
 ## 4. Sugestão de Descrição do PR
 
 ```markdown
-## DemoBR v0.1 — Scaffold open-source do clone brasileiro do Supademo
+## EasyDemo v0.1 — Scaffold open-source do clone brasileiro do Supademo
 
 > Clone brasileiro do Supademo, otimizado para o mercado BR com PIX/boleto,
 > LGPD de ponta a ponta e player pt-BR-first. Este PR é o **scaffold inicial** —
@@ -204,8 +204,8 @@
 
 🔴 **Bloqueadores de go-live comercial** (declarados, não corrigidos aqui):
 
-- **#6** — DPO placeholder (`placeholder@demobr.com.br`) — LGPD art. 41
-- **#7** — DemoBR LTDA em constituição (CNPJ placeholder)
+- **#6** — DPO placeholder (`placeholder@easydemo.io`) — LGPD art. 41
+- **#7** — EasyDemo LTDA em constituição (CNPJ placeholder)
 - **#8** — Banner de cookies opt-in não implementado (LGPD art. 8º)
 - **#3** — `init-db.sh` cria `app_owner SUPERUSER` (divergência com `init-roles.sql`) — fix aberto em PR #SRE-1
 - **#5** — `verifyWebhookSignature` do Asaas usa plain-equality (HMAC-SHA256 não aplicado) — fix aberto em PR #SRE-3
@@ -264,7 +264,7 @@ Lista obtida via `gh issue list --repo mmti-laboratorios-digital/supademo-oss --
 | **#4** | SRE-2: DSR DELETE usa getDb() sem tenant context (LGPD art. 18) | bloqueador, database, lgpd | 🔴 |
 | **#5** | SRE-3: verifyWebhookSignature do Asaas implementada errada | bloqueador, segurança, billing | 🔴 |
 | **#6** | LEGAL-1: Contratar DPO (Encarregado de Proteção de Dados) | bloqueador, lgpd, negócio | 🔴 |
-| **#7** | LEGAL-2: Constituir DemoBR LTDA com CNPJ real | bloqueador, lgpd, negócio | 🔴 |
+| **#7** | LEGAL-2: Constituir EasyDemo LTDA com CNPJ real | bloqueador, lgpd, negócio | 🔴 |
 | **#8** | LEGAL-3: Implementar banner de cookies opt-in | bloqueador, frontend, lgpd | 🔴 |
 | **#9** | DEV-2: Conectar DemoPlayer ao reducer puro testado | frontend, testes | 🟡 |
 | **#10** | SRE-4: Mover idempotency do webhook Asaas para DB | backend, billing | 🟡 |
@@ -302,7 +302,7 @@ Lista obtida via `gh issue list --repo mmti-laboratorios-digital/supademo-oss --
 4. **Zero secrets em GH Actions** (G4) — popular antes do primeiro CI run contra serviços reais
 5. **Apenas 1 environment** (`production` direto) sem `dev`/`staging` (G5)
 
-**Após os 6 gaps duros endereçados, o PR #1 pode ser mergeado como "DemoBR v0.1 — Scaffold OSS production-ready-ish"**, com 7 issues 🔴 declaradas como backlog obrigatório antes do go-live comercial (DPO + CNPJ + cookie banner + 4 fixes de SRE).
+**Após os 6 gaps duros endereçados, o PR #1 pode ser mergeado como "EasyDemo v0.1 — Scaffold OSS production-ready-ish"**, com 7 issues 🔴 declaradas como backlog obrigatório antes do go-live comercial (DPO + CNPJ + cookie banner + 4 fixes de SRE).
 
 **Próximos PRs sugeridos (em ordem de prioridade):**
 

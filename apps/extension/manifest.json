@@ -1,14 +1,14 @@
 {
   "//": "Manifest gerado pelo WXT em runtime (wxt.config.ts). Este arquivo existe apenas como fallback para ferramentas externas (ex: Chrome Web Store upload direto).",
   "manifest_version": 3,
-  "name": "DemoBR Capture",
+  "name": "EasyDemo Capture",
   "version": "0.1.0",
   "description": "Capture interativa de demos SaaS.",
   "permissions": ["activeTab", "storage", "scripting"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "DemoBR Capture"
+    "default_title": "EasyDemo Capture"
   },
   "background": {
     "service_worker": "background.js",

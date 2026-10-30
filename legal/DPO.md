@@ -1,10 +1,10 @@
-# 👤 Encarregado de Proteção de Dados (DPO) — DemoBR
+# 👤 Encarregado de Proteção de Dados (DPO) — EasyDemo
 
 > Documento de referência para a **contratação e onboarding** do
-> Encarregado de Proteção de Dados (DPO) da DemoBR LTDA, conforme
+> Encarregado de Proteção de Dados (DPO) da EasyDemo LTDA, conforme
 > **LGPD art. 41**.
 >
-> **Status atual:** ⏳ **PENDENTE DE CONTRATAÇÃO** — a DemoBR está em
+> **Status atual:** ⏳ **PENDENTE DE CONTRATAÇÃO** — a EasyDemo está em
 > processo de nomeação formal. Esta nomeação será concluída em até
 > **90 dias contados da publicação** da política de privacidade.
 >
@@ -32,9 +32,9 @@ Este documento:
 6. Estabelece o **timeline** até a contratação formal.
 
 > ⚠️ **Importante**: até a nomeação formal, **não fazemos nenhuma
-> afirmação pública de que a DemoBR já tem DPO contratado**. O
-> canal `dpo@demobr.com.br` é um **placeholder funcional** que
-> encaminha para a liderança da DemoBR LTDA, conforme descrito em
+> afirmação pública de que a EasyDemo já tem DPO contratado**. O
+> canal `dpo@easydemo.io` é um **placeholder funcional** que
+> encaminha para a liderança da EasyDemo LTDA, conforme descrito em
 > [`DPO-PROCESS.md`](./DPO-PROCESS.md).
 
 ---
@@ -46,7 +46,7 @@ permite que o encarregado seja qualquer pessoa — física ou
 jurídica — desde que tenha **capacidade técnica e jurídica**
 compatível com o volume e a sensibilidade dos tratamentos.
 
-As 3 personas mais recomendadas para o porte da DemoBR são:
+As 3 personas mais recomendadas para o porte da EasyDemo são:
 
 ### 2.1 Advogado(a) com OAB ativa, especializado(a) em LGPD
 
@@ -90,7 +90,7 @@ As 3 personas mais recomendadas para o porte da DemoBR são:
 - **Custo médio (Brasil, 2026)**: R$ 6k–R$ 15k/mês (PJ retainer) +
   custo de certificação (~R$ 2k/ano).
 
-> **Recomendação DemoBR**: para o porte atual (< 1.000 creators
+> **Recomendação EasyDemo**: para o porte atual (< 1.000 creators
 > ativos, em sua maioria PJ), a persona **2.3** (DPO dedicado
 > certificado) ou **2.1** (advogado especializado) é a mais
 > adequada. A combinação **2.1 + 2.3** (DPO interno certificado +
@@ -142,14 +142,14 @@ Cada candidato deve ser pontuado em cada critério (escala 0–5).
 ### 3.6 Reputação e referências (peso: médio)
 
 - **Ideal**: ao menos 2 referências de clientes PJ com porte
-  similar ao DemoBR.
+  similar ao EasyDemo.
 - **Aceitável**: LinkedIn com endorsements e publicações técnicas.
 - **Insuficiente**: sem histórico público.
 
 ### 3.7 Independência (peso: alto)
 
 - **Ideal**: pessoa ou firma **sem conflito de interesse** com
-  clientes concorrentes do DemoBR (ex.: outros SaaS de demos).
+  clientes concorrentes do EasyDemo (ex.: outros SaaS de demos).
 - **Aceitável**: declaração formal de inexistência de conflito.
 - **Insuficiente**: alguém do time fundador acumulando a função.
 
@@ -171,7 +171,7 @@ Cada candidato deve ser pontuado em cada critério (escala 0–5).
 | **Prós** | Integração com a equipe, conhecimento profundo do produto, presença em reuniões de produto |
 | **Contras** | Custo fixo, dependência de uma pessoa, exige substituição em férias/afastamentos |
 | **Quando escolher** | A partir de ~5.000 creators ativos ou quando o DPO for envolvido em decisões de produto (privacy by design) em tempo real |
-| **Recomendação DemoBR** | ⏳ Não prioritário nos primeiros 12 meses |
+| **Recomendação EasyDemo** | ⏳ Não prioritário nos primeiros 12 meses |
 
 ### 4.2 Caminho B — DPO externo (PJ retainer)
 
@@ -181,8 +181,8 @@ Cada candidato deve ser pontuado em cada critério (escala 0–5).
 | **Custo mensal estimado** | R$ 2k–R$ 5k (DPO júnior) ou R$ 5k–R$ 15k (DPO sênior certificado) |
 | **Prós** | Sem encargos CLT, fácil substituição, custo variável, expertise de quem atende múltiplos clientes |
 | **Contras** | Não está "full-time" no produto, exige onboarding cuidadoso, risco de conflito de interesse |
-| **Quando escolher** | Para empresa em estágio inicial/médio (< 5.000 creators) — caso da DemoBR |
-| **Recomendação DemoBR** | ✅ **Recomendado** para os primeiros 12 meses |
+| **Quando escolher** | Para empresa em estágio inicial/médio (< 5.000 creators) — caso da EasyDemo |
+| **Recomendação EasyDemo** | ✅ **Recomendado** para os primeiros 12 meses |
 
 ### 4.3 Caminho C — Plataforma de DPO as a Service
 
@@ -194,9 +194,9 @@ Cada candidato deve ser pontuado em cada critério (escala 0–5).
 | **Contras** | DPO pode não ser o mesmo ao longo do tempo; menor profundidade no produto |
 | **Plataformas conhecidas (2026)** | Exind (BR), Privacy Tools (BR), Privally (LATAM), OneTrust DPO Office (global), TrustArc DPO-as-a-Service (global) |
 | **Quando escolher** | Quando há restrição orçamentária severa ou quando a empresa quer cobertura 24/7 |
-| **Recomendação DemoBR** | 🟡 Avaliar como alternativa ao Caminho B |
+| **Recomendação EasyDemo** | 🟡 Avaliar como alternativa ao Caminho B |
 
-> **Decisão recomendada**: a DemoBR deve iniciar pelo **Caminho B**
+> **Decisão recomendada**: a EasyDemo deve iniciar pelo **Caminho B**
 > (DPO externo PJ retainer, júnior a sênior conforme orçamento) e
 > reavaliar a cada 6 meses.
 
@@ -209,14 +209,14 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 5.1 Sigilo e confidencialidade
 
-- Não divulgar informações pessoais tratadas pela DemoBR a
+- Não divulgar informações pessoais tratadas pela EasyDemo a
   terceiros, exceto quando exigido por lei ou ordem judicial.
 - Assina **Termo de Confidencialidade (NDA)** com cláusula de
   penalidade em caso de violação.
 
 ### 5.2 Comunicação com a ANPD
 
-- Servir como ponto de contato oficial entre a DemoBR e a ANPD
+- Servir como ponto de contato oficial entre a EasyDemo e a ANPD
   (LGPD art. 41, §1º).
 - Reportar à ANPD incidentes relevantes em até **24h** após
   confirmação (LGPD art. 48).
@@ -257,7 +257,7 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 5.7 Reporte à liderança
 
-- Reportar **mensalmente** à liderança da DemoBR (CEO/sócios)
+- Reportar **mensalmente** à liderança da EasyDemo (CEO/sócios)
   status de conformidade.
 - Reportar **trimestralmente** resumo de DSR, incidentes e
   mudanças regulatórias.
@@ -276,8 +276,8 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 6.1 Endereço de e-mail oficial
 
-- **E-mail:** `dpo@demobr.com.br` *(placeholder — ver nota abaixo)*
-- **Tipo:** alias que **encaminha** para a liderança da DemoBR
+- **E-mail:** `dpo@easydemo.io` *(placeholder — ver nota abaixo)*
+- **Tipo:** alias que **encaminha** para a liderança da EasyDemo
   até que o DPO formal seja contratado.
 - **Configuração recomendada:**
   - Encaminhar para: caixa da liderança (CTO/CEO).
@@ -287,7 +287,7 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 6.2 Página pública do DPO
 
-URL planejada: `https://www.demobr.com.br/dpo`
+URL planejada: `https://www.easydemo.io/dpo`
 
 Conteúdo da página (quando publicada):
 
@@ -301,7 +301,7 @@ Conteúdo da página (quando publicada):
 
 ### 6.3 Formulário público DSR
 
-URL: `https://app.demobr.com.br/privacidade/solicitacao`
+URL: `https://app.easydemo.io/privacidade/solicitacao`
 
 - Para titulares que não querem mandar e-mail.
 - Backend com identidade verificada (ver
@@ -309,7 +309,7 @@ URL: `https://app.demobr.com.br/privacidade/solicitacao`
 
 ### 6.4 Canal de emergência
 
-URL/email: `security@demobr.com.br`
+URL/email: `security@easydemo.io`
 
 - Para reportar incidentes de segurança ou suspeita de vazamento.
 - Resposta inicial: ≤ 24h (ver
@@ -319,13 +319,13 @@ URL/email: `security@demobr.com.br`
 
 ## 7. Timeline sugerido
 
-A DemoBR estabelece o seguinte cronograma para formalização do DPO.
+A EasyDemo estabelece o seguinte cronograma para formalização do DPO.
 Datas relativas a partir da data de **publicação** da política de
 privacidade:
 
 ```
 D+0      Publicação da política de privacidade
-         (todos os docs em legal/ com placeholder `dpo@demobr.com.br`)
+         (todos os docs em legal/ com placeholder `dpo@easydemo.io`)
 
 D+0 a D+15
          Fase 0 — Levantamento
@@ -350,10 +350,10 @@ D+75 a D+90
          - Assinar contrato.
          - Onboarding (ver `DPO-PROCESS.md` §2).
          - Atualizar `privacy-policy.md` §11 com nome real.
-         - Atualizar página `https://www.demobr.com.br/dpo`.
+         - Atualizar página `https://www.easydemo.io/dpo`.
          - Comunicar nomeação à ANPD (formulário disponível em
            https://www.gov.br/anpd/).
-         - Substituir `placeholder@demobr.com.br` por e-mail real
+         - Substituir `placeholder@easydemo.io` por e-mail real
            do DPO em todos os docs (ver `PHASE-13-dpo-placeholder.md`
            para o script de substituição).
 
@@ -412,14 +412,14 @@ Ver §4.3 — solicitar proposta de **Exind, Privacy Tools, Privally**.
 
 Este documento **NÃO** afirma:
 
-- ❌ Que a DemoBR já contratou um DPO.
+- ❌ Que a EasyDemo já contratou um DPO.
 - ❌ Que existe uma pessoa física ou jurídica ocupando o cargo.
-- ❌ Que o canal `dpo@demobr.com.br` é monitorado por um
+- ❌ Que o canal `dpo@easydemo.io` é monitorado por um
   encarregado certificado.
 
 Este documento **AFIRMA**:
 
-- ✅ Que a DemoBR **reconhece a obrigação legal** (LGPD art. 41).
+- ✅ Que a EasyDemo **reconhece a obrigação legal** (LGPD art. 41).
 - ✅ Que há um **processo formal** de contratação em andamento.
 - ✅ Que existe um **canal funcional** (encaminhamento para a
   liderança) com SLA definido.
@@ -430,7 +430,7 @@ Este documento **AFIRMA**:
 
 ## 10. Próximos passos para o usuário (não o subagente)
 
-Esta seção é **para o usuário humano** que opera a DemoBR LTDA.
+Esta seção é **para o usuário humano** que opera a EasyDemo LTDA.
 
 1. **Aprovar o orçamento** para DPO (sócios/board).
 2. **Decidir o caminho** de contratação (§4).
@@ -438,11 +438,11 @@ Esta seção é **para o usuário humano** que opera a DemoBR LTDA.
 4. **Conduzir entrevistas** com finalistas.
 5. **Após contratação**:
    - Substituir todos os placeholders
-     `placeholder@demobr.com.br` por e-mail real do DPO (script
+     `placeholder@easydemo.io` por e-mail real do DPO (script
      em `setup-report/PHASE-13-dpo-placeholder.md`).
    - Preencher `CHANGELOG-DPO.md` §4 com nome e CPF do DPO.
    - Atualizar `legal/privacy-policy.md` §11.
-   - Atualizar `https://www.demobr.com.br/dpo`.
+   - Atualizar `https://www.easydemo.io/dpo`.
    - Comunicar nomeação à ANPD.
 6. **Rodar `pnpm exec tsx scripts/check-dpo-missing.ts`** — deve
    retornar exit 0.
@@ -453,5 +453,5 @@ Esta seção é **para o usuário humano** que opera a DemoBR LTDA.
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — PENDENTE DE CONTRATAÇÃO
 Versão: 0.1.0
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

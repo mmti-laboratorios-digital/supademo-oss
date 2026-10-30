@@ -413,9 +413,9 @@ Para nosso projeto, vamos com PostHog (analytics + replay) + Sentry (errors).
 | Tarefa | tamanho |
 |---------|---------|
 | Setup monorepo (Turborepo + pnpm) | S |
-| Portar `@guideflow/core` (FSM) como `@demo.br/core` | M |
-| Implementar `@demo.br/player` baseado em Spotlane | M |
-| Implementar `@demo.br/editor` (extensão MV3) baseado em SubwatG/GuideFlow | M |
+| Portar `@guideflow/core` (FSM) como `@easydemo/core` | M |
+| Implementar `@easydemo/player` baseado em Spotlane | M |
+| Implementar `@easydemo/editor` (extensão MV3) baseado em SubwatG/GuideFlow | M |
 | Render de vídeo via Remotion (Fase 2) | L |
 | OCR pipeline com Tesseract.js | M |
 | Sandbox mode com rrweb (Fase 2) | L |

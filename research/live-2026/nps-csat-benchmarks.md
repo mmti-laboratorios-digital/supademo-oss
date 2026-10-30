@@ -79,7 +79,7 @@ Devido à falha de websearch nesta sessão, **não foi possível obter benchmark
 
 ---
 
-## Recommendations for next session (Next steps for DemoBR)
+## Recommendations for next session (Next steps for EasyDemo)
 
 1. **Capture direto do Navattic State of Interactive Demo 2026** (`/report/state-of-...`) — fonte definitiva de setor.
 2. **Buscar reports de CX platforms:** Delighted, Customer Gauge, Bain NPS Series 2026.

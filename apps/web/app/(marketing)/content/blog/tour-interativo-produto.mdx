@@ -10,13 +10,13 @@ readingTimeMin: 11
 
 ## O que é um tour interativo (e quando ele ganha do vídeo)
 
-Tour interativo é o formato assíncrono de demo: em vez do lead assistir um vídeo de 10 minutos, ele clica nos steps, no próprio ritmo, e decide onde quer parar. A DemoBR é um player de tours interativos — compete com Loom, Supademo, Storylane e Guideflow.
+Tour interativo é o formato assíncrono de demo: em vez do lead assistir um vídeo de 10 minutos, ele clica nos steps, no próprio ritmo, e decide onde quer parar. A EasyDemo é um player de tours interativos — compete com Loom, Supademo, Storylane e Guideflow.
 
 Quando tour ganha do vídeo: o lead chega "frio" (não te conhece), o produto é UI-heavy (dashboard, banco, relatório), e a demo precisa de menos de 10 passos pra contar a história. Quando vídeo ganha: o produto é conceitual (plataforma de dados, infra), o lead já é cliente em onboarding ou expansion, e a demo é 1 fluxo profundo que exige contexto.
 
 A regra prática: se cabe em 8 screenshots, vai de tour. Se precisa de contexto, vai de vídeo. Se é um SaaS B2B UI-heavy com lead em topo de funil, vai de tour em 9 de 10 casos.
 
-A segunda vantagem: tour é mais barato de manter. Atualizar um tour que mudou de UI leva 10 minutos. Re-gravar um vídeo leva 1 hora e você fica com 2 versões conflitando no Notion. A DemoBR detecta automaticamente mudança de UI entre versões, então o criador recebe alerta pra regravar.
+A segunda vantagem: tour é mais barato de manter. Atualizar um tour que mudou de UI leva 10 minutos. Re-gravar um vídeo leva 1 hora e você fica com 2 versões conflitando no Notion. A EasyDemo detecta automaticamente mudança de UI entre versões, então o criador recebe alerta pra regravar.
 
 ## Anatomia de um tour que converte
 
@@ -28,7 +28,7 @@ Um tour que converte tem 7 elementos:
 4. **Hotspot cursor** — pulse suave (não animações pesadas), na direção da ação.
 5. **Narração opcional** — TTS pt-BR, voz masculina ou feminina, 30 min/mês no Pro.
 6. **CTA no último step** — WhatsApp, e-mail, agendamento ou form de lead LGPD.
-7. **Branding consistente** — se for white-label, sem "Feito com DemoBR" exposto.
+7. **Branding consistente** — se for white-label, sem "Feito com EasyDemo" exposto.
 
 Métricas de qualidade: **completion rate acima de 50%** é bom. Abaixo de 30%, refaça. Entre 30 e 50%, ajuste caption ou corte 1-2 steps.
 
@@ -44,13 +44,13 @@ Capricho na captura importa porque o lead vai julgar o produto pelo tour. Se o t
 - **Cursor lento.** Não voe pela tela. Cada clique é um novo step com caption.
 - **Pause pra highlight.** Se um elemento é fácil de perder, anote no caption "Repare no canto superior direito".
 
-A DemoBR tem modo "review" antes de publicar — você vê cada step lado a lado com caption e edita antes de subir pro R2. Use esse modo. A diferença entre tour publicado direto e tour revisado é night-and-day.
+A EasyDemo tem modo "review" antes de publicar — você vê cada step lado a lado com caption e edita antes de subir pro R2. Use esse modo. A diferença entre tour publicado direto e tour revisado é night-and-day.
 
 ## Player: o que importa pro lead
 
 Do lado do lead, o player deve:
 
-- **Carregar em menos de 2s.** Lighthouse Performance acima de 90. DemoBR garante via CDN e SSR caching.
+- **Carregar em menos de 2s.** Lighthouse Performance acima de 90. EasyDemo garante via CDN e SSR caching.
 - **Mostrar progresso.** "Step 3 de 6" no topo, barra de progresso sutil.
 - **Ter narração opcional.** Ícone de play/pause acessível por keyboard.
 - **Banner LGPD na primeira visita.** "Este demo usa cookies first-party. Pode aceitar ou recusar." Botões explícitos.
@@ -61,7 +61,7 @@ Detalhes que diferenciam: atalho "Esc" volta pro passo anterior; "→" avança; 
 
 ## Métricas que importam
 
-A DemoBR mede, por tour:
+A EasyDemo mede, por tour:
 
 - **View → Start:** lead abriu e clicou em "Iniciar demo". Acima de 70% é bom.
 - **Start → End:** lead viu até o último step. 50%+ é saudável.
@@ -81,7 +81,7 @@ Um tour interativo que ninguém vê não converte. Distribua em:
 - **Material de evento.** QR Code impresso no estande. O lead escaneia, vê no próprio celular, deixa contato.
 - **Onboarding pós-compra.** Email D+1 manda tour de "como usar o produto que você comprou". Trial-to-paid sobe 22% em média.
 
-A DemoBR tem URL estável e permalink. Compartilhe em qualquer canal sem medo de quebrar. Embed iframe aceita em qualquer site (incluindo Webflow, Framer, WordPress).
+A EasyDemo tem URL estável e permalink. Compartilhe em qualquer canal sem medo de quebrar. Embed iframe aceita em qualquer site (incluindo Webflow, Framer, WordPress).
 
 ## Erros comuns que matam tour
 
@@ -90,8 +90,8 @@ A DemoBR tem URL estável e permalink. Compartilhe em qualquer canal sem medo de
 3. **CTA genérico no fim.** "Fale conosco" é vago. "Manda seu WhatsApp que eu te ligo em 30 minutos" é 5x melhor.
 4. **Narração lendo caption.** Lead lê mais rápido do que TTS fala. Sincronize ou remova.
 5. **Hotspot sumindo.** Lead não sabe pra onde clicar. Pulse do cursor deve ser visível.
-6. **Sem PII redaction.** Capturou tela de admin, e-mail de cliente aparece visível no screenshot. DemoBR detecta e avisa antes de publicar.
-7. **Embed com "Feito com DemoBR".** No Free tem. No Pro/Business sai. Branded é melhor.
+6. **Sem PII redaction.** Capturou tela de admin, e-mail de cliente aparece visível no screenshot. EasyDemo detecta e avisa antes de publicar.
+7. **Embed com "Feito com EasyDemo".** No Free tem. No Pro/Business sai. Branded é melhor.
 
 <!-- faq -->
 Q: Qual a diferença entre tour e demo ao vivo?
@@ -107,10 +107,10 @@ Q: Preciso de narração?
 A: Não. Boa legenda em caption muitas vezes converte mais que narração TTS porque lead lê no próprio ritmo. Use narração pra demos de onboarding (D+0 do trial) onde lead está relaxado.
 
 Q: Como faço tour de produto que ainda não foi lançado?
-A: Modo "preview" da DemoBR permite capturar com marca d'água "Beta" e bloquear public link até você liberar. Funciona bem pra beta fechada.
+A: Modo "preview" da EasyDemo permite capturar com marca d'água "Beta" e bloquear public link até você liberar. Funciona bem pra beta fechada.
 
 Q: O tour conta como touchpoint em lead scoring?
-A: Sim, na DemoBR cada step + cada conversão dispara evento que seu CRM BR recebe via webhook. Lead que viu tour inteiro recebe tag "demo-completed" automaticamente.
+A: Sim, na EasyDemo cada step + cada conversão dispara evento que seu CRM BR recebe via webhook. Lead que viu tour inteiro recebe tag "demo-completed" automaticamente.
 
 Q: Funciona embed em newsletter?
-A: Não, e-mail não suporta iframe por padrão. Pra newsletter, capture thumbnail + CTA "Ver demo completo em demobr.com.br/d/seu-slug".
+A: Não, e-mail não suporta iframe por padrão. Pra newsletter, capture thumbnail + CTA "Ver demo completo em easydemo.io/d/seu-slug".

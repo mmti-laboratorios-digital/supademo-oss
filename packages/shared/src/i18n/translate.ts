@@ -1,5 +1,5 @@
 /**
- * Lightweight i18n translator for the DemoBR web app.
+ * Lightweight i18n translator for the EasyDemo web app.
  *
  * - Plain function (no React context, no hooks) so it works in:
  *     * Server Components (RSC) — pure function call, no Provider needed.
@@ -13,7 +13,7 @@
  *
  * Usage:
  *
- *   import { t, createTranslator } from "@demo.br/shared/i18n/translate";
+ *   import { t, createTranslator } from "@easydemo/shared/i18n/translate";
  *
  *   // RSC + emails — pick a locale, get a `t()` and a dictionary.
  *   const { t } = createTranslator("pt-BR");

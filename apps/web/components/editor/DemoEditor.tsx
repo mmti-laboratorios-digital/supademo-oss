@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useTranslate } from "@/lib/i18n";
-import type { Demo, FinalCta, Hotspot, HotspotType, Step } from "@demo.br/shared";
+import type { Demo, FinalCta, Hotspot, HotspotType, Step } from "@easydemo/shared";
 import { AlertCircle, Eye, Save } from "lucide-react";
 import * as React from "react";
 import { z } from "zod";

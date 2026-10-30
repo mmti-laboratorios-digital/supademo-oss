@@ -107,11 +107,11 @@
 
 > **Observação sobre LLM observability:** nenhum site torna pública qual ferramenta usa para instrumentar AI agents. Como o AI Agent virou produto, *Langfuse* (ou Helicone) é o default. Inferido.
 
-## Implicações para DemoBR
+## Implicações para EasyDemo
 
-1. **O padrão de fato é:** 1) AI agent via LLM provider; 2) ElevenLabs para voice; 3) AshbyHQ para ATS; 4) Atlassian Statuspage ou Better Stack para status. DemoBR pode usar qualquer provider BRL-friendly (OpenAI via Azure Brazil, ElevenLabs via API global, Langfuse self-host no Postgres).
-2. **MCP é commoditização rápida.** DemoBR pode sair com MCP server no primeiro release público.
-3. **Áudio AI em pt-BR** é um gap de mercado — ElevenLabs suporta, mas Storylane/Supademo clonam voice em inglês. DemoBR pode ser o "AI Agent em pt-BR para demos".
+1. **O padrão de fato é:** 1) AI agent via LLM provider; 2) ElevenLabs para voice; 3) AshbyHQ para ATS; 4) Atlassian Statuspage ou Better Stack para status. EasyDemo pode usar qualquer provider BRL-friendly (OpenAI via Azure Brazil, ElevenLabs via API global, Langfuse self-host no Postgres).
+2. **MCP é commoditização rápida.** EasyDemo pode sair com MCP server no primeiro release público.
+3. **Áudio AI em pt-BR** é um gap de mercado — ElevenLabs suporta, mas Storylane/Supademo clonam voice em inglês. EasyDemo pode ser o "AI Agent em pt-BR para demos".
 
 ## Fonts
 

@@ -297,12 +297,12 @@ Baseado em observação dos produtos + blogs públicos:
 ```jsonc
 {
   "manifest_version": 3,
-  "name": "DemoBR Capture",
+  "name": "EasyDemo Capture",
   "version": "0.1.0",
   "description": "Capture interactive product demos in seconds.",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "DemoBR"
+    "default_title": "EasyDemo"
   },
   "background": {
     "service_worker": "sw.js",

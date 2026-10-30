@@ -11,7 +11,7 @@
 ## Quando usar
 
 Quando o titular solicita, nos termos do LGPD art. 18, I, que a
-DemoBR confirme se trata ou não dados pessoais seus.
+EasyDemo confirme se trata ou não dados pessoais seus.
 
 ---
 
@@ -23,7 +23,7 @@ Antes de preencher, colete:
 |----------|--------|
 | `{nome_do_titular}` | declarado no pedido |
 | `{documento}` | RG/CNH declarado |
-| `{email_demobr}` | email do titular em nossos sistemas (pode ser null) |
+| `{email_easydemo}` | email do titular em nossos sistemas (pode ser null) |
 | `{data_pedido}` | timestamp do ticket DSR |
 | `{categorias_dados}` | categorias que tratamos (ver §A) |
 | `{finalidades}` | finalidades específicas (ver §B) |
@@ -79,9 +79,9 @@ Escolher conforme a origem do titular:
 ## C — Modelo de carta-resposta
 
 ```
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 Rua Exemplo, nº 123, sala 45, Centro, Cidade/UF, CEP XXXXX-XXX
-E-mail do DPO: placeholder@demobr.com.br *(placeholder funcional
+E-mail do DPO: placeholder@easydemo.io *(placeholder funcional
 até a nomeação formal do DPO — ver `DPO-PROCESS.md`)*
 
 {dia} de {mês} de {ano}
@@ -106,12 +106,12 @@ Após verificação da sua identidade, vimos informar:
 1. CONFIRMAÇÃO DE TRATAMENTO
 
    [Opção A — Tratamos dados]
-   Confirmamos que a DemoBR LTDA trata dados pessoais seus,
+   Confirmamos que a EasyDemo LTDA trata dados pessoais seus,
    conforme detalhado abaixo, em razão da sua relação conosco
    na qualidade de {creator / lead / visitante / outro}.
 
    [Opção B — Não tratamos dados que o(a) identifiquem]
-   Informamos que a DemoBR LTDA NÃO trata dados pessoais que
+   Informamos que a EasyDemo LTDA NÃO trata dados pessoais que
    permitam identificá-lo(a) como titular específico em nossos
    sistemas. As únicas informações registradas para acessos ao
    player público são agregadas e anonimizadas, conforme nossa
@@ -143,7 +143,7 @@ Após verificação da sua identidade, vimos informar:
 5. COMPARTILHAMENTO
 
    Seus dados podem ter sido compartilhados com os subprocessadores
-   listados em https://www.demobr.com.br/subprocessadores, sob
+   listados em https://www.easydemo.io/subprocessadores, sob
    cláusulas-padrão contratuais em conformidade com LGPD art. 33.
 
 6. RETENÇÃO
@@ -156,8 +156,8 @@ Após verificação da sua identidade, vimos informar:
 
    Você pode exercer a qualquer momento os demais direitos
    previstos no LGPD art. 18, II a X, por meio do formulário
-   https://app.demobr.com.br/privacidade/solicitacao ou pelo
-   e-mail placeholder@demobr.com.br *(placeholder até contratação
+   https://app.easydemo.io/privacidade/solicitacao ou pelo
+   e-mail placeholder@easydemo.io *(placeholder até contratação
    do DPO — ver `DPO-PROCESS.md`)*.
 
 8. CANAL COM A ANPD
@@ -173,8 +173,8 @@ Atenciosamente,
 
 ─────────────────────────────────────────
 {nome_do_DPO}
-Encarregado (DPO) — DemoBR LTDA
-E-mail: placeholder@demobr.com.br *(placeholder até contratação
+Encarregado (DPO) — EasyDemo LTDA
+E-mail: placeholder@easydemo.io *(placeholder até contratação
 formal — ver `DPO-PROCESS.md`)*
 ```
 
@@ -186,7 +186,7 @@ formal — ver `DPO-PROCESS.md`)*
 - **Formato de envio**: PDF assinado digitalmente (ou texto simples
   com assinatura visual do DPO).
 - **Registro**: enviar via canal autenticado (e-mail de
-  `placeholder@demobr.com.br` para o e-mail declarado pelo titular
+  `placeholder@easydemo.io` para o e-mail declarado pelo titular
   — placeholder funcional até a contratação formal do DPO).
 - **Log**: registrar em `app.dsr_log` com `action='confirm'`,
   `status='done'`.
@@ -198,5 +198,5 @@ formal — ver `DPO-PROCESS.md`)*
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

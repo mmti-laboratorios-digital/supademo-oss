@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://www.demobr.com.br/schemas/rtbf-data-export-v1.json",
-  "title": "DemoBR — Export de Dados Pessoais (LGPD art. 18, II e V)",
+  "$id": "https://www.easydemo.io/schemas/rtbf-data-export-v1.json",
+  "title": "EasyDemo — Export de Dados Pessoais (LGPD art. 18, II e V)",
   "description": "Schema do JSON devolvido pelo endpoint GET /api/v1/dsr/export?token=... em resposta a um pedido de acesso ou portabilidade de dados (LGPD art. 18, II e V). Estrutura compatível com GDPR art. 20 (right to data portability).",
   "type": "object",
   "version": "1.0.0",
@@ -274,7 +274,7 @@
         },
         "support_tickets": {
           "type": "array",
-          "description": "Tickets abertos pelo titular com o suporte DemoBR",
+          "description": "Tickets abertos pelo titular com o suporte EasyDemo",
           "items": {
             "type": "object",
             "properties": {
@@ -328,7 +328,7 @@
     },
     "third_party_data_received": {
       "type": "object",
-      "description": "Dados que a DemoBR recebeu do titular mas não foram criados por nós",
+      "description": "Dados que a EasyDemo recebeu do titular mas não foram criados por nós",
       "properties": {
         "list": { "type": "array", "items": { "type": "string" } }
       }
@@ -434,8 +434,8 @@
         }
       },
       "next_steps": {
-        "request_deletion": "https://app.demobr.com.br/privacidade/solicitacao?tipo=eliminacao",
-        "contact_dpo": "placeholder@demobr.com.br",
+        "request_deletion": "https://app.easydemo.io/privacidade/solicitacao?tipo=eliminacao",
+        "contact_dpo": "placeholder@easydemo.io",
         "_contact_dpo_note": "Placeholder funcional ate a contratacao formal do DPO (LGPD art. 41). Ver legal/DPO-PROCESS.md. Substituir apos contratacao.",
         "file_anpd_complaint": "https://www.gov.br/anpd/"
       }

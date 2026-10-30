@@ -1,7 +1,7 @@
-# Política de Cookies — DemoBR
+# Política de Cookies — EasyDemo
 
 > Este documento descreve os cookies e tecnologias similares usadas
-> pela DemoBR no player público, no painel admin e nos sites de marketing.
+> pela EasyDemo no player público, no painel admin e nos sites de marketing.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
 > advogado antes de publicação.**
@@ -19,7 +19,7 @@ Também usamos **tecnologias similares**:
 - **SessionStorage** (limpa ao fechar a aba).
 - **IndexedDB** (banco de dados do navegador).
 
-Cookies podem ser **de primeira-parte** (definidos por `*.demobr.com.br`)
+Cookies podem ser **de primeira-parte** (definidos por `*.easydemo.io`)
 ou **de terceiros** (definidos por outros domínios).
 
 ---
@@ -33,7 +33,7 @@ ou **de terceiros** (definidos por outros domínios).
 | **Preferências** (idioma, tema) | ❌ Não | Limpar cookies do navegador |
 | **Marketing** | ❌ **Não usamos** | — |
 
-> A DemoBR **não usa cookies de publicidade comportamental** de
+> A EasyDemo **não usa cookies de publicidade comportamental** de
 > terceiros (Meta Pixel, Google Ads, LinkedIn Insight, etc.).
 
 ---
@@ -47,20 +47,20 @@ ou **de terceiros** (definidos por outros domínios).
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `__session` | `app.demobr.com.br` | Sessão (até fechar o navegador) | Identificar a sessão do usuário logado; prevenir CSRF | 1ª parte |
-| `__refresh` | `app.demobr.com.br` | 30 dias rolling | Refresh token de sessão (rotacionado a cada uso) | 1ª parte |
-| `__cf_bm` | `*.demobr.com.br` | 30 min | Cloudflare Bot Management — distinguir humanos de bots | 1ª parte (Cloudflare) |
-| `__stripe_mid` (legado) | `app.demobr.com.br` | 1 ano | Token antifraude caso Stripe seja usado em integrações específicas | 3ª parte |
+| `__session` | `app.easydemo.io` | Sessão (até fechar o navegador) | Identificar a sessão do usuário logado; prevenir CSRF | 1ª parte |
+| `__refresh` | `app.easydemo.io` | 30 dias rolling | Refresh token de sessão (rotacionado a cada uso) | 1ª parte |
+| `__cf_bm` | `*.easydemo.io` | 30 min | Cloudflare Bot Management — distinguir humanos de bots | 1ª parte (Cloudflare) |
+| `__stripe_mid` (legado) | `app.easydemo.io` | 1 ano | Token antifraude caso Stripe seja usado em integrações específicas | 3ª parte |
 
 ### 3.2 Cookies de analytics
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `_pk_id.*` | `app.demobr.com.br` | 30 dias | Identificador anônimo de visitante (PostHog, hash) | 1ª parte |
-| `_pk_ses.*` | `app.demobr.com.br` | 30 min | Sessão ativa de analytics | 1ª parte |
-| `ph_phc_*` | `app.demobr.com.br` | 1 ano | Identificador PostHog (LocalStorage) | 1ª parte |
+| `_pk_id.*` | `app.easydemo.io` | 30 dias | Identificador anônimo de visitante (PostHog, hash) | 1ª parte |
+| `_pk_ses.*` | `app.easydemo.io` | 30 min | Sessão ativa de analytics | 1ª parte |
+| `ph_phc_*` | `app.easydemo.io` | 1 ano | Identificador PostHog (LocalStorage) | 1ª parte |
 
-> ⚠️ Estes cookies são **definidos pela DemoBR para o nosso próprio
+> ⚠️ Estes cookies são **definidos pela EasyDemo para o nosso próprio
 > analytics**. Não compartilhamos com terceiros. O opt-out via banner
 > impede o seu registro.
 
@@ -68,9 +68,9 @@ ou **de terceiros** (definidos por outros domínios).
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `locale` | `app.demobr.com.br` | 1 ano | Idioma preferido (PT-BR ou EN) | 1ª parte |
-| `theme` | `app.demobr.com.br` | 1 ano | Tema (claro/escuro) | 1ª parte |
-| `cookie_consent_v1` | `*.demobr.com.br` | 1 ano | Armazena sua escolha no banner (essencial/essential=true + analytics=true/false) | 1ª parte |
+| `locale` | `app.easydemo.io` | 1 ano | Idioma preferido (PT-BR ou EN) | 1ª parte |
+| `theme` | `app.easydemo.io` | 1 ano | Tema (claro/escuro) | 1ª parte |
+| `cookie_consent_v1` | `*.easydemo.io` | 1 ano | Armazena sua escolha no banner (essencial/essential=true + analytics=true/false) | 1ª parte |
 
 ### 3.4 Cookies de marketing
 
@@ -81,7 +81,7 @@ ou **de terceiros** (definidos por outros domínios).
 Quando você incorpora um demo via **iframe de terceiros** (ex.: numa
 página da nossa landing page em WordPress), o site hospedeiro pode
 definir seus próprios cookies. Esses cookies são controlados pelo
-**site hospedeiro**, não pela DemoBR.
+**site hospedeiro**, não pela EasyDemo.
 
 ---
 
@@ -119,7 +119,7 @@ de analytics, mas os mesmos são descartados ao fim da sessão.
 
 ### 4.4 DNT / GPC
 
-A DemoBR respeita os sinais **DNT** (Do Not Track) e **GPC** (Global
+A EasyDemo respeita os sinais **DNT** (Do Not Track) e **GPC** (Global
 Privacy Control) enviados pelo seu navegador — se presentes,
 desabilitamos analytics automaticamente, sem precisar do banner.
 
@@ -138,7 +138,7 @@ de **base legal específica**:
 | Preferências | Conforto do usuário (idioma, tema) | (a) Consentimento (art. 7º, I) |
 
 > **Paralelo GDPR**: a Diretiva ePrivacy (2002/58/CE) e o GDPR
-> art. 5º, 3º regulam o mesmo tema. O banner da DemoBR é compatível
+> art. 5º, 3º regulam o mesmo tema. O banner da EasyDemo é compatível
 > com os requisitos da **ePrivacy Directive** e dos princípios do
 > GDPR sobre consentimento (art. 7º GDPR).
 
@@ -150,15 +150,15 @@ Quando alterarmos esta política:
 - Publicamos a versão atualizada nesta URL, com nova data no rodapé.
 - Mudanças **substanciais** (ex.: novo subprocessador) são avisadas
   no banner de cookies no próximo acesso.
-- Versões anteriores em `https://www.demobr.com.br/cookies/historico`.
+- Versões anteriores em `https://www.easydemo.io/cookies/historico`.
 
 ---
 
 ## 7. Contato
 
 - **E-mail do DPO** (placeholder funcional enquanto a nomeação
-  formal não é concluída): `placeholder@demobr.com.br`
-- **Formulário DSR**: `https://app.demobr.com.br/privacidade/solicitacao`
+  formal não é concluída): `placeholder@easydemo.io`
+- **Formulário DSR**: `https://app.easydemo.io/privacidade/solicitacao`
 - **Página de configurações**: clique em "Configurar cookies" no
   rodapé do site.
 
@@ -198,5 +198,5 @@ Quando alterarmos esta política:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

@@ -1,7 +1,7 @@
-# Acordo de Tratamiento de Dados Pessoais (DPA) — DemoBR
+# Acordo de Tratamiento de Dados Pessoais (DPA) — EasyDemo
 
 > Este **Data Processing Agreement** ("DPA") é firmado entre a
-> **DemoBR LTDA** e o **Cliente** identificado no formulário de aceite
+> **EasyDemo LTDA** e o **Cliente** identificado no formulário de aceite
 > na contratação.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
@@ -14,7 +14,7 @@
 
 ## Preâmbulo
 
-Considerando que a DemoBR LTDA opera plataforma SaaS de demos
+Considerando que a EasyDemo LTDA opera plataforma SaaS de demos
 interativas que envolve o tratamento de dados pessoais;
 
 Considerando a **Lei Geral de Proteção de Dados (LGPD — Lei
@@ -24,7 +24,7 @@ Considerando as práticas de mercado e o precedente internacional do
 GDPR (Reg. UE 2016/679), em especial os arts. 28, 32 e 44;
 
 As Partes celebram este DPA, que integra o contrato principal de
-adesão ao DemoBR.
+adesão ao EasyDemo.
 
 ---
 
@@ -51,13 +51,13 @@ adesão ao DemoBR.
 
 | Origem do dado | Quem é Controlador | Quem é Operador | Onde está |
 |---------------|-------------------|-----------------|-----------|
-| Dados da conta do **Cliente** (creator) | Cliente | DemoBR | Conta do Cliente |
-| Leads captados em **demo do Cliente** | Cliente | DemoBR | `/d/[slug]` |
-| Dados de **visitante** de demo público | Cliente (workspace owner) | DemoBR | Analytics |
-| Dados de **contato comercial** da DemoBR LTDA | DemoBR | — | CRM próprio |
-| Dados de **billing** processados por Asaas | DemoBR | Asaas | Asaas |
+| Dados da conta do **Cliente** (creator) | Cliente | EasyDemo | Conta do Cliente |
+| Leads captados em **demo do Cliente** | Cliente | EasyDemo | `/d/[slug]` |
+| Dados de **visitante** de demo público | Cliente (workspace owner) | EasyDemo | Analytics |
+| Dados de **contato comercial** da EasyDemo LTDA | EasyDemo | — | CRM próprio |
+| Dados de **billing** processados por Asaas | EasyDemo | Asaas | Asaas |
 
-> A DemoBR atua predominantemente como **operador** no contexto do
+> A EasyDemo atua predominantemente como **operador** no contexto do
 > serviço SaaS de demos.
 
 ---
@@ -66,7 +66,7 @@ adesão ao DemoBR.
 
 ### 3.1 Finalidade
 
-A DemoBR trata dados pessoais **exclusivamente** para:
+A EasyDemo trata dados pessoais **exclusivamente** para:
 
 - Operar o serviço contratado (criação, hospedagem e analytics de demos).
 - Cumprir obrigações contratuais e legais.
@@ -78,7 +78,7 @@ Nenhuma outra finalidade é autorizada sem novo consentimento específico.
 
 ### 3.2 Natureza do tratamento
 
-Operações realizadas pela DemoBR:
+Operações realizadas pela EasyDemo:
 - Coleta (apenas o que o Cliente insere).
 - Armazenamento (Postgres + R2).
 - Processamento (analytics, TTS, OG image generation).
@@ -110,7 +110,7 @@ Resumo:
 | Pagamento | CPF/CNPJ do pagador, NF-e | Asaas |
 | Auditoria | Logs de acesso, eventos DSR | Sistema |
 
-> **Importante**: a DemoBR **não** foi projetada para tratar dados
+> **Importante**: a EasyDemo **não** foi projetada para tratar dados
 > sensíveis (LGPD art. 5º, II). O Cliente está proibido de capturar
 > ou armazenar esse tipo de dado.
 
@@ -118,7 +118,7 @@ Resumo:
 
 ## 5. Obrigações do Operador (LGPD art. 39)
 
-A DemoBR LTDA, na qualidade de Operador, obriga-se a:
+A EasyDemo LTDA, na qualidade de Operador, obriga-se a:
 
 | Obrigação | Como cumpre |
 |-----------|-------------|
@@ -136,7 +136,7 @@ A DemoBR LTDA, na qualidade de Operador, obriga-se a:
 
 ## 6. Medidas técnicas e organizacionais (LGPD art. 46)
 
-A DemoBR adota, sem prejuízo de outras, as seguintes medidas:
+A EasyDemo adota, sem prejuízo de outras, as seguintes medidas:
 
 ### 6.1 Medidas técnicas
 
@@ -178,17 +178,17 @@ A DemoBR adota, sem prejuízo de outras, as seguintes medidas:
 
 ### 7.2 Conteúdo da notificação
 
-A DemoBR informará ao Cliente:
+A EasyDemo informará ao Cliente:
 - Descrição do incidente.
 - Categorias de dados afetados.
 - Número estimado de titulares afetados.
 - Medidas de mitigação adotadas.
 - Plano de remediação.
-- Contato para mais detalhes (`security@demobr.com.br`).
+- Contato para mais detalhes (`security@easydemo.io`).
 
 ### 7.3 Colaboração na notificação
 
-A DemoBR apoiará o Cliente na:
+A EasyDemo apoiará o Cliente na:
 - Elaboração do texto da comunicação aos titulares.
 - Compilação de informações para a ANPD.
 - Investigação forense (acesso a logs preservados).
@@ -202,7 +202,7 @@ Detalhes operacionais em
 
 ### 8.1 Subprocessadores autorizados
 
-A DemoBR pode contratar os subprocessadores listados em
+A EasyDemo pode contratar os subprocessadores listados em
 [`subprocessors-list.md`](./subprocessors-list.md), cada um com DPA
 específico assinado contendo:
 
@@ -214,17 +214,17 @@ específico assinado contendo:
 
 ### 8.2 Aviso de novos subprocessadores
 
-A DemoBR comunicará novos subprocessadores com **pelo menos 30 dias
+A EasyDemo comunicará novos subprocessadores com **pelo menos 30 dias
 de antecedência** por e-mail ao DPO do Cliente. O Cliente terá direito
 de **opor-se** em 15 dias; caso se oponha justificadamente em
-conformidade com a LGPD, a DemoBR buscará alternativa ou permitirá
+conformidade com a LGPD, a EasyDemo buscará alternativa ou permitirá
 cancelamento sem ônus.
 
 > **Paralelo GDPR**: este mecanismo segue GDPR art. 28, §2º.
 
 ### 8.3 Transferência internacional
 
-A DemoBR pode transferir dados para países listados em
+A EasyDemo pode transferir dados para países listados em
 [`subprocessors-list.md`](./subprocessors-list.md), mediante:
 
 - **Países com nível adequado** (LGPD art. 33, I) — ex.: Alemanha.
@@ -232,7 +232,7 @@ A DemoBR pode transferir dados para países listados em
 - **Cooperação entre autoridades** (LGPD art. 33, IV).
 
 Cópia das cláusulas-padrão contratuais pode ser solicitada via
-`placeholder@demobr.com.br` (encaminhado para a liderança da DemoBR
+`placeholder@easydemo.io` (encaminhado para a liderança da EasyDemo
 até a nomeação formal do DPO — ver `DPO-PROCESS.md`).
 
 ---
@@ -241,7 +241,7 @@ até a nomeação formal do DPO — ver `DPO-PROCESS.md`).
 
 ### 9.1 Auxílio ao Controlador
 
-A DemoBR auxiliará o Cliente no cumprimento dos direitos do titular
+A EasyDemo auxiliará o Cliente no cumprimento dos direitos do titular
 por meio de:
 
 | Direito (LGPD art. 18) | Suporte |
@@ -253,13 +253,13 @@ por meio de:
 | V. Portabilidade | Export JSON estruturado |
 | VI. Eliminação | [`RTBF-deletion-procedure.md`](./RTBF-deletion-procedure.md) |
 | VII. Informações de entidades | Lista de subprocessadores |
-| VIII–X. Demais | Suporte via `placeholder@demobr.com.br` |
+| VIII–X. Demais | Suporte via `placeholder@easydemo.io` |
 
 ### 9.2 SLA de resposta a DSR
 
 - **Titulares diretamente ao Controlador**: SLA definido na Política
   de Privacidade.
-- **Cliente → DemoBR**: a DemoBR atenderá pedidos internos do Cliente
+- **Cliente → EasyDemo**: a EasyDemo atenderá pedidos internos do Cliente
   em **5 dias úteis**, prorrogáveis por mais 5 mediante justificativa.
 
 ---
@@ -268,7 +268,7 @@ por meio de:
 
 ### 10.1 Ao término
 
-- A DemoBR fornece **export completo** dos dados do Cliente em até
+- A EasyDemo fornece **export completo** dos dados do Cliente em até
   **30 dias** após o término.
 - Após o export ou após 30 dias (o que ocorrer primeiro), os dados
   são **eliminados** conforme procedimento em
@@ -294,7 +294,7 @@ O Cliente pode solicitar auditoria anual, mediante:
 - Custos arcados pelo Cliente, salvo se achados forem relevantes
   (escopo > 5% das verificações).
 
-### 11.2 Relatórios fornecidos pela DemoBR
+### 11.2 Relatórios fornecidos pela EasyDemo
 
 - **SOC 2 Type II** (roadmap — ver `docs/SECURITY-MODEL.md` §11).
 - **DPIA anual** para novos tratamentos.
@@ -305,16 +305,16 @@ O Cliente pode solicitar auditoria anual, mediante:
 
 ## 12. Encarregado (DPO) (LGPD art. 41)
 
-**Status atual:** A DemoBR está em processo de nomeação formal do
+**Status atual:** A EasyDemo está em processo de nomeação formal do
 Encarregado de Proteção de Dados (DPO) conforme art. 41 da LGPD.
 A nomeação será concluída em até **90 dias** da publicação.
 
 Enquanto isso:
 
-- **E-mail (placeholder funcional)**: `placeholder@demobr.com.br`
-- **Encaminhamento**: alias que direciona para a liderança da DemoBR.
+- **E-mail (placeholder funcional)**: `placeholder@easydemo.io`
+- **Encaminhamento**: alias que direciona para a liderança da EasyDemo.
 - **Prazo de resposta**: 15 dias úteis (LGPD art. 18, §5º).
-- **Página pública** (a publicar): `https://www.demobr.com.br/dpo`.
+- **Página pública** (a publicar): `https://www.easydemo.io/dpo`.
 - **Reporte direto com ANPD** (LGPD art. 41, §1º) — após nomeação.
 
 > Detalhes sobre persona, critérios de seleção, processo de
@@ -328,12 +328,12 @@ Enquanto isso:
 - **Lei aplicável**: República Federativa do Brasil (LGPD).
 - **Foro**: Comarca de São Paulo/SP, sem prejuízo do foro do domicílio
   do consumidor (CDC).
-- **Alterações**: este DPA pode ser atualizado pela DemoBR mediante
+- **Alterações**: este DPA pode ser atualizado pela EasyDemo mediante
   aviso de 30 dias; mudanças nas finalidades ou natureza exigem
   novo aceite escrito.
 - **Nulidade parcial**: se uma cláusula for declarada inválida, as
   demais permanecem.
-- **Não exclusividade**: nada neste DPA impede a DemoBR de tratar
+- **Não exclusividade**: nada neste DPA impede a EasyDemo de tratar
   dados para outros Clientes ou para finalidades próprias
   (ex.: analytics agregada, sempre sem PII).
 
@@ -345,7 +345,7 @@ Enquanto isso:
 {
   "controlador": "<workspace_id do Cliente>",
   "categorias_de_titulares": [
-    "Creator (usuário com conta na DemoBR)",
+    "Creator (usuário com conta na EasyDemo)",
     "Lead (visitante que preencheu formulário em um demo)",
     "Viewer (visitante anônimo de demo público)"
   ],
@@ -374,7 +374,7 @@ Enquanto isso:
 
 ---
 
-## Anexo II — SLA da DemoBR (referência rápida)
+## Anexo II — SLA da EasyDemo (referência rápida)
 
 | Item | Free | Pro | Business |
 |------|------|-----|----------|
@@ -389,5 +389,5 @@ Enquanto isso:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

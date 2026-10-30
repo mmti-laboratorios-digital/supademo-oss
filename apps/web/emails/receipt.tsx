@@ -28,13 +28,13 @@ export function ReceiptEmail({
           title: "Recebemos seu pagamento",
           body: `O pagamento da assinatura do plano ${planName} do workspace ${workspaceName} foi confirmado via ${paymentMethod}.`,
           cta: "Baixar NF-e",
-          thanks: "Obrigado por usar o DemoBR!",
+          thanks: "Obrigado por usar o EasyDemo!",
         }
       : {
           title: "We received your payment",
           body: `Your ${planName} subscription payment for ${workspaceName} was confirmed via ${paymentMethod}.`,
           cta: "Download invoice",
-          thanks: "Thanks for using DemoBR!",
+          thanks: "Thanks for using EasyDemo!",
         };
 
   return (

@@ -1,7 +1,7 @@
-# POC-4 — Tamanho real do bundle `@demo.br/player`
+# POC-4 — Tamanho real do bundle `@easydemo/player`
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA
 **Script**: [`apps/web/scripts/poc-player-bundle-size.ts`](../../apps/web/scripts/poc-player-bundle-size.ts)
 
@@ -9,7 +9,7 @@
 
 ## 1. Hipótese
 
-O player público (`@demo.br/player`) é o que o usuário final do embed baixa. O
+O player público (`@easydemo/player`) é o que o usuário final do embed baixa. O
 `tech/RECOMMENDATION.md` projeta **≤ 10 KB gzip** baseado em escolhas de libs
 leves (`framer-motion`, `@floating-ui/dom` — mas atenção, **atualmente o player
 não usa framer-motion ainda**, ver código abaixo).
@@ -20,7 +20,7 @@ Pergunta concreta: **quanto o bundle real pesa com/sem brotli?**
 
 ### 2.1 Build
 
-Roda `pnpm --filter @demo.br/player build` (= `vite build` em modo `lib`).
+Roda `pnpm --filter @easydemo/player build` (= `vite build` em modo `lib`).
 Saída:
 
 ```
@@ -75,7 +75,7 @@ Total `dist/` (incluindo sourcemaps): **32.9 KB**.
 
 | player | gzip JS+CSS |
 |---|---|
-| **DemoBR player (esta POC)** | **~2.3 KB** |
+| **EasyDemo player (esta POC)** | **~2.3 KB** |
 | Storylane embed (estimativa público) | ~80-120 KB |
 | Supademo embed (estimativa) | ~50 KB |
 | Arcade embed | ~150 KB |

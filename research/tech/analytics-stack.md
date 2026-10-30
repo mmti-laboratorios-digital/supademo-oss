@@ -87,8 +87,8 @@ PostHog aceita qualquer evento + properties. Vamos mandar os mesmos eventos mas 
 // SDK JS do player
 posthog.capture('step_view', {
   distinct_id: sessionId,        // visitor anonymous ID
-  tenant_id:       DemoBR.tenantId,
-  demo_id:        DemoBR.demoId,
+  tenant_id:       EasyDemo.tenantId,
+  demo_id:        EasyDemo.demoId,
   step_id:        currentStep.id,
   position:       currentStep.position,
   dwell_ms:       stepDwellMs,

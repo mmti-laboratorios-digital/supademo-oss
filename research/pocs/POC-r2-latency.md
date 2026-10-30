@@ -1,7 +1,7 @@
 # POC-1 — Latência real R2 (Frankfurt ↔ Cloudflare)
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA (com ressalva de geolocalização)
 **Script**: [`apps/web/scripts/poc-r2-latency.ts`](../../apps/web/scripts/poc-r2-latency.ts)
 
@@ -109,7 +109,7 @@ de imagem por step.
 1. **Rodar de Hetzner FSN**: ssh no VPS CX22 e executar `MINIO_ENDPOINT=…` ou
    `R2_ENDPOINT=…` no mesmo script — o delta de WAN é o que falta.
 2. **Token R2 real**: gerar token limitado de leitura+escrita no bucket
-   `demobr-poc` e medir PUT 1/5/10 MB com `Content-Length` real (não zeros).
+   `easydemo-poc` e medir PUT 1/5/10 MB com `Content-Length` real (não zeros).
 3. **Comparar com Cloudflare Images** (`/cdn-cgi/image/...`): custa 1 USD/100k
    requests e tem transformações on-the-fly — relevante se formos usar
    thumbnails responsivos no player.
@@ -131,6 +131,6 @@ MINIO_ENDPOINT=http://127.0.0.1:9000 \
 R2_ENDPOINT=https://<ACCOUNT>.r2.cloudflarestorage.com \
 R2_ACCESS_KEY=xxx \
 R2_SECRET_KEY=xxx \
-R2_BUCKET=demobr-poc \
+R2_BUCKET=easydemo-poc \
   ./node_modules/.bin/tsx apps/web/scripts/poc-r2-latency.ts
 ```

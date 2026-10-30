@@ -1,11 +1,11 @@
-# Security Model — DemoBR
+# Security Model — EasyDemo
 
 > Documento de modelo de segurança que descreve **trust zones**, **modelo de
 > ameaça OWASP STRIDE**, **políticas LGPD**, **gestão de credenciais**, **rate
-> limiting**, **backup/DR** e **roadmap SOC2 Type II** do DemoBR.
+> limiting**, **backup/DR** e **roadmap SOC2 Type II** do EasyDemo.
 
 **Versão:** 1.0
-**Owner:** Tech lead DemoBR + DPO
+**Owner:** Tech lead EasyDemo + DPO
 **Última revisão:** 2026-10-18
 **Próxima revisão:** 2027-04-18 (semestral)
 
@@ -13,7 +13,7 @@
 
 ## 1. Visão geral e princípios
 
-O DemoBR opera em **1 VPS Hetzner CPX32** com stack Docker Compose (Postgres,
+O EasyDemo opera em **1 VPS Hetzner CPX32** com stack Docker Compose (Postgres,
 Next.js, graphile-worker, SigNoz, Caddy). Os princípios de segurança são:
 
 1. **Defense in depth**: 5 camadas (edge, app, DB, RLS, criptografia).
@@ -122,7 +122,7 @@ Aplicamos STRIDE em cada categoria:
 | Cliente nega ter recebido webhook | Inspector UI mostra todas as tentativas + response code |
 | Webhook Asaas perdido | Idempotência por `asaas-webhook-id`; reprocessamento on-demand |
 | DSR (LGPD) sem trilha | `app.dsr_log` com `(subject_email, action, status, completed_at)` |
-| Admin DemoBR nega acesso a dados | Logs imutáveis SigNoz (7 dias), R2 backup (90+ dias) |
+| Admin EasyDemo nega acesso a dados | Logs imutáveis SigNoz (7 dias), R2 backup (90+ dias) |
 
 ### 3.4 **I**nformation disclosure (vazamento de informação)
 
@@ -166,9 +166,9 @@ Aplicamos STRIDE em cada categoria:
 
 ### 4.1 Papéis
 
-- **Controlador**: Cliente DemoBR (workspace owner) — define finalidades.
-- **Operador**: DemoBR LTDA — processa em nome do controlador.
-- **Encarregado (DPO)**: `dpo@demobr.com.br` — canal de comunicação com ANPD.
+- **Controlador**: Cliente EasyDemo (workspace owner) — define finalidades.
+- **Operador**: EasyDemo LTDA — processa em nome do controlador.
+- **Encarregado (DPO)**: `dpo@easydemo.io` — canal de comunicação com ANPD.
 - **Suboperadores**: subprocessadores listados em §2, cada um com DPA assinado.
 
 ### 4.2 Bases legais (LGPD art. 7º)
@@ -339,7 +339,7 @@ Implementação:
 
 | Componente | Método | Retenção | Local |
 |------------|--------|----------|-------|
-| **Postgres dados** | pgBackRest full semanal + diff diário + WAL contínuo | 7 full + diff diário + 30 WAL days | R2 (`demo-br-pgbackrest`, cifrado AES-256) |
+| **Postgres dados** | pgBackRest full semanal + diff diário + WAL contínuo | 7 full + diff diário + 30 WAL days | R2 (`demo-private`, cifrado AES-256) |
 | **Postgres 1× mês long-term** | pgBackRest full | 24 meses | R2 (cifrado) |
 | **VPS volume-level** | Hetzner Snapshot | 4 semanas | Hetzner Storage Box |
 | **R2 public assets** | Versionamento R2 | 30 dias (delete markers) | R2 |
@@ -461,5 +461,5 @@ Logs de drill em `infra/postgres/RESTORE-LOGS.md`.
 ---
 
 **Mantido por**: Tech lead + DPO.
-**Contato de segurança**: `security@demobr.com.br` (PGP key em `/security/pgp.txt`).
+**Contato de segurança**: `security@easydemo.io` (PGP key em `/security/pgp.txt`).
 **Bug bounty**: em planejamento para 2027 (post-SOC2 Type I).

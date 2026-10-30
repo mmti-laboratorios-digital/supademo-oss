@@ -12,7 +12,7 @@ export default async function BlogIndexPage() {
   return (
     <main className="container max-w-5xl py-24">
       <header className="mb-12">
-        <h1 className="text-balance text-4xl font-bold md:text-5xl">Blog do DemoBR</h1>
+        <h1 className="text-balance text-4xl font-bold md:text-5xl">Blog do EasyDemo</h1>
         <p className="mt-3 text-muted-foreground">
           Guias, news e engineering sobre demos interativas, LGPD e o bastidores da plataforma.
         </p>

@@ -1,10 +1,10 @@
 -- =============================================================================
--- DemoBR — Postgres init: cria roles app_user, app_owner, readonly
+-- EasyDemo — Postgres init: cria roles app_user, app_owner, readonly
 -- ----------------------------------------------------------------------------
 -- Idempotente: pode rodar múltiplas vezes.
 --
 -- Uso no primeiro start do container (docker-entrypoint-initdb.d) ou manualmente:
---   psql -U app -d supademo -f infra/postgres/init-roles.sql
+--   psql -U app -d easydemo -f infra/postgres/init-roles.sql
 --
 -- IMPORTANTE: este arquivo é executado pelo superuser interno do container
 -- (role `app`, criada via POSTGRES_USER). Se for rodar como outro role,
@@ -74,7 +74,7 @@ CREATE SCHEMA IF NOT EXISTS analytics;
 -- ----------------------------------------------------------------------------
 -- Grants no database
 -- ----------------------------------------------------------------------------
-GRANT CONNECT ON DATABASE supademo TO app_user, app_owner, readonly;
+GRANT CONNECT ON DATABASE easydemo TO app_user, app_owner, readonly;
 
 -- ----------------------------------------------------------------------------
 -- Grants nos schemas

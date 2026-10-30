@@ -87,11 +87,11 @@ apps/web/db/migrations/
  Volume infra_pgdata Creating
  Volume infra_pgdata Created
  Network infra_default Created
- Container demobr-postgres Creating
- Container demobr-postgres Created
- Container demobr-postgres Starting
+ Container easydemo-postgres Creating
+ Container easydemo-postgres Created
+ Container easydemo-postgres Starting
 Error response from daemon: failed to set up container networking:
-driver failed programming external connectivity on endpoint demobr-postgres:
+driver failed programming external connectivity on endpoint easydemo-postgres:
 failed to bind host port 127.0.0.1:5432/tcp: address already in use
 ```
 
@@ -108,8 +108,8 @@ Container `supademo-test` (postgres:16-alpine) já estava disponível no host na
 ```
 
 Database URL efetivo (anotado em `apps/web/.env`):
-- `DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo` (runtime, RLS-enforced)
-- `DIRECT_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo` (migrations/admin, BYPASSRLS)
+- `DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo` (runtime, RLS-enforced)
+- `DIRECT_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo` (migrations/admin, BYPASSRLS)
 
 ---
 
@@ -133,7 +133,7 @@ Using 'pg' driver for database querying
 
 ```bash
 cd apps/web
-PGPASSWORD=demobr psql -h 127.0.0.1 -p 55432 -U app -d supademo \
+PGPASSWORD=easydemo psql -h 127.0.0.1 -p 55432 -U app -d supademo \
   -v ON_ERROR_STOP=1 -f db/migrations/0000_init.sql
 ```
 
@@ -185,8 +185,8 @@ Output (resumido): `CREATE EXTENSION`, `CREATE TABLE`, `CREATE INDEX`, `CREATE P
 
 **Execução:**
 ```
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
-DIRECT_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo \
+DIRECT_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
 pnpm --filter web exec tsx scripts/db/test-rls.ts
 ```
 
@@ -247,7 +247,7 @@ Pré-existem 30 erros TS em arquivos de teste e bibliotecas (`lib/__tests__/*.te
 
 ```bash
 cd apps/web
-DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   pnpm exec tsx scripts/seed-test.ts
 ```
 
@@ -305,10 +305,10 @@ docker compose -f infra/docker-compose.yml down -v
 
 **Output:**
 ```
- Container demobr-postgres Stopping
- Container demobr-postgres Stopped
- Container demobr-postgres Removing
- Container demobr-postgres Removed
+ Container easydemo-postgres Stopping
+ Container easydemo-postgres Stopped
+ Container easydemo-postgres Removing
+ Container easydemo-postgres Removed
  Network infra_default Removing
  Volume infra_pgdata Removing
  Volume infra_pgdata Removed

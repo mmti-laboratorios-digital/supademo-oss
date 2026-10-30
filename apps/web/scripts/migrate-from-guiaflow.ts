@@ -2,7 +2,7 @@
 /**
  * apps/web/scripts/migrate-from-guiaflow.ts
  * -----------------------------------------------------------------------------
- * Migra um export do GuiaFlow (formato llms.txt / JSON) para o DemoBR via API
+ * Migra um export do GuiaFlow (formato llms.txt / JSON) para o EasyDemo via API
  * local (http://localhost:3000/api/v1/demos) — usa credenciais mock + cookies
  * de sessão de dev.
  *
@@ -182,7 +182,7 @@ async function main() {
     }
   }
 
-  console.log(`\n✅ Migração GuiaFlow → DemoBR concluída.`);
+  console.log(`\n✅ Migração GuiaFlow → EasyDemo concluída.`);
   console.log(`   Demos criados: ${totalDemos}`);
   console.log(`   Steps adicionados: ${totalSteps}`);
 }

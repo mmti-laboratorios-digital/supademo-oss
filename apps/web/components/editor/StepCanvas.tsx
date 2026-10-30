@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslate } from "@/lib/i18n";
-import type { HotspotType, Step } from "@demo.br/shared";
+import type { HotspotType, Step } from "@easydemo/shared";
 import { Maximize2, Minimize2, Move, RotateCw, ZoomIn, ZoomOut } from "lucide-react";
 import * as React from "react";
 import { HotspotPicker, type HotspotPickerHotspot, hotspotFromStep } from "./HotspotPicker";

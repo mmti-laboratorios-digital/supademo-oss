@@ -1,4 +1,4 @@
-# Changelog do Encarregado (DPO) — DemoBR
+# Changelog do Encarregado (DPO) — EasyDemo
 
 > Histórico de revisões jurídicas da documentação em `legal/`.
 >
@@ -19,7 +19,7 @@
 
 | Marco | Data prevista | O que precisa acontecer |
 |-------|---------------|------------------------|
-| **v0.2 — Revisão jurídica inicial** | até 18/Dez/2026 | Advogado externo revise todos os 11 documentos. Substituir placeholders de CNPJ, endereço, razão social. Adaptar cláusulas conforme personalidade jurídica da DemoBR LTDA. |
+| **v0.2 — Revisão jurídica inicial** | até 18/Dez/2026 | Advogado externo revise todos os 11 documentos. Substituir placeholders de CNPJ, endereço, razão social. Adaptar cláusulas conforme personalidade jurídica da EasyDemo LTDA. |
 | **v0.3 — Aprovação sócios** | até 18/Jan/2027 | Reunião com quadro societário para aprovação final. |
 | **v1.0 — Publicação oficial** | 01/Fev/2027 | Publicação no site. Substituir "Status: Modelo" por "Status: Vigente". Ativar cookie banner usando este conteúdo. |
 | **v1.1 — Auditoria interna** | 18/Ago/2027 | DPIA anual de novos tratamentos (ex.: ativação de subprocessadores IA). |
@@ -58,7 +58,7 @@ TRIGGERS DE MUDANÇA SUBSTANCIAL:
 | **Encarregado (DPO)** | _a definir_ | _a definir_ |
 | **Apoio jurídico externo** | _a definir_ | _a definir_ |
 | **Tech lead responsável pela implementação** | _a definir_ | _a definir_ |
-| **CEO / Responsável legal da DemoBR LTDA** | _a definir_ | _a definir_ |
+| **CEO / Responsável legal da EasyDemo LTDA** | _a definir_ | _a definir_ |
 | **DPO provisório durante criação dos modelos** | Tech lead + ChatGPT-assisted | — |
 
 > **Substituir pelos nomes reais antes da publicação.**
@@ -72,7 +72,7 @@ orientação jurídica antes da publicação.
 
 ### 5.1 Personalidade jurídica
 
-- [ ] Definir se DemoBR é MEI, EPP, LTDA pura, ou S.A.
+- [ ] Definir se EasyDemo é MEI, EPP, LTDA pura, ou S.A.
 - [ ] Confirmar composição societária (quem assina estes documentos).
 - [ ] Verificar necessidade de conselho fiscal ou administrador.
 
@@ -183,8 +183,8 @@ em:
 
 | Arquivo | Status | Localização pública |
 |---------|--------|---------------------|
-| `privacy-policy.md` v0.1 | Substituída | `demobr.com.br/privacidade/historico/v0.1` |
-| `terms-of-service.md` v0.1 | Substituída | `demobr.com.br/termos/historico/v0.1` |
+| `privacy-policy.md` v0.1 | Substituída | `easydemo.io/privacidade/historico/v0.1` |
+| `terms-of-service.md` v0.1 | Substituída | `easydemo.io/termos/historico/v0.1` |
 | ... | ... | ... |
 
 ---
@@ -206,5 +206,5 @@ Anualmente (preferencialmente em abril ou outubro), o DPO deve:
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
 Versão: 0.1.0
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

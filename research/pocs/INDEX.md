@@ -1,4 +1,4 @@
-# POCs técnicas — DemoBR
+# POCs técnicas — EasyDemo
 
 **Data**: 2026-10-18
 **Método**: cada POC foi executada **de verdade** (código real, números reais).
@@ -17,7 +17,7 @@ está **declarado** no relatório.
 | **POC-1** | Latência R2 (Frankfurt → CF) | ✅ com ressalva | 20 × 3 tamanhos | TTFB CDN p95=86 ms; PUT signed URL é sub-ms |
 | **POC-2** | Overhead RLS Postgres 17 | ✅ | 200 × 8 cenários | RLS custa ~0.7 ms p50 com índice (~45% relativo, mas absoluto é 0.5-1.2 ms) |
 | **POC-3** | Tesseract.js PT-BR | ✅ com achado | 5 imagens | 3/5 regex hit; **`@` é comido em 100% dos emails** |
-| **POC-4** | Bundle size `@demo.br/player` | ✅ | 1 build | **2.3 KB gzip / 2.0 KB brotli** — 20× menor que concorrentes |
+| **POC-4** | Bundle size `@easydemo/player` | ✅ | 1 build | **2.3 KB gzip / 2.0 KB brotli** — 20× menor que concorrentes |
 | **POC-5** | Helmet headers + Next cold-start | ✅ | 1 cold-start | Helmet adiciona 11 headers; Next dev cold-start = 11 s, warm = 165 ms |
 | **POC-6** | graphile-worker throughput | ✅ | 1000 jobs | **380 jobs/s** com job trivial; capacidade 6-328× acima do target |
 | **POC-7** | R2 mock e2e (MinIO) | ✅ | mesmo POC-1 | SDK S3 funciona em loopback; código é portável para R2 |

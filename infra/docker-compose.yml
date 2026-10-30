@@ -1,18 +1,18 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: demobr-postgres
+    container_name: easydemo-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: app
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-demobr}
-      POSTGRES_DB: supademo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-easydemo}
+      POSTGRES_DB: easydemo
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U app -d supademo"]
+      test: ["CMD-SHELL", "pg_isready -U app -d easydemo"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,13 +24,13 @@ services:
 
   pgweb:
     image: sosedoff/pgweb:latest
-    container_name: demobr-pgweb
+    container_name: easydemo-pgweb
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      PGWEB_DATABASE: supademo
+      PGWEB_DATABASE: easydemo
     ports:
       - "127.0.0.1:8081:8081"
 

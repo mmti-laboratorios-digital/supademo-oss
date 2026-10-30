@@ -37,7 +37,7 @@
 >
 > **O que acontece agora:**
 >
-> - O DemoBR vai tentar de novo automaticamente nos próximos 3 dias.
+> - O EasyDemo vai tentar de novo automaticamente nos próximos 3 dias.
 > - Seu acesso continua liberado durante esse período.
 > - Se o pagamento não compensar em 7 dias, sua conta volta pro plano **Free** (sem perder suas demos, mas com limite de 3 demos e 50 views/mês).
 >
@@ -48,7 +48,7 @@
 > 3. **Falar comigo** se tiver algum problema técnico ou financeiro — responda esse email.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
 > PS: Se for cartão expirado ou limite, dá pra trocar a forma de pagamento sem cancelar a assinatura. PIX também funciona via Pix Automático.
 
@@ -58,13 +58,13 @@
 
 ### Subject
 
-> `Lembrete: pagamento do DemoBR {{plano}} ainda pendente`
+> `Lembrete: pagamento do EasyDemo {{plano}} ainda pendente`
 
 ### Body (≤ 130 palavras)
 
 > Oi {{nome}},
 >
-> Passou 2 dias desde o email sobre a falha do DemoBR {{plano}}.
+> Passou 2 dias desde o email sobre a falha do EasyDemo {{plano}}.
 >
 > Só passando pra lembrar:
 >
@@ -74,7 +74,7 @@
 > Se quiser conversar sobre o motivo da falha (ou se for uma decisão de cancelar), me conta — sem julgamento.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 
@@ -82,13 +82,13 @@
 
 ### Subject
 
-> `Amanhã sua conta DemoBR volta pro plano Free`
+> `Amanhã sua conta EasyDemo volta pro plano Free`
 
 ### Body (≤ 150 palavras)
 
 > Oi {{nome}},
 >
-> A última tentativa de cobrança do DemoBR {{plano}} falhou hoje.
+> A última tentativa de cobrança do EasyDemo {{plano}} falhou hoje.
 >
 > **Amanhã**, sua conta volta automaticamente pro plano **Free**:
 >
@@ -104,7 +104,7 @@
 > Se for cancelamento consciente, sem stress — você pode voltar quando quiser.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 
@@ -112,7 +112,7 @@
 
 ### Subject
 
-> `Sua conta DemoBR voltou pro plano Free — sem perder nada`
+> `Sua conta EasyDemo voltou pro plano Free — sem perder nada`
 
 ### Body (≤ 180 palavras)
 
@@ -140,7 +140,7 @@
 > Use o cupom `VOLTEI20` pra 20% off no primeiro mês como "boas-Vindas de volta".
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 

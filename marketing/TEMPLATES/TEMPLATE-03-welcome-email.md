@@ -36,13 +36,13 @@
 
 ### Subject
 
-> `Bem-vindo ao DemoBR, {{nome}} — crie sua 1ª demo em 5 min`
+> `Bem-vindo ao EasyDemo, {{nome}} — crie sua 1ª demo em 5 min`
 
 ### Body (≤ 180 palavras)
 
 > Oi {{nome}},
 >
-> Bem-vindo ao **DemoBR** — a ferramenta de demos interativas brasileira, com PIX, NF-e e LGPD by design.
+> Bem-vindo ao **EasyDemo** — a ferramenta de demos interativas brasileira, com PIX, NF-e e LGPD by design.
 >
 > Você está no **plano Free**: até **3 demos publicadas** e **50 visualizações/mês** grátis pro sempre, sem cartão.
 >
@@ -54,10 +54,10 @@
 >
 > 📹 **Vídeo de 60s mostrando o passo a passo:** [link vídeo]
 >
-> Qualquer dúvida, responde esse email — eu mesma respondo (Ana, founder do DemoBR).
+> Qualquer dúvida, responde esse email — eu mesma respondo (Ana, founder do EasyDemo).
 >
 > —
-> **DemoBR**
+> **EasyDemo**
 > Demos interativas em PT-BR · PIX · LGPD
 >
 > PS: Tem trial de 14 dias do **Pro por R$ 49/mês** (com 50% off no 1º mês). Use o cupom `BEMVINDO50` no checkout.
@@ -82,7 +82,7 @@
 >
 > **3 passos, 1 tela cada:**
 >
-> 1. **Workspace já está criado** → seu link: `app.demobr.com.br/app/{{workspace_slug}}`
+> 1. **Workspace já está criado** → seu link: `app.easydemo.io/app/{{workspace_slug}}`
 >
 > 2. **Instale a extensão Chrome** (se ainda não instalou):
 >    → [{{link_extensao_chrome}}]
@@ -98,7 +98,7 @@
 > **Está com problema técnico?** Me responde esse email com print do erro que resolvo em < 4h.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
 > PS: tem 10 PMMs brasileiros publicando demos por dia — você está a 1 capture de distância.
 
@@ -138,7 +138,7 @@
 > Topa a call de 15 min?
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 
@@ -165,10 +165,10 @@
 > 2. **Embed no seu site** ([como fazer]({{link_doc_embed}}))
 > 3. **Adicione ao LinkedIn** ([como adicionar como feature]({{link_doc_linkedin}}))
 >
-> **Dica avançada:** a primeira métrica a olhar é **completion rate** (no dashboard `app.demobr.com.br/app/{{workspace_slug}}/analytics`). Meta: ≥ 40%. Se estiver < 30%, revise os hotspots.
+> **Dica avançada:** a primeira métrica a olhar é **completion rate** (no dashboard `app.easydemo.io/app/{{workspace_slug}}/analytics`). Meta: ≥ 40%. Se estiver < 30%, revise os hotspots.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ### Subject (caso B — não publicou)
 
@@ -185,7 +185,7 @@
 > 8 passos, hotspot, CTA WhatsApp. Funciona como "cheat sheet".
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 
@@ -203,7 +203,7 @@
 
 > Oi {{nome}},
 >
-> Faz 14 dias que você criou sua conta no DemoBR.
+> Faz 14 dias que você criou sua conta no EasyDemo.
 >
 > **Se você publicou pelo menos 1 demo:** parabéns, você está entre os 10% que conseguem. O próximo nível é desbloquear o **Pro** (R$ 49/mês):
 >
@@ -222,7 +222,7 @@
 > Se quiser conversar sobre o que tá faltando pra fazer sentido, me responde esse email.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
 > PS: Aceita PIX, boleto, cartão e emite NF-e.
 

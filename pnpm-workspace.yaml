@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# DemoBR — pnpm workspace
+# EasyDemo — pnpm workspace
 # -----------------------------------------------------------------------------
 # apps/*      → Next.js web, Chrome extension, graphile-worker
 # packages/*  → shared (zod + i18n), player (vanilla), ui (primitives)

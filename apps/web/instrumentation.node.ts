@@ -28,7 +28,7 @@ if (otelEndpoint) {
 
     const sdk = new NodeSDK({
       resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: process.env.OTEL_SERVICE_NAME ?? "demobr-web",
+        [SemanticResourceAttributes.SERVICE_NAME]: process.env.OTEL_SERVICE_NAME ?? "easydemo-web",
       }),
       traceExporter: new OTLPTraceExporter({ url: `${otelEndpoint}/v1/traces` }),
       instrumentations: [getNodeAutoInstrumentations()],

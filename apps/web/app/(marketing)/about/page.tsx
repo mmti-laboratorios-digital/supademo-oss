@@ -13,15 +13,15 @@ export default function AboutPage() {
           Por que demos interativas, por que em PT-BR.
         </h1>
         <p className="mt-3 text-muted-foreground">
-          A DemoBR nasceu de uma pergunta: por que a gente ainda manda PDF pra lead qualificado?
+          A EasyDemo nasceu de uma pergunta: por que a gente ainda manda PDF pra lead qualificado?
         </p>
       </header>
 
       <section className="prose prose-neutral dark:prose-invert">
         <h2>Nossa história</h2>
         <p>
-          A DemoBR começou em 2025 quando o Alex, então PM numa startup de fintech, ficou cansado de
-          gravar a mesma demo em Loom toda semana. Existiam ferramentas gringas boas — Supademo,
+          A EasyDemo começou em 2025 quando o Alex, então PM numa startup de fintech, ficou cansado
+          de gravar a mesma demo em Loom toda semana. Existiam ferramentas gringas boas — Supademo,
           Guideflow, Storylane — mas o checkout era em USD, a NF-e não existia, e o player não
           falava pt-BR direito.
         </p>
@@ -36,7 +36,7 @@ export default function AboutPage() {
           maioria usava Loom + PDF + WhatsApp — o oposto de &quot;escalar vendas&quot;.
         </p>
         <p>
-          A DemoBR existe porque vender SaaS B2B no Brasil em 2026 ainda é analógico. A gente quer
+          A EasyDemo existe porque vender SaaS B2B no Brasil em 2026 ainda é analógico. A gente quer
           tirar pelo menos a etapa da demo automatizável, em R$, em PT-BR e respeitando LGPD.
         </p>
 
@@ -71,7 +71,7 @@ export default function AboutPage() {
         </p>
         <ul>
           <li>
-            <strong>Alex</strong> — Founder / Engineering. Antes da DemoBR, fazia demos em Loom e
+            <strong>Alex</strong> — Founder / Engineering. Antes da EasyDemo, fazia demos em Loom e
             perdia 1 hora por semana re-gravando.
           </li>
           <li>
@@ -115,7 +115,7 @@ export default function AboutPage() {
           </li>
         </ul>
 
-        <h2>Por que &quot;DemoBR&quot;</h2>
+        <h2>Por que &quot;EasyDemo&quot;</h2>
         <p>
           O nome é deliberadamente óbvio. Quem pesquisa &quot;demo interativa&quot; no Google Brasil
           deveria encontrar a gente sem precisar lembrar de marca gringa. O &quot;BR&quot; também
@@ -154,7 +154,7 @@ export default function AboutPage() {
             Blog técnico: <Link href="/blog">/blog</Link>
           </li>
           <li>
-            Updates de produto: <Link href="https://linkedin.com/company/demobr">LinkedIn</Link>
+            Updates de produto: <Link href="https://linkedin.com/company/easydemo">LinkedIn</Link>
           </li>
           <li>Drops de comunidade: Discord (acesso após sign-up)</li>
           <li>

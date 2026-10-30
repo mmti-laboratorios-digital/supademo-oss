@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR precisa de **observability full-stack**:
+EasyDemo precisa de **observability full-stack**:
 
 1. **Logs estruturados** por request (com `workspace_id`, `request_id`, `trace_id`).
 2. **Metrics** (latência p50/p95/p99, error rate, QPS, saturação).
@@ -128,6 +128,6 @@ Configuração:
 - [OpenTelemetry docs](https://opentelemetry.io/docs/)
 - [Datadog pricing](https://www.datadoghq.com/pricing/)
 - [Grafana Cloud pricing](https://grafana.com/pricing/)
-- RFC DemoBR §2.2 — observability
+- RFC EasyDemo §2.2 — observability
 - `research/tech/analytics-stack.md` — comparação completa
 - `research/tech/RECOMMENDATION.md` §2.10 — SigNoz

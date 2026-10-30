@@ -41,7 +41,7 @@ export const Idle: Story = {
     demo: {
       id: "demo-1",
       slug: "demo-storybook",
-      title: "Demo do DemoBR",
+      title: "Demo do EasyDemo",
       description: "Storybook preview do player.",
       language: "pt-BR",
       leadFormEnabled: false,
@@ -57,7 +57,7 @@ export const English: Story = {
     demo: {
       id: "demo-2",
       slug: "demo-en",
-      title: "DemoBR Demo",
+      title: "EasyDemo Demo",
       description: "Storybook preview.",
       language: "en",
       leadFormEnabled: false,

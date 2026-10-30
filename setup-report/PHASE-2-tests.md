@@ -14,7 +14,7 @@ auditar teste por teste; corrigir falhas reais.
 Já existia `/home/dan/saas/supademo-oss/.env.test` (criado em fase anterior).
 Não foi necessário copiar `.env.example`. O conteúdo já inclui placeholders
 para Clerk, R2, Asaas, Resend e PII/encryption keys, além de
-`DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo`.
+`DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo`.
 
 `vitest.setup.ts` carrega esse arquivo antes de qualquer import que use `env()`,
 aplica defaults via `process.env.X ??= "..."`, e dispara o módulo.
@@ -30,7 +30,7 @@ Sem o container, **5 testes de integração** falhariam com `ECONNREFUSED`.
 A presença do container foi confirmada via:
 
 ```bash
-$ PGPASSWORD=demobr psql -h 127.0.0.1 -p 55432 -U app_user -d supademo -c "SELECT 1"
+$ PGPASSWORD=easydemo psql -h 127.0.0.1 -p 55432 -U app_user -d supademo -c "SELECT 1"
 ```
 
 ### 1.3. `@vitest/coverage-v8`
@@ -127,7 +127,7 @@ captura o throw subsequente.
 | `lgpd-redact.test.ts` | 10 | ✅ Pass | `lib/lgpd/redact.ts` (79.72%) |
 | `r2-presigned.test.ts` | 8 | ✅ Pass | `lib/r2-presigned.ts` (87.01%) |
 | `rl.integration.test.ts` | 7 | ✅ Pass (após fix §4) | policies RLS exercitadas |
-| `validators.test.ts` | 12 | ✅ Pass | schemas `@demo.br/shared` |
+| `validators.test.ts` | 12 | ✅ Pass | schemas `@easydemo/shared` |
 
 **Total `lib/__tests__/`: 55 testes** (49 únicos + 6 from `it.each()`).
 

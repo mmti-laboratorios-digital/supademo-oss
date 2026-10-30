@@ -80,12 +80,12 @@
 
 ---
 
-## Implicações para DemoBR
+## Implicações para EasyDemo
 
 1. **Todos os players passaram Q3-Q4 2026 sem grandes outages**. Indica que "infra reliability" não é um grande marketing advantage. **Subir 99.99% no Tier 1 é o mínimo.**
-2. **Status page em si é PLG table-stakes** — ter `status.demobr.com.br` no Better Stack (free tier) custa $0 e dá confiança.
+2. **Status page em si é PLG table-stakes** — ter `status.easydemo.io` no Better Stack (free tier) custa $0 e dá confiança.
 3. **Maturity de status page = sinal de equipe de SRE.** Better Stack = small, Atlassian Statuspage = mid/late, incident.io = B2B-deep.
-4. **Para DemoBR "tier 2" BRL-only**, a competitive advantage não será na infra pura. Será em **localização (pt-BR)** e **compliance (LGPD + Banco Central quando aplicável)**.
+4. **Para EasyDemo "tier 2" BRL-only**, a competitive advantage não será na infra pura. Será em **localização (pt-BR)** e **compliance (LGPD + Banco Central quando aplicável)**.
 
 ## Fonts
 

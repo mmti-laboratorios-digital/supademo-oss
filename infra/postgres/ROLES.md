@@ -1,4 +1,4 @@
-# Postgres Roles — DemoBR
+# Postgres Roles — EasyDemo
 
 Documentação canônica dos roles do Postgres. Qualquer mudança em roles/grants deve ser refletida aqui.
 
@@ -46,7 +46,7 @@ admin/ops → app_owner (BYPASSRLS)    ← DIRECT_URL
 ### Runtime (Next.js server, worker, scripts de leitura)
 
 ```bash
-DATABASE_URL=postgres://app_user:<password>@host:port/supademo
+DATABASE_URL=postgres://app_user:<password>@host:port/easydemo
 ```
 
 - `app_user` recebe `app.current_tenant_id` via `SET LOCAL` dentro de uma transação (`withTenant()`).
@@ -56,7 +56,7 @@ DATABASE_URL=postgres://app_user:<password>@host:port/supademo
 ### Migrations / DDL / Webhooks / Jobs
 
 ```bash
-DIRECT_URL=postgres://app_owner:<password>@host:port/supademo
+DIRECT_URL=postgres://app_owner:<password>@host:port/easydemo
 ```
 
 - `app_owner` tem `BYPASSRLS=t` — ignora policies.
@@ -66,7 +66,7 @@ DIRECT_URL=postgres://app_owner:<password>@host:port/supademo
 ### Admin / DBA (não usar em app code)
 
 ```bash
-psql -U app -d supademo          # superuser interno do container
+psql -U app -d easydemo          # superuser interno do container
 ```
 
 ---
@@ -75,7 +75,7 @@ psql -U app -d supademo          # superuser interno do container
 
 ```sql
 -- database
-GRANT CONNECT ON DATABASE supademo TO app_user, app_owner, readonly;
+GRANT CONNECT ON DATABASE easydemo TO app_user, app_owner, readonly;
 
 -- schemas
 GRANT USAGE   ON SCHEMA app        TO app_user, app_owner, readonly;
@@ -131,17 +131,17 @@ Default privileges estão configurados para que **tabelas futuras** (criadas via
 
 ```bash
 # 1. app_user RLS-enforced: 10/10 checks
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
-ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/easydemo \
+ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/easydemo \
   tsx scripts/db/test-rls.ts
 
 # 2. app_owner BYPASSRLS: confirma que ele lê cross-tenant
-DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
-ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/easydemo \
+ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/easydemo \
   tsx scripts/db/test-rls-admin.ts
 
 # 3. Atributos no DB
-psql -U app_owner -d supademo -c "SELECT rolname, rolsuper, rolbypassrls FROM pg_roles WHERE rolname IN ('app_owner','app_user','readonly') ORDER BY rolname;"
+psql -U app_owner -d easydemo -c "SELECT rolname, rolsuper, rolbypassrls FROM pg_roles WHERE rolname IN ('app_owner','app_user','readonly') ORDER BY rolname;"
 ```
 
 Saída esperada:

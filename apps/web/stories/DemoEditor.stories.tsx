@@ -36,7 +36,7 @@ export const WithSteps: Story = {
   args: {
     demo: {
       id: "demo-2",
-      title: "Onboarding DemoBR",
+      title: "Onboarding EasyDemo",
       description: "Tour de 3 passos",
       slug: "onboarding",
       language: "pt-BR",

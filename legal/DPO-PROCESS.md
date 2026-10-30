@@ -1,14 +1,14 @@
-# 🔄 Processo de Nomeação e Operação do DPO — DemoBR
+# 🔄 Processo de Nomeação e Operação do DPO — EasyDemo
 
 > Documento operacional que descreve **o processo de seleção,
 > contratação, onboarding e operação contínua** do Encarregado de
-> Proteção de Dados (DPO) da DemoBR LTDA.
+> Proteção de Dados (DPO) da EasyDemo LTDA.
 >
 > Este documento complementa [`DPO.md`](./DPO.md) com **fluxos
 > detalhados, checklists e SLAs**.
 >
 > **Status atual:** ⏳ **PENDENTE DE CONTRATAÇÃO** — primeira
-> iteração deste processo será disparada quando a DemoBR iniciar o
+> iteração deste processo será disparada quando a EasyDemo iniciar o
 > go-live público.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
@@ -92,15 +92,15 @@
    vazamento?
 3. **LGPD art. 18**: liste os 10 direitos do titular e diga qual o
    SLA usual.
-4. **Stack DemoBR**: como você investigaria um acesso suspeito em
+4. **Stack EasyDemo**: como você investigaria um acesso suspeito em
    `app.audit_log` no Postgres?
 5. **DPO conflito**: se você descobrisse uma falha grave cometida
-   pela liderança da DemoBR, qual seria sua postura?
+   pela liderança da EasyDemo, qual seria sua postura?
 
 #### Roteiro de case study (incidente)
 
 > Cenário: você recebe um e-mail às 23h de uma sexta-feira
-> reportando que um bucket R2 da DemoBR ficou público por 4 horas.
+> reportando que um bucket R2 da EasyDemo ficou público por 4 horas.
 > Dentro do bucket há 200 GB de backups criptografados e um CSV
 > com 50 mil e-mails de leads captados em demos.
 >
@@ -138,10 +138,10 @@
     [ ] Leitura de `docs/SECURITY-MODEL.md`
     [ ] Leitura de `incident-response-plan.md`
 [ ] Nomeação comunicada à ANPD
-[ ] Atualização da página `https://www.demobr.com.br/dpo`
+[ ] Atualização da página `https://www.easydemo.io/dpo`
 [ ] Atualização de `legal/privacy-policy.md` §11
 [ ] Atualização de `legal/CHANGELOG-DPO.md` §4
-[ ] Substituição de `placeholder@demobr.com.br` em todos os docs
+[ ] Substituição de `placeholder@easydemo.io` em todos os docs
 [ ] Primeiro reporte mensal programado
 ```
 
@@ -164,7 +164,7 @@ definidos em §5 e §6 abaixo.
 [ ] Visita guiada ao produto (player, painel, admin)
 [ ] Tour pelo `docs/` (SECURITY-MODEL, ARCHITECTURE)
 [ ] Recebimento de notebook / conta Google Workspace
-[ ] Configuração de 1Password (vault "DemoBR — Privacy")
+[ ] Configuração de 1Password (vault "EasyDemo — Privacy")
 [ ] Acesso ao GitHub (repo privado, role Read)
 [ ] Acesso ao Linear (projetos "Privacy" e "Legal")
 [ ] Acesso ao Slack #privacidade, #incidentes
@@ -222,7 +222,7 @@ definidos em §5 e §6 abaixo.
 
 | Origem | Canal | SLA de resposta do DPO |
 |--------|-------|-------------------------|
-| **Titular (DSR)** | `dpo@demobr.com.br` | ≤ 15 dias úteis |
+| **Titular (DSR)** | `dpo@easydemo.io` | ≤ 15 dias úteis |
 | **Engenheiro (incidente P0/P1)** | Slack `#incidentes` + PagerDuty | Imediato (P0) / 1h (P1) |
 | **Suporte (dúvidas de privacidade)** | Slack `#privacidade` | 1 dia útil |
 | **CEO/sócios (questões estratégicas)** | Reunião 1:1 semanal | Próxima reunião |
@@ -240,7 +240,7 @@ definidos em §5 e §6 abaixo.
 
 ### 3.3 Ferramentas de comunicação
 
-- **DSR / titulares**: e-mail `dpo@demobr.com.br` → fila em
+- **DSR / titulares**: e-mail `dpo@easydemo.io` → fila em
   `app.dsr_log` → Linear (projeto "Privacy").
 - **Incidentes**: Slack `#p0-fire` (P0) ou `#incidentes` (P1+),
   com DPO em canal.
@@ -256,7 +256,7 @@ definidos em §5 e §6 abaixo.
 Enviado pelo DPO até o **5º dia útil** de cada mês, contendo:
 
 ```
-Relatório Mensal de Privacidade — DemoBR
+Relatório Mensal de Privacidade — EasyDemo
 Referente a: {mês}/{ano}
 
 1. RESUMO EXECUTIVO
@@ -301,7 +301,7 @@ Enviado pelo DPO até o **15º dia útil** do fim do trimestre,
 contendo:
 
 ```
-Relatório Trimestral de Privacidade — DemoBR
+Relatório Trimestral de Privacidade — EasyDemo
 Referente a: Q{1-4}/{ano}
 
 1. SUMÁRIO EXECUTIVO PARA O BOARD
@@ -320,7 +320,7 @@ com o ciclo de auditoria definido em
 [`CHANGELOG-DPO.md`](./CHANGELOG-DPO.md) §10), contendo:
 
 ```
-Relatório Anual de Privacidade — DemoBR
+Relatório Anual de Privacidade — EasyDemo
 Referente a: {ano}
 
 1. RESUMO EXECUTIVO ANUAL
@@ -418,12 +418,12 @@ Se o DPO for desligado (PJ) ou pedir demissão (CLT):
 [ ] ANPD é notificada da substituição (LGPD art. 41, §1º)
 [ ] `legal/privacy-policy.md` §11 é atualizado
 [ ] `legal/CHANGELOG-DPO.md` §4 é atualizado
-[ ] `https://www.demobr.com.br/dpo` é atualizado
+[ ] `https://www.easydemo.io/dpo` é atualizado
 ```
 
 ### 6.3 Indicadores de qualidade
 
-A cada 6 meses, a DemoBR avalia o DPO por:
+A cada 6 meses, a EasyDemo avalia o DPO por:
 
 - SLA de DSR (≥ 95% no prazo).
 - Reportes mensais entregues no prazo.
@@ -439,8 +439,8 @@ A cada 6 meses, a DemoBR avalia o DPO por:
 
 Este documento **NÃO** afirma:
 
-- ❌ Que a DemoBR já tem DPO contratado.
-- ❌ Que existe um DPO designado respondendo `dpo@demobr.com.br`.
+- ❌ Que a EasyDemo já tem DPO contratado.
+- ❌ Que existe um DPO designado respondendo `dpo@easydemo.io`.
 
 Este documento **AFIRMA**:
 
@@ -466,5 +466,5 @@ Este documento **AFIRMA**:
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — PENDENTE DE CONTRATAÇÃO
 Versão: 0.1.0
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

@@ -1,4 +1,4 @@
-# DemoBR
+# EasyDemo
 
 > Demos interativas do seu produto, em PT-BR, com PIX e LGPD.
 
@@ -24,7 +24,7 @@ Clone brasileiro do Supademo, otimizado para o mercado BR com pagamento via PIX/
 
 ```bash
 # 1. Clonar e instalar
-git clone <repo> demobr && cd demobr
+git clone <repo> easydemo && cd easydemo
 nvm use                # Node 22
 corepack enable
 pnpm install
@@ -60,7 +60,7 @@ apps/
   workers/     # graphile-worker process
 packages/
   shared/      # types + zod schemas
-  player/      # @demo.br/player (vanilla, publicável)
+  player/      # @easydemo/player (vanilla, publicável)
   ui/          # shadcn-style primitives
 infra/         # docker-compose, Caddy, Postgres, OTEL
 scripts/       # init-db, seed, deploy

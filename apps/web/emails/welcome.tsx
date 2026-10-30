@@ -12,7 +12,7 @@ export type WelcomeEmailProps = {
 
 /**
  * Welcome email after sign-up.
- * Subject: "Bem-vindo à DemoBR"
+ * Subject: "Bem-vindo à EasyDemo"
  * Goal: get the user to install the Chrome extension and capture their first
  *       demo in 5 minutes.
  */
@@ -34,7 +34,7 @@ export function WelcomeEmail({
       </Heading>
 
       <Text className="mt-3 leading-6 text-ink-muted">
-        A DemoBR está pronta pro <strong>{workspaceName}</strong>. Você tem um plano Free ativo: 3
+        A EasyDemo está pronta pro <strong>{workspaceName}</strong>. Você tem um plano Free ativo: 3
         demos publicados, 50 views por mês, sem cartão de crédito.
       </Text>
 
@@ -50,7 +50,7 @@ export function WelcomeEmail({
         <li>
           <strong>Instale a extensão Chrome</strong> (
           <a
-            href="https://chromewebstore.google.com/detail/demobr"
+            href="https://chromewebstore.google.com/detail/easydemo"
             className="text-brand-primary underline"
           >
             link
@@ -94,8 +94,8 @@ export function WelcomeEmail({
 WelcomeEmail.PreviewProps = {
   firstName: "Bruna",
   workspaceName: "Empresa XYZ S.A.",
-  dashboardUrl: "https://demobr.com.br/dashboard",
-  guideUrl: "https://demobr.com.br/blog/como-fazer-demo-interativa",
+  dashboardUrl: "https://easydemo.io/dashboard",
+  guideUrl: "https://easydemo.io/blog/como-fazer-demo-interativa",
   locale: "pt-BR",
 } satisfies WelcomeEmailProps;
 

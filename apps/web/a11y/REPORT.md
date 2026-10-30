@@ -1,4 +1,4 @@
-# Accessibility Report — DemoBR (MVP)
+# Accessibility Report — EasyDemo (MVP)
 
 > Auditoria manual realizada em 2026-10-18 sobre as principais rotas e
 > componentes do app web. Foco em WCAG 2.1 AA. Itens marcados como

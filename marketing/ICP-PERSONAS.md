@@ -1,7 +1,7 @@
-# ICP & Personas — DemoBR
+# ICP & Personas — EasyDemo
 
 > **Data:** 2026-10-18.
-> **Definição:** ICP (Ideal Customer Profile) = empresa que DemoBR quer como cliente pago. Persona = representante humano dessa empresa que vai clicar no CTA.
+> **Definição:** ICP (Ideal Customer Profile) = empresa que EasyDemo quer como cliente pago. Persona = representante humano dessa empresa que vai clicar no CTA.
 > **Origem dos dados:** `research/pricing/gtm-channels.md` §A e §B, `research/pricing/brazilian-players-pricing.md`, complementado por inferência baseada em padrão SaaS B2B BR.
 
 ---
@@ -75,7 +75,7 @@
 
 > "Pare de gastar 50% do tempo do AE em demo que o lead vê sozinho."
 >
-> "4h por demo é dinheiro jogado fora — DemoBR resolve em R$ 49/mês com PIX."
+> "4h por demo é dinheiro jogado fora — EasyDemo resolve em R$ 49/mês com PIX."
 
 #### Onde encontrar
 
@@ -260,7 +260,7 @@
 
 | Persona | Headline | CTA |
 |---|---|---|
-| **Pedro (PMM)** | "Pare de gastar 50% do tempo do AE em demo fria." | "Teste DemoBR Pro por 14 dias" |
+| **Pedro (PMM)** | "Pare de gastar 50% do tempo do AE em demo fria." | "Teste EasyDemo Pro por 14 dias" |
 | **Carla (CS)** | "Ative 80% dos clientes sem call." | "Veja demo de onboarding SaaS" |
 | **Rafael (Founder)** | "Demo bonita em 15 min, sem designer." | "Crie sua 1ª demo grátis" |
 
@@ -271,7 +271,7 @@
 | Persona | Por que não |
 |---|---|
 | **PMM de SaaS enterprise (1000+)** | Ciclo de venda longo, prefere Supademo Enterprise, busca SLA 99.99%, red flags de "PME/PLG" |
-| **Agência que só faz social media** | Não tem produto digital pra demonstrar; o uso de DemoBR é mínimo |
+| **Agência que só faz social media** | Não tem produto digital pra demonstrar; o uso de EasyDemo é mínimo |
 | **E-com pequeno** | Mercado horizontal, baixa aderência a "demo interativa" (exceto verticais nichadas) |
 | **Consultoria individual (1 pessoa)** | Pode usar Free, mas LTV muito baixo pra priorização |
 | **Empresa fora do Brasil** (ainda) | Multi-currency não está no MVP (RFC §1.2); foco é BR-only |

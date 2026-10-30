@@ -49,7 +49,7 @@ Content-Type: application/json
   "nextDueDate": "2027-01-15",
   "value": 49.90,
   "cycle": "MONTHLY",
-  "description": "Plano Pro - DemoBR"
+  "description": "Plano Pro - EasyDemo"
 }
 ```
 
@@ -317,7 +317,7 @@ export async function createSubscription({
     cycle: 'MONTHLY',
     value: PLANS[planId].price,
     nextDueDate: nextMonth(),
-    description: `DemoBR ${planId}`,
+    description: `EasyDemo ${planId}`,
   });
 
   // 3. Persiste no nosso DB

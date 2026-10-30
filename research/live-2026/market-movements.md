@@ -1,4 +1,4 @@
-# Market Movements Q3-Q4 2026 — Síntese & impacto DemoBR
+# Market Movements Q3-Q4 2026 — Síntese & impacto EasyDemo
 
 **Coletado em:** 18 out 2026
 **Método:** Cruzamento transversal de todos os arquivos live-2026/.
@@ -22,7 +22,7 @@
 
 Storylane Growth era acessível em ~$500/mês; agora **$625/mês mensal ou $500 anual**. Sandbox desceu para Enterprise. **Implicação:** Storylane está forçando upsell em quem precisa de feature avancada, subsidia quem fica em screenshot mode. É um pivô de "valor em tier superior" para o Tier 1.
 
-Para DemoBR: posicionamento de **preço público baixo + feature completa em tier acessível** ainda é o gap que Supademo Scale preenche. Storylane abriu o flanco.
+Para EasyDemo: posicionamento de **preço público baixo + feature completa em tier acessível** ainda é o gap que Supademo Scale preenche. Storylane abriu o flanco.
 
 ### 2. **Supademo construiu uma vantagem de AI surface**
 
@@ -32,7 +32,7 @@ Para DemoBR: posicionamento de **preço público baixo + feature completa em tie
 - Voice cloning + Voiceover 2.0
 - Sandboxes em $350/mo vs Enterprise-only da competição
 
-**Para DemoBR:** é muito caro replicar. Sugere-se:
+**Para EasyDemo:** é muito caro replicar. Sugere-se:
 - **Foco em AI Agent conversacional em pt-BR** (gap claro).
 - Não tentar replicar Supademo Scale — focar em **Tier 2 BR + LGPD + AI Agent pt-BR** como vantagem.
 
@@ -40,13 +40,13 @@ Para DemoBR: posicionamento de **preço público baixo + feature completa em tie
 
 Supademo, Storylane, Navattic, Arcade: todos têm MCP server. **Cada um com 20-80+ tools.** A escolha **não é se tem MCP**, mas **qual o scope dos tools**.
 
-**Para DemoBR:** MCP é table-stakes. Sem MCP server, DemoBR não consegue competir em 2027. Planejar para release v1.0 do MCP é uma necessidade.
+**Para EasyDemo:** MCP é table-stakes. Sem MCP server, EasyDemo não consegue competir em 2027. Planejar para release v1.0 do MCP é uma necessidade.
 
 ### 4. **AI agents estão virando produto, não feature**
 
 Storylane **RepX** ($2k/mo, tráfego-metered). Supademo **AI Demo Agent** (credit, desde $99). Navattic **Agents** (conversations-based). Loom **Record for Agents** (flat fee).
 
-**Para DemoBR:** o nicho "AI sales agent conversacional" ainda está aberto em pt-BR. Players globais não falam português decente — DemoBR pode ser o "AI agent for B2B Brazil".
+**Para EasyDemo:** o nicho "AI sales agent conversacional" ainda está aberto em pt-BR. Players globais não falam português decente — EasyDemo pode ser o "AI agent for B2B Brazil".
 
 ### 5. **Sandbox + HTML demos viraram table-stakes em Tier 1**
 
@@ -55,7 +55,7 @@ Navattic: Growth $50+ sales.
 Supademo: $350/mo público.
 Arcade: Enterprise só com HTML capture.
 
-**Para DemoBR:** sandbox/HTML demo é o "Tier 1 wedge". Sem isso, DemoBR é automaticamente Tier 2. **Vale considerar** mesmo que seja no plano Enterprise.
+**Para EasyDemo:** sandbox/HTML demo é o "Tier 1 wedge". Sem isso, EasyDemo é automaticamente Tier 2. **Vale considerar** mesmo que seja no plano Enterprise.
 
 ### 6. **Chrome Web Store ratings como proxy de CSAT/NPS**
 
@@ -66,7 +66,7 @@ Arcade: Enterprise só com HTML capture.
 | Arcade | 4.8 | 33 | High |
 | GuiaFlow | 0.0 | 0 | n/a |
 
-**Para DemoBR:** extension rating é vetor rápido de credibilidade. Superação de 4.7+ é viável em 6 meses.
+**Para EasyDemo:** extension rating é vetor rápido de credibilidade. Superação de 4.7+ é viável em 6 meses.
 
 ### 7. **Pricing público de Tier 2 BR é fragmentado**
 
@@ -81,7 +81,7 @@ Fluidz é o único com pricing honesto e publicado em BRL — **forte sinal de t
 
 ---
 
-## Tese DemoBR — derivada dos movimentos Q3-Q4 2026
+## Tese EasyDemo — derivada dos movimentos Q3-Q4 2026
 
 ### Curto prazo (Q1 2027): **MCP + Free tier + AI Agent em pt-BR**
 
@@ -104,7 +104,7 @@ Fluidz é o único com pricing honesto e publicado em BRL — **forte sinal de t
 
 1. **AI Demo Agent conversacional** em pt-BR que fala com clientes via WhatsApp.
 2. **MCP server** com tools que vão além de demos — connecting to CRM, calendar, billing.
-3. **DemoBR Marketplace** — templates de demos por vertical, comunidade de contributors.
+3. **EasyDemo Marketplace** — templates de demos por vertical, comunidade de contributors.
 
 ---
 
@@ -115,7 +115,7 @@ Fluidz é o único com pricing honesto e publicado em BRL — **forte sinal de t
 3. **Não ter apenas um canal paid ads** — deficiência vista nos BR players. Getdemo e Fluidz não têm investido em marketing visível.
 4. **Não negligenciar Chrome Web Store como canal PLG** — é o primeiro stop na jornada de descoberta. GuiaFlow é exemplo de como *NÃO* fazer (extension sem ratings, dev URL fraca).
 
-## Implicações para o roadmap DemoBR
+## Implicações para o roadmap EasyDemo
 
 | Prioridade | Feature | Razão | Janela |
 |---|---|---|---|

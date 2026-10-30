@@ -1,6 +1,6 @@
 # PHASE 11 — Playwright deps (decisão `--with-deps`)
 
-**Projeto:** DemoBR / Supademo OSS
+**Projeto:** EasyDemo / Supademo OSS
 **Data de execução:** 2026-10-18
 **Operador:** subagent (Missão Phase 11)
 **Trigger:** falha de `playwright install chromium --with-deps` em host sem sudo

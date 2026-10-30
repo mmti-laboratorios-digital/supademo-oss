@@ -1,4 +1,4 @@
-# Test Coverage Report — DemoBR
+# Test Coverage Report — EasyDemo
 
 > Data: 18/Out/2026
 > Stack: Vitest 2.x + @vitest/coverage-v8 + Playwright 1.48

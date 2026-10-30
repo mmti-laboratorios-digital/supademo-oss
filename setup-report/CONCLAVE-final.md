@@ -76,8 +76,8 @@ Total de código TypeScript/TSX/SQL em `apps/` + `packages/`:
 
 ```
 $ pnpm install --frozen-lockfile
-. prepare$ node -e "console.log('DemoBR — pnpm install detectado')"
-. prepare: DemoBR — pnpm install detectado
+. prepare$ node -e "console.log('EasyDemo — pnpm install detectado')"
+. prepare: EasyDemo — pnpm install detectado
 . prepare: Done
 Done in 965ms
 ```
@@ -88,7 +88,7 @@ Done in 965ms
 
 ```
 $ pnpm lint
-> demobr@0.1.0 lint /home/dan/saas/supademo-oss
+> easydemo@0.1.0 lint /home/dan/saas/supademo-oss
 > biome check .
 
 Checked 205 files in 54ms. No fixes applied.
@@ -179,8 +179,8 @@ Module not found: Can't resolve '@opentelemetry/winston-transport' in
 ### 2.6 Drizzle migrate
 
 ```
-$ DATABASE_URL="postgres://app_user:demobr@127.0.0.1:55432/supademo" \
-  DIRECT_URL="postgres://app_owner:demobr@127.0.0.1:55432/supademo" \
+$ DATABASE_URL="postgres://app_user:easydemo@127.0.0.1:55432/supademo" \
+  DIRECT_URL="postgres://app_owner:easydemo@127.0.0.1:55432/supademo" \
   pnpm exec drizzle-kit migrate
 
 No config path provided, using default 'drizzle.config.ts'

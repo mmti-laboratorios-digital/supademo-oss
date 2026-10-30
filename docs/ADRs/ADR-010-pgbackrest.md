@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR armazena **dados críticos de clientes B2B** (workspaces, demos, leads, billing). Perda de banco = empresa fecha. Precisamos de:
+EasyDemo armazena **dados críticos de clientes B2B** (workspaces, demos, leads, billing). Perda de banco = empresa fecha. Precisamos de:
 
 1. **Backups diários** full + incrementais.
 2. **Point-in-Time Recovery (PITR)** até os últimos 7–14 dias (para casos de "DELETE acidental às 14h32").
@@ -37,7 +37,7 @@ DemoBR armazena **dados críticos de clientes B2B** (workspaces, demos, leads, b
 
 Configuração:
 
-- `pgbackrest.conf` no sidecar `pgbackrest` apontando para `repo1-type=s3`, `repo1-path=demo-br-pgbackrest`, `repo1-s3-endpoint=...r2.cloudflarestorage.com`, `repo1-s3-key=...`, `repo1-s3-key-secret=...`, `repo1-s3-bucket=demo-br-pgbackrest`, `repo1-cipher-type=aes-256-cbc`, `repo1-retention-full=7`, `repo1-retention-diff=7`.
+- `pgbackrest.conf` no sidecar `pgbackrest` apontando para `repo1-type=s3`, `repo1-path=/pgbackrest`, `repo1-s3-endpoint=...r2.cloudflarestorage.com`, `repo1-s3-key=...`, `repo1-s3-key-secret=...`, `repo1-s3-bucket=demo-private`, `repo1-cipher-type=aes-256-cbc`, `repo1-retention-full=7`, `repo1-retention-diff=7`.
 - **Cron diário** `02:00 BRT`: `pgbackrest backup --type=full` (full semanal) + `pgbackrest backup --type=diff` (diff diário).
 - **WAL archiving** contínuo via `archive_command = 'pgbackrest archive-push %p'`.
 - **Restore drill mensal**: script `scripts/restore-drill.sh` que sobe Postgres em container, restaura último full + WALs, valida checksum, gera relatório.
@@ -64,7 +64,7 @@ Configuração:
 
 ### Follow-ups
 
-- **Monitorar `pgbackrest info --stanza=demo-br` em SigNoz** (alert se last backup > 26h).
+- **Monitorar `pgbackrest info --stanza=main` em SigNoz** (alert se last backup > 26h).
 - Adicionar **bloom filters** (`--repo1-bundle`) na Fase 2 para acelerar restore parcial.
 - Documentar **runbook de DR** em `infra/postgres/RUNBOOK.md`.
 
@@ -118,6 +118,6 @@ Configuração:
 - [WAL-G](https://github.com/wal-g/wal-g)
 - [Barman](https://pgbarman.org/)
 - [Hetzner Snapshots](https://docs.hetzner.com/cloud/servers/backups-snapshots)
-- RFC DemoBR §2.6 — backup
+- RFC EasyDemo §2.6 — backup
 - `research/tech/infra-vps.md` §4 — backup strategy
 - `research/tech/RECOMMENDATION.md` §2.5 — pgBackRest

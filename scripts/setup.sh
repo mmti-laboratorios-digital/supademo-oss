@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  scripts/setup.sh — Provisiona o ambiente DemoBR do zero (Linux/macOS)
+#  scripts/setup.sh — Provisiona o ambiente EasyDemo do zero (Linux/macOS)
 # -----------------------------------------------------------------------------
 #  Passos:
 #   1. Valida pré-requisitos (pnpm, node, docker, gh)
@@ -92,7 +92,7 @@ wait_pgready() {
   local timeout="${1:-60}" elapsed=0
   log "Esperando Postgres responder (pg_isready, timeout ${timeout}s)…"
   while (( elapsed < timeout )); do
-    if docker exec demobr-postgres pg_isready -U app_user -d supademo >/dev/null 2>&1; then
+    if docker exec easydemo-postgres pg_isready -U app_user -d supademo >/dev/null 2>&1; then
       ok "Postgres está pronto."
       return 0
     fi
@@ -178,7 +178,7 @@ docker compose -f infra/docker-compose.yml up -d postgres pgweb
 # -----------------------------------------------------------------------------
 # 5. Health check
 # -----------------------------------------------------------------------------
-wait_healthy "demobr-postgres" 90 || true
+wait_healthy "easydemo-postgres" 90 || true
 wait_pgready 90
 
 # -----------------------------------------------------------------------------
@@ -194,7 +194,7 @@ pnpm --filter web db:seed || warn "Seed não rodou — verifique db:seed no apps
 # 7. Resumo
 # -----------------------------------------------------------------------------
 printf "\n${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
-printf "${GREEN}DemoBR setup concluído${NC}\n\n"
+printf "${GREEN}EasyDemo setup concluído${NC}\n\n"
 printf "  ${BLUE}Web (Next.js)${NC}      → ${CYAN}http://localhost:3000${NC}\n"
 printf "  ${BLUE}pgweb (DB UI)${NC}      → ${CYAN}http://localhost:8081${NC}\n"
 printf "  ${BLUE}Postgres${NC}          → ${CYAN}localhost:55432${NC}  (user: app / pwd: ver .env)\n"

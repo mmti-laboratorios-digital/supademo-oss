@@ -1,6 +1,6 @@
-# Plano de Resposta a Incidentes — DemoBR
+# Plano de Resposta a Incidentes — EasyDemo
 
-> Este documento define o procedimento da DemoBR LTDA para detectar,
+> Este documento define o procedimento da EasyDemo LTDA para detectar,
 > triar, comunicar, investigar e recuperar de incidentes de segurança
 > que envolvam dados pessoais.
 >
@@ -17,14 +17,14 @@
 
 Define-se como incidente de segurança qualquer ocorrência que afete
 **confidencialidade, integridade, disponibilidade** ou
-**autenticidade** de dados pessoais tratados pela DemoBR, incluindo:
+**autenticidade** de dados pessoais tratados pela EasyDemo, incluindo:
 
 | Categoria | Exemplos |
 |-----------|----------|
 | **Confidencialidade (vazamento)** | PII exposta em log público; bucket R2 deixado público por engano; chave de API vazada em commit |
 | **Integridade (alteração indevida)** | RLS bypass que permite que um tenant altere dados de outro; modificação não autorizada de demos |
 | **Disponibilidade (indisponibilidade)** | DDoS com duração > 30 min; falha de banco; falha de Hetzner que derruba o serviço |
-| **Autenticidade** | Phishing contra creator usando marca DemoBR; conta Clerk comprometida |
+| **Autenticidade** | Phishing contra creator usando marca EasyDemo; conta Clerk comprometida |
 | **Privacidade (LGPD)** | Coleta de dado sensível não-autorizada; tratamento sem base legal; DSR não respondida no prazo |
 
 > **Regra prática**: na dúvida, **declare incidente**. Custo de
@@ -37,15 +37,15 @@ Define-se como incidente de segurança qualquer ocorrência que afete
 
 | Função | Responsável | Backup | Contato |
 |--------|-------------|--------|---------|
-| **Incident Commander (IC)** | Tech lead DemoBR | Engenheiro sênior #2 | `ic@demobr.com.br` |
-| **Comunicação externa** | CEO | Head of Operations | `comunicacao@demobr.com.br` |
-| **DPO** | DPO designado | Advogado externo | `placeholder@demobr.com.br` *(contratação em até 90 dias — ver `DPO-PROCESS.md`; enquanto isso, CTO assume interinamente)* |
-| **Engenheiro de plantão (24/7)** | Rodízio semanal | Plantão secundário | `oncall@demobr.com.br` (PagerDuty) |
-| **Forensics** | Tech lead + DPO | Advogado externo | `forensics@demobr.com.br` |
+| **Incident Commander (IC)** | Tech lead EasyDemo | Engenheiro sênior #2 | `ic@easydemo.io` |
+| **Comunicação externa** | CEO | Head of Operations | `comunicacao@easydemo.io` |
+| **DPO** | DPO designado | Advogado externo | `placeholder@easydemo.io` *(contratação em até 90 dias — ver `DPO-PROCESS.md`; enquanto isso, CTO assume interinamente)* |
+| **Engenheiro de plantão (24/7)** | Rodízio semanal | Plantão secundário | `oncall@easydemo.io` (PagerDuty) |
+| **Forensics** | Tech lead + DPO | Advogado externo | `forensics@easydemo.io` |
 | **Apoio jurídico** | Advogado externo | — | (definir por contrato) |
-| **Liderança (escalation)** | CEO | COO | `ceo@demobr.com.br` |
+| **Liderança (escalation)** | CEO | COO | `ceo@easydemo.io` |
 
-> **Esta tabela é exemplo**. Substituir pelos nomes reais da DemoBR
+> **Esta tabela é exemplo**. Substituir pelos nomes reais da EasyDemo
 > LTDA antes de publicar.
 
 ---
@@ -62,7 +62,7 @@ Define-se como incidente de segurança qualquer ocorrência que afete
 | **Asaas** | Falha de webhook repetida; transações negadas |
 | **Cloudflare WAF** | Bloqueios anormais; ataques de força bruta |
 | **Logs do banco** | Queries lentas; tentativas de bypass de RLS |
-| **Reportado por usuário** | E-mail `security@demobr.com.br`; bug bounty |
+| **Reportado por usuário** | E-mail `security@easydemo.io`; bug bounty |
 | **Reportado por terceiro** | ANPD notificando investigação; pesquisador de segurança |
 
 ### 3.2 SLAs de detecção
@@ -206,7 +206,7 @@ Quando o incidente **causar risco relevante** aos titulares:
 
 O **DPO é o responsável** por esta comunicação.
 
-> **Enquanto a DemoBR não tiver DPO contratado** (até 90 dias da
+> **Enquanto a EasyDemo não tiver DPO contratado** (até 90 dias da
 > publicação — ver [`DPO-PROCESS.md`](./DPO-PROCESS.md)), o **CTO +
 > CEO** assumem interinamente a função de reportar à ANPD. O
 > conteúdo da comunicação segue o template §7.3 acima, com a
@@ -230,12 +230,12 @@ a mesma definição do item 7.1.
 - **E-mail** ao e-mail cadastrado (pode estar desatualizado — usar
   canais alternativos como SMS ou correspondência se disponível).
 - **Aviso no player/painel**: banner visível ao logar.
-- **Página dedicada**: `status.demobr.com.br/incidente-{ID}`.
+- **Página dedicada**: `status.easydemo.io/incidente-{ID}`.
 
 ### 8.4 Conteúdo
 
 ```
-[Comunicação de incidente — DemoBR]
+[Comunicação de incidente — EasyDemo]
 
 Caro(a) {nome},
 
@@ -255,13 +255,13 @@ que estamos fazendo.
    - {ação 3 — ex.: notificação à ANPD}
 
 4. O que você pode fazer
-   - Trocar sua senha em app.demobr.com.br
+   - Trocar sua senha em app.easydemo.io
    - Ativar MFA se ainda não ativou
    - Ficar atento a phishing nos próximos 90 dias
 
 5. Onde obter mais informações
-   - status.demobr.com.br/incidente-{ID}
-   - placeholder@demobr.com.br (DPO — placeholder funcional até
+   - status.easydemo.io/incidente-{ID}
+   - placeholder@easydemo.io (DPO — placeholder funcional até
      contratação; ver `DPO-PROCESS.md`)
 ```
 
@@ -362,7 +362,7 @@ não punidos.
 
 ### 10.4 Publicação
 
-P0/P1: resumo público em `status.demobr.com.br/post-mortem-{date}-{slug}`.
+P0/P1: resumo público em `status.easydemo.io/post-mortem-{date}-{slug}`.
 P2/P3: mantido interno.
 
 ---
@@ -405,7 +405,7 @@ Que dados: {categorias}
 Estamos trabalhando em {próximos passos}. Atualizaremos este
 status a cada hora.
 
-Para suporte direto: incidente-{id}@demobr.com.br
+Para suporte direto: incidente-{id}@easydemo.io
 
 Última atualização: {timestamp}
 ```
@@ -453,5 +453,5 @@ Este IRP cumpre:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

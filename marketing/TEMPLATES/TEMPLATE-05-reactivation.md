@@ -14,7 +14,7 @@
 | `{{workspace_slug}}` | slug do workspace |
 | `{{ultima_atividade}}` | "você criou uma demo de login há 32 dias" / "você publicou '{{nome_demo}}' há 60 dias" |
 | `{{link_demo_ainda_lá}}` | link público `/d/[slug]` da demo existente |
-| `{{link_dashboard}}` | `app.demobr.com.br/app/{{workspace_slug}}` |
+| `{{link_dashboard}}` | `app.easydemo.io/app/{{workspace_slug}}` |
 | `{{case_dor}}` | dor mais comum em PMMs BR parado |
 | `{{cupom}}` | cupom reativação |
 
@@ -26,7 +26,7 @@
 |---|---|
 | Usuário **criou** demo mas **não publicou** | "Sua demo tá quase pronta — falta 1 clique pra publicar" |
 | Usuário **publicou** demo mas **não abriu** o link | "Sua demo {{nome_demo}} ainda tá no ar. Viu as métricas?" |
-| Usuário **não criou** nenhuma demo | "Lembra quando você começou a usar o DemoBR? Posso te ajudar a terminar." |
+| Usuário **não criou** nenhuma demo | "Lembra quando você começou a usar o EasyDemo? Posso te ajudar a terminar." |
 
 ---
 
@@ -34,13 +34,13 @@
 
 ### Subject
 
-> `{{nome}}, sua demo no DemoBR ainda está lá`
+> `{{nome}}, sua demo no EasyDemo ainda está lá`
 
 ### Body (≤ 200 palavras)
 
 > Oi {{nome}},
 >
-> Faz um tempo que você não entra no DemoBR — {{ultima_atividade}}.
+> Faz um tempo que você não entra no EasyDemo — {{ultima_atividade}}.
 >
 > Só passando pra dizer: **sua demo continua no ar**. Ninguém deletou nada.
 >
@@ -58,7 +58,7 @@
 > Se quiser conversar sobre o que travou, me responde esse email. Eu respondo em < 24h.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 
 ---
 
@@ -72,9 +72,9 @@
 
 > Oi {{nome}},
 >
-> 60 dias desde a última vez que você abriu o DemoBR.
+> 60 dias desde a última vez que você abriu o EasyDemo.
 >
-> **Não vou fazer drama** — talvez o DemoBR não seja pra você. Tudo bem.
+> **Não vou fazer drama** — talvez o EasyDemo não seja pra você. Tudo bem.
 >
 > Mas se um dia quiser voltar, fiz um cupom exclusivo: **`VOLTEI30`** — 30% off no primeiro mês do **Pro** (R$ 49 → R$ 34).
 >
@@ -87,7 +87,7 @@
 > Se mudou de ideia sobre por que parou, me conta — a gente evolui o produto baseado em feedback real.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
 > PS: O Pro agora tem **AI inclusa** (geração de texto + TTS pt-BR) desde outubro. Talvez seja a hora.
 
@@ -113,7 +113,7 @@
 > **Se for um "não obrigado, tchau"**, sem ressentimentos — você sempre pode voltar e criar uma conta nova em 5 minutos.
 >
 > —
-> **Ana · DemoBR**
+> **Ana · EasyDemo**
 >
 > PS: Sua demo antiga continua no ar até você decidir.
 

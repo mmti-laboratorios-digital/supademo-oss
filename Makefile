@@ -1,5 +1,5 @@
 # =============================================================================
-# DemoBR Makefile — interface alternativa ao `pnpm`
+# EasyDemo Makefile — interface alternativa ao `pnpm`
 # =============================================================================
 # Uso:
 #   make install     # pnpm install
@@ -35,7 +35,7 @@ COMPOSE  := docker compose -f infra/docker-compose.yml
 # -----------------------------------------------------------------------------
 .PHONY: help
 help: ## Mostra esta ajuda
-	@awk 'BEGIN {FS = ":.*##"; printf "\nDemoBR — comandos disponíveis:\n\n"} \
+	@awk 'BEGIN {FS = ":.*##"; printf "\nEasyDemo — comandos disponíveis:\n\n"} \
 	  /^[a-zA-Z_-]+:.*##/ { printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 	@printf "\n"
 
@@ -119,7 +119,7 @@ db-test-rls: ## Verifica RLS multi-tenant
 
 .PHONY: db-shell
 db-shell: ## Abre psql no Postgres
-	$(COMPOSE) exec postgres psql -U app_user -d supademo
+	$(COMPOSE) exec postgres psql -U app_user -d easydemo
 
 # -----------------------------------------------------------------------------
 # Health / smoke

@@ -294,7 +294,7 @@ Resposta ao titular: até 15 dias (art. 18 §5º).
 
 Ao instalar a extensão, mostrar aviso:
 
-> "Esta extensão captura screenshots da sua navegação. Você é responsável por mascarar dados sensíveis antes de publicar. O DemoBR aplica blur automático em padrões conhecidos (CPF, cartão, email) via OCR."
+> "Esta extensão captura screenshots da sua navegação. Você é responsável por mascarar dados sensíveis antes de publicar. O EasyDemo aplica blur automático em padrões conhecidos (CPF, cartão, email) via OCR."
 
 LGPD exige finalidade declarada. Ao publicar demo, registrar:
 - Quem autorizou (user_id).
@@ -303,7 +303,7 @@ LGPD exige finalidade declarada. Ao publicar demo, registrar:
 
 ### 5.2 Quem vê o demo (visitante)
 
-Iframe embed vem com banner discreto "Demo interativo criado com DemoBR" (já requisito de LGPD art. 9º).
+Iframe embed vem com banner discreto "Demo interativo criado com EasyDemo" (já requisito de LGPD art. 9º).
 
 Se demo tiver lead capture form (email), precisamos de consent explícito via checkbox ou double opt-in.
 

@@ -13,7 +13,7 @@
 | `0000_init.sql` continua source-of-truth | ✅ inalterado (448 linhas) |
 | `meta/_journal.json` criado | ✅ 1 entry (`0000_init`, idx 0) |
 | `meta/0000_snapshot.json` criado | ✅ gerado a partir do schema TS via `drizzle-kit generate` |
-| `drizzle-kit migrate` em DB vazio (`demobr_test`) | ✅ aplica 0000 com sucesso |
+| `drizzle-kit migrate` em DB vazio (`easydemo_test`) | ✅ aplica 0000 com sucesso |
 | `drizzle-kit migrate` em DB já com 0000 aplicado | ✅ **second run é no-op** (skip via hash em `drizzle.__drizzle_migrations`) |
 | `drizzle-kit generate` após migrate | ✅ reporta "No schema changes, nothing to migrate" |
 | `Makefile` / `setup.sh` / `ci.yml` migrados de `db:push` para `db:migrate` | ✅ |
@@ -85,23 +85,23 @@ Gerado por `drizzle-kit generate` (1ª execução), depois renomeado de `0001_in
 
 ## 3. Validação (migrate rodou sem erro?)
 
-### 3.1 DB vazio (fresh) — `demobr_test`
+### 3.1 DB vazio (fresh) — `easydemo_test`
 
 Comandos:
 
 ```bash
-docker exec supademo-test psql -U app -c "CREATE DATABASE demobr_test;"
-PGPASSWORD=demobr psql -h 127.0.0.1 -p 55432 -U app -d demobr_test \
+docker exec supademo-test psql -U app -c "CREATE DATABASE easydemo_test;"
+PGPASSWORD=easydemo psql -h 127.0.0.1 -p 55432 -U app -d easydemo_test \
   -v ON_ERROR_STOP=1 <<SQL
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DO \$\$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_owner') THEN
-    CREATE ROLE app_owner LOGIN PASSWORD 'demobr' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+    CREATE ROLE app_owner LOGIN PASSWORD 'easydemo' NOSUPERUSER NOCREATEDB NOCREATEROLE;
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_user') THEN
-    CREATE ROLE app_user LOGIN PASSWORD 'demobr';
+    CREATE ROLE app_user LOGIN PASSWORD 'easydemo';
   END IF;
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'readonly') THEN
     CREATE ROLE readonly LOGIN PASSWORD 'readonly';
@@ -113,8 +113,8 @@ CREATE SCHEMA IF NOT EXISTS analytics;
 SQL
 
 cd apps/web
-DIRECT_URL=postgres://app:demobr@127.0.0.1:55432/demobr_test \
-DATABASE_URL=postgres://app:demobr@127.0.0.1:55432/demobr_test \
+DIRECT_URL=postgres://app:easydemo@127.0.0.1:55432/easydemo_test \
+DATABASE_URL=postgres://app:easydemo@127.0.0.1:55432/easydemo_test \
   pnpm exec drizzle-kit migrate
 ```
 

@@ -1,4 +1,4 @@
-# Diagrama de arquitetura — DemoBR (clone Supademo BR)
+# Diagrama de arquitetura — EasyDemo (clone Supademo BR)
 
 > Visão geral completa do sistema: usuário final → extensão → API → storage → CDN → player público → analytics.
 
@@ -10,13 +10,13 @@
 flowchart TB
     %% Atores
     Creator[👤 Criador<br/>Marketing/Sales/CS]
-    Visitor[👤 Lead/Visitante<br/>demo.demo.br/cliente]
-    Admin[👤 Admin DemoBR<br/>time interno]
+    Visitor[👤 Lead/Visitante<br/>demo.easydemo.io/cliente]
+    Admin[👤 Admin EasyDemo<br/>time interno]
 
     %% Edge / Cliente
     subgraph Edge["Edge (Cloudflare)"]
         CDN[Cloudflare CDN<br/>cache + WAF]
-        R2Pub[Cloudflare R2<br/>cdn.demo.br]
+        R2Pub[Cloudflare R2<br/>cdn.easydemo.io]
         Worker[Cloudflare Worker<br/>embed analytics proxy]
     end
 
@@ -201,16 +201,16 @@ flowchart TB
 ┌─────────────────────────────────────────────────────────────────┐
 │ Lead / Visitante                                                 │
 │ Site do cliente (ex: empresa.com.br/produto)                    │
-│ <script src="https://embed.demo.br/v1/loader.js" data-demo-br-id="abc">│
+│ <script src="https://embed.easydemo.io/v1/loader.js" data-easydemo-id="abc">│
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼ (script injeta iframe)
 ┌─────────────────────────────────────────────────────────────────┐
-│ play.demo.br/embed/abc                                          │
+│ play.easydemo.io/embed/abc                                          │
 │ Next.js renderiza <DemoPlayer /> React component               │
 │ DemoPlayer faz:                                                  │
 │  - GET /api/v1/public/demos/abc → JSON do demo                │
-│  - GET images do R2 (cdn.demo.br/demos/abc/s1.webp)            │
+│  - GET images do R2 (cdn.easydemo.io/demos/abc/s1.webp)            │
 │  - renderiza imagem + hotspots posicionados em coord fracionárias│
 │  - emite eventos: demo_view, step_view, cta_click, etc        │
 └─────────────────────────────────────────────────────────────────┘
@@ -228,7 +228,7 @@ flowchart TB
                               │
                               ▼ (dashboards)
 ┌─────────────────────────────────────────────────────────────────┐
-│ DemoBR Dashboard                                                 │
+│ EasyDemo Dashboard                                                 │
 │ - nosso próprio dashboard (Next.js + Tremor):                  │
 │   - funil por passo, completion rate, dwell time                │
 │ - PostHog iframe embed:                                         │
@@ -302,7 +302,7 @@ flowchart TB
 │ pgBackRest comprime (lz4) e encripta (AES-256-CBC opcional)    │
 │ Envia para repo1 (R2 S3-compatible)                              │
 │ Endpoint: ${R2_ACCOUNT_ID}.r2.cloudflarestorage.com              │
-│ Bucket: demobr-pgbackrest                                       │
+│ Bucket: easydemo-pgbackrest                                       │
 │ Path: /pgbackrest/{stanza}/{date}/{backup}.tar.gz               │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -310,7 +310,7 @@ flowchart TB
 ┌─────────────────────────────────────────────────────────────────┐
 │ Restore drill (script manual roda mensalmente)                   │
 │  - sobe VPS temporário com imagem do mesmo SO                   │
-│  - pgbackrest restore --stanza=demobr --target-time=...         │
+│  - pgbackrest restore --stanza=easydemo --target-time=...         │
 │  - start postgres                                               │
 │  - valida via SELECT count(*) em tabelas críticas               │
 │  - script de notificação no Slack se falhar                     │
@@ -385,7 +385,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                              │
                              ▼
                   ┌──────────────────────┐
-                  │ ghcr.io/demobr/app   │
+                  │ ghcr.io/easydemo/app   │
                   │ + tag sha            │
                   └──────────┬───────────┘
                              │
@@ -419,11 +419,11 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                              ▼
                   ┌──────────────────────────────────────┐
                   │ DNS Cloudflare                       │
-                  │ app.demo.br    → VPS IP              │
-                  │ api.demo.br    → VPS IP              │
-                  │ play.demo.br   → VPS IP              │
-                  │ cdn.demo.br    → R2 bucket           │
-                  │ embed.demo.br  → VPS IP              │
+                  │ app.easydemo.io    → VPS IP              │
+                  │ api.easydemo.io    → VPS IP              │
+                  │ play.easydemo.io   → VPS IP              │
+                  │ cdn.easydemo.io    → R2 bucket           │
+                  │ embed.easydemo.io  → VPS IP              │
                   └──────────────────────────────────────┘
 ```
 
@@ -462,16 +462,16 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                               │ WAL stream + daily full
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ Cloudflare R2 bucket 'demobr-pgbackrest'                      │
-│ Path: /pgbackrest/demobr/2026-10-15/backup.tar.gz             │
-│       /pgbackrest/demobr/archive/00000001000000...             │
+│ Cloudflare R2 bucket 'easydemo-pgbackrest'                      │
+│ Path: /pgbackrest/easydemo/2026-10-15/backup.tar.gz             │
+│       /pgbackrest/easydemo/archive/00000001000000...             │
 │ Retention: 7 full + 4 weekly + 12 monthly                     │
 └──────────────────────────────────────────────────────────────┘
                               │
                               │ lifecycle policy
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ Cloudflare R2 bucket 'demobr-prod' (CDN de mídia)            │
+│ Cloudflare R2 bucket 'easydemo-prod' (CDN de mídia)            │
 │ Path:                                                         │
 │  - /demos/{tenant}/{demo}/{step}.webp                         │
 │  - /demos/{tenant}/{demo}/{step}_thumb.webp                   │
@@ -480,8 +480,8 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
 │  - /avatars/{user}.jpg                                        │
 │  - /pgbackrest/... (separado bucket)                          │
 │                                                               │
-│ CORS: allow play.demo.br, app.demo.br                        │
-│ Custom domain: cdn.demo.br (proxied via Cloudflare)           │
+│ CORS: allow play.easydemo.io, app.easydemo.io                        │
+│ Custom domain: cdn.easydemo.io (proxied via Cloudflare)           │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -510,7 +510,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                               │ JWT + RLS + rate limit
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 🔵 TRUST ZONE 3: Admin DemoBR (time interno)                  │
+│ 🔵 TRUST ZONE 3: Admin EasyDemo (time interno)                  │
 │ - acesso via SSH (chave) + bastion                            │
 │ - acesso ao banco via role separada (auditado)                │
 │ - dashboards SigNoz + Sentry                                  │
