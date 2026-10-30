@@ -127,17 +127,33 @@ export const hotspots = app.table("hotspots", {
   label: text("label"),
 });
 
+/**
+ * Catálogo de planos (lookup público, sem tenant — policy `plans_public_select`).
+ *
+ * `max_views_per_month` é mantida de propósito: `NULL` significa ILIMITADO
+ * (decisão D1 — cobrança por creator seat, nunca por viewer). A coluna não
+ * foi dropada na migration `0004_flat_plans.sql` porque `DROP COLUMN` em
+ * tabela populada é destrutivo e o código ainda precisa distinguir
+ * "ilimitado" de "zero".
+ *
+ * Limites espelham `docs/MVP-PLAN.md` §5 e `specs/mvp-scope.json` → `pricing_brl`.
+ */
 export const plans = app.table("plans", {
   id: varchar("id", { length: 20 }).primaryKey(),
   namePtBr: varchar("name_pt_br", { length: 40 }).notNull(),
   nameEn: varchar("name_en", { length: 40 }).notNull(),
   priceBrlCents: integer("price_brl_cents").notNull(),
+  maxCreators: integer("max_creators").notNull().default(1),
   maxDemos: integer("max_demos"),
   maxStepsPerDemo: integer("max_steps_per_demo"),
   maxLeadsPerMonth: integer("max_leads_per_month"),
   maxViewsPerMonth: integer("max_views_per_month"),
   ttsMinutesPerMonth: integer("tts_minutes_per_month"),
   aiTextRequestsPerMonth: integer("ai_text_requests_per_month"),
+  linkTtlDays: integer("link_ttl_days").notNull().default(30),
+  customDomain: boolean("custom_domain").notNull().default(false),
+  watermarkOnCta: boolean("watermark_on_cta").notNull().default(true),
+  leadForm: boolean("lead_form").notNull().default(false),
   features: jsonb("features").notNull(),
 });
 

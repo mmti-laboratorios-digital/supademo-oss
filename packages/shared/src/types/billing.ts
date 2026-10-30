@@ -4,17 +4,32 @@
 
 export type PlanId = "free" | "pro" | "business";
 
+/**
+ * Plano do catálogo. Espelha `docs/MVP-PLAN.md` §5 e o bloco `pricing_brl`
+ * de `specs/mvp-scope.json`.
+ *
+ * `null` em um limite significa **ilimitado** — em especial
+ * `maxViewsPerMonth`, que é `null` nos 3 planos (decisão D1: cobrança por
+ * creator seat, nunca por viewer).
+ */
 export type Plan = {
   id: PlanId;
   namePtBr: string;
   nameEn: string;
   priceBrlCents: number;
+  /** Creators inclusos no plano (decisão D1). */
+  maxCreators: number;
   maxDemos: number | null;
-  maxStepsPerDemo: number;
+  maxStepsPerDemo: number | null;
   maxLeadsPerMonth: number | null;
   maxViewsPerMonth: number | null;
-  ttsMinutesPerMonth: number;
-  aiTextRequestsPerMonth: number;
+  ttsMinutesPerMonth: number | null;
+  aiTextRequestsPerMonth: number | null;
+  linkTtlDays: number;
+  customDomain: boolean;
+  watermarkOnCta: boolean;
+  /** D2: o plano Free captura lead. */
+  leadForm: boolean;
   features: string[];
 };
 
