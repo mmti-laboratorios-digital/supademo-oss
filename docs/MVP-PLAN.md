@@ -682,9 +682,10 @@ log por fase.
 
 **Objetivo:** renomear a marca em todo o repositório antes de começar o MVP.
 
-**Por que primeiro:** 195 arquivos versionados, 1.618 ocorrências. Fazer isso
-depois do MVP mistura refactor com feature e deixa o diff impossível de revisar.
-Decisão D7.
+**Por que primeiro:** 195+ arquivos versionados, 1.500+ ocorrências de "demobr"
+(contagem viva: `git grep -ic demobr -- . | awk -F: '{s+=$2} END {print s}'`).
+Fazer isso depois do MVP mistura refactor com feature e deixa o diff impossível
+de revisar. Decisão D7.
 **Gate:** G0 · **Passos:** 10 (`PR1.1`–`PR1.10` — status vivo em `specs/mvp-tasks.json`)
 
 **O que fazer:**
@@ -695,12 +696,20 @@ Decisão D7.
    nas 49 URLs de `apps/web`, `marketing`, `online-presence` e `docs`.
 4. Docker tags `demobr/*` → `easydemo/*` e banco `supademo` → `easydemo` em
    `infra/` (compose, `init-roles.sql`, prod).
+   > ⚠️ **`supademo` é nome de banco E nome do concorrente.** Rename só onde é
+   > o nosso: `POSTGRES_DB`, `PGWEB_DATABASE`, `DATABASE supademo`,
+   > `supademo-oss` (URL do repo) — **~52 ocorrências**. As ~265 restantes são
+   > o **Supademo concorrente** em `research/` e `marketing/` (pricing,
+   > comparações, benchmarks) e **não podem ser renomeadas em bloco** — seria
+   > falsificar a base de evidência do produto.
 5. `scripts/` (~12 arquivos) + `Makefile`, `CONTRIBUTING.md`, `README.md`,
    `LICENSE`, `.env.example`.
 6. `marketing/` (316 refs) e `legal/` (286 refs) — **revisão à mão**.
 7. `online-presence/` (227 refs) e `research/` (108 refs) — **revisão à mão**,
    preservando os trechos que descrevem o site de um concorrente.
-8. `pnpm install --frozen-lockfile` e ajustar o lockfile.
+8. `pnpm install` **sem** `--frozen-lockfile` (trocar o npm scope invalida o
+   lockfile — com a flag, ele falha) → regenera o lockfile → depois
+   `pnpm install --frozen-lockfile` pra validar que ficou em sincronia.
 9. `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
 10. `git grep -in demobr` = 0 e `git grep -in "@demo.br"` = 0 → registrar no
     `docs/MVP-PROGRESS.md` e abrir o PR.
@@ -760,6 +769,9 @@ pnpm build
 domínio dentro de exemplos de `research/` que descrevem o site de um
 concorrente. Não renomear o repositório no GitHub (muda URLs) — isso é
 decisão separada e precisa de permissão `admin`.
+**Não renomear "Supademo" (o concorrente).** Só o *nosso* nome antigo
+("DemoBR"/"demobr") e o nome do banco. Renomear o concorrente em `research/` e
+`marketing/` falsifica a base de evidência que justifica o MVP.
 
 ---
 
