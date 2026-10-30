@@ -285,8 +285,8 @@ Declaradas aqui porque uma IA pode tropeçar nelas e "consertar" errado.
 |---|---|---|
 | ~~**ADR-003 diz PostgreSQL 17**~~ | ✅ **Resolvido** em 2026-10-25 — a versão canônica é **16** (o que o compose usa desde o scaffold). Criado o [ADR-013](ADRs/ADR-013-postgres-16-canonical.md); ADR-003 e ADR-009 marcados como superseded | Não mexer no `docker-compose.yml`. **Não** implementar upgrade pra 17 no MVP |
 | **Benchmarks de POC são de Postgres 17** | Os POCs em `research/pocs/` rodaram de verdade com 17. A produção é 16 | Re-rodar os POCs com `postgres:16-alpine` antes de usar os números como SLA. Notas no topo de cada POC |
-| ~~**24 arquivos de doc ainda dizem "DemoBR"**~~ | ✅ **Resolvido** no PR 1 (branch `chore/rename-easydemo`) — a marca foi renomeada em 189 arquivos | — |
-| ~~**`marketing/README.md` registra "Nome do produto: DemoBR (mantido)"**~~ | ✅ **Resolvido** no PR 1 | — |
+| ~~**24 arquivos de doc ainda dizem a marca antiga**~~ | ✅ **Resolvido** no PR 1 (branch `chore/rename-easydemo`) — a marca foi renomeada em 189 arquivos | — |
+| ~~**`marketing/README.md` registra o nome antigo do produto**~~ | ✅ **Resolvido** no PR 1 | — |
 | **`docs/api/openapi.yaml` descreve endpoints que não existem** (`/leads`, `/billing/checkout`, `/publish`) | A spec foi escrita antes da implementação | Não use a spec como contrato de código. Alinhar em fase própria |
 | **`docs/mcp/server.json` existe** mas MCP está fora do MVP | RFC §1.2 | Não implemente MCP por causa do arquivo |
 | **`marketing/CASE-STUDIES/` tem 3 casos fictícios** | O próprio `marketing/README.md` declara | Bloqueante de lançamento público (gate G7) |
