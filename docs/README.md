@@ -58,7 +58,7 @@ Documentação do MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 
 | Arquivo | O que é | Quando abrir | Quando **não** mexer |
 |---|---|---|---|
-| `MVP-PLAN.md` | **O plano canônico do MVP.** Evidências de mercado (§2), decisões D1–D12 (§3), escopo (§4), planos (§5), invariantes (§6), grafo (§7), **12 fases** (§8), **9 gates** (§9), alpha (§10), lead times (§11) | executando ou planejando uma fase | o escopo aqui é o que vale — o RFC já aponta pra cá |
+| `MVP-PLAN.md` | **O plano canônico do MVP.** Evidências de mercado (§2), decisões D1–D12 (§3), escopo (§4), planos (§5), invariantes (§6), grafo (§7), **12 fases** (§8), **10 gates** (§9), alpha (§10), lead times (§11) | executando ou planejando uma fase | o escopo aqui é o que vale — o RFC já aponta pra cá |
 | `MVP-PROGRESS.md` | **Log append-only de execução.** Status atual + uma entrada por fase concluída | registrando o que você fez; conferindo onde o projeto está | **nunca edite uma entrada antiga** — adicione no final |
 | `RFC-Brazilian-Supademo.md` | Arquitetura (§2, 408 linhas: diagrama, DDL, stack justificada), diferenciação (§5), GTM (§6), riscos (§7), env vars (§8) | precisando entender **por que** algo é assim | §1 (escopo), §3 (roadmap) e §4 (pricing) são ponteiros pro MVP Plan |
 | `ARCHITECTURE-decision-map.md` | Mapa das 12 decisões de arquitetura com custo e alternativas | entendendo o stack de uma vez | — |
@@ -73,7 +73,8 @@ Documentação do MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 
 | Arquivo | O que é | Quando abrir | Quando **não** mexer |
 |---|---|---|---|
-| `mvp-scope.json` | Par machine-readable do MVP Plan: pricing, limites, 12 fases, 9 gates, out_of_scope | script de validação ou mudança de pricing | `plan_status` avisa que o pricing é **estado alvo**, não o do schema atual |
+| `mvp-scope.json` | Par machine-readable do MVP Plan: pricing, limites, 12 fases, 10 gates, out_of_scope | script de validação ou mudança de pricing | `plan_status` avisa que o pricing é **estado alvo**, não o do schema atual |
+| `mvp-tasks.json` | **Checklist vivo, passo a passo.** 86 passos nas 12 fases, cada um com `status` (`pending` / `in_progress` / `done` / `blocked`), `done_at`, `commit` e `note` | **sempre**, antes de começar a próxima tarefa — é onde a execução está agora | nunca apague um passo; `note` é o que permite retomar depois sem ler o diff |
 
 ### `marketing/`
 
@@ -112,6 +113,8 @@ Documentação do MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
 | `init-db.sh` | Cria roles, aplica migrations, prepara o banco |
 | `seed.ts` | Popula o banco com dados de demonstração |
 | `check-dpo-missing.ts` | Valida placeholders de DPO nos docs legais (roda na CI) |
+| `mvp-status.ts` | `pnpm scripts:mvp-status` — imprime a fase atual, o **próximo passo**, o gate e o placar das 12 fases. **Comece por aqui** | retomando o trabalho depois de uma pausa | — |
+| `mvp-task.ts` | `pnpm scripts:mvp-task <PASSO> done "<nota>"` — marca um passo do checklist como concluído (ou `blocked`). Grava `status`, `done_at`, `commit` e `note` | marcando progresso, a cada passo | não edite `specs/mvp-tasks.json` na mão — use o comando |
 | `health-check.sh` | Verifica os endpoints de saúde da stack |
 | `pre-deploy.sh` / `deploy.sh` | Checklist e execução do deploy |
 | `provision-hetzner.sh` / `setup-cloudflare.sh` | Provisionamento de infra |
@@ -208,8 +211,8 @@ Documentação do MVP pronta. Fases F0–F10 do MVP **não iniciadas**.
             └───────────────────────────────────┘
 ```
 
-**9 gates:** G0 rename · G1 publicação · **G1.5 upload manual** · G2 lead · G3
-pagamento · G4 embed+badge · G5 E2E · G6 alpha · G7 go-live público.
+**10 gates:** G0 rename · **G0.5 pricing** · G1 publicação · **G1.5 upload manual** · G2 lead · G3
+pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · G7 go-live público.
 
 **G6 ≠ G7.** O alpha (grupo fechado de early users) pode rodar com o DPO
 pendente. O **go-live público** exige DPO, CNPJ e legal revisado — num produto

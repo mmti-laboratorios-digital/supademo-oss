@@ -14,10 +14,11 @@ um link público, e o visitante interage, deixa o contato e cai no CTA.
 
 ## Protocolo de execução (obrigatório, nesta ordem)
 
-1. **Leia `docs/MVP-PLAN.md` §0** — TL;DR + o protocolo completo (~3 min).
-2. **Leia `docs/MVP-PROGRESS.md` §"Status atual"** — fase em andamento, última
-   concluída, bloqueios. Confirme que a fase que você vai pegar está livre e que
-   as fases de dependência dela já foram mergeadas (~1 min).
+1. **Rode `pnpm scripts:mvp-status`.** Ele imprime a fase atual, o **próximo
+   passo**, o gate e o placar das 12 fases. É o comando que substitui ler o log
+   inteiro — **comece sempre por ele**.
+2. **Leia `docs/MVP-PLAN.md` §0.2** — o protocolo de execução da IA, o loop e as
+   4 regras que não se negociam (~4 min).
 3. **Leia `docs/MVP-PLAN.md` §6** — as invariantes. São 5 regras que, se violadas,
    quebram build, CI ou isolamento de dados (~3 min).
 4. **Leia a §8 do plano, só a sua fase.** O prompt que te trouxer a fase vem com
@@ -26,9 +27,48 @@ um link público, e o visitante interage, deixa o contato e cai no CTA.
 5. **Leia os "Arquivos a ler antes" da sua fase.** É onde estão os padrões a
    copiar, os contratos existentes e **o que já está pronto e deve ser
    reaproveitado** em vez de reimplementado.
-6. **Edite só os "Arquivos a tocar".** Depois rode os comandos de validação.
-   Se algum check falhar, **não avance** — conserte e revalide.
-7. **Registre o que foi feito** em `docs/MVP-PROGRESS.md` (seção abaixo).
+6. **Execute UM passo por vez.** Cada fase tem passos numerados no
+   `specs/mvp-tasks.json`. Edite só os "Arquivos a tocar" da fase.
+7. **Marque o passo como concluído** — **no mesmo commit** em que você fez o
+   passo:
+
+   ```bash
+   pnpm scripts:mvp-task F3.2 done "o que você fez, em uma frase"
+   ```
+
+   O script grava `status`, `done_at`, `commit` e `note` em
+   `specs/mvp-tasks.json`. Para um passo travado por dependência externa:
+   `pnpm scripts:mvp-task F8.1 blocked "o que falta e quem resolve"`.
+8. **Rode os comandos de validação.** Se algum check falhar, **não avance** —
+   conserte e revalide.
+9. **Ao fim da fase,** registre em `docs/MVP-PROGRESS.md` (entrada nova no final)
+   e marque a fase como `done` em `specs/mvp-tasks.json`.
+
+### As 4 regras que não se negociam
+
+1. **Não pare no meio de um passo.** Se um check falhar, corrija e reexecute.
+2. **Não pare no meio de uma fase.** A única exceção: passo **bloqueado por
+   dependência externa** (DPO, CNPJ, conta de sandbox, aprovação da Chrome Web
+   Store). Aí marque `"status": "blocked"` com uma nota dizendo **o que falta e
+   quem resolve**, siga para o próximo passo e registre no
+   `docs/MVP-PROGRESS.md`.
+3. **Só pare quando não sobrou nada** — todos os passos `done`, ou os que
+   faltam `blocked` **e** registrados. Antes de encerrar, rode
+   `pnpm scripts:mvp-status` e confirme que o checklist está consistente.
+4. **Escreva o progresso sempre.** Passou um passo → marque no
+   `specs/mvp-tasks.json`. Terminou a fase → escreva no `docs/MVP-PROGRESS.md`.
+
+## Os 3 arquivos do MVP
+
+| Arquivo | Papel | Quem escreve |
+|---|---|---|
+| **`docs/MVP-PLAN.md`** | **O quê** — escopo, passos de cada fase, gates | humano (raro) |
+| **`specs/mvp-tasks.json`** | **Onde estou** — checklist vivo, passo a passo | **você, a cada passo** |
+| **`docs/MVP-PROGRESS.md`** | **Por quê** — log narrativo append-only | você, ao fim da fase |
+
+`specs/mvp-tasks.json` é a **fonte da verdade do progresso**. O
+`MVP-PROGRESS.md` é o diário. O plano é o contrato. Não escreva progresso em
+lugar nenhum além desses três.
 
 ## Fluxo git por fase
 
@@ -55,6 +95,7 @@ Ao terminar uma fase:
    - o que ficou pra depois
 4. Atualize a tabela **"Status atual"** no topo do arquivo (fase em andamento,
    última fase concluída, próxima fase, bloqueios, branch, commit, gate).
+5. Marque a fase como `done` em `specs/mvp-tasks.json` e atualize `current`.
 
 O histórico do git mostra *o que* mudou. O log registra *por quê* — e é o que não
 pode ser redescoberto.
@@ -110,6 +151,8 @@ pnpm test          # Vitest — 152 testes
 | Preciso de… | Onde está |
 |---|---|
 | **Mapa de toda a documentação** | **`docs/README.md`** — o que cada arquivo é, quando abrir, quando não mexer |
+| **Onde a execução está agora** | **`pnpm scripts:mvp-status`** (fase, próximo passo, gate, placar) |
+| **Checklist vivo, passo a passo** | **`specs/mvp-tasks.json`** — o que está `done` / `pending` / `blocked` |
 | O que fazer, em que ordem, até quando | `docs/MVP-PLAN.md` §8 |
 | **O que já foi feito e por quê** | **`docs/MVP-PROGRESS.md`** (log append-only) |
 | Por que o sistema é assim (stack, arquitetura, env vars) | `docs/RFC-Brazilian-Supademo.md` §2 e §8 |

@@ -126,7 +126,7 @@ Implementação mínima:
 ### Lingui
 
 - Good, compile-time (bundle final igual a JSON custom).
-- Good, macros `@lingui/macro`抽出tem `Language: pt-BR` explícito.
+- Good, macros `@lingui/macro` extraem `Language: pt-BR` explícito.
 - Good, type-safe.
 - Bad, **setup build** (Babel/SWC plugin).
 - Bad, comunidade menor.

@@ -18,6 +18,14 @@
   "organizeImports": {
     "enabled": true
   },
+  "overrides": [
+    {
+      "include": ["specs/mvp-tasks.json"],
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ],
   "linter": {
     "enabled": true,
     "rules": {
