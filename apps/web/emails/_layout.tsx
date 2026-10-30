@@ -4,7 +4,7 @@ import type * as React from "react";
 
 /**
  * Shared email layout. Renders:
- *   - Logo "▶ DemoBR" header.
+ *   - Logo "▶ EasyDemo" header.
  *   - Children (the email body).
  *   - Footer with company info + preference/legal/help links (PT-BR).
  *
@@ -165,6 +165,6 @@ export function EmailLayout({
 }
 
 export const EmailPreviewProps: EmailLayoutProps = {
-  preheader: "DemoBR — Demos interativas em PT-BR.",
+  preheader: "EasyDemo — Demos interativas em PT-BR.",
   children: null,
 };

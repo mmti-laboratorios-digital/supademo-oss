@@ -1,12 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://easydemo.io/mcp/server.json",
-  "name": "DemoBR MCP Server",
+  "name": "EasyDemo MCP Server",
   "version": "1.0.0",
-  "description": "Model Context Protocol server exposing DemoBR demo management as tools for AI agents (Claude, GPT-4, Cursor, etc.).",
+  "description": "Model Context Protocol server exposing EasyDemo demo management as tools for AI agents (Claude, GPT-4, Cursor, etc.).",
 
   "metadata": {
-    "vendor": "DemoBR",
+    "vendor": "EasyDemo",
     "homepage": "https://easydemo.io/mcp",
     "license": "Proprietary",
     "support_email": "support@easydemo.io",
@@ -18,17 +18,17 @@
     "transport": "stdio",
     "command": "npx -y @easydemo/mcp-server@latest",
     "environment_variables": {
-      "DEMOBR_API_KEY": {
+      "EASYDEMO_API_KEY": {
         "required": true,
         "description": "Workspace API key (format: gf_live_<32 chars>)",
         "sensitive": true
       },
-      "DEMOBR_API_BASE": {
+      "EASYDEMO_API_BASE": {
         "required": false,
         "default": "https://api.easydemo.io/api/v1",
         "description": "Override API base URL (use sandbox for dev)"
       },
-      "DEMOBR_LOG_LEVEL": {
+      "EASYDEMO_LOG_LEVEL": {
         "required": false,
         "default": "info",
         "enum": ["debug", "info", "warn", "error"]
@@ -732,19 +732,19 @@
 
   "resources": [
     {
-      "uri": "demobr://workspace/{workspace_id}",
+      "uri": "easydemo://workspace/{workspace_id}",
       "name": "Workspace",
       "description": "Metadata do workspace autenticado",
       "mimeType": "application/json"
     },
     {
-      "uri": "demobr://demo/{demo_id}",
+      "uri": "easydemo://demo/{demo_id}",
       "name": "Demo",
       "description": "Dados completos de uma demo (incluindo steps)",
       "mimeType": "application/json"
     },
     {
-      "uri": "demobr://analytics/{demo_id}",
+      "uri": "easydemo://analytics/{demo_id}",
       "name": "Analytics live",
       "description": "Métricas em tempo quase-real (últimas 24h)",
       "mimeType": "application/json"
@@ -820,11 +820,11 @@
       "description": "Configuração para Claude Desktop (claude_desktop_config.json)",
       "config": {
         "mcpServers": {
-          "demobr": {
+          "easydemo": {
             "command": "npx",
             "args": ["-y", "@easydemo/mcp-server@latest"],
             "env": {
-              "DEMOBR_API_KEY": "gf_live_abc123def456ghi789jkl012mno345pq"
+              "EASYDEMO_API_KEY": "gf_live_abc123def456ghi789jkl012mno345pq"
             }
           }
         }

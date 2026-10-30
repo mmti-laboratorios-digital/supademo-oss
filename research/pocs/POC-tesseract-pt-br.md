@@ -1,7 +1,7 @@
 # POC-3 — Tesseract.js em PT-BR (precisão)
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA (com achado negativo importante)
 **Script**: [`apps/web/scripts/poc-tesseract-pt-br.ts`](../../apps/web/scripts/poc-tesseract-pt-br.ts)
 
@@ -103,7 +103,7 @@ glifo fica fino e some após o threshold do Tesseract. Em screenshots B2B reais
 | Latência aceitável para PUBLISH? | ✅ ~40 ms por imagem é trivial |
 | Custo de init do worker | ⚠️ ~200 ms primeira vez (CDN download); depois cacheia |
 
-### Recomendação para DemoBR
+### Recomendação para EasyDemo
 
 **NÃO usar Tesseract.js como detector único de email/PII.** O `@` é um padrão
 crítico de LGPD e o OCR não captura.

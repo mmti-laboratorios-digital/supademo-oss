@@ -8,10 +8,10 @@ import { eq } from "drizzle-orm";
  * Idempotente — pode rodar múltiplas vezes.
  * Diferente do scripts/seed.ts (que popula dados de produção).
  *
- * Pré-requisito: container docker supademo-test + schema 0000_init.sql aplicado.
+ * Pré-requisito: container docker easydemo-test + schema 0000_init.sql aplicado.
  *
  * Uso:
- *   DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+ *   DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:55432/easydemo \
  *     pnpm --filter web exec tsx scripts/seed-test.ts
  */
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -20,7 +20,7 @@ import * as schema from "../db/schema";
 import { demos, leads, plans, steps, workspaces } from "../db/schema/app";
 
 const DATABASE_URL =
-  process.env.DATABASE_URL ?? "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_owner:easydemo@127.0.0.1:55432/easydemo";
 
 const TEST_WORKSPACE_SLUG = "teste";
 const TEST_DEMO_SLUG = "tour-exemplo";

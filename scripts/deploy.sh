@@ -4,15 +4,15 @@
 #
 # SSH para VPS + docker compose pull && up.
 # Uso:
-#   VPS_HOST=demobr.example.com VPS_USER=root \
+#   VPS_HOST=easydemo.example.com VPS_USER=root \
 #     bash scripts/deploy.sh
 # ───────────────────────────────────────────────────────────────────────────
 
 set -euo pipefail
 
-VPS_HOST="${VPS_HOST:?VPS_HOST é obrigatório (ex: demobr.example.com)}"
+VPS_HOST="${VPS_HOST:?VPS_HOST é obrigatório (ex: easydemo.example.com)}"
 VPS_USER="${VPS_USER:-root}"
-REMOTE_DIR="${REMOTE_DIR:-/opt/demobr}"
+REMOTE_DIR="${REMOTE_DIR:-/opt/easydemo}"
 SERVICE="${SERVICE:-web}"
 
 echo "🚢 Deploy → ${VPS_USER}@${VPS_HOST}:${REMOTE_DIR}"

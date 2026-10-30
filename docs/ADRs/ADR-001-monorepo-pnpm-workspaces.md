@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-O DemoBR precisa hospedar múltiplos artefatos compiláveis — Next.js (web), worker Node (graphile-worker), extensão Chrome MV3, biblioteca de player React, pacote de schemas compartilhados, biblioteca UI — que compartilham tipos TypeScript, schemas Zod, tokens de design e contrato do ORM Drizzle. Precisamos decidir **como organizar e construir esses artefatos** de forma que mudanças em um pacote compartilhado sejam propagadas com segurança, builds sejam reproduzíveis e DX (dev experience) não sofra.
+O EasyDemo precisa hospedar múltiplos artefatos compiláveis — Next.js (web), worker Node (graphile-worker), extensão Chrome MV3, biblioteca de player React, pacote de schemas compartilhados, biblioteca UI — que compartilham tipos TypeScript, schemas Zod, tokens de design e contrato do ORM Drizzle. Precisamos decidir **como organizar e construir esses artefatos** de forma que mudanças em um pacote compartilhado sejam propagadas com segurança, builds sejam reproduzíveis e DX (dev experience) não sofra.
 
 Restrições adicionais:
 - Time de 1–3 devs; orçamento baixo para ferramentas pagas.
@@ -111,5 +111,5 @@ supademo-oss/
 - [pnpm workspaces docs](https://pnpm.io/workspaces)
 - [pnpm versions catalog](https://pnpm.io/catalogs)
 - [WXT docs — monorepo setup](https://wxt.dev/guide/essentials/config.html)
-- RFC DemoBR §2.2 — Stack definitiva
+- RFC EasyDemo §2.2 — Stack definitiva
 - `research/tech/RECOMMENDATION.md` §3 — dependências pinadas

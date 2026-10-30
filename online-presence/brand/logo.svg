@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  DemoBR Brand Logo Bundle.
+  EasyDemo Brand Logo Bundle.
   Three variants in one file, separated by g id nodes.
   All variants use the canonical brand palette:
     primary     #2B6CB0  (azul Atlantico)
@@ -9,17 +9,17 @@
     neutral 900 #1A202C
 
   Layout (per BRAND.md section 3.3):
-    Symbol triangle plus wordmark DemoBR in Sora 700
+    Symbol triangle plus wordmark EasyDemo in Sora 700
     Symbol height equal to wordmark x-height
     Total width scalable; no gradient on symbol.
 -->
 <svg xmlns="http://www.w3.org/2000/svg"
      viewBox="0 0 1200 360"
      role="img"
-     aria-label="DemoBR logo bundle — full, stacked, and mono variants">
+     aria-label="EasyDemo logo bundle — full, stacked, and mono variants">
 
-  <title>DemoBR logo</title>
-  <desc>Three logo variants for the DemoBR brand: full horizontal, stacked, and monochrome.</desc>
+  <title>EasyDemo logo</title>
+  <desc>Three logo variants for the EasyDemo brand: full horizontal, stacked, and monochrome.</desc>
 
   <defs>
     <!-- Reusable play-triangle symbol. Pure primary, no gradient. -->
@@ -126,7 +126,7 @@
           class="dmbr-wordmark"
           font-size="40"
           fill="#FFFFFF">
-      DemoBR
+      EasyDemo
     </text>
 
     <text x="60" y="68"

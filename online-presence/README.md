@@ -1,6 +1,6 @@
-# DemoBR — Online Presence
+# EasyDemo — Online Presence
 
-> The canonical directory for everything the DemoBR brand publishes online.
+> The canonical directory for everything the EasyDemo brand publishes online.
 > All assets, copy and runtime files in this folder are production-ready.
 
 ## Quick index
@@ -199,7 +199,7 @@ config em `next.config.ts`.
 
 | Canal | Como |
 |---|---|
-| Site DemoBR | Already via `/app/(marketing)/page.tsx`. |
+| Site EasyDemo | Already via `/app/(marketing)/page.tsx`. |
 | LinkedIn (perfil empresa) | Subir `linkedin-banner.svg`, postar de `schema/social-posts.json`. |
 | LinkedIn (pessoal) | Founder & time podem usar os textos em `social-posts.json`. |
 | Twitter/X | Postar de `social-posts.json` filtrando `channel: "twitter"`. |
@@ -223,7 +223,7 @@ Para agendar: importar `online-presence/schema/social-posts.json` no
 
 | Arquivo | Quando envia | Subject |
 |---|---|---|
-| `welcome.tsx` | Signup | "Bem-vindo à DemoBR" |
+| `welcome.tsx` | Signup | "Bem-vindo à EasyDemo" |
 | `dpo-published.tsx` | Após publicar demo | `Seu demo "{title}" está no ar` |
 | `shared-with-team.tsx` | Convite enviado | `{inviterName} convidou você pro workspace {name}` |
 | `password-reset.tsx` | Reset de senha | "Redefinição de senha" |
@@ -234,7 +234,7 @@ Para agendar: importar `online-presence/schema/social-posts.json` no
 - `@react-email/components` (Section, Container, Button, etc).
 - `@react-email/tailwind` para utility classes (configurado em `_layout.tsx`).
 - Tipografia **Inter** como font base, **Sora** nos headings via inline style.
-- Header com logo `▶ DemoBR`, footer com endereço CNPJ + LGPD link.
+- Header com logo `▶ EasyDemo`, footer com endereço CNPJ + LGPD link.
 - Transacionais (`kind: "transactional"`): sem link de unsubscribe, mas
   sempre com link de preferências.
 - Newsletter/marketing (`kind: "newsletter"`): inclui link de unsubscribe.

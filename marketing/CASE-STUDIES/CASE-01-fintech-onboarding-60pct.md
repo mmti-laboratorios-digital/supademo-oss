@@ -13,7 +13,7 @@
 | **Empresa** | Fintech X (pagamentos recorrentes + split pra marketplaces) |
 | **Setor** | Fintech / Pagamentos |
 | **Funcionários** | 35 |
-| **Plano DemoBR usado** | Business (R$ 199/mês) |
+| **Plano EasyDemo usado** | Business (R$ 199/mês) |
 | **Resultado principal** | **−60% tempo de onboarding** + **+28% conversão trial→paid** |
 | **Período** | 6 semanas (ago–set/2026) |
 
@@ -35,7 +35,7 @@ O time de CS (4 pessoas) fazia **5 calls de 1h cada** para onboardar 1 cliente n
 > *"Cada nova conta levava 5 calls e 2 semanas para ativar. CS sobrecarregada. Churn alto em trial."*
 > — Head de CS, Fintech X
 
-### Métricas antes do DemoBR (Q2 2026)
+### Métricas antes do EasyDemo (Q2 2026)
 
 | Métrica | Valor |
 |---|---|
@@ -50,7 +50,7 @@ O time de CS (4 pessoas) fazia **5 calls de 1h cada** para onboardar 1 cliente n
 
 ## Solução
 
-A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetivos:
+A Fintech X adotou **EasyDemo Business** (R$ 199/mês) em julho/2026 com 3 objetivos:
 
 1. **Substituir 3 das 5 calls** por demos interativas que o cliente faz sozinho.
 2. **Padronizar onboarding** em SaaS B2B mid-market BR (mercado brasileiro).
@@ -60,7 +60,7 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 
 | Ação | Detalhe |
 |---|---|
-| **Demo de produto (8 steps)** | Capturada com extensão Chrome do DemoBR — fluxo de "primeira venda em 5 minutos". |
+| **Demo de produto (8 steps)** | Capturada com extensão Chrome do EasyDemo — fluxo de "primeira venda em 5 minutos". |
 | **Demo de API (12 steps)** | Capturada — fluxo de "integração técnica completa". |
 | **Embed no site** | Iframe em `fintechx.com.br/demo` (substituiu vídeo de 4min). |
 | **WhatsApp CTA** | Botão "Falar com CS" em todas as demos → wa.me/5511... |
@@ -73,7 +73,7 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 
 | Item | Custo |
 |---|---|
-| DemoBR Business | **R$ 199/mês** |
+| EasyDemo Business | **R$ 199/mês** |
 | Tempo de implementação | **8h (1 PMM + 1 dev part-time)** |
 | Treinamento CS (1 call de 1h) | **Custo de oportunidade zero** |
 
@@ -103,14 +103,14 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 - **Economia de tempo CS**: 70% × 25% × 4 CS × 160h/mês × R$ 80/h = **R$ 8.960/mês economizado**
 - **Receita incremental** (28% mais conversão × 50 trials/mês × R$ 99 ticket médio) = **R$ 1.386/mês incremental**
 - **Total economia**: **~R$ 10.300/mês**
-- **Custo DemoBR Business**: R$ 199/mês
+- **Custo EasyDemo Business**: R$ 199/mês
 - **ROI**: **~52x**
 
 ---
 
 ## Screenshot conceitual
 
-> **Conceito do screenshot:** Dashboard DemoBR Analytics mostrando funil de demo:
+> **Conceito do screenshot:** Dashboard EasyDemo Analytics mostrando funil de demo:
 >
 > - 1.247 views únicos na demo "Onboarding Fintech X"
 > - 62% completion rate (benchmark: 40%)
@@ -122,7 +122,7 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 >
 > ```
 > ┌────────────────────────────────────────────┐
-> │ DemoBR · Analytics · Onboarding Fintech X  │
+> │ EasyDemo · Analytics · Onboarding Fintech X  │
 > ├────────────────────────────────────────────┤
 > │ Views únicos     1.247    ████████████     │
 > │ Completion       62%      ███████          │
@@ -144,9 +144,9 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 
 | Ação | Plano |
 |---|---|
-| AI voice cloning PT-BR | Adotar Q1 2027 quando DemoBR incluir (ver roadmap) |
+| AI voice cloning PT-BR | Adotar Q1 2027 quando EasyDemo incluir (ver roadmap) |
 | Demo personalizada por cliente | Usar tokens `{{nome}}` `{{empresa}}` em next-gen |
-| Sandbox demo (cliente testa com dados fictícios) | Aguardar DemoBR Q1 2027 |
+| Sandbox demo (cliente testa com dados fictícios) | Aguardar EasyDemo Q1 2027 |
 
 ---
 
@@ -168,7 +168,7 @@ A Fintech X adotou **DemoBR Business** (R$ 199/mês) em julho/2026 com 3 objetiv
 
 ## Disclaimer
 
-> ⚠️ **Case fictício.** Métricas são baseadas em padrões observados em SaaS B2B BR (TOTVS, Meetime, Omie — referências em `research/pricing/gtm-channels.md` §B.6) e em benchmarks públicos de Supademo/G2. Não há cliente real chamado "Fintech X" usando DemoBR. Substituir por case real antes de usar em mídia paga (Meta Ads, Google Ads).
+> ⚠️ **Case fictício.** Métricas são baseadas em padrões observados em SaaS B2B BR (TOTVS, Meetime, Omie — referências em `research/pricing/gtm-channels.md` §B.6) e em benchmarks públicos de Supademo/G2. Não há cliente real chamado "Fintech X" usando EasyDemo. Substituir por case real antes de usar em mídia paga (Meta Ads, Google Ads).
 
 ---
 

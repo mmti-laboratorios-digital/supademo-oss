@@ -537,7 +537,7 @@ CREATE TABLE app.dsr_log (
 | Canal | Por que | Como executar |
 |---|---|---|
 | **1. SEO orgânico (PT-BR) + Chrome Web Store listing** | Compra "demo interativa" / "tour interativo" no Brasil tem concorrência baixa em PT-BR e altíssima intenção (decisor buscando). CWS é canal #1 de aquisição para este tipo de produto — Supademo, Arcade, Storylane, Navattic, Tango todos têm extensão oficial. | Pillar pages para top 5 keywords (mín. 2.000 palavras cada). Compare pages estilo Supademo (vs Navattic, vs Storylane). CWS listing com title/description PT-BR + EN, meta ≥ 4,6 estrelas. Edge Store também. |
-| **2. "Powered by" branding em demos publicadas** | Joseph Lee (Supademo) citou como growth tactic core (GetLatka 22:29). Cada demo publicada por usuário tem logo do produto no canto → descoberta orgânica para outros SaaS founders. | Adicionar branding "Feito com [DemoBR]" em todas as demos do free tier. Branding removível só no Business (R$ 199). |
+| **2. "Powered by" branding em demos publicadas** | Joseph Lee (Supademo) citou como growth tactic core (GetLatka 22:29). Cada demo publicada por usuário tem logo do produto no canto → descoberta orgânica para outros SaaS founders. | Adicionar branding "Feito com [EasyDemo]" em todas as demos do free tier. Branding removível só no Business (R$ 199). |
 | **3. Cold outbound + LinkedIn orgânico** | Decisor BR = PMM/Head of Growth/Founder. LinkedIn é canal #1 B2B BR. Founder posts 3-5/semana (build in public, lessons learned). | Cold messages hiper-qualificadas: 10–20/mês. Comentar em posts de Avinash Kaushik, Pedro Sobral (Locaweb), Bruno Brasil (RD Station), Bruno Valentim, Ícaro de Paula, Lucas Galvão (NeonPanda). |
 
 ### 6.2 5 keywords SEO PT-BR iniciais (Tier 1)
@@ -563,7 +563,7 @@ Estimativa: pillar page no top 3 do Google para "como fazer demo interativa" = *
 
 ### 6.4 Canais Tier 3 (após PMF)
 
-- **Compare pages em PT-BR**: "DemoBR vs Navattic", "Melhor ferramenta de demo interativa para SaaS BR", "Demo interativa vs Loom vs Zoom".
+- **Compare pages em PT-BR**: "EasyDemo vs Navattic", "Melhor ferramenta de demo interativa para SaaS BR", "Demo interativa vs Loom vs Zoom".
 - **Integração CRM BR**: webhook nativo RD Station, lead capture → lead scoring, Account Reveal estilo Storylane/Navattic (diferencial competitivo enorme se grátis).
 
 ### 6.5 Decisor de compra BR (evidência)
@@ -892,7 +892,7 @@ CARTESIA_API_KEY=
 
 # ──────── E-mail (Resend) ────────
 RESEND_API_KEY=
-EMAIL_FROM="DemoBR <noreply@dominio.com.br>"
+EMAIL_FROM="EasyDemo <noreply@dominio.com.br>"
 EMAIL_DPO="dpo@dominio.com.br"
 
 # ──────── Error tracking (Sentry) ────────

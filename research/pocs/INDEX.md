@@ -1,4 +1,4 @@
-# POCs técnicas — DemoBR
+# POCs técnicas — EasyDemo
 
 **Data**: 2026-10-18
 **Método**: cada POC foi executada **de verdade** (código real, números reais).

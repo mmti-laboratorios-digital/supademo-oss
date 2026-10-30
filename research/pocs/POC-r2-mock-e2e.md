@@ -1,7 +1,7 @@
 # POC-7 — R2 mock end-to-end (via MinIO)
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA (com ressalva: sem conta R2 real)
 **Script**: [`apps/web/scripts/poc-r2-latency.ts`](../../apps/web/scripts/poc-r2-latency.ts) (mesmo script do POC-1)
 
@@ -9,7 +9,7 @@
 
 ## 1. Hipótese
 
-O fluxo de upload de imagem do DemoBR é:
+O fluxo de upload de imagem do EasyDemo é:
 
 1. Cliente (extensão Chrome ou dashboard web) chama `POST /api/v1/upload/sign`
    no nosso Next.js → recebe `presigned PUT URL` apontando para R2.
@@ -40,7 +40,7 @@ const client = new S3Client({
 // 1) assinar PUT
 const putUrl = await getSignedUrl(
   client,
-  new PutObjectCommand({ Bucket: "demobr-poc", Key: "demo.png", ContentType: "image/png" }),
+  new PutObjectCommand({ Bucket: "easydemo-poc", Key: "demo.png", ContentType: "image/png" }),
   { expiresIn: 60 },
 );
 
@@ -114,7 +114,7 @@ docker run -d --name minio-poc \
 
 MINIO_ENDPOINT=http://127.0.0.1:9000 \
 MINIO_ACCESS=minioadmin MINIO_SECRET=minioadmin \
-MINIO_BUCKET=demobr-poc \
+MINIO_BUCKET=easydemo-poc \
   ./node_modules/.bin/tsx apps/web/scripts/poc-r2-latency.ts
 ```
 

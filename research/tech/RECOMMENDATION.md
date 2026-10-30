@@ -1,4 +1,4 @@
-# Recomendação final — stack DemoBR (clone Supademo BR)
+# Recomendação final — stack EasyDemo (clone Supademo BR)
 
 > Stack recomendada, baseada em 10 documentos de pesquisa neste diretório. Restrições do brief: **1 VPS 8 GB Hetzner, time pequeno, PT-BR first, LGPD compliant, self-serve.**
 

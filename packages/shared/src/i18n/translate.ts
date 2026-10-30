@@ -1,5 +1,5 @@
 /**
- * Lightweight i18n translator for the DemoBR web app.
+ * Lightweight i18n translator for the EasyDemo web app.
  *
  * - Plain function (no React context, no hooks) so it works in:
  *     * Server Components (RSC) — pure function call, no Provider needed.

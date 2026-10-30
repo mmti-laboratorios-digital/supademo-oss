@@ -1,7 +1,7 @@
 services:
   caddy:
     image: caddy:2
-    container_name: demobr-caddy
+    container_name: easydemo-caddy
     restart: unless-stopped
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
@@ -17,7 +17,7 @@ services:
     build:
       context: ..
       dockerfile: apps/web/Dockerfile
-    container_name: demobr-web
+    container_name: easydemo-web
     restart: unless-stopped
     env_file: ../.env
     depends_on:
@@ -36,7 +36,7 @@ services:
     build:
       context: ..
       dockerfile: apps/workers/Dockerfile
-    container_name: demobr-workers
+    container_name: easydemo-workers
     restart: unless-stopped
     env_file: ../.env
     depends_on:
@@ -50,18 +50,18 @@ services:
 
   postgres:
     image: postgres:16-alpine
-    container_name: demobr-postgres
+    container_name: easydemo-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in .env}
-      POSTGRES_DB: supademo
+      POSTGRES_DB: easydemo
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
     command: postgres -c config_file=/etc/postgresql/postgresql.conf
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U app -d supademo"]
+      test: ["CMD-SHELL", "pg_isready -U app -d easydemo"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -71,7 +71,7 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.111.0
-    container_name: demobr-otel
+    container_name: easydemo-otel
     restart: unless-stopped
     command: ["--config=/etc/otel/config.yaml"]
     volumes:
@@ -81,12 +81,12 @@ services:
 
   signoz:
     image: signoz/signoz-otel-collector:0.111.0
-    container_name: demobr-signoz
+    container_name: easydemo-signoz
     restart: unless-stopped
 
   clickhouse:
     image: clickhouse/clickhouse-server:24.10-alpine
-    container_name: demobr-clickhouse
+    container_name: easydemo-clickhouse
     restart: unless-stopped
     ulimits:
       nofile:

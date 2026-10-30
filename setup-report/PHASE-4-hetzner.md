@@ -22,7 +22,7 @@ Sintaxe OK
 
 | Pergunta da tarefa | Resposta |
 |---|---|
-| Pede API token do Hetzner? | ✅ **Sim** — passo 2 do script: `read -rs TOKEN` (entrada oculta) e cria `hcloud context create demobr-prod` |
+| Pede API token do Hetzner? | ✅ **Sim** — passo 2 do script: `read -rs TOKEN` (entrada oculta) e cria `hcloud context create easydemo-prod` |
 | Cria `cloud-init.yaml`? | ✅ **Sim** — passo 4, escreve em `infra/cloud-init.yaml` (não `cloud-init.example.yaml`!) |
 | Documenta passos manuais? | ✅ **Sim** — passo 5 (modo dry-run) imprime o comando `hcloud server create` exato |
 | Tem modo `--apply`? | ⚠️ **Parcial** — não tem flag `--apply`. O modo "create" é **interativo** (prompt `s/N`); default = dry-run |
@@ -32,7 +32,7 @@ Sintaxe OK
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │ 1. hcloud CLI instalado? (instala se faltar)                    │
-│ 2. Token Hetzner → cria context 'demobr-prod' (prompt -rs)     │
+│ 2. Token Hetzner → cria context 'easydemo-prod' (prompt -rs)     │
 │ 3. SSH key local → upload para Hetzner (idempotente)           │
 │ 4. Gera infra/cloud-init.yaml (template embedded)              │
 │ 5. Imprime plano + prompt [s/N]:                                │
@@ -45,12 +45,12 @@ Sintaxe OK
 
 | Var | Default | Observação |
 |---|---|---|
-| `HCLOUD_CONTEXT` | `demobr-prod` | Nome do `hcloud context` |
-| `DEMOBR_SSH_KEY` | `~/.ssh/id_ed25519.pub` | Caminho da public key |
-| `DEMOBR_SERVER_TYPE` | `cx22` | Tipo do servidor |
-| `DEMOBR_IMAGE` | `ubuntu-24.04` | Slug da cloud image |
-| `DEMOBR_LOCATION` | `fsn1` | Datacenter (DE-Falkenstein) |
-| `DEMOBR_SERVER_NAME` | `demobr-prod-01` | Nome do recurso Hetzner |
+| `HCLOUD_CONTEXT` | `easydemo-prod` | Nome do `hcloud context` |
+| `EASYDEMO_SSH_KEY` | `~/.ssh/id_ed25519.pub` | Caminho da public key |
+| `EASYDEMO_SERVER_TYPE` | `cx22` | Tipo do servidor |
+| `EASYDEMO_IMAGE` | `ubuntu-24.04` | Slug da cloud image |
+| `EASYDEMO_LOCATION` | `fsn1` | Datacenter (DE-Falkenstein) |
+| `EASYDEMO_SERVER_NAME` | `easydemo-prod-01` | Nome do recurso Hetzner |
 | `CN_DOMAIN` | *(vazio)* | ⚠️ **Não tem default** — se vazio, o heredoc produz cloud-init quebrado (ver §2.4) |
 
 ---
@@ -71,7 +71,7 @@ provisionamento, foi montado um **ambiente isolado** em `/tmp/hetzner-test/`:
 4. Execução:
    ```bash
    CN_DOMAIN=demo.example.com \
-   DEMOBR_SSH_KEY=/tmp/hetzner-test/.ssh/id_ed25519.pub \
+   EASYDEMO_SSH_KEY=/tmp/hetzner-test/.ssh/id_ed25519.pub \
    PATH=/tmp/hetzner-test/bin:$PATH \
    OSTYPE=linux-gnu \
    bash scripts/provision-hetzner.sh < <(printf "n\n")
@@ -82,13 +82,13 @@ provisionamento, foi montado um **ambiente isolado** em `/tmp/hetzner-test/`:
 ### 2.2. Output do dry-run (verbatim, sem ANSI)
 
 ```
-[ok] Context 'demobr-prod' ativo.
+[ok] Context 'easydemo-prod' ativo.
 [ok] SSH key 'id_ed25519' já registrada.
 [hetzner] Gerando /tmp/hetzner-test/repo/infra/cloud-init.yaml…
 [ok] cloud-init.yaml gerado.
 
 Plano de provisionamento:
-  Nome:    demobr-prod-01
+  Nome:    easydemo-prod-01
   Tipo:    cx22 (1 vCPU, 4GB RAM, 40GB SSD)
   Imagem:  ubuntu-24.04
   Local:   fsn1
@@ -97,7 +97,7 @@ Plano de provisionamento:
 
 Criar o VPS agora? [s/N] (N = dry-run): [hetzner] Dry-run — nada foi criado. Para criar depois:
   hcloud server create \
-    --name demobr-prod-01 --type cx22 --image ubuntu-24.04 --location fsn1 \
+    --name easydemo-prod-01 --type cx22 --image ubuntu-24.04 --location fsn1 \
     --ssh-key id_ed25519 --user-data-from-file /tmp/hetzner-test/repo/infra/cloud-init.yaml --start-after-create
 ```
 
@@ -116,7 +116,7 @@ Validado contra o output literal de `infra/cloud-init.yaml` (3495 bytes):
 | Cria usuário `deploy` com sudo sem senha                   | ❌     | **AUSENTE** — script usa `root` operacional; injeta SSH key em `/root/.ssh/authorized_keys_via_cloudinit`     |
 | SSH só por chave (PasswordAuthentication no)                | ⚠️     | **NÃO explícito** — depende do default da cloud image Ubuntu 24.04 da Hetzner. Não há write_file para `sshd_config` nem `runcmd` com `sed -i ...` |
 | Configura timezone UTC                                     | ❌     | **AUSENTE** — não há `timezone: Etc/UTC` no topo do cloud-init. Default Ubuntu cloud image é UTC, então OK na prática, mas não é explícito |
-| Configura hostname `demobr-prod`                           | ❌     | **AUSENTE** — o nome `demobr-prod-01` é apenas metadata da Hetzner (`--name` no `hcloud server create`); o hostname interno do OS fica com o default da cloud image |
+| Configura hostname `easydemo-prod`                           | ❌     | **AUSENTE** — o nome `easydemo-prod-01` é apenas metadata da Hetzner (`--name` no `hcloud server create`); o hostname interno do OS fica com o default da cloud image |
 
 ### 2.4. Bug encontrado (severidade baixa)
 
@@ -174,9 +174,9 @@ export CN_DOMAIN
 1. **Adicionar usuário `deploy`** com sudo NOPASSWD no cloud-init (item
    ausente da spec). Reduz superfície de ataque (root desabilitado).
 2. **Reforçar hardening SSH**: `write_files` para
-   `/etc/ssh/sshd_config.d/99-demobr.conf`:
+   `/etc/ssh/sshd_config.d/99-easydemo.conf`:
    ```yaml
-   - path: /etc/ssh/sshd_config.d/99-demobr.conf
+   - path: /etc/ssh/sshd_config.d/99-easydemo.conf
      content: |
        PasswordAuthentication no
        PermitRootLogin prohibit-password
@@ -186,7 +186,7 @@ export CN_DOMAIN
 4. **Adicionar flag `--apply`** explícita ao script para eliminar a
    ambiguidade do prompt interativo em pipelines CI/CD.
 5. **Adicionar `timezone: Etc/UTC`** e `manage_etc_hosts: true` (com
-   hostname `demobr-prod`) no topo do cloud-init.
+   hostname `easydemo-prod`) no topo do cloud-init.
 
 ---
 

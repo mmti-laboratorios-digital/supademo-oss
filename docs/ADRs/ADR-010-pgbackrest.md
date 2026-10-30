@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR armazena **dados críticos de clientes B2B** (workspaces, demos, leads, billing). Perda de banco = empresa fecha. Precisamos de:
+EasyDemo armazena **dados críticos de clientes B2B** (workspaces, demos, leads, billing). Perda de banco = empresa fecha. Precisamos de:
 
 1. **Backups diários** full + incrementais.
 2. **Point-in-Time Recovery (PITR)** até os últimos 7–14 dias (para casos de "DELETE acidental às 14h32").
@@ -118,6 +118,6 @@ Configuração:
 - [WAL-G](https://github.com/wal-g/wal-g)
 - [Barman](https://pgbarman.org/)
 - [Hetzner Snapshots](https://docs.hetzner.com/cloud/servers/backups-snapshots)
-- RFC DemoBR §2.6 — backup
+- RFC EasyDemo §2.6 — backup
 - `research/tech/infra-vps.md` §4 — backup strategy
 - `research/tech/RECOMMENDATION.md` §2.5 — pgBackRest

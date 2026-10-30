@@ -4,7 +4,7 @@
 #  valida com SELECT count(*), notifica Slack.
 #
 #  Pré-requisitos:
-#    - hcloud CLI autenticado (`hcloud context create demobr-prod`)
+#    - hcloud CLI autenticado (`hcloud context create easydemo-prod`)
 #    - SSHPASS ou chave SSH carregada no agent
 #    - Slack webhook URL em $SLACK_WEBHOOK_URL
 #    - Último backup acessível no R2 (variáveis R2_* no .env)
@@ -46,7 +46,7 @@ ANS="$(printf '%s' "$ANS" | tr '[:upper:]' '[:lower:]')"
 # -----------------------------------------------------------------------------
 # 2. Provisiona VPS temp
 # -----------------------------------------------------------------------------
-DRILL_NAME="demobr-drill-$(date +%Y%m%d%H%M%S)"
+DRILL_NAME="easydemo-drill-$(date +%Y%m%d%H%M%S)"
 SERVER_TYPE="${DRILL_SERVER_TYPE:-cx22}"
 IMAGE="${DRILL_IMAGE:-ubuntu-24.04}"
 LOCATION="${DRILL_LOCATION:-fsn1}"
@@ -139,13 +139,13 @@ scp -o StrictHostKeyChecking=no "$LOCAL_FILE" "root@$SERVER_IP:/tmp/db-latest.sq
 log "Restaurando no VPS temp…"
 ssh -o StrictHostKeyChecking=no root@"$SERVER_IP" bash -s <<'REMOTE'
 set -euo pipefail
-sudo -u postgres createdb demobr_drill || true
-gunzip -c /tmp/db-latest.sql.gz | sudo -u postgres psql -d demobr_drill -v ON_ERROR_STOP=1
+sudo -u postgres createdb easydemo_drill || true
+gunzip -c /tmp/db-latest.sql.gz | sudo -u postgres psql -d easydemo_drill -v ON_ERROR_STOP=1
 echo "---"
-sudo -u postgres psql -d demobr_drill -c "SELECT count(*) AS workspaces FROM workspaces;"
-sudo -u postgres psql -d demobr_drill -c "SELECT count(*) AS demos      FROM demos;"
-sudo -u postgres psql -d demobr_drill -c "SELECT count(*) AS steps      FROM steps;"
-sudo -u postgres psql -d demobr_drill -c "SELECT count(*) AS leads      FROM leads;"
+sudo -u postgres psql -d easydemo_drill -c "SELECT count(*) AS workspaces FROM workspaces;"
+sudo -u postgres psql -d easydemo_drill -c "SELECT count(*) AS demos      FROM demos;"
+sudo -u postgres psql -d easydemo_drill -c "SELECT count(*) AS steps      FROM steps;"
+sudo -u postgres psql -d easydemo_drill -c "SELECT count(*) AS leads      FROM leads;"
 REMOTE
 
 # -----------------------------------------------------------------------------

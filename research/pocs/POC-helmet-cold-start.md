@@ -1,7 +1,7 @@
 # POC-5 — Helmet (security headers) + cold-start Next.js
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA (helmet) + ✅ CONCLUÍDA (Next cold-start)
 **Script**: [`apps/web/scripts/poc-helmet-cold-start.ts`](../../apps/web/scripts/poc-helmet-cold-start.ts)
 
@@ -86,7 +86,7 @@ Espera a string `Ready in` no stdout, então mede:
 > entries` do Next dev) — em produção (`next build && next start`) o compile
 > já foi feito no build, então a 1ª request cai pra < 500 ms.
 
-### 3.3 O que isso significa para DemoBR
+### 3.3 O que isso significa para EasyDemo
 
 | pergunta | resposta |
 |---|---|

@@ -22,7 +22,7 @@ import { ttsJob } from "./tasks/tts_job";
 
 // Convenção do projeto: porta 55432 no host (não 5432) — ver infra/docker-compose.yml.
 const connectionString =
-  process.env.DATABASE_URL ?? "postgres://app:CHANGEME@localhost:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app:CHANGEME@localhost:55432/easydemo";
 
 const taskList: TaskList = {
   process_demo: processDemo,

@@ -4,7 +4,7 @@
   [ADR-013](ADR-013-postgres-16-canonical.md). A decisão de **orquestração com
   Docker Compose na VPS Hetzner CPX32** permanece válida.
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 - **Superseded by:** [ADR-013](ADR-013-postgres-16-canonical.md) — apenas no
   que toca a versão do Postgres (a canônica é **16**)
 
@@ -13,7 +13,7 @@
 
 ## Context and Problem Statement
 
-DemoBR roda em produção em uma **única VPS Hetzner CPX32** (4 vCPU, 8 GB RAM, 160 GB NVMe, €35/mês). Devemos decidir **como orquestrar os containers** que compõem o stack:
+EasyDemo roda em produção em uma **única VPS Hetzner CPX32** (4 vCPU, 8 GB RAM, 160 GB NVMe, €35/mês). Devemos decidir **como orquestrar os containers** que compõem o stack:
 
 - **Next.js** (app + API + landing)
 - **Worker** (graphile-worker + scripts LGPD)
@@ -163,6 +163,6 @@ Volumes nomeados (`pg_data`, `caddy_data`, `signoz_data`) garantem persistência
 - [K3s docs](https://docs.k3s.io/)
 - [Hetzner Cloud](https://www.hetzner.com/cloud)
 - [kompose (Compose → K8s)](https://kompose.io/)
-- RFC DemoBR §2.2, §8.4
+- RFC EasyDemo §2.2, §8.4
 - `research/tech/infra-vps.md` §2 — orquestração
 - `research/tech/architecture-diagram.md` §1 — diagrama de deploy

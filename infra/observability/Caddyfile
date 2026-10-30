@@ -1,11 +1,11 @@
 # =============================================================================
-# DemoBR — Caddyfile (dev)
-# Proxy: web em :3000 via hostname demobr.localhost (cookie SameSite-friendly)
+# EasyDemo — Caddyfile (dev)
+# Proxy: web em :3000 via hostname easydemo.localhost (cookie SameSite-friendly)
 # Em prod: usar Cloudflare DNS challenge (ver cloud-init.yaml).
 # =============================================================================
 
 # dev — HTTP puro (sem TLS) em localhost
-http://demobr.localhost, http://localhost {
+http://easydemo.localhost, http://localhost {
   reverse_proxy web:3000 {
     header_up Host {host}
     header_up X-Real-IP {remote}

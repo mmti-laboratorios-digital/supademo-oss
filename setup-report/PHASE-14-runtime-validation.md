@@ -41,11 +41,11 @@ $ docker compose -f infra/docker-compose.yml up -d postgres
 [+] Running 4/4
  ✔ Network infra_default   Created
  ✔ Volume infra_pgdata     Created
- ✔ Container demobr-postgres  Creating
- ✔ Container demobr-postgres  Created
- ⠋ Container demobr-postgres  Starting
+ ✔ Container easydemo-postgres  Creating
+ ✔ Container easydemo-postgres  Created
+ ⠋ Container easydemo-postgres  Starting
 Error response from daemon: failed to set up container networking:
-driver failed programming external connectivity on endpoint demobr-postgres (...):
+driver failed programming external connectivity on endpoint easydemo-postgres (...):
 Bind for 0.0.0.0:55432 failed: port is already allocated
 ```
 
@@ -150,8 +150,8 @@ $ docker exec supademo-test psql -U app -d supademo -c "\dt"
 
 ```bash
 $ cd /home/dan/saas/supademo-oss/apps/web
-$ ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
-  DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+$ ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
+  DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   pnpm exec drizzle-kit migrate 2>&1 | tail -5
 [⣷] applying migrations...error: permission denied for database supademo
 exit=1
@@ -418,7 +418,7 @@ dev alive
 ```
 $ pnpm test:e2e
 
-> demobr@0.1.0 test:e2e
+> easydemo@0.1.0 test:e2e
 > pnpm --filter web exec playwright test --config ../../playwright.config.ts
 
 Running 8 tests using 1 worker
@@ -599,7 +599,7 @@ NAME      IMAGE     COMMAND   SERVICE   CRED    STATUS    PORTS
 ```
 
 ```
-$ docker ps --format "table ..." | grep -E "supademo|demobr"
+$ docker ps --format "table ..." | grep -E "supademo|easydemo"
 supademo-test  postgres:16-alpine  Up 6 hours  0.0.0.0:55432->5432/tcp
 ```
 

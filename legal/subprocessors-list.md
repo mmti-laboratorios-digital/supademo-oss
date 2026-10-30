@@ -1,7 +1,7 @@
-# Lista de Subprocessadores — DemoBR
+# Lista de Subprocessadores — EasyDemo
 
 > Esta página lista os subprocessadores (terceiros) que tratam dados
-> pessoais em nome da DemoBR LTDA. Atualizamos esta lista sempre que
+> pessoais em nome da EasyDemo LTDA. Atualizamos esta lista sempre que
 > um novo subprocessador é contratado ou substituído.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
@@ -89,7 +89,7 @@ existente:
 
 Clientes podem solicitar **encerramento** do tratamento por um
 subprocessador específico, mas isso pode afetar a operação de
-certas funcionalidades do DemoBR. Em alguns casos (ex.: Hetzner
+certas funcionalidades do EasyDemo. Em alguns casos (ex.: Hetzner
 para hospedagem), a recusa implica paralisação do serviço.
 
 ---
@@ -105,7 +105,7 @@ Para sua tranquilidade, declaramos **não usar**:
 - ❌ Data brokers (venda de dados pessoais para terceiros).
 - ❌ Redes de ads programáticas.
 
-> A DemoBR é uma empresa **sem modelo de receita baseado em ads**.
+> A EasyDemo é uma empresa **sem modelo de receita baseado em ads**.
 > Nosso faturamento vem de assinaturas pagas (Pro / Business).
 
 ---
@@ -146,5 +146,5 @@ Para dúvidas sobre subprocessadores:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

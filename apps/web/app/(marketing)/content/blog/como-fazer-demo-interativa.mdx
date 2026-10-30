@@ -33,7 +33,7 @@ Boas telas pra capturar: dashboard inicial, fluxo de criação (formulário + co
 
 ## Como capturar com a extensão Chrome
 
-A extensão DemoBR é MV3 (Manifest V3), roda em Chrome, Edge, Brave e qualquer Chromium recente. Clique no ícone, escolha "gravar nova demo", clique em "iniciar". A partir daí:
+A extensão EasyDemo é MV3 (Manifest V3), roda em Chrome, Edge, Brave e qualquer Chromium recente. Clique no ícone, escolha "gravar nova demo", clique em "iniciar". A partir daí:
 
 1. Cada clique seu vira um screenshot + hotspot automático.
 2. Você pode renomear o step (caption) na hora ou depois.
@@ -42,7 +42,7 @@ A extensão DemoBR é MV3 (Manifest V3), roda em Chrome, Edge, Brave e qualquer 
 
 A captura é local primeiro: o conteúdo do seu SaaS fica em disco antes de subir pro R2. Você revisa hotspots, edita captions, ajusta o que precisar, e só então publica.
 
-Dica: use uma janela em ~1440px de largura. A DemoBR redimensiona automaticamente, mas a captura fica melhor na densidade nativa. Se seu SaaS tem dark mode, capture os dois — o lead pode estar em qualquer um dos dois.
+Dica: use uma janela em ~1440px de largura. A EasyDemo redimensiona automaticamente, mas a captura fica melhor na densidade nativa. Se seu SaaS tem dark mode, capture os dois — o lead pode estar em qualquer um dos dois.
 
 ## Editar, anottar, polish
 
@@ -53,7 +53,7 @@ Depois de capturar, antes de publicar, gaste mais 10 a 20 minutos editando. Em g
 - **Branching opcional.** Você pode esconder steps atrás de "Avançado" pra não assustar lead de primeira viagem.
 - **CTA no último step.** Sem CTA, o lead fecha a aba.
 
-A DemoBR mostra preview em tempo real enquanto você edita. O preview é responsivo — visualiza em mobile sem sair do editor.
+A EasyDemo mostra preview em tempo real enquanto você edita. O preview é responsivo — visualiza em mobile sem sair do editor.
 
 ## Publicar e compartilhar
 
@@ -68,14 +68,14 @@ Por padrão, links expiram em 30 dias (Free) ou nunca expiram (Pro/Business, a m
 
 ## Como medir engajamento
 
-A DemoBR mede, por demo, evento por evento:
+A EasyDemo mede, por demo, evento por evento:
 
 - **View:** lead abriu a página.
 - **Step:** lead viu um step específico (com timestamp).
 - **Drop-off:** lead fechou a aba antes do último step.
 - **Lead:** lead preencheu o form de contato.
 
-A métrica que importa é **completion rate**: quem viu até o final ÷ quem abriu. Média de mercado B2B gira em 35-45%; DemoBR costuma ver 50-65% porque o conteúdo é curto (5-10 steps) e falado em pt-BR.
+A métrica que importa é **completion rate**: quem viu até o final ÷ quem abriu. Média de mercado B2B gira em 35-45%; EasyDemo costuma ver 50-65% porque o conteúdo é curto (5-10 steps) e falado em pt-BR.
 
 Para entender **qual step** mata o lead, vá em Analytics → Funil. Você vai ver curva decrescente step a step. Se cair muito entre step 3 e 4, o lead está confundindo aquele step. Refaça o caption ou pule o step.
 
@@ -88,16 +88,16 @@ Lead que deixou contato está sujeito à LGPD. Isso significa:
 - Armazenar dados no Brasil ou com adequacy decision.
 - Responder DSR em até 15 dias.
 
-A DemoBR faz tudo isso automaticamente. O form vem com texto padrão de consentimento (Lei nº 13.709/2018), o e-mail de revogação é um link "Quero revogar" que dispara DSR em fila. Os dados ficam em Postgres no Brasil (RDS sa-east-1).
+A EasyDemo faz tudo isso automaticamente. O form vem com texto padrão de consentimento (Lei nº 13.709/2018), o e-mail de revogação é um link "Quero revogar" que dispara DSR em fila. Os dados ficam em Postgres no Brasil (RDS sa-east-1).
 
 Veja `/lgpd` para a política completa e o link "Quero revogar" em demo publicada.
 
 <!-- faq -->
 Q: Quanto custa fazer uma demo interativa?
-A: O plano Free da DemoBR dá 3 demos publicados, 50 views/mês e analytics anônimo. Pro a R$ 49/mês dá demos ilimitados, 5.000 views/mês e form de lead LGPD. Business a R$ 199/mês inclui domínio customizado, branching e white-label.
+A: O plano Free da EasyDemo dá 3 demos publicados, 50 views/mês e analytics anônimo. Pro a R$ 49/mês dá demos ilimitados, 5.000 views/mês e form de lead LGPD. Business a R$ 199/mês inclui domínio customizado, branching e white-label.
 
 Q: Preciso instalar alguma coisa?
-A: Sim, a extensão Chrome (MV3) roda em Chrome, Edge, Brave. A DemoBR captura screenshots + cliques localmente e só sincroniza quando você publica.
+A: Sim, a extensão Chrome (MV3) roda em Chrome, Edge, Brave. A EasyDemo captura screenshots + cliques localmente e só sincroniza quando você publica.
 
 Q: A demo roda em mobile?
 A: Sim, o player é responsivo. Hotspot adapta a posição relativa e a UI muda pra thumbs em telas pequenas.
@@ -109,7 +109,7 @@ Q: Funciona offline?
 A: A captura é local e funciona offline. A demo publicada é servida via CDN global, então o lead abre sem depender de você estar online.
 
 Q: O que acontece com dados sensíveis na captura?
-A: A DemoBR tem PII redaction automática que detecta e desfoca e-mail, CPF, CNPJ, telefone e cartão. Você pode revisar antes de publicar. Veja `/lgpd#redacao`.
+A: A EasyDemo tem PII redaction automática que detecta e desfoca e-mail, CPF, CNPJ, telefone e cartão. Você pode revisar antes de publicar. Veja `/lgpd#redacao`.
 
 Q: Tem API pra capturar via código?
-A: Não na extensão, mas a DemoBR tem API REST que permite criar/atualizar demos programaticamente. Veja `/api/v1`.
+A: Não na extensão, mas a EasyDemo tem API REST que permite criar/atualizar demos programaticamente. Veja `/api/v1`.

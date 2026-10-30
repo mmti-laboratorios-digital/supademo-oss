@@ -16,7 +16,7 @@ export default {
     url:
       process.env.DIRECT_URL ??
       process.env.DATABASE_URL ??
-      "postgres://app_owner:CHANGEME_owner@localhost:55432/supademo",
+      "postgres://app_owner:CHANGEME_owner@localhost:55432/easydemo",
   },
   verbose: true,
   strict: true,

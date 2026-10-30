@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR é um SaaS B2B multi-tenant. Cada cliente (empresa) é um **workspace**; cada workspace tem 1..N **usuários** com **roles** (owner, admin, editor, viewer). Precisamos de:
+EasyDemo é um SaaS B2B multi-tenant. Cada cliente (empresa) é um **workspace**; cada workspace tem 1..N **usuários** com **roles** (owner, admin, editor, viewer). Precisamos de:
 
 1. Login seguro (email + senha, magic link, OAuth Google/Microsoft).
 2. **Organizations** nativas (multi-tenant model) — não queremos reinventar.
@@ -123,5 +123,5 @@ Componentes usados:
 - [Clerk webhooks (Svix)](https://clerk.com/docs/integrations/webhooks)
 - [Auth.js v5](https://authjs.dev/)
 - [Better-Auth](https://www.better-auth.com/)
-- RFC DemoBR §2.2 — escolha de auth
+- RFC EasyDemo §2.2 — escolha de auth
 - `research/tech/backend-stack.md` §4 — auth comparison

@@ -13,7 +13,7 @@ export default function AppLayout({
         <div className="container flex h-14 items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/demos" className="font-semibold tracking-tight">
-              DemoBR
+              EasyDemo
             </Link>
             <nav className="hidden gap-4 text-sm md:flex">
               <Link href="/demos" className="text-muted-foreground hover:text-foreground">

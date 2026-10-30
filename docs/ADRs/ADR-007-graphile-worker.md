@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR precisa de uma **fila de jobs** para:
+EasyDemo precisa de uma **fila de jobs** para:
 
 - **Processar demos após upload** (LGPD pipeline: OCR + blur + re-upload).
 - **Enviar emails transacionais** (Resend) em retry.
@@ -121,5 +121,5 @@ Configuração:
 - [BullMQ](https://docs.bullmq.io/)
 - [Inngest](https://www.inngest.com/docs)
 - [Trigger.dev](https://trigger.dev/docs)
-- RFC DemoBR §2.2 — escolha de fila
+- RFC EasyDemo §2.2 — escolha de fila
 - `research/tech/backend-stack.md` §2 — queue comparison

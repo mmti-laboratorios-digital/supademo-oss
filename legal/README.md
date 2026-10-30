@@ -1,6 +1,6 @@
-# 📜 Documentação Jurídica — DemoBR
+# 📜 Documentação Jurídica — EasyDemo
 
-> Pasta de modelos de documentos jurídicos do produto **DemoBR**.
+> Pasta de modelos de documentos jurídicos do produto **EasyDemo**.
 > Estes arquivos são **modelos (templates)** traduzidos a partir do
 > `docs/SECURITY-MODEL.md`, da RFC, do modelo de banco e do stack técnico.
 > **Não constituem aconselhamento jurídico.**
@@ -24,7 +24,7 @@ ANTES DE PUBLICAR QUALQUER DOCUMENTO DESTA PASTA EM PRODUÇÃO:
   2. Forneça contexto completo do produto, desta pasta, e do stack
      (NEXT-CLERK-ASAAS-HETZNER-CLOUDFLARE-RESEND-SENTRY-POSTHOG).
   3. Ajuste dados cadastrais (CNPJ, endereço, razão social) com base
-     no contrato social real da DemoBR LTDA.
+     no contrato social real da EasyDemo LTDA.
   4. Adapte cláusulas conforme decisões estratégicas (foro, jurisdição,
      política de reembolso, modelos de pricing etc.).
   5. Mande revisar a cada 6 meses ou quando houver mudança substancial
@@ -38,8 +38,8 @@ ANTES DE PUBLICAR QUALQUER DOCUMENTO DESTA PASTA EM PRODUÇÃO:
 | Arquivo | Propósito | Quem lê | Status |
 |---------|-----------|---------|--------|
 | [`privacy-policy.md`](./privacy-policy.md) | Política de privacidade pública para todos os usuários | Visitantes, creators, leads, ANPD | 🟡 Modelo |
-| [`terms-of-service.md`](./terms-of-service.md) | Termos de uso do serviço DemoBR | Creators (assinantes) | 🟡 Modelo |
-| [`dpa-data-processing-agreement.md`](./dpa-data-processing-agreement.md) | Acordo de tratamento de dados B2B entre DemoBR e clientes corporativos | Creators Business / jurídico dos clientes | 🟡 Modelo |
+| [`terms-of-service.md`](./terms-of-service.md) | Termos de uso do serviço EasyDemo | Creators (assinantes) | 🟡 Modelo |
+| [`dpa-data-processing-agreement.md`](./dpa-data-processing-agreement.md) | Acordo de tratamento de dados B2B entre EasyDemo e clientes corporativos | Creators Business / jurídico dos clientes | 🟡 Modelo |
 | [`cookie-policy.md`](./cookie-policy.md) | Política de cookies do player e painel | Visitantes do player | 🟡 Modelo |
 | [`subprocessors-list.md`](./subprocessors-list.md) | Lista de subprocessadores com DPA assinado | Visitantes, titulares, clientes B2B | 🟡 Modelo |
 | [`dsr-endpoint-policy.md`](./dsr-endpoint-policy.md) | Política do endpoint de direitos do titular (LGPD art. 18) | Titulares, DPO, ANPD | 🟡 Modelo |
@@ -102,7 +102,7 @@ ANTES DE PUBLICAR QUALQUER DOCUMENTO DESTA PASTA EM PRODUÇÃO:
 ## 🧭 Mapa de cobertura LGPD
 
 Esta pasta foi desenhada para endereçar os artigos mais sensíveis da
-LGPD para o modelo de negócio DemoBR. **Confirme com advogado.**
+LGPD para o modelo de negócio EasyDemo. **Confirme com advogado.**
 
 | Artigo LGPD | Tema | Endereçado em |
 |-------------|------|---------------|
@@ -143,7 +143,7 @@ Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso p�
 
 ```
 [ ] Substituir placeholders de CNPJ, endereço, razão social pelos reais.
-[ ] Confirmar se a DemoBR LTDA é MEI, EPP, LTDA pura ou S.A.
+[ ] Confirmar se a EasyDemo LTDA é MEI, EPP, LTDA pura ou S.A.
 [ ] Definir comarca (atualmente proposta: São Paulo/SP).
 [ ] Definir política de reembolso (atualmente proposta: 7 dias).
 [ ] Revisar art. 18 — lista de direitos e SLAs.
@@ -180,7 +180,7 @@ Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso p�
 - **Segurança**: `security@easydemo.io`
 - **Privacidade**: `privacy@easydemo.io`
 
-> ⏳ **Status do DPO**: PENDENTE de contratação formal. A DemoBR
+> ⏳ **Status do DPO**: PENDENTE de contratação formal. A EasyDemo
 > mantém o alias `placeholder@easydemo.io` que encaminha para a
 > liderança enquanto a nomeação não é concluída. Detalhes sobre o
 > processo de seleção, persona, critérios, SLAs e cronograma estão

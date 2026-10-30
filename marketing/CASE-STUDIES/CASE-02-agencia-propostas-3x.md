@@ -13,7 +13,7 @@
 | **Empresa** | Agência Y (performance + branding, foco em SaaS B2B) |
 | **Setor** | Agência de marketing |
 | **Funcionários** | 12 |
-| **Plano DemoBR usado** | Business (R$ 199/mês) |
+| **Plano EasyDemo usado** | Business (R$ 199/mês) |
 | **Resultado principal** | **3x mais fechamentos** de propostas + **−14 dias** no ciclo |
 | **Período** | 4 meses (jun–set/2026) |
 
@@ -63,7 +63,7 @@ Agência Y atende **15 clientes SaaS B2B mid-market** com serviço de performanc
 
 ## Solução
 
-Agência Y adotou **DemoBR Business** em junho/2026 e mudou o modelo de proposta.
+Agência Y adotou **EasyDemo Business** em junho/2026 e mudou o modelo de proposta.
 
 ### Antes vs Depois
 
@@ -77,7 +77,7 @@ Agência Y adotou **DemoBR Business** em junho/2026 e mudou o modelo de proposta
 
 ### Como a demo era estruturada
 
-A agência criou **3 demos-template** (white-label DemoBR) que adaptava por cliente:
+A agência criou **3 demos-template** (white-label EasyDemo) que adaptava por cliente:
 
 | Demo-template | Steps | CTA final |
 |---|---|---|
@@ -128,14 +128,14 @@ Para cada proposta nova:
 - **Receita incremental**: (R$ 33.000 − R$ 13.500) × 12 meses = **R$ 234.000/ano**
 - **Economia de tempo operacional**: 4 dias × 8 fechamentos × R$ 200/dia-analista = **R$ 6.400/mês** = R$ 76.800/ano
 - **Total**: **R$ 310.800/ano de benefício**
-- **Custo DemoBR Business**: R$ 199/mês × 12 = **R$ 2.388/ano**
+- **Custo EasyDemo Business**: R$ 199/mês × 12 = **R$ 2.388/ano**
 - **ROI**: **~130x**
 
 ---
 
 ## Screenshot conceitual
 
-> **Conceito do screenshot:** Player DemoBR rodando uma proposta interativa para cliente "Acme SaaS" com nome personalizado e WhatsApp CTA.
+> **Conceito do screenshot:** Player EasyDemo rodando uma proposta interativa para cliente "Acme SaaS" com nome personalizado e WhatsApp CTA.
 >
 > **Mockup textual:**
 >
@@ -165,7 +165,7 @@ Para cada proposta nova:
 | Ação | Plano |
 |---|---|
 | Demo de onboarding do cliente | Criar demo interativa pra ensinar cliente a usar dashboards da campanha |
-| AI voice PT-BR nas propostas | Adotar Q1 2027 quando DemoBR incluir |
+| AI voice PT-BR nas propostas | Adotar Q1 2027 quando EasyDemo incluir |
 | White-label completo | Upgrade para Business white-label total |
 
 ---

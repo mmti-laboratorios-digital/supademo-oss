@@ -1,6 +1,6 @@
-# Webhooks — Spec de saída (DemoBR → cliente)
+# Webhooks — Spec de saída (EasyDemo → cliente)
 
-> Como o DemoBR notifica **integrações dos clientes** (CRM, automação, Slack,
+> Como o EasyDemo notifica **integrações dos clientes** (CRM, automação, Slack,
 > webhook.site para debug) sobre eventos da plataforma.
 
 **Versão:** 1.0
@@ -11,15 +11,15 @@
 
 ## 1. Visão geral
 
-Webhooks **de saída** permitem que seus sistemas reajam a eventos do DemoBR
+Webhooks **de saída** permitem que seus sistemas reajam a eventos do EasyDemo
 em tempo real (ex.: criar deal no CRM quando um lead é capturado, notificar
 Slack quando uma demo é publicada).
 
 Toda chamada de webhook é:
 
-- Assinada com **HMAC SHA-256** (header `X-DemoBR-Signature`).
+- Assinada com **HMAC SHA-256** (header `X-EasyDemo-Signature`).
 - Enviada via **POST** com `Content-Type: application/json`.
-- **Idempotente** via header `X-DemoBR-Event-Id` (UUID v7).
+- **Idempotente** via header `X-EasyDemo-Event-Id` (UUID v7).
 - Retentada com **exponential backoff + jitter** em falhas (até 8 tentativas).
 - Logada em `/admin/webhooks` (Webhook Inspector UI) por 30 dias.
 
@@ -34,7 +34,7 @@ curl -X POST https://api.easydemo.io/api/v1/webhooks \
   -H "Authorization: Bearer gf_live_..." \
   -H "Content-Type: application/json" \
   -d '{
-    "url": "https://seu-crm.com/webhooks/demobr",
+    "url": "https://seu-crm.com/webhooks/easydemo",
     "events": ["demo.viewed", "demo.lead_captured"],
     "active": true,
     "description": "CRM principal — leads e views"
@@ -46,7 +46,7 @@ Resposta:
 ```json
 {
   "id": "01H8XK7B3V4Y5Z6W7N8M9P0Q1R",
-  "url": "https://seu-crm.com/webhooks/demobr",
+  "url": "https://seu-crm.com/webhooks/easydemo",
   "events": ["demo.viewed", "demo.lead_captured"],
   "active": true,
   "secret": "whsec_4f2k9aB3cD7eF8gH1iJ0kL2mN4oP5qR6sT7uV8wX",
@@ -165,7 +165,7 @@ Resposta:
       "name": "Maria Silva",
       "email": "maria@acme.com.br",
       "phone": "+5511988887777",
-      "consent_text": "Concordo com a Política de Privacidade da DemoBR.",
+      "consent_text": "Concordo com a Política de Privacidade da EasyDemo.",
       "consent_at": "2026-10-18T14:32:00.000Z",
       "extra": {
         "empresa": "Acme Corp",
@@ -266,18 +266,18 @@ Mesmo schema de `demo.published` mas com `type: "demo.unpublished"`.
 
 Todo webhook inclui:
 
-- Header `X-DemoBR-Signature: t=<unix_ts>,v1=<hex_hmac>`
-- Header `X-DemoBR-Event-Id: <uuid>` (idempotência)
-- Header `X-DemoBR-Webhook-Id: <webhook_id>` (qual webhook entregou)
+- Header `X-EasyDemo-Signature: t=<unix_ts>,v1=<hex_hmac>`
+- Header `X-EasyDemo-Event-Id: <uuid>` (idempotência)
+- Header `X-EasyDemo-Webhook-Id: <webhook_id>` (qual webhook entregou)
 
 ### 6.1 Verificação em Node.js
 
 ```ts
 import crypto from 'node:crypto';
 
-const SECRET = process.env.DEMOBR_WEBHOOK_SECRET!; // ex.: whsec_4f2k9aB3...
-const SIGNATURE_HEADER = req.headers['x-demobr-signature'] as string;
-const EVENT_ID = req.headers['x-demobr-event-id'] as string;
+const SECRET = process.env.EASYDEMO_WEBHOOK_SECRET!; // ex.: whsec_4f2k9aB3...
+const SIGNATURE_HEADER = req.headers['x-easydemo-signature'] as string;
+const EVENT_ID = req.headers['x-easydemo-event-id'] as string;
 const RAW_BODY = req.rawBody; // precisa do body bruto (não JSON.parse)
 
 function verifyWebhook(rawBody: string, signatureHeader: string, secret: string): boolean {
@@ -318,9 +318,9 @@ if (!verifyWebhook(RAW_BODY, SIGNATURE_HEADER, SECRET)) {
 ```python
 import hmac, hashlib, time
 
-SECRET = os.environ["DEMOBR_WEBHOOK_SECRET"].encode()
-signature_header = request.headers["X-DemoBR-Signature"]  # "t=...,v1=..."
-event_id = request.headers["X-DemoBR-Event-Id"]
+SECRET = os.environ["EASYDEMO_WEBHOOK_SECRET"].encode()
+signature_header = request.headers["X-EasyDemo-Signature"]  # "t=...,v1=..."
+event_id = request.headers["X-EasyDemo-Event-Id"]
 raw_body = request.body  # bytes brutos
 
 parts = dict(p.split("=") for p in signature_header.split(","))
@@ -367,16 +367,16 @@ Você pode **replay** manualmente via Webhook Inspector UI.
 
 Em cada retry, mantemos os mesmos:
 
-- `X-DemoBR-Event-Id` — mesmo valor (idempotência).
-- `X-DemoBR-Signature` — **novo timestamp `t=`** com HMAC recalculado.
+- `X-EasyDemo-Event-Id` — mesmo valor (idempotência).
+- `X-EasyDemo-Signature` — **novo timestamp `t=`** com HMAC recalculado.
 
-Adicionamos `X-DemoBR-Delivery-Attempt: <n>` (1..8).
+Adicionamos `X-EasyDemo-Delivery-Attempt: <n>` (1..8).
 
 ---
 
 ## 8. Idempotência
 
-Toda entrega inclui `X-DemoBR-Event-Id` (UUID v7, único por evento).
+Toda entrega inclui `X-EasyDemo-Event-Id` (UUID v7, único por evento).
 
 **Seu sistema deve**:
 
@@ -459,7 +459,7 @@ resetar (próximo dia UTC), ou **são descartadas** se fila > 10k (config).
 
 ## 13. Versionamento
 
-- Header `X-DemoBR-API-Version: 2026-10-18` enviado em todo webhook.
+- Header `X-EasyDemo-API-Version: 2026-10-18` enviado em todo webhook.
 - Mudanças **breaking** (renomear campo, mudar tipo) ⇒ nova data
   (`2027-04-15`).
 - Suportamos 2 versões por 12 meses após release da nova.

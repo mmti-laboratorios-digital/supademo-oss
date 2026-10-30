@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR armazena **assets binários** públicos e privados:
+EasyDemo armazena **assets binários** públicos e privados:
 
 - **Screenshots de steps** (~50 KB cada, 1–50 por demo) — público, hot path.
 - **Audio TTS (narração)** (~200 KB por step) — público.
@@ -40,13 +40,13 @@ Custos de egress são o **maior vilão** em SaaS com mídia (S3 cobra $0.09/GB e
 
 Estrutura de buckets:
 
-- `demobr-public` — screenshots, OG images, áudio TTS — CDN habilitado, custom domain `cdn.easydemo.io`.
-- `demobr-private` — backups pgBackRest, exports DSR — CDN desabilitado, acesso via presigned URL curta (TTL 5 min).
+- `demo-public` — screenshots, OG images, áudio TTS — CDN habilitado, custom domain `cdn.easydemo.io`.
+- `demo-private` — backups pgBackRest, exports DSR — CDN desabilitado, acesso via presigned URL curta (TTL 5 min).
 
 Integração:
 
 - **SDK oficial**: `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (R2 é S3-API compatível).
-- **Custom domain** `cdn.easydemo.io` apontando para `demobr-public.r2.dev` (ou bucket-level domain) — CNAME via Cloudflare.
+- **Custom domain** `cdn.easydemo.io` apontando para `demo-public.r2.dev` (ou bucket-level domain) — CNAME via Cloudflare.
 - **Cache rules**: `Cache-Control: public, max-age=31536000, immutable` para imagens (versionadas por path com hash).
 - **Privacy regions** habilitado (EU) para backups de DSR — garante residência UE.
 
@@ -120,5 +120,5 @@ Integração:
 - [Cloudflare R2 S3 API](https://developers.cloudflare.com/r2/api/s3/api/)
 - [AWS S3 pricing](https://aws.amazon.com/s3/pricing/)
 - [Backblaze B2 pricing](https://www.backblaze.com/b2/cloud-storage-pricing.html)
-- RFC DemoBR §2.2 — Storage e CDN
+- RFC EasyDemo §2.2 — Storage e CDN
 - `research/tech/backend-stack.md` §5 — storage comparison

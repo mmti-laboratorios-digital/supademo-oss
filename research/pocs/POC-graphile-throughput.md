@@ -1,7 +1,7 @@
 # POC-6 — graphile-worker smoke (throughput)
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 
 > ⚠️ **Nota de versão:** este POC foi executado com **PostgreSQL 17**, que **não é** a versão canônica do stack (a canônica é **16** — ver [`docs/ADRs/ADR-013-postgres-16-canonical.md`](../../docs/ADRs/ADR-013-postgres-16-canonical.md)). O registro fica intacto porque reflete o que realmente rodou; os números **não são version-matched** com a produção. Re-rodar com `postgres:16-alpine` antes de usar qualquer número como SLA.
 
@@ -16,7 +16,7 @@ O `tech/RECOMMENDATION.md` escolheu `graphile-worker` por ser **Postgres-only**
 (sem Redis), **transacional** e ter **cron nativo**. A alegação: "suficiente
 para > 100k jobs/dia".
 
-**Pergunta concreta**: com a carga prevista para DemoBR (Fase 1: emails
+**Pergunta concreta**: com a carga prevista para EasyDemo (Fase 1: emails
 transacionais + geração de thumbnails + PII redaction), o `graphile-worker`
 aguenta o throughput?
 
@@ -75,7 +75,7 @@ latência enqueue→execução:
 | **Job real (sharp thumbnail, ~100ms)** | 380 ÷ (100ms/10ms) = 38 jobs/s × 86400 = 3.3M/dia | 33× o target |
 | **Job pesado (Tesseract PII, ~500ms)** | 380 ÷ (500ms/10ms) = 7.6 jobs/s × 86400 = 657k/dia | **6.5× o target** |
 
-→ **`graphile-worker` é folgado** para o Fase 1 do DemoBR (estimativa real:
+→ **`graphile-worker` é folgado** para o Fase 1 do EasyDemo (estimativa real:
 ~1k jobs/dia = **0.03% da capacidade**).
 
 ### 3.3 Achado positivo
@@ -88,12 +88,12 @@ replay**, sem custo perceptível.
 
 | pergunta | resposta |
 |---|---|
-| `graphile-worker` aguenta o DemoBR Fase 1? | ✅ Folgado — 6.5× a 328× da capacidade estimada |
+| `graphile-worker` aguenta o EasyDemo Fase 1? | ✅ Folgado — 6.5× a 328× da capacidade estimada |
 | Precisa Redis/BullMQ? | ❌ Não — `graphile-worker` é suficiente até centenas de jobs/s |
 | Como escalar se precisar? | Aumentar `concurrency` (até ~50 por worker process); adicionar **mais processos worker** (horizontal scaling) — eles fazem `SELECT FOR UPDATE SKIP LOCKED` no `graphile_worker.jobs`, sem lock contention |
 | Como evitar a "fila acumulada" vista na POC? | **NÃO enfileirar 1000 jobs de uma vez no mesmo tick** — é o que gera o p95 de 2.5 s. Em produção, jobs chegam aos poucos (cada publish de demo = 3-5 jobs). |
 
-### Recomendações para DemoBR
+### Recomendações para EasyDemo
 
 1. **Configurar `concurrency: 10`** (default) no Dockerfile.worker.
 2. **Criar índice em `graphile_worker.jobs (run_at, locked_at)`** — o worker

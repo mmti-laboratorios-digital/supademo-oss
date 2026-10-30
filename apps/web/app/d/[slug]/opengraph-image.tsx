@@ -17,7 +17,7 @@ import { ImageResponse } from "next/og";
  */
 
 export const runtime = "nodejs";
-export const alt = "DemoBR — Demos interativas pra vender mais, sem uma reunião a mais.";
+export const alt = "EasyDemo — Demos interativas pra vender mais, sem uma reunião a mais.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -71,7 +71,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         >
           <path d="M11 8 L24 16 L11 24 Z" fill="#FFFFFF" />
         </svg>
-        DemoBR
+        EasyDemo
       </div>
 
       <div

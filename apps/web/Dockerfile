@@ -1,5 +1,5 @@
 # =============================================================================
-# DemoBR — Web (Next.js 15) Dockerfile
+# EasyDemo — Web (Next.js 15) Dockerfile
 # Multi-stage: deps → build → runner
 # =============================================================================
 
@@ -55,8 +55,8 @@ RUN pnpm --filter web build
 # Stage 3 — runner (Next standalone)
 # -----------------------------------------------------------------------------
 FROM node:22-alpine AS runner
-LABEL org.opencontainers.image.title="demobr-web" \
-      org.opencontainers.image.source="https://github.com/demobr/demobr" \
+LABEL org.opencontainers.image.title="easydemo-web" \
+      org.opencontainers.image.source="https://github.com/easydemo/easydemo" \
       org.opencontainers.image.licenses="Proprietary"
 
 RUN apk add --no-cache tini curl
@@ -65,7 +65,7 @@ ENV NODE_ENV=production \
     NODE_OPTIONS="--enable-source-maps" \
     PORT=3000
 
-RUN addgroup -S demobr && adduser -S demobr -G demobr
+RUN addgroup -S easydemo && adduser -S easydemo -G easydemo
 WORKDIR /app
 
 # Standalone output do Next.js inclui node_modules mínimos.
@@ -74,11 +74,11 @@ WORKDIR /app
 # para dentro do standalone — daí os dois COPY explícitos. Se apps/web/public
 # não existir, o primeiro COPY aborta o build; por isso public/ é versionado
 # com pelo menos um asset.
-COPY --from=build --chown=demobr:demobr /repo/apps/web/public /app/public
-COPY --from=build --chown=demobr:demobr /repo/apps/web/.next/standalone /app
-COPY --from=build --chown=demobr:demobr /repo/apps/web/.next/static /app/.next/static
+COPY --from=build --chown=easydemo:easydemo /repo/apps/web/public /app/public
+COPY --from=build --chown=easydemo:easydemo /repo/apps/web/.next/standalone /app
+COPY --from=build --chown=easydemo:easydemo /repo/apps/web/.next/static /app/.next/static
 
-USER demobr
+USER easydemo
 EXPOSE 3000
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=3 \

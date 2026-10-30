@@ -86,7 +86,7 @@ services:
   app:
     build: .
     environment:
-      - DATABASE_URL=postgres://app:pwd@db:5432/demobr
+      - DATABASE_URL=postgres://app:pwd@db:5432/easydemo
       - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
       - R2_ACCESS_KEY=${R2_ACCESS_KEY}
       - R2_SECRET_KEY=${R2_SECRET_KEY}
@@ -107,7 +107,7 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_DB=demobr
+      - POSTGRES_DB=easydemo
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
@@ -173,7 +173,7 @@ db.demo.br {
 - S3-compatible API.
 
 **Setup:**
-1. Criar bucket `demobr-prod` em <https://dash.cloudflare.com/>.
+1. Criar bucket `easydemo-prod` em <https://dash.cloudflare.com/>.
 2. Gerar API token com permissão `Object Read & Write` no bucket.
 3. Configurar CORS para o domínio do player (`play.demo.br`).
 4. Custom domain (opcional): `cdn.demo.br` apontando para o bucket.
@@ -213,8 +213,8 @@ Para acessar Caddy/Postgres do painel Hetzner sem abrir 22/5432 para internet:
 
 ```bash
 # Instalar cloudflared no VPS
-cloudflared tunnel create demobr-prod
-cloudflared tunnel route dns demobr-prod app.demo.br
+cloudflared tunnel create easydemo-prod
+cloudflared tunnel route dns easydemo-prod app.demo.br
 cloudflared service install
 ```
 
@@ -255,7 +255,7 @@ cloudflared service install
 [global]
 repo1-type=s3
 repo1-s3-endpoint=${R2_ACCOUNT_ID}.r2.cloudflarestorage.com
-repo1-s3-bucket=demobr-pgbackrest
+repo1-s3-bucket=easydemo-pgbackrest
 repo1-s3-key=${R2_ACCESS_KEY}
 repo1-s3-key-secret=${R2_SECRET_KEY}
 repo1-s3-region=auto
@@ -267,7 +267,7 @@ process-max=4
 log-level-console=info
 log-level-file=debug
 
-[demobr]
+[easydemo]
 pg1-path=/var/lib/postgresql/data
 pg1-port=5432
 ```
@@ -289,7 +289,7 @@ Cron job (root ou postgres user):
 
 ```bash
 # Testar restore em servidor separado
-pgbackrest restore --stanza=demobr --target-action=time --target="2026-10-15 14:00:00" \
+pgbackrest restore --stanza=easydemo --target-action=time --target="2026-10-15 14:00:00" \
   --repo1-path=/tmp/pgrestore
 ```
 
@@ -379,7 +379,7 @@ import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 
 const sdk = new NodeSDK({
   resource: resourceFromAttributes({
-    [ATTR_SERVICE_NAME]: 'demobr-app',
+    [ATTR_SERVICE_NAME]: 'easydemo-app',
   }),
   traceExporter: new OTLPTraceExporter({
     url: 'http://otel-collector:4318/v1/traces',
@@ -415,12 +415,12 @@ DNS do domínio aponta para IP do VPS (registro A) OU via Cloudflare (proxy lara
 
 ```bash
 # Permitir só SSH, HTTP, HTTPS
-hcloud firewall create --name demobr-prod
-hcloud firewall add-rule --direction in --protocol tcp --port 22 --source-ips 0.0.0.0/0 --name demobr-prod
-hcloud firewall add-rule --direction in --protocol tcp --port 80 --source-ips 0.0.0.0/0 --name demobr-prod
-hcloud firewall add-rule --direction in --protocol tcp --port 443 --source-ips 0.0.0.0/0 --name demobr-prod
-hcloud firewall add-rule --direction in --protocol tcp --port 5432 --source-ips 127.0.0.0/8 --name demobr-prod
-hcloud server add-firewall --firewall demobr-prod --server myserver
+hcloud firewall create --name easydemo-prod
+hcloud firewall add-rule --direction in --protocol tcp --port 22 --source-ips 0.0.0.0/0 --name easydemo-prod
+hcloud firewall add-rule --direction in --protocol tcp --port 80 --source-ips 0.0.0.0/0 --name easydemo-prod
+hcloud firewall add-rule --direction in --protocol tcp --port 443 --source-ips 0.0.0.0/0 --name easydemo-prod
+hcloud firewall add-rule --direction in --protocol tcp --port 5432 --source-ips 127.0.0.0/8 --name easydemo-prod
+hcloud server add-firewall --firewall easydemo-prod --server myserver
 ```
 
 ### 7.2 SSH hardening
@@ -464,7 +464,7 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/demobr/app:${{ github.sha }}
+          tags: ghcr.io/easydemo/app:${{ github.sha }}
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
@@ -472,7 +472,7 @@ jobs:
           username: deploy
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /opt/demobr
+            cd /opt/easydemo
             docker compose pull
             docker compose up -d --no-deps app worker
             docker system prune -f

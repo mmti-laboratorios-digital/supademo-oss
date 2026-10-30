@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR precisa de um ORM TypeScript-first para Postgres 16 (versão canônica — ver ADR-013) que:
+EasyDemo precisa de um ORM TypeScript-first para Postgres 16 (versão canônica — ver ADR-013) que:
 
 - Gere tipos automaticamente a partir do schema do banco.
 - Produza SQL auditável e próximo do gerado manualmente (para SRE revisar).
@@ -120,6 +120,6 @@ export const workspaces = appSchema.table("workspaces", {
 - [Drizzle ORM docs](https://orm.drizzle.team/docs/overview)
 - [drizzle-zod](https://orm.drizzle.team/docs/zod)
 - [Drizzle + RLS guide](https://orm.drizzle.team/docs/rls)
-- RFC DemoBR §2.2 — escolha de ORM
+- RFC EasyDemo §2.2 — escolha de ORM
 - `research/tech/backend-stack.md` §3 — ORM comparison
 - `research/tech/database-model.md` — schema completo

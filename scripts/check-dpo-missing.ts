@@ -5,7 +5,7 @@
  * Verifica que NÃO restam placeholders relacionados ao Encarregado (DPO)
  * nos documentos jurídicos em `legal/*.md` e `legal/*.json`.
  *
- * Este script é BLOQUEADOR no CI: garante que a DemoBR não publique
+ * Este script é BLOQUEADOR no CI: garante que a EasyDemo não publique
  * documentos com nome de DPO inventado ou com placeholders visíveis.
  *
  * Placeholders a detectar (LGPD art. 41):
@@ -53,7 +53,7 @@ const LEGAL_DIR = join(ROOT, "legal");
  */
 const PLACEHOLDER_PATTERNS: Array<{ pattern: RegExp; label: string }> = [
   {
-    pattern: /placeholder@demobr\.com\.br/gi,
+    pattern: /placeholder@easydemo\.io/gi,
     label: "placeholder@easydemo.io",
   },
   {
@@ -257,7 +257,7 @@ async function main(): Promise<void> {
     console.error("pelo nome/e-mail real em todos os arquivos. Veja instruções em");
     console.error("  legal/DPO.md §10 e legal/DPO-PROCESS.md §3 (Fase 3).");
     console.error("");
-    console.error("Para localizar programaticamente: grep -rn 'placeholder@demobr' legal/");
+    console.error("Para localizar programaticamente: grep -rn 'placeholder@easydemo' legal/");
   }
 
   process.exit(report.ok ? 0 : 1);

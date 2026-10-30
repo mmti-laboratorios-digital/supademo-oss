@@ -1,6 +1,6 @@
 # PHASE 1 — Setup local, install, typecheck, dev mode, prod build
 
-**Repo:** `/home/dan/saas/supademo-oss` (DemoBR / Supademo OSS fork)
+**Repo:** `/home/dan/saas/supademo-oss` (EasyDemo / Supademo OSS fork)
 **Data:** 2026-10-18
 **Node:** v24.12.0 | **pnpm:** 9.12.0 | **Next:** 15.0.3 | **TS:** 5.6.3
 
@@ -58,8 +58,8 @@ Packages: +4
 ++++
 Progress: resolved 4, reused 4, downloaded 0, added 0, done
 
-. prepare$ node -e "console.log('DemoBR — pnpm install detectado')"
-. prepare: DemoBR — pnpm install detectado
+. prepare$ node -e "console.log('EasyDemo — pnpm install detectado')"
+. prepare: EasyDemo — pnpm install detectado
 . prepare: Done
 Done in 910ms
 ```

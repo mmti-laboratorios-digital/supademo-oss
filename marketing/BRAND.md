@@ -1,8 +1,8 @@
-# DemoBR — Brand Guidelines
+# EasyDemo — Brand Guidelines
 
 > **Status:** v1.0 — canônico para uso em landing, blog, redes sociais e e-mail.
 > **Data:** 2026-10-18.
-> **Origem:** alinhado ao nome `DemoBR` declarado em `README.md`, `docs/RFC-Brazilian-Supademo.md` e `specs/mvp-scope.json`.
+> **Origem:** alinhado ao nome `EasyDemo` declarado em `README.md`, `docs/RFC-Brazilian-Supademo.md` e `specs/mvp-scope.json`.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | | |
 |---|---|
-| **Nome oficial** | **DemoBR** (uma palavra, sem espaço; D + B maiúsculas). |
+| **Nome oficial** | **EasyDemo** (uma palavra, sem espaço; D + B maiúsculas). |
 | **Tagline principal (PT-BR)** | "Demos interativas pra vender mais, sem uma reunião a mais." |
 | **Tagline curta (PT-BR)** | "Demos interativas em PT-BR, com PIX e LGPD." |
 | **Tagline (EN)** | "Interactive demos, Brazilian-style." |
@@ -22,11 +22,11 @@
 
 | Nome | Prós | Contras |
 |---|---|---|
-| **DemoBR** (escolhido) | Claro, óbvio, domínios `.com.br` viáveis, coincide com a RFC | Genérico; pouca identidade visual além do "▶" |
+| **EasyDemo** (escolhido) | Claro, óbvio, domínios `.com.br` viáveis, coincide com a RFC | Genérico; pouca identidade visual além do "▶" |
 | **DêDemo** | PT-BR-nativo, brinca com "dê" (verbo + nome) | Mais difícil de SEOar; domínio `.com.br` possivelmente tomado |
 | **Passo a Passo** (PXP) | Didático, remete a onboarding | Não comunica venda; ambiguidade com "passo a passo de receita" |
 
-> **Recomendação:** manter **DemoBR**. Clareza > criatividade pra PMM brasileiro pesquisando "demo interativa".
+> **Recomendação:** manter **EasyDemo**. Clareza > criatividade pra PMM brasileiro pesquisando "demo interativa".
 
 ---
 
@@ -145,14 +145,14 @@
 
 ### 3.3 Logo — descrição conceitual
 
-> **Logo é símbolo "▶" + texto "DemoBR"** em wordmark.
+> **Logo é símbolo "▶" + texto "EasyDemo"** em wordmark.
 >
 > **Layout horizontal:**
 > ```
->  ▶ DemoBR
+>  ▶ EasyDemo
 > ```
 > - Símbolo ▶ em cor `--brand-primary` (#2B6CB0), mesmo tamanho da altura-x do texto.
-> - Texto "DemoBR" em Sora 700, cor `--neutral-900` (claro) / `--dark-text` (escuro).
+> - Texto "EasyDemo" em Sora 700, cor `--neutral-900` (claro) / `--dark-text` (escuro).
 > - Largura total: ~140px no app, escalável para qualquer tamanho sem perder legibilidade.
 >
 > **Layout compacto (favicon, mobile):**
@@ -163,15 +163,15 @@
 >
 > **Versão "Powered by":**
 > ```
->  Feito com ▶ DemoBR
+>  Feito com ▶ EasyDemo
 > ```
-> - Texto "Feito com" em Inter 13px 500 cinza (`--neutral-700`), símbolo ▶ primary, "DemoBR" em Sora 600 13px primary.
+> - Texto "Feito com" em Inter 13px 500 cinza (`--neutral-700`), símbolo ▶ primary, "EasyDemo" em Sora 600 13px primary.
 > - Aparece em demos Free no canto inferior direito, link para `easydemo.io`.
 >
 > **Uso incorreto:**
 > - ❌ Cor de gradiente no ▶ (vira Apple Music).
 > - ❌ ▶ em cor accent (laranja) — confunde com "play" genérico.
-> - ❌ Texto "DEMOBR" em caixa-alta (perde a brand).
+> - ❌ Texto "EASYDEMO" em caixa-alta (perde a brand).
 > - ❌ ▶ preenchido com imagem (perde o "vector-ness").
 >
 > **Versão ASCII completa para mockups:**
@@ -182,7 +182,7 @@
 >   █ █▄█ █ █  █   ▀
 >   █▄▄▄▄▄█ █  █▄▄▄▀
 >
->   ▶ DemoBR
+>   ▶ EasyDemo
 >   Demos interativas em PT-BR.
 > ```
 >
@@ -234,7 +234,7 @@ Sistema de **4 ou 8 pontos** (preferir 8).
 ### 4.4 Fotografia / ilustração
 
 - **Pessoas:** brasileiras, em ambientes de trabalho reais (escritórios de startup, coworking, home office). Evitar stock photos de "pessoas olhando pra tela genérica".
-- **Screenshots:** capturas reais do produto DemoBR, com dados plausíveis (empresa fictícia "Empresa XYZ S.A."), com ou sem blur estratégico.
+- **Screenshots:** capturas reais do produto EasyDemo, com dados plausíveis (empresa fictícia "Empresa XYZ S.A."), com ou sem blur estratégico.
 - **Ilustrações:** estilo minimalista, traço fino, paleta `--brand-primary` + `--neutral-300`. Vetor, evitar ilustração "fofinha" (mascote animal, etc.).
 
 ### 4.5 Acessibilidade
@@ -264,7 +264,7 @@ Sistema de **4 ou 8 pontos** (preferir 8).
 - [ ] Logo SVG em 3 tamanhos (32, 64, 256px)
 - [ ] Logo em fundo claro + escuro
 - [ ] Favicon 32×32 + apple-touch-icon 180×180
-- [ ] OG image padrão (1200×630, primary background, "▶ DemoBR" centralizado)
+- [ ] OG image padrão (1200×630, primary background, "▶ EasyDemo" centralizado)
 - [ ] Screenshot hero do produto (1200×800)
 - [ ] Screenshot do player rodando (800×500)
 - [ ] Screenshot do editor com 3 steps (1200×800)

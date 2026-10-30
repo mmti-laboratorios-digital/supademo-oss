@@ -1,4 +1,4 @@
-# Mapa de Decisões Arquiteturais — DemoBR
+# Mapa de Decisões Arquiteturais — EasyDemo
 
 > Visão de 1 página com **decisão principal** vs **alternativa rejeitada** vs **link para ADR**. Use este documento como índice executivo.
 
@@ -93,5 +93,5 @@ PostHog Cloud ─────────┘── product analytics
 
 ---
 
-**Mantido por:** Tech lead DemoBR.
+**Mantido por:** Tech lead EasyDemo.
 **Última atualização:** 2026-10-18.

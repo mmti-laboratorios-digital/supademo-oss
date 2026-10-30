@@ -1,7 +1,7 @@
 # POC-4 — Tamanho real do bundle `@easydemo/player`
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 **Status**: ✅ CONCLUÍDA
 **Script**: [`apps/web/scripts/poc-player-bundle-size.ts`](../../apps/web/scripts/poc-player-bundle-size.ts)
 
@@ -75,7 +75,7 @@ Total `dist/` (incluindo sourcemaps): **32.9 KB**.
 
 | player | gzip JS+CSS |
 |---|---|
-| **DemoBR player (esta POC)** | **~2.3 KB** |
+| **EasyDemo player (esta POC)** | **~2.3 KB** |
 | Storylane embed (estimativa público) | ~80-120 KB |
 | Supademo embed (estimativa) | ~50 KB |
 | Arcade embed | ~150 KB |

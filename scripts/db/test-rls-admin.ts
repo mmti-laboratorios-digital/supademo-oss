@@ -26,8 +26,8 @@
  *   2 → erro de configuração / conexão
  *
  * Uso:
- *   ADMIN_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
- *   DATABASE_URL=postgres://app_user:demobr@127.0.0.1:55432/supademo \
+ *   ADMIN_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
+ *   DATABASE_URL=postgres://app_user:easydemo@127.0.0.1:55432/supademo \
  *     tsx scripts/db/test-rls-admin.ts
  */
 import postgres from "postgres";
@@ -35,9 +35,9 @@ import postgres from "postgres";
 const ADMIN_URL =
   process.env.ADMIN_URL ??
   process.env.DIRECT_URL ??
-  "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
+  "postgres://app_owner:easydemo@127.0.0.1:55432/supademo";
 const RUNTIME_URL =
-  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/supademo";
 
 function fail(msg: string, code = 1): never {
   console.error(`❌ ${msg}`);

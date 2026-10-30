@@ -1,5 +1,5 @@
 # =============================================================================
-# DemoBR — Deploy workflow
+# EasyDemo — Deploy workflow
 # Triggers: push em main, manual dispatch
 # Estratégia: SSH no Hetzner, pull imagens GHCR, docker compose up,
 #             health-check; rollback automático se degradar por 60s.
@@ -32,8 +32,8 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_WEB:    ghcr.io/${{ github.repository_owner }}/demobr-web
-  IMAGE_WORKER: ghcr.io/${{ github.repository_owner }}/demobr-worker
+  IMAGE_WEB:    ghcr.io/${{ github.repository_owner }}/easydemo-web
+  IMAGE_WORKER: ghcr.io/${{ github.repository_owner }}/easydemo-worker
 
 jobs:
   deploy:
@@ -121,7 +121,7 @@ jobs:
           # Usa o script health-check.sh rodando no servidor (que tem .env local)
           ssh "$DEPLOY_HOST" bash -s <<'EOF'
             set -euo pipefail
-            cd /opt/demobr
+            cd /opt/easydemo
             if bash scripts/health-check.sh; then
               echo "ok=true" >>"$GITHUB_OUTPUT"
             else
@@ -146,9 +146,9 @@ jobs:
           ssh "$DEPLOY_HOST" bash -s <<EOF
             set -euo pipefail
             cd "${DEPLOY_PATH}"
-            PREV="\$(docker inspect --format='{{ index .Config.Labels \"demobr.previous_tag\" }}' demobr-web-1 || true)"
+            PREV="\$(docker inspect --format='{{ index .Config.Labels \"easydemo.previous_tag\" }}' easydemo-web-1 || true)"
             if [[ -z "\$PREV" ]]; then
-              PREV="\$(docker ps --format '{{.Image}}' --filter name=demobr-web | head -n1 | awk -F: '{print \$2}')"
+              PREV="\$(docker ps --format '{{.Image}}' --filter name=easydemo-web | head -n1 | awk -F: '{print \$2}')"
             fi
             if [[ -z "\$PREV" ]]; then
               echo "Sem tag anterior — falha crítica."

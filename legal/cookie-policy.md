@@ -1,7 +1,7 @@
-# Política de Cookies — DemoBR
+# Política de Cookies — EasyDemo
 
 > Este documento descreve os cookies e tecnologias similares usadas
-> pela DemoBR no player público, no painel admin e nos sites de marketing.
+> pela EasyDemo no player público, no painel admin e nos sites de marketing.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
 > advogado antes de publicação.**
@@ -33,7 +33,7 @@ ou **de terceiros** (definidos por outros domínios).
 | **Preferências** (idioma, tema) | ❌ Não | Limpar cookies do navegador |
 | **Marketing** | ❌ **Não usamos** | — |
 
-> A DemoBR **não usa cookies de publicidade comportamental** de
+> A EasyDemo **não usa cookies de publicidade comportamental** de
 > terceiros (Meta Pixel, Google Ads, LinkedIn Insight, etc.).
 
 ---
@@ -60,7 +60,7 @@ ou **de terceiros** (definidos por outros domínios).
 | `_pk_ses.*` | `app.easydemo.io` | 30 min | Sessão ativa de analytics | 1ª parte |
 | `ph_phc_*` | `app.easydemo.io` | 1 ano | Identificador PostHog (LocalStorage) | 1ª parte |
 
-> ⚠️ Estes cookies são **definidos pela DemoBR para o nosso próprio
+> ⚠️ Estes cookies são **definidos pela EasyDemo para o nosso próprio
 > analytics**. Não compartilhamos com terceiros. O opt-out via banner
 > impede o seu registro.
 
@@ -81,7 +81,7 @@ ou **de terceiros** (definidos por outros domínios).
 Quando você incorpora um demo via **iframe de terceiros** (ex.: numa
 página da nossa landing page em WordPress), o site hospedeiro pode
 definir seus próprios cookies. Esses cookies são controlados pelo
-**site hospedeiro**, não pela DemoBR.
+**site hospedeiro**, não pela EasyDemo.
 
 ---
 
@@ -119,7 +119,7 @@ de analytics, mas os mesmos são descartados ao fim da sessão.
 
 ### 4.4 DNT / GPC
 
-A DemoBR respeita os sinais **DNT** (Do Not Track) e **GPC** (Global
+A EasyDemo respeita os sinais **DNT** (Do Not Track) e **GPC** (Global
 Privacy Control) enviados pelo seu navegador — se presentes,
 desabilitamos analytics automaticamente, sem precisar do banner.
 
@@ -138,7 +138,7 @@ de **base legal específica**:
 | Preferências | Conforto do usuário (idioma, tema) | (a) Consentimento (art. 7º, I) |
 
 > **Paralelo GDPR**: a Diretiva ePrivacy (2002/58/CE) e o GDPR
-> art. 5º, 3º regulam o mesmo tema. O banner da DemoBR é compatível
+> art. 5º, 3º regulam o mesmo tema. O banner da EasyDemo é compatível
 > com os requisitos da **ePrivacy Directive** e dos princípios do
 > GDPR sobre consentimento (art. 7º GDPR).
 
@@ -198,5 +198,5 @@ Quando alterarmos esta política:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

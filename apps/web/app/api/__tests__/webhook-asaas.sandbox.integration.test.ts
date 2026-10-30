@@ -33,7 +33,7 @@ import { Client } from "pg";
  *
  * Pré-requisitos:
  *   - MOCK_ASAAS_URL disponível (vitest.globalSetup.ts injeta)
- *   - Container postgres supademo-test em 55432 (já rodando em dev)
+ *   - Container postgres easydemo-test em 55432 (já rodando em dev)
  */
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -107,7 +107,7 @@ vi.mock("@/lib/asaas", async () => {
 // DB helpers
 // ---------------------------------------------------------------------------
 const APP_USER_URL =
-  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
 const APP_OWNER_URL = APP_USER_URL.replace("app_user", "app_owner");
 
 let adminClient: Client;

@@ -15,7 +15,7 @@ export type Session = {
   startedAt: number;
 };
 
-const KEY = "demobr.session";
+const KEY = "easydemo.session";
 
 export async function getSession(): Promise<Session | null> {
   const raw = await chrome.storage.session.get(KEY);

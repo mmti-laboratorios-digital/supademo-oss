@@ -6,13 +6,13 @@ import { Client } from "pg";
  * Testes de INTEGRAÇÃO do endpoint /api/v1/demos — usa Postgres real
  * mas mocka Clerk auth (requireAuth) para evitar dependência externa.
  *
- * Pré-requisito: container docker supademo-test + schema aplicado.
+ * Pré-requisito: container docker easydemo-test + schema aplicado.
  */
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const APP_OWNER_URL =
   process.env.DATABASE_URL?.replace("app_user", "app_owner") ??
-  "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
+  "postgres://app_owner:easydemo@127.0.0.1:55432/easydemo";
 
 // Mock Clerk auth antes de importar o route
 const mockRequireAuth = vi.fn();
@@ -23,7 +23,7 @@ vi.mock("@/lib/auth", async () => {
 });
 
 const APP_USER_URL =
-  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
 
 let adminClient: Client;
 let workspaceAId: string;

@@ -7,7 +7,7 @@ export type ConsentBannerProps = {
   locale: "pt-BR" | "en";
 };
 
-const STORAGE_KEY = "demobr.consent";
+const STORAGE_KEY = "easydemo.consent";
 
 export function ConsentBanner({ locale }: ConsentBannerProps) {
   const [decision, setDecision] = React.useState<"accepted" | "declined" | null>(null);

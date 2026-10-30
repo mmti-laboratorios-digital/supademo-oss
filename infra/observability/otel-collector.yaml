@@ -19,7 +19,7 @@ processors:
   resource:
     attributes:
       - key: service.namespace
-        value: demobr
+        value: easydemo
         action: upsert
 
 exporters:

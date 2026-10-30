@@ -13,9 +13,9 @@ err()  { printf "${RED}[err]${NC} %s\n" "$*" >&2; }
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-# Confirma se estamos mesmo num projeto DemoBR
+# Confirma se estamos mesmo num projeto EasyDemo
 if [[ ! -f "pnpm-workspace.yaml" ]]; then
-  err "Não parece ser um projeto DemoBR (pnpm-workspace.yaml não encontrado)."
+  err "Não parece ser um projeto EasyDemo (pnpm-workspace.yaml não encontrado)."
   exit 1
 fi
 
@@ -37,12 +37,12 @@ else
 fi
 
 # Pergunta se quer apagar build cache
-printf "\n${YELLOW}Apagar imagens do projeto (demobr-*) e cache?${NC} [s/N]: "
+printf "\n${YELLOW}Apagar imagens do projeto (easydemo-*) e cache?${NC} [s/N]: "
 read -r ANSWER2
 ANSWER2="$(printf '%s' "$ANSWER2" | tr '[:upper:]' '[:lower:]')"
 if [[ "$ANSWER2" == "s" || "$ANSWER2" == "sim" || "$ANSWER2" == "y" || "$ANSWER2" == "yes" ]]; then
   docker images --format '{{.Repository}}:{{.Tag}} {{.ID}}' \
-    | awk '/^demobr-/{print $2}' \
+    | awk '/^easydemo-/{print $2}' \
     | xargs -r docker rmi -f || true
   docker builder prune -f || true
   ok "Imagens e cache limpos."

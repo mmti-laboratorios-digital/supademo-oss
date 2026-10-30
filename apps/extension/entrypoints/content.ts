@@ -25,7 +25,7 @@ let active = false;
 function ensureOverlay(): void {
   if (overlayHost) return;
   overlayHost = document.createElement("div");
-  overlayHost.id = "demobr-capture-overlay";
+  overlayHost.id = "easydemo-capture-overlay";
   overlayHost.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:2147483646;";
   document.documentElement.appendChild(overlayHost);
 }
@@ -58,7 +58,7 @@ function deactivate(): void {
 
 async function onClick(e: MouseEvent): Promise<void> {
   const target = e.target as HTMLElement | null;
-  if (!target || target.closest("#demobr-capture-overlay")) return;
+  if (!target || target.closest("#easydemo-capture-overlay")) return;
 
   e.preventDefault();
   e.stopPropagation();

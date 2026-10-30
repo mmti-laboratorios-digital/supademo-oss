@@ -67,7 +67,7 @@ export default async function PricingDetailPage() {
           <h2 className="text-xl font-bold">Se o Pro não for pra você, devolvemos seu dinheiro.</h2>
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
-          Você assina, testa por até {guaranteeDays} dias, e se decidir que DemoBR não é o que
+          Você assina, testa por até {guaranteeDays} dias, e se decidir que EasyDemo não é o que
           precisava, é só clicar em &quot;Cancelar e reembolsar&quot; na sua área de billing. Sem
           formulário, sem ligação, sem letra miúda. O estorno cai em até 5 dias úteis no mesmo
           método de pagamento.

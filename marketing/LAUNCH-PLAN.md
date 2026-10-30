@@ -1,4 +1,4 @@
-# Plano de Lançamento Público — DemoBR
+# Plano de Lançamento Público — EasyDemo
 
 > **Data:** 2026-10-18.
 > **Premissa:** MVP pronto em 24 semanas (RFC §0); 2 semanas finais reservadas para launch.
@@ -38,7 +38,7 @@
 | 9 | Email transacional Resend configurado | Back-end | T-7 | 5 templates: welcome, upgrade, billing failed, reactivation, magic link |
 | 10 | LGPD banner + DSR endpoint ativo | Back-end + jurídico | T-7 | `/api/dsr?token=` retorna leads em JSON |
 | 11 | Press kit pronto (logo, screenshots, manifesto) | Marketing | T-7 | ZIP com 4 PNG + 1 SVG + README.md |
-| 12 | Manifesto (1 página "Por que DemoBR") publicado em `/sobre` | Founder | T-7 | Texto revisado, link compartilhável |
+| 12 | Manifesto (1 página "Por que EasyDemo") publicado em `/sobre` | Founder | T-7 | Texto revisado, link compartilhável |
 | 13 | Extensão Chrome MV3 enviada para Chrome Web Store review | Founder | T-7 | Status "In review" |
 | 14 | Domínio `easydemo.io` registrado e DNS apontado | Founder | T-9 | Cloudflare proxy ativo |
 | 15 | Sentry + Better Stack capturando erros | Back-end | T-7 | Alerta configurado |
@@ -54,18 +54,18 @@
 | **Demo 2 — Imobiliária** | Corretor | 6–8 | WhatsApp com texto "Tour presencial?" | Vertical com tração (Maestro ABM) |
 | **Demo 3 — Edtech** | CS / Treinamento | 7–9 | "Acessar curso" + WhatsApp dúvida | Mostra uso não-vendas (onboarding) |
 
-> Cada demo: gravada com a própria extensão DemoBR; **dogfooding obrigatório** antes do launch.
+> Cada demo: gravada com a própria extensão EasyDemo; **dogfooding obrigatório** antes do launch.
 
 ### 1.3 Press kit (estrutura)
 
 ```
 press-kit/
-├── README.md                          # como citar DemoBR em matéria
+├── README.md                          # como citar EasyDemo em matéria
 ├── logo/
-│   ├── demobr-logo-light.svg         # fundo claro
-│   ├── demobr-logo-dark.svg          # fundo escuro
-│   ├── demobr-symbol-light.svg       # só símbolo
-│   └── demobr-symbol-dark.svg
+│   ├── easydemo-logo-light.svg         # fundo claro
+│   ├── easydemo-logo-dark.svg          # fundo escuro
+│   ├── easydemo-symbol-light.svg       # só símbolo
+│   └── easydemo-symbol-dark.svg
 ├── screenshots/
 │   ├── home-hero.png                 # 1200×800
 │   ├── editor.png                    # 1200×800
@@ -78,11 +78,11 @@ press-kit/
 
 ### 1.4 Manifesto (1 página)
 
-> **Por que DemoBR existe.**
+> **Por que EasyDemo existe.**
 >
 > Sou PMM. Gastava 4h por demo. Lead chegava frio na call. Não fechava. Procurava uma ferramenta pra gravar minha demo uma vez e enviar pra sempre. Supademo, Storylane, Navattic — todos cobravam em dólar, sem Pix, sem suporte em PT-BR, sem NF-e. GuiaFlow era genial, mas exigia minha chave de OpenAI.
 >
-> Então construí **DemoBR**.
+> Então construí **EasyDemo**.
 >
 > - **R$ 49/mês Pro**, não $50. PIX/boleto/cartão. NF-e emitida.
 > - **Suporte em PT-BR**, e-mails em PT-BR, DPO em PT-BR.
@@ -90,9 +90,9 @@ press-kit/
 > - **IA inclusa**, sem precisar de chave de API.
 > - **CRM BR nativo**: HubSpot BR, RD Station, Kommo. Lead vira contato sem Zapier.
 >
-> Quem usa DemoBR economiza 4h por semana e fecha 30% mais leads. Esse é o único número que importa.
+> Quem usa EasyDemo economiza 4h por semana e fecha 30% mais leads. Esse é o único número que importa.
 >
-> — Founder, DemoBR
+> — Founder, EasyDemo
 
 ---
 
@@ -119,11 +119,11 @@ press-kit/
 ### 2.2 Script de contato early access (10 PMMs)
 
 > **LinkedIn DM:**
-> "Oi [nome], vi seu post sobre [tema específico]. Estou lançando o DemoBR semana que vem — ferramenta de demo interativa BR-first, com PIX e LGPD. Posso te dar acesso antecipado Pro por 3 meses em troca de feedback honesto? 30 min de call na semana do lançamento. Topa?"
+> "Oi [nome], vi seu post sobre [tema específico]. Estou lançando o EasyDemo semana que vem — ferramenta de demo interativa BR-first, com PIX e LGPD. Posso te dar acesso antecipado Pro por 3 meses em troca de feedback honesto? 30 min de call na semana do lançamento. Topa?"
 >
 > **E-mail:**
 > Subject: Demo interativa pra PMM BR, com PIX (acesso antecipado)
-> Body: 200 palavras explicando problema (4h/demo), solução (DemoBR), oferta (3 meses Pro grátis), CTA (15min de call).
+> Body: 200 palavras explicando problema (4h/demo), solução (EasyDemo), oferta (3 meses Pro grátis), CTA (15min de call).
 
 ### 2.3 Métricas de validação (T-1)
 
@@ -145,11 +145,11 @@ press-kit/
 
 | Hora (BRT) | Ação | Owner |
 |---|---|---|
-| 06:00 | Tweet agendado: "DemoBR is live on @ProductHunt today 🚀" | Founder |
-| 07:00 | LinkedIn post: "3 anos construindo isso. DemoBR no ar." | Founder |
+| 06:00 | Tweet agendado: "EasyDemo is live on @ProductHunt today 🚀" | Founder |
+| 07:00 | LinkedIn post: "3 anos construindo isso. EasyDemo no ar." | Founder |
 | 08:00 | Responder DMs/LinkedIn (resposta em < 1h) | Founder |
 | 09:00 | **PH live** — postar link, responder comentários por 8h seguidas | Founder |
-| 09:30 | Email waitlist: "DemoBR is live. 30% off no Pro até sexta." | Marketing |
+| 09:30 | Email waitlist: "EasyDemo is live. 30% off no Pro até sexta." | Marketing |
 | 10:00 | Post no Instagram + story | Marketing |
 | 11:00 | Slack/Discord RevOps BR: "Estamos ao vivo" | Founder |
 | 12:00 | **YouTube Live** (60 min): demo completa + Q&A | Founder |
@@ -162,14 +162,14 @@ press-kit/
 
 ### 3.2 Product Hunt — checklist do post
 
-- **Nome:** "DemoBR"
+- **Nome:** "EasyDemo"
 - **Tagline:** "Demos interativas com PIX, NF-e e LGPD. Em PT-BR."
-- **Thumbnail:** 240×240, símbolo ▶ + "DemoBR", fundo `--brand-primary`
+- **Thumbnail:** 240×240, símbolo ▶ + "EasyDemo", fundo `--brand-primary`
 - **Descrição:** 280 chars, link para `/`, GIF de 10s gravado em `app.easydemo.io/d/exemplo-saas-b2b`
 - **Topics:** SaaS, Marketing, Sales, Product Demos
 - **Makers:** Founder (perfil público + LinkedIn link)
 - **Comentário do maker:** "Why I built this" — 3 parágrafos, história pessoal, link manifesto
-- **Reservas:** Coletar via `calendly.com/demobr/launch` antes do T-0
+- **Reservas:** Coletar via `calendly.com/easydemo/launch` antes do T-0
 - **Meta:** Top 10 do dia (realista para SaaS B2B pequeno). Top 5 seria ótimo; top 1 improvável.
 
 ### 3.3 Posts de launch (copy completa)
@@ -180,7 +180,7 @@ press-kit/
 >
 > Hoje é o dia.
 >
-> **DemoBR** está no ar.
+> **EasyDemo** está no ar.
 >
 > Demos interativas do seu produto. Em PT-BR. Com PIX. Com NF-e. Com LGPD by design.
 >
@@ -203,11 +203,11 @@ press-kit/
 
 #### E-mail waitlist (09:30 BRT)
 
-> Subject: DemoBR está no ar — 30% off no Pro até sexta
+> Subject: EasyDemo está no ar — 30% off no Pro até sexta
 >
 > Oi [nome],
 >
-> Você entrou na lista porque pediu pra ser avisado quando o DemoBR fosse lançado.
+> Você entrou na lista porque pediu pra ser avisado quando o EasyDemo fosse lançado.
 >
 > Hoje é o dia.
 >
@@ -218,7 +218,7 @@ press-kit/
 >
 > Em 5 minutos você cria sua primeira demo interativa, sem cartão.
 >
-> — Founder, DemoBR
+> — Founder, EasyDemo
 
 #### YouTube Live — roteiro (60 min)
 
@@ -257,17 +257,17 @@ press-kit/
 | W1 | "Como SaaS B2B PME reduziu ciclo de venda em 30% com demo interativa" | PMM de cliente real (ou fictício até ter) |
 | W2 | "Onboarding assíncrono: 500 alunos em horas, não semanas" | Head de CS de edtech BR |
 | W3 | "Tour de apartamento à distância: case de imobiliária" | Corretor / diretor de imob |
-| W4 | "PRD to demo: como PM usa DemoBR antes da call" | PM de SaaS mid-market |
+| W4 | "PRD to demo: como PM usa EasyDemo antes da call" | PM de SaaS mid-market |
 
 ### 4.3 Compare pages (5 totais)
 
 | Quando | Página |
 |---|---|
-| W1 | `/comparar/demobr-vs-supademo` |
-| W1 | `/comparar/demobr-vs-guiaflow` |
-| W2 | `/comparar/demobr-vs-navattic` |
-| W3 | `/comparar/demobr-vs-arcade` |
-| W4 | `/comparar/demobr-vs-storylane` |
+| W1 | `/comparar/easydemo-vs-supademo` |
+| W1 | `/comparar/easydemo-vs-guiaflow` |
+| W2 | `/comparar/easydemo-vs-navattic` |
+| W3 | `/comparar/easydemo-vs-arcade` |
+| W4 | `/comparar/easydemo-vs-storylane` |
 
 ### 4.4 Blog posts (3 totais)
 
@@ -280,7 +280,7 @@ press-kit/
 ### 4.5 Guest posts (2)
 
 - **SaaS Break** (https://saasbreak.com.br) — artigo "Por que todo PMM brasileiro precisa de demo interativa em 2027"
-- **Gralio** (https://gralio.com.br) — comparativo "DemoBR vs Supademo: quem ganha no Brasil?"
+- **Gralio** (https://gralio.com.br) — comparativo "EasyDemo vs Supademo: quem ganha no Brasil?"
 
 > Templates: `TEMPLATES/` (reutilizar voice/tom de `BRAND.md`).
 
@@ -338,7 +338,7 @@ press-kit/
 | **Product Hunt trair (sem upvotes)** | Média | Média | Ter 30 "hunters" (amigos/contatos) prontos pra upvotar na hora H |
 | **Servidor cair no dia do launch** | Baixa | Alta | Hetzner snapshot T-1; Uptime Kuma alerta < 5min; backup VPS pré-aquecido |
 | **LGPD questionado por matéria** | Baixa | Alta | DPO público + link `/lgpd` com política completa + casos TOTVS/Omie como referência |
-| **Getdemo reagir (post sobre DemoBR)** | Média | Baixa | Responder com fatos (preço, PIX, LGPD); não entrar em flame war |
+| **Getdemo reagir (post sobre EasyDemo)** | Média | Baixa | Responder com fatos (preço, PIX, LGPD); não entrar em flame war |
 | **Bug crítico na extensão após launch** | Média | Alta | Update rápido via Chrome Web Store (revisão < 24h); backup FAQ |
 
 ---

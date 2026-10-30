@@ -1,7 +1,7 @@
-# Termos de Uso — DemoBR
+# Termos de Uso — EasyDemo
 
-> Estes Termos de Uso regulam a relação entre a **DemoBR LTDA** e você,
-> pessoa que cria ou utiliza uma conta no produto DemoBR.
+> Estes Termos de Uso regulam a relação entre a **EasyDemo LTDA** e você,
+> pessoa que cria ou utiliza uma conta no produto EasyDemo.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
 > advogado antes de publicação.**
@@ -11,11 +11,11 @@
 ## 1. Aceitação dos Termos
 
 Ao criar uma conta, acessar o painel `app.easydemo.io` ou usar
-qualquer recurso do DemoBR, você declara que **leu, compreendeu e
+qualquer recurso do EasyDemo, você declara que **leu, compreendeu e
 concorda** com estes Termos e com a
 [Política de Privacidade](./privacy-policy.md).
 
-Se você estiver usando o DemoBR **em nome de uma empresa**, declara
+Se você estiver usando o EasyDemo **em nome de uma empresa**, declara
 ter autorização para aceitar estes Termos em nome dela, vinculando-a.
 
 Se você **não concorda** com qualquer cláusula, não deve usar o serviço.
@@ -24,7 +24,7 @@ Se você **não concorda** com qualquer cláusula, não deve usar o serviço.
 
 ## 2. Elegibilidade
 
-Para usar o DemoBR, você precisa:
+Para usar o EasyDemo, você precisa:
 
 - Ter **18 anos completos** ou mais.
 - Ter **capacidade civil plena** (não estar sob interdição).
@@ -56,10 +56,10 @@ Você é responsável por:
 - Manter sua **senha em sigilo**.
 - **Não compartilhar** credenciais com terceiros.
 - **Ativar autenticação multifator (MFA)** quando disponível.
-- Notificar a DemoBR imediatamente em `security@easydemo.io` caso
+- Notificar a EasyDemo imediatamente em `security@easydemo.io` caso
   suspeite de acesso não autorizado.
 
-A DemoBR **não se responsabiliza** por danos decorrentes de uso não
+A EasyDemo **não se responsabiliza** por danos decorrentes de uso não
 autorizado da sua conta causado por falha sua em proteger suas
 credenciais.
 
@@ -95,12 +95,12 @@ Processamento via **Asaas Gestão Financeira** (CNPJ próprio):
 - **Boleto bancário**: compensação em 1–3 dias úteis.
 - **Cartão de crédito**: Visa, Mastercard, Elo, Hipercard, Amex.
 
-A DemoBR **não armazena** dados de cartão diretamente; o token é
+A EasyDemo **não armazena** dados de cartão diretamente; o token é
 gerenciado pelo gateway Asaas.
 
 ### 4.3 NF-e
 
-A DemoBR emite **Nota Fiscal eletrônica (NF-e)** automaticamente para
+A EasyDemo emite **Nota Fiscal eletrônica (NF-e)** automaticamente para
 toda cobrança. A NF-e é enviada por e-mail e fica disponível no painel.
 
 ### 4.4 Cobrança recorrente
@@ -112,7 +112,7 @@ toda cobrança. A NF-e é enviada por e-mail e fica disponível no painel.
 
 ### 4.5 Alterações de preço
 
-A DemoBR pode alterar preços com aviso prévio de **30 dias**. Para
+A EasyDemo pode alterar preços com aviso prévio de **30 dias**. Para
 assinaturas vigentes:
 - Se for **aumento**, você pode cancelar e receber **pro-rata** até
   o início do novo ciclo.
@@ -143,7 +143,7 @@ tráfego (Sábados 02:00–06:00 BRT).
 
 ### 5.3 Limitação de responsabilidade por uptime
 
-A DemoBR **não garante** que o serviço estará ininterrupto, livre de
+A EasyDemo **não garante** que o serviço estará ininterrupto, livre de
 erros ou imune a eventos de força maior (ver §9).
 
 ---
@@ -191,7 +191,7 @@ Você concorda em **NÃO**:
 - Hospedar conteúdo que viole a LGPD (ex.: dado sensível coletado sem
   consentimento específico, art. 11º).
 
-A DemoBR pode **suspender ou encerrar** contas que violem estas regras
+A EasyDemo pode **suspender ou encerrar** contas que violem estas regras
 (ver §10).
 
 ---
@@ -201,7 +201,7 @@ A DemoBR pode **suspender ou encerrar** contas que violem estas regras
 ### 8.1 O que você cria é SEU
 
 Os **demos, screenshots, textos, áudios e outros conteúdos** que você
-cria e armazena na DemoBR continuam sendo de **sua propriedade**.
+cria e armazena na EasyDemo continuam sendo de **sua propriedade**.
 
 Você nos concede uma **licença mundial, não exclusiva, gratuita e
 sublicenciável** para:
@@ -214,15 +214,15 @@ sublicenciável** para:
 ### 8.2 O que é nosso
 
 O **software, design, marca, código, modelos de IA proprietários**
-usados pela DemoBR continuam sendo **nossa propriedade**. Você recebe
+usados pela EasyDemo continuam sendo **nossa propriedade**. Você recebe
 apenas uma **licença de uso** durante a vigência do contrato.
 
-A marca "DemoBR" e o logo são **marcas registradas** da DemoBR LTDA.
+A marca "EasyDemo" e o logo são **marcas registradas** da EasyDemo LTDA.
 Você não pode usar nossas marcas sem autorização prévia por escrito.
 
 ### 8.3 DMCA / copyright claims
 
-Se você acredita que conteúdo hospedado na DemoBR **viola seus direitos
+Se você acredita que conteúdo hospedado na EasyDemo **viola seus direitos
 autorais**, envie uma notificação (DMCA-style) para
 `dmca@easydemo.io` contendo:
 
@@ -246,10 +246,10 @@ Atuamos em **5 dias úteis**. Ver §10 (Suspensão).
 
 Até o limite máximo permitido por lei:
 
-- A DemoBR **não se responsabiliza** por danos indiretos, lucros
+- A EasyDemo **não se responsabiliza** por danos indiretos, lucros
   cessantes, perda de dados decorrentes de uso indevido, força maior,
   ou falha de terceiros (internet, subprocessadores).
-- A responsabilidade total agregada da DemoBR está limitada ao **valor
+- A responsabilidade total agregada da EasyDemo está limitada ao **valor
   efetivamente pago por você nos 12 meses anteriores**.
 - Nada nesta cláusula exclui responsabilidade por dolo ou culpa grave
   (Art. 51, I do CDC).
@@ -262,7 +262,7 @@ Até o limite máximo permitido por lei:
 
 ## 10. Suspensão e encerramento
 
-### 10.1 Suspensão pela DemoBR
+### 10.1 Suspensão pela EasyDemo
 
 Podemos **suspender** sua conta temporariamente se:
 
@@ -304,7 +304,7 @@ Quando alterarmos estes Termos:
 ## 12. Disposições gerais
 
 - Estes Termos e a Política de Privacidade constituem o **acordo
-  integral** entre você e a DemoBR.
+  integral** entre você e a EasyDemo.
 - Se uma cláusula for declarada inválida, as demais permanecem em vigor.
 - A tolerância com uma parte não implica renúncia de direitos.
 - Você **não pode transferir** estes Termos a terceiros sem nosso
@@ -337,5 +337,5 @@ direito do consumidor de optar pelo foro de seu domicílio
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

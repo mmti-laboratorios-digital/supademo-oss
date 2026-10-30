@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR é um produto **pt-BR first** por estratégia (mercado-alvo é Brasil — ver RFC §1, §6). Mas:
+EasyDemo é um produto **pt-BR first** por estratégia (mercado-alvo é Brasil — ver RFC §1, §6). Mas:
 
 - **Time** fala PT/EN misturados; commits/PRs/reports técnicos em EN é saudável para atrair contribuidores internacionais.
 - **Alguns leads podem ser da América Latina** (Argentina, México) onde o produto pode fazer sentido como side-market.
@@ -146,5 +146,5 @@ Implementação mínima:
 - [FormatJS / react-intl](https://formatjs.io/docs/react-intl)
 - [Lingui](https://lingui.dev/)
 - [Next.js i18n](https://nextjs.org/docs/app/building-your-application/routing/internationalization)
-- RFC DemoBR §2.2 — locale
+- RFC EasyDemo §2.2 — locale
 - `research/tech/public-player.md` — i18n no player

@@ -1,6 +1,6 @@
-# Política de Privacidade — DemoBR
+# Política de Privacidade — EasyDemo
 
-> Esta política descreve como a **DemoBR LTDA** coleta, usa, compartilha
+> Esta política descreve como a **EasyDemo LTDA** coleta, usa, compartilha
 > e protege os dados pessoais dos usuários do nosso serviço de demos
 > interativas (`app.easydemo.io` e players públicos `app.easydemo.io/d/[slug]`).
 >
@@ -11,11 +11,11 @@
 
 ## 1. Quem somos
 
-A **DemoBR LTDA** ("DemoBR", "nós", "nosso") é a pessoa jurídica
+A **EasyDemo LTDA** ("EasyDemo", "nós", "nosso") é a pessoa jurídica
 controladora — ou operadora, conforme o caso — dos dados pessoais
 descritos nesta política.
 
-- **Razão social**: DemoBR LTDA
+- **Razão social**: EasyDemo LTDA
 - **CNPJ**: XX.XXX.XXX/0001-XX (a preencher)
 - **Endereço**: Rua Exemplo, nº 123, sala 45, Bairro Centro,
   Cidade/Estado, CEP XXXXX-XXX (a preencher)
@@ -26,13 +26,13 @@ descritos nesta política.
 > ⚠️ **Placeholder**: preencha CNPJ e endereço reais a partir do
 > contrato social antes de publicar. O e-mail
 > `placeholder@easydemo.io` é um alias que encaminha para a
-> liderança da DemoBR enquanto a nomeação formal não é concluída.
+> liderança da EasyDemo enquanto a nomeação formal não é concluída.
 
 ---
 
 ## 2. Dados que coletamos
 
-A DemoBR coleta dados pessoais de **três grupos distintos** de usuários,
+A EasyDemo coleta dados pessoais de **três grupos distintos** de usuários,
 cada um com finalidades, bases legais e prazos de retenção próprios.
 Explicamos as diferenças porque a LGPD trata cada papel
 (controlador × operador) de forma específica.
@@ -54,7 +54,7 @@ ou cria uma conta gratuita.
 ### 2.2 Visitante do demo (quem assiste)
 
 Quem abre um demo público `/d/[slug]` ou embed `/embed/[id]`.
-**O visitante normalmente não tem cadastro**, e a DemoBR coleta o mínimo
+**O visitante normalmente não tem cadastro**, e a EasyDemo coleta o mínimo
 necessário para analytics.
 
 | Categoria | Exemplos | Fonte |
@@ -77,7 +77,7 @@ informações, deixou e-mail).
 | Telefone (opcional) | Fornecido pelo lead | Consentimento (art. 7º, I) |
 | Consentimento | Timestamp + texto exato do aceite | Cumprimento de obrigação legal (prova do consentimento) |
 
-**Importante**: a DemoBR **não** armazena o IP do lead. O User-Agent é
+**Importante**: a EasyDemo **não** armazena o IP do lead. O User-Agent é
 hasheado (SHA-256 + sal rotativo) para fins de prova de origem, **sem
 reversibilidade** ao IP original.
 
@@ -149,7 +149,7 @@ Detalhamento na [`cookie-policy.md`](./cookie-policy.md). Resumo:
 - **Cookies de analytics**: primeira-parte, com opt-out via banner.
 - **Cookies de preferência**: idioma (`locale`), tema. Não compartilhados.
 
-A DemoBR não usa cookies de publicidade comportamental de terceiros.
+A EasyDemo não usa cookies de publicidade comportamental de terceiros.
 
 ---
 
@@ -286,7 +286,7 @@ proteção** ou mediante **cláusulas-padrão contratuais**.
 
 ## 10. Direitos de crianças e adolescentes
 
-A DemoBR **não é direcionada a menores de 18 anos**. Em caso de
+A EasyDemo **não é direcionada a menores de 18 anos**. Em caso de
 identificação de dado de criança tratado sem consentimento dos
 responsáveis, **eliminaremos em até 7 dias** (LGPD art. 14º).
 
@@ -294,7 +294,7 @@ responsáveis, **eliminaremos em até 7 dias** (LGPD art. 14º).
 
 ## 11. Encarregado de Proteção de Dados (DPO)
 
-**Status atual:** A DemoBR está em processo de nomeação de Encarregado
+**Status atual:** A EasyDemo está em processo de nomeação de Encarregado
 de Proteção de Dados (DPO) conforme art. 41 da LGPD. A nomeação será
 concluída nos próximos 90 dias contados da publicação desta política.
 
@@ -317,7 +317,7 @@ Após a nomeação formal, esta seção será atualizada com:
 - **Formulário DSR**: `https://app.easydemo.io/privacidade/solicitacao`
 - **Histórico de nomeações** (para accountability)
 
-O encarregado é o canal oficial de comunicação entre a DemoBR, os
+O encarregado é o canal oficial de comunicação entre a EasyDemo, os
 titulares e a **ANPD (Autoridade Nacional de Proteção de Dados)**.
 
 > Detalhes sobre o processo de contratação, persona recomendada,
@@ -357,5 +357,5 @@ de optar pelo foro de seu domicílio (CDC art. 101, I).
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

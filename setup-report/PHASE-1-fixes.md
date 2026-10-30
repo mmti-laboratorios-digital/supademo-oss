@@ -272,7 +272,7 @@ Route (app)                                  Size     First Load JS
 
 **Bundle notável:** `/demos/[id]/edit` é a maior rota (55.6 kB / 163 kB First Load) — esperado pois inclui `dnd-kit`, `react-hook-form`, `zod`, e o editor inteiro. Compartilhado: 99.8 kB. Middleware: 114 kB (Clerk + i18n + RLS guard).
 
-**Páginas estáticas geradas:** 19 — incluindo as 3 blog pages (`/blog/demobr-vs-supademo-vs-guideflow`, `/blog/tour-interativo-produto`, `/blog/como-fazer-demo-interativa`) e `/sitemap.xml` (0 B JS, gerado no build).
+**Páginas estáticas geradas:** 19 — incluindo as 3 blog pages (`/blog/easydemo-vs-supademo-vs-guideflow`, `/blog/tour-interativo-produto`, `/blog/como-fazer-demo-interativa`) e `/sitemap.xml` (0 B JS, gerado no build).
 
 ---
 

@@ -2,7 +2,7 @@
 # ───────────────────────────────────────────────────────────────────────────
 # scripts/init-db.sh
 #
-# Prepara o Postgres local para o DemoBR.
+# Prepara o Postgres local para o EasyDemo.
 #
 # IMPORTANTE: a criação de roles/grants NÃO vive aqui. Ela é delegada a
 # infra/postgres/init-roles.sql, que é a única fonte de verdade. Antes these
@@ -14,7 +14,7 @@
 # exatamente o tipo de bug que só aparece em re-init, muito depois.
 #
 # O que este script faz:
-#   1. conecta no banco de manutenção e garante o database `supademo`
+#   1. conecta no banco de manutenção e garante o database `easydemo`
 #   2. cria as extensions (pgcrypto, uuid-ossp)
 #   3. delega roles + grants + search_path para init-roles.sql
 #   4. aplica as senhas vindas do ambiente (.env / PG_*_PASS)
@@ -44,7 +44,7 @@ if [[ -f "$ROOT_DIR/.env" ]]; then
   set +a
 fi
 
-DB_NAME="${PG_DB_NAME:-supademo}"
+DB_NAME="${PG_DB_NAME:-easydemo}"
 PG_HOST="${PG_HOST:-localhost}"
 PG_PORT="${PG_PORT:-5432}"
 # Role de bootstrap: o superuser interno do container (POSTGRES_USER=app).

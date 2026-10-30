@@ -1,4 +1,4 @@
-# CONCLAVE SRE — Auditoria técnica fria do DemoBR
+# CONCLAVE SRE — Auditoria técnica fria do EasyDemo
 
 > **Persona:** Staff SRE/DevOps architect (20 anos). Foco: produção, multi-tenant, LGPD.
 > **Data:** 2026-10-18.
@@ -23,7 +23,7 @@
 | **2** | **DSR DELETE não respeita RLS** — usa `getDb()` (runtime/app_user) com `eq(leads.email, ...)`. Em produção multi-tenant, o **token de DSR de um titular NÃO tem `app.current_tenant_id` setado**, então o DELETE só apaga leads do "tenant padrão" — se a pessoa que pediu DSR for lead em outro workspace, não acontece nada. | `apps/web/app/api/dsr/route.ts` linhas 155–161 (`const db = getDb(); ... .where(eq(leads.email, ...))`). | Falha funcional + LGPD art. 18, V (eliminação) **não atendido**: titular pensa que foi apagado, mas dados seguem no banco. ANPD pode entender como cumprimento parcial. |
 | **3** | **`app.demos` sem policy de SELECT público para o player** + o player usa `getDb()` (app_user) → em runtime, vai ver 0 demos sem tenant. A PHASE-6 §3.2 (recomendação) assume "Caminho B: rota dedicada com BYPASSRLS" **que não foi auditada**. | `apps/web/app/d/[slug]/page.tsx` linha 21: `const db = getDb();` é descrita como "sem tenant — usa role público (read-only)", mas RLS bloqueia. | O player público é o **produto inteiro**. Sem essa política resolvida, `/d/[slug]` retorna 0 rows em produção. (Os testes Playwright com seed mostram markup, mas em produção o lookup está quebrado.) |
 | **4** | **Restore drill mensal NÃO está agendado em lugar nenhum** — `scripts/restore-drill.sh` existe, mas `grep -r "monthly\|cron" .github/workflows/` retorna apenas dependabot. Cron é mencionado só no ADR-007 ("cron nativo") e em `infra/hetzner/README.md` linha 270 ("agendar mensalmente") — sem implementação. Sem CI/schedule/workflow_dispatch para isso, a promessa do ADR-010 é letra morta. | Busca por `cron\|monthly\|schedule` em `.github/workflows/` retorna nada relativo a DR. `restore-drill.sh` só roda manual. | Um backup que nunca foi restaurado **não é backup**. Se o VPS falhar antes do primeiro drill, descobrimos a falta de backup no momento errado. |
-| **5** | **DPO é placeholder em 23 ocorrências** (`legal/*`) e CI checa `check-dpo-missing.ts` — o CI literalmente **bloqueia merge** se houver placeholder, mas o código atual faz a verificação falhar **na primeira tentativa de merge de qualquer PR**. Isso é uma contradição operacional: ou o CI bloqueia agora e ninguém consegue mergar, ou o DPO é contratado **antes** do primeiro commit. | `setup-report/PHASE-13-dpo-placeholder.md` + `legal/DPO.md` (status PENDENTE, 90 dias). | LGPD art. 41: ausência de encarregado é infração administrativa. PHASE-5 marca como 🔴 bloqueador, mas DPO.md §9 é explícito sobre a afirmação: "NÃO afirma que a DemoBR já contratou um DPO." Pode-se comunicar a nomeação à ANPD em paralelo, mas o requisito legal vira ASAP. |
+| **5** | **DPO é placeholder em 23 ocorrências** (`legal/*`) e CI checa `check-dpo-missing.ts` — o CI literalmente **bloqueia merge** se houver placeholder, mas o código atual faz a verificação falhar **na primeira tentativa de merge de qualquer PR**. Isso é uma contradição operacional: ou o CI bloqueia agora e ninguém consegue mergar, ou o DPO é contratado **antes** do primeiro commit. | `setup-report/PHASE-13-dpo-placeholder.md` + `legal/DPO.md` (status PENDENTE, 90 dias). | LGPD art. 41: ausência de encarregado é infração administrativa. PHASE-5 marca como 🔴 bloqueador, mas DPO.md §9 é explícito sobre a afirmação: "NÃO afirma que a EasyDemo já contratou um DPO." Pode-se comunicar a nomeação à ANPD em paralelo, mas o requisito legal vira ASAP. |
 
 ### 🟡 IMPORTANTES (alto valor / recomendado antes do GA)
 
@@ -136,7 +136,7 @@ jobs:
           # PagerDuty trigger para telefone do IC
           curl -X POST https://events.pagerduty.com/v2/enqueue \
             -H 'Content-Type: application/json' \
-            -d '{"routing_key":"'$PAGERDUTY_KEY'","event_action":"trigger","payload":{"summary":"DR drill FAILED","severity":"error","source":"demobr-ci"}}'
+            -d '{"routing_key":"'$PAGERDUTY_KEY'","event_action":"trigger","payload":{"summary":"DR drill FAILED","severity":"error","source":"easydemo-ci"}}'
 ```
 
 ### R4 — Rate-limit em `/api/demos/[id]/steps` (R2 presigned PUT) (🟡, ~1h)
@@ -245,4 +245,4 @@ Sem isso, qualquer um que descobrir a URL `/api/webhooks/asaas` pode dar upgrade
 
 **Quando este relatório for aprovado e os blockers resolvidos, reexecutar PHASE-14 (run válido de `test-rls.ts`, `test-rls-admin.ts`, Vitest, Playwright E2E do player público) e o relatório pode virar o primeiro commit.**
 
-— *Subagente CONCLAVE SRE, DemoBR — 2026-10-18*
+— *Subagente CONCLAVE SRE, EasyDemo — 2026-10-18*

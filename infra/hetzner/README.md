@@ -1,6 +1,6 @@
-# Provisionamento VPS Hetzner — DemoBR
+# Provisionamento VPS Hetzner — EasyDemo
 
-Documentação de provisionamento da VPS de produção do DemoBR na Hetzner Cloud.
+Documentação de provisionamento da VPS de produção do EasyDemo na Hetzner Cloud.
 
 Este diretório contém:
 - `cloud-init.example.yaml` — artefato de **referência** (não aplicar diretamente; o
@@ -69,7 +69,7 @@ Este diretório contém:
 - IPv4 (se aplicável): €0.50
 - **Total: ~€36.13/mês**
 
-> DemoBR no MVP usa `cx22` (default do script). Promover para `cpx32`
+> EasyDemo no MVP usa `cx22` (default do script). Promover para `cpx32`
 > quando tráfego real passar de ~50 MAU ou houver worker assíncrono
 > pesado.
 
@@ -132,7 +132,7 @@ sed -e "s|\${CN_DOMAIN}|demo.seudominio.com.br|g" \
 
 ```bash
 hcloud server create \
-  --name demobr-prod-01 \
+  --name easydemo-prod-01 \
   --type cpx32 \
   --image ubuntu-24.04 \
   --location fsn1 \
@@ -143,14 +143,14 @@ hcloud server create \
 
 Resultado:
 ```
-Server demobr-prod-01 created
+Server easydemo-prod-01 created
 IPv4 address: 203.0.113.42   # (fictício — copie o seu)
 ```
 
 ### 3.6. Aguardar cloud-init terminar (~3–6 min)
 
 ```bash
-IP=$(hcloud server ip demobr-prod-01)
+IP=$(hcloud server ip easydemo-prod-01)
 ssh -o StrictHostKeyChecking=accept-new root@$IP \
   'cloud-init status --wait && cloud-init status --format=json | jq .status'
 # Esperado: "done"
@@ -187,7 +187,7 @@ bash scripts/provision-hetzner.sh
 
 Fluxo:
 1. **Instala `hcloud`** se não existir (Linux: download direto; macOS: brew).
-2. **Cria o context `demobr-prod`** (prompt: "Token Hetzner Cloud:" —
+2. **Cria o context `easydemo-prod`** (prompt: "Token Hetzner Cloud:" —
    cole o token; entrada oculta).
 3. **Upload da SSH key** se ainda não registrada no projeto Hetzner.
 4. **Gera `infra/cloud-init.yaml`** (sobrescreve sem aviso).
@@ -201,17 +201,17 @@ Fluxo:
 
 | Variável              | Default       | Descrição                                    |
 |-----------------------|---------------|----------------------------------------------|
-| `HCLOUD_CONTEXT`      | `demobr-prod` | Nome do context do `hcloud`                   |
-| `DEMOBR_SSH_KEY`      | `~/.ssh/id_ed25519.pub` | Caminho da public key                |
-| `DEMOBR_SERVER_TYPE`  | `cx22`        | Tipo (ex.: `cx22`, `cpx32`)                  |
-| `DEMOBR_IMAGE`        | `ubuntu-24.04`| Slug da imagem                               |
-| `DEMOBR_LOCATION`     | `fsn1`        | Datacenter (`fsn1`, `nbg1`, `hel1`, etc.)    |
-| `DEMOBR_SERVER_NAME`  | `demobr-prod-01` | Hostname Hetzner (metadata, não OS)        |
+| `HCLOUD_CONTEXT`      | `easydemo-prod` | Nome do context do `hcloud`                   |
+| `EASYDEMO_SSH_KEY`      | `~/.ssh/id_ed25519.pub` | Caminho da public key                |
+| `EASYDEMO_SERVER_TYPE`  | `cx22`        | Tipo (ex.: `cx22`, `cpx32`)                  |
+| `EASYDEMO_IMAGE`        | `ubuntu-24.04`| Slug da imagem                               |
+| `EASYDEMO_LOCATION`     | `fsn1`        | Datacenter (`fsn1`, `nbg1`, `hel1`, etc.)    |
+| `EASYDEMO_SERVER_NAME`  | `easydemo-prod-01` | Hostname Hetzner (metadata, não OS)        |
 | `CN_DOMAIN`           | *(vazio)*     | Domínio dos serviços Caddy (ex.: `easydemo.io`) |
 
 Exemplo para produção:
 ```bash
-DEMOBR_SERVER_TYPE=cpx32 CN_DOMAIN=easydemo.io bash scripts/provision-hetzner.sh
+EASYDEMO_SERVER_TYPE=cpx32 CN_DOMAIN=easydemo.io bash scripts/provision-hetzner.sh
 ```
 
 > ⚠️ O script **não tem flag `--dry-run` explícita** — o dry-run é o
@@ -227,13 +227,13 @@ echo "n" | bash scripts/provision-hetzner.sh
 
 Saída típica (validada em out/2026, ver `PHASE-4-hetzner.md`):
 ```
-[ok] Context 'demobr-prod' ativo.
+[ok] Context 'easydemo-prod' ativo.
 [ok] SSH key 'id_ed25519' já registrada.
 [hetzner] Gerando .../infra/cloud-init.yaml…
 [ok] cloud-init.yaml gerado.
 
 Plano de provisionamento:
-  Nome:    demobr-prod-01
+  Nome:    easydemo-prod-01
   Tipo:    cx22 (1 vCPU, 4GB RAM, 40GB SSD)
   Imagem:  ubuntu-24.04
   Local:   fsn1
@@ -253,7 +253,7 @@ Criar o VPS agora? [s/N] (N = dry-run): [hetzner] Dry-run — nada foi criado.
    - Apontar nameservers do domínio para Cloudflare (proxy laranja ON).
 
 2. **Secrets**: copiar `.env` (gerado por `scripts/generate-secrets.sh`
-   no host local) para `/opt/demobr/.env` no VPS via `scp`. Inclui
+   no host local) para `/opt/easydemo/.env` no VPS via `scp`. Inclui
    `CLOUDFLARE_API_TOKEN` para o Caddy emitir certs via DNS-01.
 
 3. **Deploy**: `bash scripts/deploy.sh` (push do compose para o VPS).
@@ -277,12 +277,12 @@ Criar o VPS agora? [s/N] (N = dry-run): [hetzner] Dry-run — nada foi criado.
 
 ```bash
 # Deletar o server (CUIDADO: irreversível. Faz snapshot antes se quiser)
-hcloud server create --image demobr-prod-01   # NÃO existe — exemplo errado
+hcloud server create --image easydemo-prod-01   # NÃO existe — exemplo errado
 
 # CORRETO: primeiro snapshot, depois delete
 hcloud server create-image --type snapshot \
-  --name "demobr-prod-final-$(date +%Y%m%d)" demobr-prod-01
-hcloud server delete demobr-prod-01
+  --name "easydemo-prod-final-$(date +%Y%m%d)" easydemo-prod-01
+hcloud server delete easydemo-prod-01
 ```
 
 > O script `scripts/teardown.sh` é para o ambiente **local** (docker

@@ -29,7 +29,7 @@
 - Categoria: **Workflow & Planning**
 - Localização: 2261 Market St #4813 SF CA 94114
 
-**Trade-off:** Storylane tem **menos metade das instalações** dos concorrentes líderes (30k vs 50k+), mas **rating mais alto**. Implicação para DemoBR: extension store presence pode ser um vetor defensivo ou ofensivo dependendo da estratégia.
+**Trade-off:** Storylane tem **menos metade das instalações** dos concorrentes líderes (30k vs 50k+), mas **rating mais alto**. Implicação para EasyDemo: extension store presence pode ser um vetor defensivo ou ofensivo dependendo da estratégia.
 
 ### 🥈 Supademo: leader em install + extension feed "Featured"
 
@@ -63,7 +63,7 @@
 - Tamanho minúsculo: 84.74 KiB.
 - Sem trading status declarado (Brazilian developer, optou por não se identificar).
 
-> Implicação direta para a DemoBR: extension MV3 ainda é **um terreno completamente vazio em português**. GuiaFlow foi o único a registrar e tem ~30 installs. **Espaço competitivo claro.**
+> Implicação direta para a EasyDemo: extension MV3 ainda é **um terreno completamente vazio em português**. GuiaFlow foi o único a registrar e tem ~30 installs. **Espaço competitivo claro.**
 
 ### ⚠️ GuiaFlow não tem link de "Add to Chrome" coerente
 
@@ -82,12 +82,12 @@ A descrição da extensão só funciona se o usuário tem o editor aberto em `ht
 
 > Reviews/Install ratio é proxy para **richengagement**: Storylane tem o review-per-install mais alto. Supademo se aproxima.
 
-## Conclusão para DemoBR
+## Conclusão para EasyDemo
 
 **Posicionamento competitivo chave:**
 
 1. **Não há nenhum player BR consolidado** na Chrome Web Store em "interactive demo". A categoria é dominada por Supademo/Arcade/Storylane (todos 30k-50k+).
-2. **Cadence de release** é indicador de quão rápido o player continua investindo. Supademo 7.5.18 em out/2026 = ritmo biweekly. DemoBR precisa ter update/month ao menos.
+2. **Cadence de release** é indicador de quão rápido o player continua investindo. Supademo 7.5.18 em out/2026 = ritmo biweekly. EasyDemo precisa ter update/month ao menos.
 3. **Locale pt-BR** é diferencial totalmente inexplorado. GuiaFlow pegou essa faixa mas com execution fraca.
 4. **Tamanho da extensão** (Supademo 3.93 MiB vs Arcade 11.9 MiB) sugere que **a brute-force de feature não exige binaries gordos** — vídeo pode ser render server-side, extensão só envia eventos.
 

@@ -1,6 +1,6 @@
 #cloud-config
 # =============================================================================
-#  cloud-init de referência — VPS DemoBR (Hetzner Cloud)
+#  cloud-init de referência — VPS EasyDemo (Hetzner Cloud)
 #
 #  Este arquivo é um ARTEFATO DE REFERÊNCIA (NÃO aplicar diretamente).
 #  O arquivo autoritativo é gerado por scripts/provision-hetzner.sh em
@@ -109,12 +109,12 @@ runcmd:
   - dpkg-reconfigure -plow unattended-upgrades
 
   # ---- Prepara diretório de deploy ----
-  - mkdir -p /opt/demobr
+  - mkdir -p /opt/easydemo
   # Backup da chave pública SSH (auditável depois de criado)
   - echo "${SSH_PUBKEY}" > /root/.ssh/authorized_keys_via_cloudinit
   - chmod 600 /root/.ssh/authorized_keys_via_cloudinit
 
-final_message: "DemoBR VPS pronto em $HOSTNAME após $UPTIME segundos."
+final_message: "EasyDemo VPS pronto em $HOSTNAME após $UPTIME segundos."
 
 # =============================================================================
 #  PLACEHOLDERS A SUBSTITUIR antes de aplicar (quando gerar fora do script):
@@ -123,7 +123,7 @@ final_message: "DemoBR VPS pronto em $HOSTNAME após $UPTIME segundos."
 #
 #  Para aplicar:
 #    hcloud server create \
-#      --name demobr-prod-01 \
+#      --name easydemo-prod-01 \
 #      --type cx22 \
 #      --image ubuntu-24.04 \
 #      --location fsn1 \
@@ -136,7 +136,7 @@ final_message: "DemoBR VPS pronto em $HOSTNAME após $UPTIME segundos."
 #    - NÃO desabilita PasswordAuthentication no sshd (depende do default
 #      da imagem Ubuntu 24.04 da Hetzner)
 #    - NÃO define timezone (assume UTC, default da cloud image)
-#    - NÃO força hostname (o nome `--name demobr-prod-01` é só metadata
+#    - NÃO força hostname (o nome `--name easydemo-prod-01` é só metadata
 #      da Hetzner; o hostname interno continua sendo o da cloud image)
 #
 #  Estes itens são melhorias sugeridas (NÃO bloqueantes para MVP).

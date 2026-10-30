@@ -12,7 +12,7 @@
 - **Antes:** sofria `bind host port 127.0.0.1:5432/tcp: address already in use`
   quando `postgresql@16-main.service` do SO estava ativo. Workaround: container
   `supademo-test` side-channel na 55432 (documentado em `PHASE-6-db.md`).
-- **Depois:** o `demobr-postgres` (compose do projeto) assume 55432 nativamente;
+- **Depois:** o `easydemo-postgres` (compose do projeto) assume 55432 nativamente;
   o `supademo-test` vira legado e pode ser removido quando quiser.
 
 ## Por que 55432?
@@ -62,15 +62,15 @@ Sem shell disponível para este subagent, o host deve rodar:
 
 ```bash
 # 1. Porta host
-ss -tulpn 'sport = :55432' 2>/dev/null   # deve mostrar demobr-postgres
+ss -tulpn 'sport = :55432' 2>/dev/null   # deve mostrar easydemo-postgres
 
 # 2. Conectividade via psql / app
-psql 'postgres://app:demobr@127.0.0.1:55432/supademo' -c 'SELECT 1;'
+psql 'postgres://app:easydemo@127.0.0.1:55432/supademo' -c 'SELECT 1;'
 
 # 3. RLS — exercita isolamento multi-tenant
 cd apps/web
-DATABASE_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
-DIRECT_URL=postgres://app_owner:demobr@127.0.0.1:55432/supademo \
+DATABASE_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
+DIRECT_URL=postgres://app_owner:easydemo@127.0.0.1:55432/supademo \
   pnpm exec tsx scripts/db/test-rls.ts
 # esperado: ✅ RLS está aplicando corretamente.
 

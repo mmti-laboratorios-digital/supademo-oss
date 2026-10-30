@@ -179,7 +179,7 @@ O `loader.js` (3 KB):
 1. Encontra todos `[data-easydemo-id]`.
 2. Cria um `<iframe>` apontando para `https://play.demo.br/embed/{id}?theme=...`.
 3. Configura `loading="lazy"` para performance.
-4. Expõe `window.DemoBR.on(event, cb)` para o host receber analytics.
+4. Expõe `window.EasyDemo.on(event, cb)` para o host receber analytics.
 5. Usa `IntersectionObserver` para autostart quando entra na viewport.
 
 ### 4.2 iframe direto

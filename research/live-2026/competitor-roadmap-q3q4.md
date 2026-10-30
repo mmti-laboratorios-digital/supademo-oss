@@ -161,7 +161,7 @@ Last major changelog dump capturado: 1) Style reference video (use any video as 
 
 ### 🚨 Riscos competitivos:
 
-- **A "AI Agent gold rush"** ainda não tem clear winner. Quem tem credits model (Supademo) vs. SaaS model (Navattic, Storylane) vs. flat $24/user (Loom). DemoBR pode explorar a fricção entre quem quer tudo-em-um (Storylane/Supademo) vs. quem quer custom (Loom-Lite).
+- **A "AI Agent gold rush"** ainda não tem clear winner. Quem tem credits model (Supademo) vs. SaaS model (Navattic, Storylane) vs. flat $24/user (Loom). EasyDemo pode explorar a fricção entre quem quer tudo-em-um (Storylane/Supademo) vs. quem quer custom (Loom-Lite).
 - **MCP é commoditização rápida**, não diferencial.
 - **Demo hubs/deal rooms** viraram tabela em todos os planos. Risco: virar commodity em 12 meses.
 

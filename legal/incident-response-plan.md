@@ -1,6 +1,6 @@
-# Plano de Resposta a Incidentes — DemoBR
+# Plano de Resposta a Incidentes — EasyDemo
 
-> Este documento define o procedimento da DemoBR LTDA para detectar,
+> Este documento define o procedimento da EasyDemo LTDA para detectar,
 > triar, comunicar, investigar e recuperar de incidentes de segurança
 > que envolvam dados pessoais.
 >
@@ -17,14 +17,14 @@
 
 Define-se como incidente de segurança qualquer ocorrência que afete
 **confidencialidade, integridade, disponibilidade** ou
-**autenticidade** de dados pessoais tratados pela DemoBR, incluindo:
+**autenticidade** de dados pessoais tratados pela EasyDemo, incluindo:
 
 | Categoria | Exemplos |
 |-----------|----------|
 | **Confidencialidade (vazamento)** | PII exposta em log público; bucket R2 deixado público por engano; chave de API vazada em commit |
 | **Integridade (alteração indevida)** | RLS bypass que permite que um tenant altere dados de outro; modificação não autorizada de demos |
 | **Disponibilidade (indisponibilidade)** | DDoS com duração > 30 min; falha de banco; falha de Hetzner que derruba o serviço |
-| **Autenticidade** | Phishing contra creator usando marca DemoBR; conta Clerk comprometida |
+| **Autenticidade** | Phishing contra creator usando marca EasyDemo; conta Clerk comprometida |
 | **Privacidade (LGPD)** | Coleta de dado sensível não-autorizada; tratamento sem base legal; DSR não respondida no prazo |
 
 > **Regra prática**: na dúvida, **declare incidente**. Custo de
@@ -37,7 +37,7 @@ Define-se como incidente de segurança qualquer ocorrência que afete
 
 | Função | Responsável | Backup | Contato |
 |--------|-------------|--------|---------|
-| **Incident Commander (IC)** | Tech lead DemoBR | Engenheiro sênior #2 | `ic@easydemo.io` |
+| **Incident Commander (IC)** | Tech lead EasyDemo | Engenheiro sênior #2 | `ic@easydemo.io` |
 | **Comunicação externa** | CEO | Head of Operations | `comunicacao@easydemo.io` |
 | **DPO** | DPO designado | Advogado externo | `placeholder@easydemo.io` *(contratação em até 90 dias — ver `DPO-PROCESS.md`; enquanto isso, CTO assume interinamente)* |
 | **Engenheiro de plantão (24/7)** | Rodízio semanal | Plantão secundário | `oncall@easydemo.io` (PagerDuty) |
@@ -45,7 +45,7 @@ Define-se como incidente de segurança qualquer ocorrência que afete
 | **Apoio jurídico** | Advogado externo | — | (definir por contrato) |
 | **Liderança (escalation)** | CEO | COO | `ceo@easydemo.io` |
 
-> **Esta tabela é exemplo**. Substituir pelos nomes reais da DemoBR
+> **Esta tabela é exemplo**. Substituir pelos nomes reais da EasyDemo
 > LTDA antes de publicar.
 
 ---
@@ -206,7 +206,7 @@ Quando o incidente **causar risco relevante** aos titulares:
 
 O **DPO é o responsável** por esta comunicação.
 
-> **Enquanto a DemoBR não tiver DPO contratado** (até 90 dias da
+> **Enquanto a EasyDemo não tiver DPO contratado** (até 90 dias da
 > publicação — ver [`DPO-PROCESS.md`](./DPO-PROCESS.md)), o **CTO +
 > CEO** assumem interinamente a função de reportar à ANPD. O
 > conteúdo da comunicação segue o template §7.3 acima, com a
@@ -235,7 +235,7 @@ a mesma definição do item 7.1.
 ### 8.4 Conteúdo
 
 ```
-[Comunicação de incidente — DemoBR]
+[Comunicação de incidente — EasyDemo]
 
 Caro(a) {nome},
 
@@ -453,5 +453,5 @@ Este IRP cumpre:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

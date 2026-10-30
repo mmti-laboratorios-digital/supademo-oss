@@ -65,7 +65,7 @@
 ### 2.1 Pré-requisitos
 
 - `token` no query string é um **JWT de uso único**, válido por 30
-  dias, assinado com a chave privada DemoBR.
+  dias, assinado com a chave privada EasyDemo.
 - Claims obrigatórios:
   ```json
   {
@@ -391,7 +391,7 @@ Subject: Confirmação de eliminação parcial — DSR {ticket_id}
 Sr(a). {nome},
 
 Confirmamos a execução da eliminação parcial dos seus dados
-pessoais tratados pela DemoBR LTDA, conforme pedido registrado
+pessoais tratados pela EasyDemo LTDA, conforme pedido registrado
 em {data}.
 
 Foram eliminados (soft-delete, com hard-delete em {data+30d}):
@@ -466,5 +466,5 @@ Cenários que DEVEM ser cobertos por testes automatizados:
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

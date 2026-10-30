@@ -26,10 +26,10 @@ import { demos, workspaces } from "../../db/schema/app";
 const ADMIN_URL =
   process.env.ADMIN_URL ??
   process.env.DIRECT_URL ??
-  "postgres://app_owner:demobr@127.0.0.1:55432/supademo";
+  "postgres://app_owner:easydemo@127.0.0.1:55432/easydemo";
 
 const RUNTIME_URL =
-  process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+  process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
 
 type StepLog = { step: string; ok: boolean; detail: string };
 const log: StepLog[] = [];

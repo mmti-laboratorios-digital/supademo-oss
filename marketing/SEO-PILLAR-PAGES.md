@@ -1,7 +1,7 @@
-# SEO Pillar Pages — Estratégia PT-BR (DemoBR)
+# SEO Pillar Pages — Estratégia PT-BR (EasyDemo)
 
 > **Data:** 2026-10-18.
-> **Premissa:** DemoBR compete em PT-BR com players globais (Supademo, Navattic, Storylane, Arcade) e 1 player BR confirmado (Getdemo) + 1 OSS BR (GuiaFlow). Captura de SEO long-tail em PT-BR é o canal #1 declarado em `research/pricing/gtm-channels.md` §A.
+> **Premissa:** EasyDemo compete em PT-BR com players globais (Supademo, Navattic, Storylane, Arcade) e 1 player BR confirmado (Getdemo) + 1 OSS BR (GuiaFlow). Captura de SEO long-tail em PT-BR é o canal #1 declarado em `research/pricing/gtm-channels.md` §A.
 > **Volumes de busca:** **estimados** via Google Keyword Planner / tendências setoriais; números reais podem variar ±30%. Marcar como "estimativa".
 
 ---
@@ -39,7 +39,7 @@
   1. **O que é uma demo interativa** (definição + 3 exemplos reais com prints)
   2. **Por que PMMs brasileiros estão adotando agora** (3 estatísticas: redução de ciclo, conversão, leads qualificados — *marcar como "meta/estimativa"* se não verificadas)
   3. **Como criar uma em 5 passos** (capturar → editar → publicar → medir → melhorar)
-  4. **Quais ferramentas existem no Brasil e no mundo** (tabela comparativa: DemoBR, Getdemo, GuiaFlow, Supademo, Navattic, Storylane, Arcade, Loom)
+  4. **Quais ferramentas existem no Brasil e no mundo** (tabela comparativa: EasyDemo, Getdemo, GuiaFlow, Supademo, Navattic, Storylane, Arcade, Loom)
   5. **Quanto custa** (free vs pago, faixa BR R$0–R$ 199, faixa global $0–$450)
   6. **Erros comuns** (5 armadilhas + como evitar)
   7. **LGPD: o que você precisa saber antes de capturar** (consentimento, papéis, DSR)
@@ -52,7 +52,7 @@
 - **CTA secundário:** "Ver exemplo de demo" → `/d/exemplo-saas-b2b`
 - **Internos linkados:**
   - → `/blog/tour-interativo-de-produto` (P2)
-  - → `/comparar/demobr-vs-supademo`
+  - → `/comparar/easydemo-vs-supademo`
   - → `/para/saas-b2b` (landing vertical)
 
 ### P2 — "Tour interativo de produto: o que é e como criar"
@@ -73,18 +73,18 @@
   2. **3 tipos:** guiado por cliques / sandbox / híbrido
   3. **Por que SaaS BR está adotando** (3 cases: TOTVS, Meetime, Omie — baseados em `gtm-channels.md` §B.6)
   4. **Passo a passo para criar o seu** (capturar com extensão Chrome → editar hotspots → publicar → embedar)
-  5. **Ferramentas BR vs globais** (DemoBR, Getdemo, Supademo, Navattic)
+  5. **Ferramentas BR vs globais** (EasyDemo, Getdemo, Supademo, Navattic)
   6. **Métricas que importam** (completion rate, drop-off por step, CTR do CTA)
   7. **CTA:** "Crie seu tour em 5 min" → `/signup`
 - **FAQ Schema (3 perguntas):**
   - "Qual a diferença entre demo e tour?" (Demo = apresentação; tour = experiência clicável pelo lead)
   - "Funciona em celular?" (Sim, players são responsivos; captura mobile é limitada no MVP)
   - "Dá pra colocar no meu domínio?" (Sim, em planos Business — CNAME `demo.suaempresa.com.br`)
-- **CTA:** DemoBR Pro trial
+- **CTA:** EasyDemo Pro trial
 - **Linka para:**
   - P1 (`como fazer demo interativa`)
   - P5 (`quanto custa plataforma demo`)
-  - `/comparar/demobr-vs-guiaflow`
+  - `/comparar/easydemo-vs-guiaflow`
 
 ### P3 — "Captura de tela interativa para vendas"
 
@@ -102,13 +102,13 @@
 - **Estrutura (2.500 palavras):**
   1. **O que é captura interativa** (screenshot + hotspots + simulação de clique)
   2. **Como funciona tecnicamente** (extensão Chrome MV3, JSON manifest, storage em CDN)
-  3. **Tabela comparativa** (7 ferramentas: DemoBR, Getdemo, GuiaFlow, Supademo, Navattic, Storylane, Arcade) — preço BR, features, link
+  3. **Tabela comparativa** (7 ferramentas: EasyDemo, Getdemo, GuiaFlow, Supademo, Navattic, Storylane, Arcade) — preço BR, features, link
   4. **Comparação por uso:**
-     - PMM solo / PME → DemoBR Free ou Pro
-     - Time mid-market BR → DemoBR Business ou Getdemo Pro
+     - PMM solo / PME → EasyDemo Free ou Pro
+     - Time mid-market BR → EasyDemo Business ou Getdemo Pro
      - Enterprise global → Supademo ou Storylane
   5. **LGPD + captura: como ficar em conformidade** (banner de consentimento, IP não armazenar, DSR endpoint)
-  6. **CTA:** "Testar DemoBR grátis"
+  6. **CTA:** "Testar EasyDemo grátis"
 - **FAQ Schema (3 perguntas):**
   - "Captura de tela interativa é a mesma coisa que vídeo?" (Não — vídeo é passivo; captura interativa é clicável)
   - "Preciso instalar algo?" (Sim, extensão Chrome; desktop apps existem mas maioria usa extensão)
@@ -123,7 +123,7 @@
 - **Volume estimado:** **~300 buscas/mês**
 - **Dificuldade:** Alta intenção — quem busca "alternativa Supademo Brasil" está pronto para converter.
 - **H1:** "Alternativas ao Supademo no Brasil: 5 opções com PIX, NF-e e suporte em PT-BR"
-- **Meta description:** "Supademo é top global mas cobra em USD sem Pix. Veja 5 alternativas BR-friendly com preço em R$, incluindo DemoBR, Getdemo e GuiaFlow."
+- **Meta description:** "Supademo é top global mas cobra em USD sem Pix. Veja 5 alternativas BR-friendly com preço em R$, incluindo EasyDemo, Getdemo e GuiaFlow."
 - **Keywords target:**
   - canônica: "alternativas ao Supademo Brasil" (~300/mês)
   - L1: "alternativa Supademo" (~500/mês), "Supademo Brasil" (~200/mês), "concorrente Supademo" (~100/mês)
@@ -131,18 +131,18 @@
 - **Estrutura (2.500 palavras):**
   1. **Por que buscar alternativa ao Supademo no Brasil** (preço USD, sem Pix, suporte em inglês, LGPD self-declared)
   2. **5 alternativas ranqueadas:**
-     - **DemoBR** (R$ 49/mês Pro, PIX/boleto, LGPD by design)
+     - **EasyDemo** (R$ 49/mês Pro, PIX/boleto, LGPD by design)
      - **Getdemo** (sales-led, premium, cases TOTVS/Sankhya)
      - **GuiaFlow** (open source MIT, R$ 36/mês Pro)
      - **Fluidz Demos** (R$ 105+/mês, vertical Bitrix24 — *verificar se ainda opera*)
      - **Interdemo** (status desconhecido em Out/2026 — *declarar limitação*)
   3. **Tabela comparativa:** preço, features, idioma, pagamento BR, LGPD
   4. **Quando escolher cada uma** (PME, mid-market, enterprise, dev/OSS)
-  5. **CTA:** "Testar DemoBR Pro por 14 dias" + comparativo via WhatsApp
+  5. **CTA:** "Testar EasyDemo Pro por 14 dias" + comparativo via WhatsApp
 - **FAQ Schema (3 perguntas):**
   - "Supademo aceita PIX?" (Não — Stripe USD)
   - "Qual a alternativa mais barata ao Supademo?" (GuiaFlow Pro R$ 36/mês)
-  - "Tem alternativa gratuita ao Supademo?" (Sim — DemoBR Free, GuiaFlow Free, Supademo Free, Navattic Starter)
+  - "Tem alternativa gratuita ao Supademo?" (Sim — EasyDemo Free, GuiaFlow Free, Supademo Free, Navattic Starter)
 - **CTA:** Trial Pro + link para compare page dedicada
 
 ### P5 — "Quanto custa uma plataforma de demo interativa"
@@ -153,7 +153,7 @@
 - **Volume estimado:** **~250 buscas/mês**
 - **Dificuldade:** Alta — decisor B2B pesquisa preço.
 - **H1:** "Quanto custa uma plataforma de demo interativa em 2026 (BR + global)"
-- **Meta description:** "Tabela comparativa de preços: DemoBR (R$ 49), Supademo ($50), Navattic (sob consulta), Storylane ($50), Arcade ($50), Loom ($18). Tudo em R$ e USD."
+- **Meta description:** "Tabela comparativa de preços: EasyDemo (R$ 49), Supademo ($50), Navattic (sob consulta), Storylane ($50), Arcade ($50), Loom ($18). Tudo em R$ e USD."
 - **Keywords target:**
   - canônica: "quanto custa plataforma demo interativa" (~250/mês)
   - L1: "preço demo interativa", "custo demo interativa", "plataforma demo preço"
@@ -162,16 +162,16 @@
   1. **Por que o preço varia tanto** (PLG vs sales-led, com/sem IA, BR vs global)
   2. **Tabela mestra** (8 players × 4 tiers = 32 SKUs, com valor em R$ e USD, conversão R$ 5,50/USD *— taxa de câmbio declarada como premissa da pesquisa*)
   3. **3 faixas de preço para o PMM brasileiro:**
-     - Free (R$ 0): DemoBR, GuiaFlow, Supademo, Navattic, Storylane, Arcade
-     - Pro PME (R$ 49–R$ 197): DemoBR Pro, GuiaFlow Pro, Supademo Scale ($50 ≈ R$ 275), Storylane Starter ($50 ≈ R$ 275)
-     - Mid-market (R$ 800–R$ 1.500): DemoBR Business, Supademo Business ($249 ≈ R$ 1.370), Storylane Growth ($625 ≈ R$ 3.438)
+     - Free (R$ 0): EasyDemo, GuiaFlow, Supademo, Navattic, Storylane, Arcade
+     - Pro PME (R$ 49–R$ 197): EasyDemo Pro, GuiaFlow Pro, Supademo Scale ($50 ≈ R$ 275), Storylane Starter ($50 ≈ R$ 275)
+     - Mid-market (R$ 800–R$ 1.500): EasyDemo Business, Supademo Business ($249 ≈ R$ 1.370), Storylane Growth ($625 ≈ R$ 3.438)
   4. **Custo-benefício: o que justifica pagar** (IA inclusa, HTML capture, suporte em PT-BR, LGPD DSR, payment BR)
-  5. **Como DemoBR se posiciona** (R$ 49 vs Supademo $50 ≈ 82% mais barato + LGPD + PIX)
+  5. **Como EasyDemo se posiciona** (R$ 49 vs Supademo $50 ≈ 82% mais barato + LGPD + PIX)
   6. **CTA:** "Calcular minha economia" → calculadora simples + signup
 - **FAQ Schema (3 perguntas):**
-  - "Qual a plataforma de demo mais barata?" (GuiaFlow R$ 36/mês Pro; DemoBR Free R$ 0)
-  - "DemoBR é mais barato que Supademo?" (Sim, ~82% mais barato no tier de entrada)
-  - "Tem plano gratuito?" (Sim — DemoBR Free, Supademo Free, Navattic Starter, Storylane Free, Arcade Free)
+  - "Qual a plataforma de demo mais barata?" (GuiaFlow R$ 36/mês Pro; EasyDemo Free R$ 0)
+  - "EasyDemo é mais barato que Supademo?" (Sim, ~82% mais barato no tier de entrada)
+  - "Tem plano gratuito?" (Sim — EasyDemo Free, Supademo Free, Navattic Starter, Storylane Free, Arcade Free)
 - **CTA:** Trial Pro + página de pricing detalhada
 
 ---
@@ -180,35 +180,35 @@
 
 > Formato canônico replicado de Supademo USA: tabela comparativa + parágrafo de "quando escolher cada" + CTA.
 
-### C1 — DemoBR vs Navattic
-- **Slug:** `/comparar/demobr-vs-navattic`
+### C1 — EasyDemo vs Navattic
+- **Slug:** `/comparar/easydemo-vs-navattic`
 - **Por que escrever:** Navattic é G2 #1 marketing demo, mas USD-only, sales-led acima do Starter.
-- **Posicionamento:** DemoBR ganha em **preço BR + LGPD + PIX**; Navattic ganha em **AI Copilot maduro + Sandbox demos + Buyer Circle Discovery**.
-- **CTA:** "Testar DemoBR Pro por 14 dias grátis"
+- **Posicionamento:** EasyDemo ganha em **preço BR + LGPD + PIX**; Navattic ganha em **AI Copilot maduro + Sandbox demos + Buyer Circle Discovery**.
+- **CTA:** "Testar EasyDemo Pro por 14 dias grátis"
 
-### C2 — DemoBR vs Arcade
-- **Slug:** `/comparar/demobr-vs-arcade`
+### C2 — EasyDemo vs Arcade
+- **Slug:** `/comparar/easydemo-vs-arcade`
 - **Por que:** Arcade é "AI product stories", forte em video + visual + demo.
-- **Posicionamento:** Arcade ganha em **AI video/visuals + brand kits**; DemoBR ganha em **preço BR + PT-BR + LGPD + CRM BR nativo**.
+- **Posicionamento:** Arcade ganha em **AI video/visuals + brand kits**; EasyDemo ganha em **preço BR + PT-BR + LGPD + CRM BR nativo**.
 - **CTA:** "Ver demo de comparação" + Signup Free
 
-### C3 — DemoBR vs Storylane
-- **Slug:** `/comparar/demobr-vs-storylane`
+### C3 — EasyDemo vs Storylane
+- **Slug:** `/comparar/easydemo-vs-storylane`
 - **Por que:** Storylane tem RepX (AI agent autônomo) e Hubs (digital sales rooms).
-- **Posicionamento:** Storylane ganha em **RepX + Hubs + UX polida**; DemoBR ganha em **preço + PT-BR + WhatsApp CTA + pagamento PIX**.
-- **CTA:** "Falar com especialista DemoBR"
+- **Posicionamento:** Storylane ganha em **RepX + Hubs + UX polida**; EasyDemo ganha em **preço + PT-BR + WhatsApp CTA + pagamento PIX**.
+- **CTA:** "Falar com especialista EasyDemo"
 
-### C4 — DemoBR vs Supademo
-- **Slug:** `/comparar/demobr-vs-supademo`
+### C4 — EasyDemo vs Supademo
+- **Slug:** `/comparar/easydemo-vs-supademo`
 - **Por que:** Supademo é o alvo de clonagem declarado; compare direta é defensiva (SEO contra quem busca "alternativa Supademo").
-- **Posicionamento:** DemoBR ganha em **preço BR + PIX/boleto/NF-e + LGPD by design + suporte PT-BR**; Supademo ganha em **6 formatos de captura + AI Demo Agent + marketplace 200k+ usuários**.
-- **CTA:** "Migrar do Supademo para DemoBR — guia gratuito" + trial Pro
+- **Posicionamento:** EasyDemo ganha em **preço BR + PIX/boleto/NF-e + LGPD by design + suporte PT-BR**; Supademo ganha em **6 formatos de captura + AI Demo Agent + marketplace 200k+ usuários**.
+- **CTA:** "Migrar do Supademo para EasyDemo — guia gratuito" + trial Pro
 
-### C5 — DemoBR vs GuiaFlow
-- **Slug:** `/comparar/demobr-vs-guiaflow`
+### C5 — EasyDemo vs GuiaFlow
+- **Slug:** `/comparar/easydemo-vs-guiaflow`
 - **Por que:** GuiaFlow é o OSS BR; o público é dev-friendly, técnico, quer BYOK. Honestidade conta.
-- **Posicionamento:** GuiaFlow ganha em **open source + BYOK + export single-file HTML + R$ 36/mês**; DemoBR ganha em **SaaS gerenciado sem chave + LGPD DSR + CRM BR OAuth + IA inclusa sem BYOK**.
-- **CTA:** "Testar DemoBR" + link "Ver DemoBR no GitHub" (placeholder V2)
+- **Posicionamento:** GuiaFlow ganha em **open source + BYOK + export single-file HTML + R$ 36/mês**; EasyDemo ganha em **SaaS gerenciado sem chave + LGPD DSR + CRM BR OAuth + IA inclusa sem BYOK**.
+- **CTA:** "Testar EasyDemo" + link "Ver EasyDemo no GitHub" (placeholder V2)
 
 ---
 
@@ -226,11 +226,11 @@
 | 6 | "Demo interativa para imobiliárias: tour de apartamento" | `/blog/demo-interativa-imobiliarias` | "Imobiliárias no Brasil estão usando demo interativa pra tour de apartamento à distância. Cases + como fazer." | • Vertical imob no BR • Tour de apê vs tour virtual 360° • Captura com extensão • WhatsApp CTA • Cases (Maestro ABM) |
 | 7 | "Edtech: como treinar 500 alunos sem reunião" | `/blog/edtech-treinamento-demo-interativa` | "Edtechs podem usar demo interativa pra treinar novos usuários em horas, não dias. Veja passo a passo + casos." | • Custo de onboarding em edtech • Demo + SCORM export • Casos (Udemy, Hotmart) • Passo a passo • Métrica de completion |
 | 8 | "E-commerce: como usar demo interativa pra reduzir devolução" | `/blog/ecommerce-demo-interativa-devolucao` | "E-com BR perde 12% em devolução. Demo interativa do produto reduz em até 30%. Veja cases e como aplicar." | • Taxa de devolução BR • Demo de produto físico (mockup) • Captura de manuais • WhatsApp CTA pós-demo • Métricas |
-| 9 | "Agência de marketing: como multiplicar fechamento em 3x" | `/blog/agencia-marketing-demo-interativa` | "Agências podem usar demo interativa pra mostrar plano de marketing ao cliente antes de fechar. Cases reais." | • Demo de proposta • Antes vs depois • DemoBR Pro vs conta de agência • Cases (3 agências BR) • Modelo de cobrança |
-| 10 | "Como capturar uma demo com a extensão Chrome (passo a passo)" | `/blog/como-capturar-demo-extensao-chrome` | "Tutorial passo a passo: instalar extensão Chrome de demo, capturar cliques, editar, publicar em 5 minutos." | • Instalar DemoBR Capture • Iniciar captura • Clicar nos elementos • Editar no app • Publicar |
+| 9 | "Agência de marketing: como multiplicar fechamento em 3x" | `/blog/agencia-marketing-demo-interativa` | "Agências podem usar demo interativa pra mostrar plano de marketing ao cliente antes de fechar. Cases reais." | • Demo de proposta • Antes vs depois • EasyDemo Pro vs conta de agência • Cases (3 agências BR) • Modelo de cobrança |
+| 10 | "Como capturar uma demo com a extensão Chrome (passo a passo)" | `/blog/como-capturar-demo-extensao-chrome` | "Tutorial passo a passo: instalar extensão Chrome de demo, capturar cliques, editar, publicar em 5 minutos." | • Instalar EasyDemo Capture • Iniciar captura • Clicar nos elementos • Editar no app • Publicar |
 | 11 | "Como embedar uma demo no seu site (WordPress, Webflow, Shopify)" | `/blog/embedar-demo-site` | "3 formas de embedar demo interativa no seu site: iframe, script, link. Inclui código copy-paste." | • Iframe básico • Script embed.ly • Apps por plataforma (WP, Webflow, Shopify) • Custom domain (Business) • Performance |
 | 12 | "10 erros que matam sua demo interativa" | `/blog/erros-demo-interativa` | "10 erros comuns que PMMs cometem ao criar demo: textos longos, sem CTA, hotspots demais, etc." | • Erro 1-3 (conteúdo) • Erro 4-6 (estrutura) • Erro 7-9 (técnico) • Erro 10 (LGPD) • Checklist |
-| 13 | "WhatsApp como CTA final da demo (case + implementação)" | `/blog/whatsapp-cta-demo` | "Por que WhatsApp converte 3x mais que email como CTA final de demo. Como configurar no DemoBR." | • WhatsApp no Brasil (90% mindshare) • wa.me/?text= template • Comparar com e-mail • Case (3 SaaS BR) • Setup |
+| 13 | "WhatsApp como CTA final da demo (case + implementação)" | `/blog/whatsapp-cta-demo` | "Por que WhatsApp converte 3x mais que email como CTA final de demo. Como configurar no EasyDemo." | • WhatsApp no Brasil (90% mindshare) • wa.me/?text= template • Comparar com e-mail • Case (3 SaaS BR) • Setup |
 | 14 | "Como o time de vendas usa demo interativa no outbound" | `/blog/sdr-demo-outbound` | "SDR pode enviar demo interativa em vez de vídeo no cold email. Veja cadência + script + métricas." | • Problema: vídeo morre no link • Solução: demo clicável • Cadência 5-touch • Script SDR • Métricas (open, reply, demo-to-call) |
 | 15 | "De TOTVS a Zenvia: como PMMs BR estão usando demo" | `/blog/cases-pmm-br-demo` | "6 cases reais de PMMs brasileiros usando demo interativa: TOTVS, Meetime, Zenvia, Omie, Sankhya, Onfly." | • Cases por setor • Métricas reportadas • Padrões comuns • Lições aprendidas • Como replicar |
 
@@ -246,7 +246,7 @@
 - **Problema:** "Cada demo ao vivo custa 1h do AE. Lead não qualificado atrasa fechamento. Vídeo no YouTube é esquecido em 24h."
 - **Solução:** "Demo interativa assíncrona que o lead assiste sozinho. Você só fala com quem já viu."
 - **Case link:** Meetime (case fictício com métricas)
-- **CTA:** "Testar DemoBR Pro grátis por 14 dias"
+- **CTA:** "Testar EasyDemo Pro grátis por 14 dias"
 
 ### LV2 — `/para/imobiliarias`
 - **Title:** "Tour interativo de apartamento pra vender mais sem sair do escritório"
@@ -262,7 +262,7 @@
 - **Problema:** "Onboarding manual custa 1 CS por 100 alunos. Churn alto na primeira semana. Suporte sobrecarregado."
 - **Solução:** "Demo interativa + checklist in-app + SCORM export. Aluno se ativa sozinho, CS só intervém quando trava."
 - **Case link:** Hotmart, Udemy (referências)
-- **CTA:** "Testar DemoBR Pro com SCORM"
+- **CTA:** "Testar EasyDemo Pro com SCORM"
 
 ### LV4 — `/para/ecommerce`
 - **Title:** "Demo interativa pra e-commerce: reduza devolução em até 30%"
@@ -295,7 +295,7 @@
 ### 5.2 Meta tags (canônicas)
 - Title: **55–60 chars**, keyword no início.
 - Description: **150–160 chars**, CTA no final.
-- OG image: **1200×630**, primary background, "▶ DemoBR" centralizado.
+- OG image: **1200×630**, primary background, "▶ EasyDemo" centralizado.
 - Canonical: absoluto, lowercase, trailing slash off.
 
 ### 5.3 Sitemap & robots

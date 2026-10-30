@@ -393,7 +393,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendInvitation(to: string, props: Props) {
   return resend.emails.send({
-    from: 'DemoBR <convite@easydemo.io>',
+    from: 'EasyDemo <convite@easydemo.io>',
     to,
     subject: `${props.inviterName} convidou você`,
     react: InvitationEmail(props),

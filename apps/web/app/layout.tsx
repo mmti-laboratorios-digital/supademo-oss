@@ -12,19 +12,19 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_BASE_URL ?? "http://localhost:3000"),
   title: {
-    default: "DemoBR — Demos interativas em PT-BR com PIX e LGPD",
-    template: "%s · DemoBR",
+    default: "EasyDemo — Demos interativas em PT-BR com PIX e LGPD",
+    template: "%s · EasyDemo",
   },
   description:
     "Crie demos interativas do seu produto SaaS em minutos. Player PT-BR, pagamento PIX/boleto via Asaas, conformidade LGPD ponta a ponta.",
-  applicationName: "DemoBR",
-  authors: [{ name: "DemoBR" }],
+  applicationName: "EasyDemo",
+  authors: [{ name: "EasyDemo" }],
   keywords: ["demo interativa", "tour interativo", "saas", "pixel brasileiro", "lgpd"],
   openGraph: {
     type: "website",
     locale: "pt_BR",
     alternateLocale: ["en_US"],
-    siteName: "DemoBR",
+    siteName: "EasyDemo",
   },
   robots: {
     index: true,

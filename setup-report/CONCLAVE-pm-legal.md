@@ -1,5 +1,5 @@
 # ⚖️ Mini-Conclave — Auditoria Final (Advogado + PM)
-## DemoBR LTDA — pré-go-live · 18/Out/2026
+## EasyDemo LTDA — pré-go-live · 18/Out/2026
 
 > **Personas executoras:**
 > - **Advogado(a) sênior** (10 anos em direito digital, LGPD, direito do consumidor digital) — analisando riscos legais, contratuais, de privacidade e de exposição da marca.
@@ -7,7 +7,7 @@
 >
 > **Método:** leitura crítica de 13 documentos legais + 8 documentos de marketing + 2 reports de setup + RFC técnica. Triagem estruturada em **riscos reais** que podem impedir publicação ou geração de receita, não em checklist genérico.
 >
-> **Premissa-base:** o fundador da DemoBR **não inventou benchmarks empíricos** — todos os números foram herdados/inferidos de research setorial, GKP não acessado, sem entrevistas de validação ainda. Esta auditoria trata essa premissa como **risco de planejamento**, não como ativo.
+> **Premissa-base:** o fundador da EasyDemo **não inventou benchmarks empíricos** — todos os números foram herdados/inferidos de research setorial, GKP não acessado, sem entrevistas de validação ainda. Esta auditoria trata essa premissa como **risco de planejamento**, não como ativo.
 
 ---
 
@@ -25,13 +25,13 @@ A LGPD art. 41 torna a nomeação do Encarregado **obrigatória** para todo agen
 
 - LGPD art. 52, §1º, II prevê sanção administrativa (multa de até 2 % do faturamento, limitada a R$ 50 milhões por infração) por **não nomear** encarregado.
 - Anunciar "DPO a definir" publicamente cria **exposição midiática gratuita** — qualquer matéria sobre PMEs SaaS BR pode citar isso como descumprimento.
-- **Cliente B2B (DPA assinado eletronicamente)** tipicamente exige DPO nomeado **antes** da assinatura. DemoBR cita "DPO placeholder funcional" no § 12 do DPA — numa due diligence de cliente enterprise (que é o plano de R$ 199/mês), isso é red flag suficiente para retornar "vamos para Supademo/Getdemo".
+- **Cliente B2B (DPA assinado eletronicamente)** tipicamente exige DPO nomeado **antes** da assinatura. EasyDemo cita "DPO placeholder funcional" no § 12 do DPA — numa due diligence de cliente enterprise (que é o plano de R$ 199/mês), isso é red flag suficiente para retornar "vamos para Supademo/Getdemo".
 
 ### 1.3 Bloqueador #2 — Identidade jurídica **toda em placeholder**
 
 `privacy-policy.md`, `terms-of-service.md`, `dpa`, todos os 11 documentos terminam com:
 ```
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```
 
 Publicar uma política de privacidade **sem CNPJ** é, na prática, dizer ao titular: "esta empresa não existe formalmente" — o que desarma boa parte das proteções contratuais (incapacidade de cobrança judicial, dúvida sobre representação). **Impede** cobrança judicial, protesto, ações de cobrança, e cria problema sério no recolhimento de **ISS sobre serviço SaaS** (nota fiscal aponta CNPJ do tomador).
@@ -44,7 +44,7 @@ A política de cookies (cookie-policy.md §4.1) descreve um banner que **deve ap
 
 | # | Item | Severidade | Tempo para resolver |
 |---|------|------------|---------------------|
-| 🔴 1 | Constituir DemoBR LTDA formalmente (CNPJ, contrato social, endereço real) | Bloqueador | 7–14 dias (via contador) |
+| 🔴 1 | Constituir EasyDemo LTDA formalmente (CNPJ, contrato social, endereço real) | Bloqueador | 7–14 dias (via contador) |
 | 🔴 2 | Contratar DPO (PJ retainer júnior R$ 2–5k/mês OU advogado especializado R$ 8–25k) e publicar página `/dpo` | Bloqueador | 15–30 dias |
 | 🔴 3 | **Implementar banner de cookies opt-in** (CMP — CookieScript ou Cookiebot BR ~R$ 200/mês) antes do player público, com bloqueio real de cookies não-essenciais | Bloqueador | 3–7 dias |
 | 🟡 4 | Substituir placeholders em todos os 13 documentos via `scripts/check-dpo-missing.ts` + editar manualmente | Bloqueador | 1 dia após #1 e #2 |
@@ -62,9 +62,9 @@ A política de cookies (cookie-policy.md §4.1) descreve um banner que **deve ap
 
 #### **#1 🟡 LIMIT AÇÃO DE RESPONSABILIDADE INVÁLIDA SOB CDC (curto prazo)**
 
-`terms-of-service.md` § 9 diz que a DemoBR limita sua responsabilidade ao "valor pago nos 12 meses anteriores". Isso é prática B2B padrão, mas em relação B2C (creator pessoa física é "consumidor" pela definição do CDC art. 2º/3º), o CDC art. 51, I permite considerar **nulas** cláusulas que "impossibilitem, exonerem ou atenuem a responsabilidade do fornecedor". O **advogado-checar** é não-negociável; o documento já sinaliza o risco na própria § 9 com disclaimer amarelo.
+`terms-of-service.md` § 9 diz que a EasyDemo limita sua responsabilidade ao "valor pago nos 12 meses anteriores". Isso é prática B2B padrão, mas em relação B2C (creator pessoa física é "consumidor" pela definição do CDC art. 2º/3º), o CDC art. 51, I permite considerar **nulas** cláusulas que "impossibilitem, exonerem ou atenuem a responsabilidade do fornecedor". O **advogado-checar** é não-negociável; o documento já sinaliza o risco na própria § 9 com disclaimer amarelo.
 
-> **Posição defendível**: "DemoBR não é puro B2B; creator pode ser PF; portanto CDC pode ser invocado." Mitigação: dividir limitação em duas cláusulas — uma para `business` (PJ) e outra para `free/pro` (qualquer) com valor máximo diferente, OU fixar limitação em dobro do valor pago (não igual), o que jurisprudência brasileira trata de forma mais tolerável.
+> **Posição defendível**: "EasyDemo não é puro B2B; creator pode ser PF; portanto CDC pode ser invocado." Mitigação: dividir limitação em duas cláusulas — uma para `business` (PJ) e outra para `free/pro` (qualquer) com valor máximo diferente, OU fixar limitação em dobro do valor pago (não igual), o que jurisprudência brasileira trata de forma mais tolerável.
 
 **Severidade real:** 🟡 média — não vai impedir go-live, mas expõe a R$ 5–50k de indenização por dano moral individual + ações coletivas (Procon, MP).
 
@@ -98,7 +98,7 @@ LGPD art. 5º, II define **dado sensível** como "dado biométrico que permita i
 
 > **Recomendação forte**: **substituir selfie por videochamada ao vivo gravada (com consentimento específico do titular para essa finalidade limitada)**; ou eliminar selfie do fluxo, usando 2 fatores (e-mail de controle + documento RG) que já cobrem o caso de titular legítimo. **Não aceitar selfie + documento até parecer formal do advogado.**
 
-**Severidade real:** 🔴 alta — primeiro caso de ANPD vai provavelmente definir precedente, e DemoBR sem DPO está vulnerável.
+**Severidade real:** 🔴 alta — primeiro caso de ANPD vai provavelmente definir precedente, e EasyDemo sem DPO está vulnerável.
 
 #### **#4 🟡 SLA 99,9 % EM VPS ÚNICO É PROMESSA CONTRATUAL ARRISCADA**
 
@@ -107,9 +107,9 @@ LGPD art. 5º, II define **dado sensível** como "dado biométrico que permita i
 - Pro R$ 49: **99,5 %** (≈ 3h36min/mês) — **informativo, sem crédito**
 - Business R$ 199: **99,9 %** (≈ 43min/mês) — **com crédito pro-rata**
 
-A `docs/RFC-Brazilian-Supademo.md` §6 e `LAUNCH-PLAN.md` §7 confirmam: **"VPS único = single point of failure"**. Setup-report/PHASE-4-hetzner confirma Hetzner CX31 como single-hosting. Hetzner historicamente oferece 99,9 % **na infraestrutura** (datacenter), mas isso **não se traduz em 99,9 % do serviço DemoBR** (DNS, app, SSL, backups, deploy) — soma de probabilidades reduz a meta por **margem significativa**.
+A `docs/RFC-Brazilian-Supademo.md` §6 e `LAUNCH-PLAN.md` §7 confirmam: **"VPS único = single point of failure"**. Setup-report/PHASE-4-hetzner confirma Hetzner CX31 como single-hosting. Hetzner historicamente oferece 99,9 % **na infraestrutura** (datacenter), mas isso **não se traduz em 99,9 % do serviço EasyDemo** (DNS, app, SSL, backups, deploy) — soma de probabilidades reduz a meta por **margem significativa**.
 
-> **Risco concreto**: em Out/2026, se um P0 durar 2h (DSR alert + DB primario falhar + restore backup), DemoBR **viola o SLA Business de 99,9 %** e descumpre contrato. Cliente Business pode rescindir (CDC art. 49 + art. 35, IV) sem ônus e pedir reembolso integral proporcional.
+> **Risco concreto**: em Out/2026, se um P0 durar 2h (DSR alert + DB primario falhar + restore backup), EasyDemo **viola o SLA Business de 99,9 %** e descumpre contrato. Cliente Business pode rescindir (CDC art. 49 + art. 35, IV) sem ônus e pedir reembolso integral proporcional.
 
 **Mitigação concreta**: ou (a) **remover SLA contratual até ter failover ativo** (repmgr + 2º VPS = +R$ 80/mês + 3 semanas de implementação), ou (b) **baixar para 99,5 % mesmo no Business** com aviso destacado, ou (c) aceitar e provisionar.
 
@@ -117,7 +117,7 @@ A `docs/RFC-Brazilian-Supademo.md` §6 e `LAUNCH-PLAN.md` §7 confirmam: **"VPS 
 
 #### **#5 🟡 COOKIE BANNER + DNT NÃO IMPLEMENTADO DE FATO**
 
-`cookie-policy.md` §4.1 descreve um banner elegante ("🍪 Aceitar todos / 🔒 Apenas essenciais / ⚙️ Configurar") que é **tecnicamente viável mas que não verifiquei estar deployado**. Buscando `apps/web/app/` (estrutura de arquivos `cookies/`, `consent/`, `cmp/`), o sinal está ausente. Se a DemoBR publicar o site sem banner funcional enquanto a política declara ter um, há **contradição documental + publicidade enganosa (CDC art. 37)**.
+`cookie-policy.md` §4.1 descreve um banner elegante ("🍪 Aceitar todos / 🔒 Apenas essenciais / ⚙️ Configurar") que é **tecnicamente viável mas que não verifiquei estar deployado**. Buscando `apps/web/app/` (estrutura de arquivos `cookies/`, `consent/`, `cmp/`), o sinal está ausente. Se a EasyDemo publicar o site sem banner funcional enquanto a política declara ter um, há **contradição documental + publicidade enganosa (CDC art. 37)**.
 
 Adicionalmente, `cookie-policy.md` § 3.2 declara cookies `_pk_id.*`, `_pk_ses.*`, `ph_phc_*` (PostHog) sem confirmar:
 - Que o PostHog está configurado como `1ª parte` (ele é `3ª parte` por padrão — cookies `posthog.com`/`.posthog.com`).
@@ -135,7 +135,7 @@ Adicionalmente, `cookie-policy.md` § 3.2 declara cookies `_pk_id.*`, `_pk_ses.*
 |--------|------------------------|-------|
 | **Clerk** 🇺🇸 | Sim — DPA + verificação de cláusula para SOC 2 / GDPR adequacy | 🟡 Médio. Clerk publica DPA; precisa confirmar versão vigente em Out/2026 (eles trocaram modelo 2024). |
 | **Asaas** 🇧🇷 | Não-DPA formal é "termos de serviço" — risco de BR | 🟠 Asaas NÃO assina DPA formal. Para dados financeiros (CPF, CNPJ), isso é comum mas advogado precisa confirmar se basta. |
-| **PostHog "EU opt-in"** 🇪🇺/🇺🇸 | Sim — DPA + verificação de configuração regional | 🟡 O documento diz "data residency EU opt-in". Se DemoBR NÃO configurou (afirma apenas "opt-in está disponível"), está transferindo para EUA sem otimização — advogado precisa confirmar. |
+| **PostHog "EU opt-in"** 🇪🇺/🇺🇸 | Sim — DPA + verificação de configuração regional | 🟡 O documento diz "data residency EU opt-in". Se EasyDemo NÃO configurou (afirma apenas "opt-in está disponível"), está transferindo para EUA sem otimização — advogado precisa confirmar. |
 | **OpenAI/Anthropic/ElevenLabs** (Fase 2) | Sim — DPA + verificação de cláusula "no-train" | 🔴 Risco: a OpenAI **muda frequentemente** o DPA; o que estava assinado em 2024 pode ter mudado em 2025. "No-train" também mudou para opt-in em alguns modelos. Advogado precisa revisar **versão atual** de cada DPA. |
 
 > **Ação concreta**: gerar `setup-report/SUBPROCESSOR-DPA-AUDIT.md` listando **cada vendor × versão do DPA × data de assinatura × link público**. Sem isso, a declaração "DPA assinado ✅" é papel molhado.
@@ -150,9 +150,9 @@ Adicionalmente, `cookie-policy.md` § 3.2 declara cookies `_pk_id.*`, `_pk_ses.*
 
 #### **#8 🟡 SUBSCRIPTION "SELFIE" E CONSENTIMENTO ESPECÍFICO**
 
-`privacy-policy.md` §3.1 declara: "Para crianças e adolescentes (< 18 anos), o consentimento é dado por ao menos um dos pais ou responsável legal." Mas o produto **não tem gate de idade** na signup. Se um menor cadastra (e o sistema não barra), DemoBR está coletando dados de menor sem o consentimento qualificado — infração LGPD art. 11.
+`privacy-policy.md` §3.1 declara: "Para crianças e adolescentes (< 18 anos), o consentimento é dado por ao menos um dos pais ou responsável legal." Mas o produto **não tem gate de idade** na signup. Se um menor cadastra (e o sistema não barra), EasyDemo está coletando dados de menor sem o consentimento qualificado — infração LGPD art. 11.
 
-Também: § 10 declara "DemoBR não é direcionada a menores de 18 anos. Em caso de identificação... eliminaremos em até 7 dias". Mas **como** DemoBR identifica? Se usar detecção automática (data de nascimento declarada), é uma camada de coleta adicional. Se depender de autodeclaração, falha em 100% dos casos.
+Também: § 10 declara "EasyDemo não é direcionada a menores de 18 anos. Em caso de identificação... eliminaremos em até 7 dias". Mas **como** EasyDemo identifica? Se usar detecção automática (data de nascimento declarada), é uma camada de coleta adicional. Se depender de autodeclaração, falha em 100% dos casos.
 
 > **Ação concreta**: (a) gate de **idade mínima na signup com checkbox "Declaro ter 18+ anos"**; (b) auto-declaração NÃO é defesa; precisa de **mecanismo razoável** (pode ser só o checkbox por enquanto, com DPia anual revisando).
 
@@ -175,7 +175,7 @@ Também: § 10 declara "DemoBR não é direcionada a menores de 18 anos. Em caso
 
 Cada uma dessas premissas tem fonte **fraca**:
 
-- CVR 2–5 % Free→Paid BR — cita `research/pricing/gtm-channels.md §B`, que **explicitamente** diz: "CVRs exatos de PLG SaaS BR: depende muito de vertical, mas range 2-5% é consenso de mercado". Consenso de mercado **não é benchmark da DemoBR**.
+- CVR 2–5 % Free→Paid BR — cita `research/pricing/gtm-channels.md §B`, que **explicitamente** diz: "CVRs exatos de PLG SaaS BR: depende muito de vertical, mas range 2-5% é consenso de mercado". Consenso de mercado **não é benchmark da EasyDemo**.
 - LTV/CAC 5x em 12m — derivado de ticket Pro R$ 49 × churn mensal 5% × margem 75%. Planilha de fluxo de caixa em SYNTHESIS.md §4.C confirma matematicamente o 5,3x. Mas **assume churn mensal de 5 %** — se for 8 % (pior cenário citado), LTV cai 30 %. **Em 6 meses reais, sem histórico, ninguém sabe a que ponto cairá**.
 - Payback 12 meses **mix** depende de mix de planos, e o mix projetado (70% Pro / 25% Business / 5% Enterprise) assume que 1 em cada 4 paid é R$ 199. **Numérica incompatível com a realidade de PME-BR**: BR paga SaaS raramente > R$ 100/mês sem aprovação financeira estruturada (centros de custo). Mix mais realista: 90 % Pro / 10 % Business → ARPU médio R$ 65, não R$ 100 como projetado.
 
@@ -227,7 +227,7 @@ Mas são planejados para uso em:
 
 > "10 clientes ativos = R$ 200/mês recorrente pra você."
 
-Mas o **cálculo inversa do DemoBR** não aparece explicitamente. Com:
+Mas o **cálculo inversa do EasyDemo** não aparece explicitamente. Com:
 
 - Pro R$ 49 → afiliado recebe R$ 9,80/mês por cliente × 12 = R$ 117,60
 - Business R$ 199 → afiliado recebe R$ 39,80/mês × 12 = R$ 477,60
@@ -248,11 +248,11 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 
 #### **#5 🟡 CONCORRENTE GUIAFLOW: R$ 36 vs R$ 49 = VANTAGEM PERSISTENTE**
 
-`COMPETITIVE-BATTLECARDS.md` §3 admite: "Sim, R$ 13 a mais". GuiaFlow é open source MIT (31⭐), dev-friendly, R$ 36/mês Pro. O posicionamento do DemoBR ("SaaS gerenciado sem BYOK") é defensável para **PMM não-técnico**, mas o **preço BR tem teto psicológico**. **Em PME de 30 pessoas com orçamento apertado, R$ 13/mês é R$ 156/ano — R$ 156 que justificam contratar contador para emitir NF-e ou cancelar.**
+`COMPETITIVE-BATTLECARDS.md` §3 admite: "Sim, R$ 13 a mais". GuiaFlow é open source MIT (31⭐), dev-friendly, R$ 36/mês Pro. O posicionamento do EasyDemo ("SaaS gerenciado sem BYOK") é defensável para **PMM não-técnico**, mas o **preço BR tem teto psicológico**. **Em PME de 30 pessoas com orçamento apertado, R$ 13/mês é R$ 156/ano — R$ 156 que justificam contratar contador para emitir NF-e ou cancelar.**
 
-**Risco concreto:** se GuiaFlow lançar (a) GuiFlow **SaaS gerenciado** com interface webapp (mesmo com IA BYOK opcional), eles tiram o principal diferencial do DemoBR; ou (b) adicionar **LGPD DSR endpoint** (mostrariam que é viável sem R$ 200k de investimento), a tese "DemoBR é o único BR-LGPD-by-design" morre.
+**Risco concreto:** se GuiaFlow lançar (a) GuiFlow **SaaS gerenciado** com interface webapp (mesmo com IA BYOK opcional), eles tiram o principal diferencial do EasyDemo; ou (b) adicionar **LGPD DSR endpoint** (mostrariam que é viável sem R$ 200k de investimento), a tese "EasyDemo é o único BR-LGPD-by-design" morre.
 
-> **Risco real:** GuiaFlow não está parado — está em release contínuo. Toda semana é uma chance de eles cobrirem o gap. **DemoBR precisa correr**. A janela competitiva é **6–12 meses**, não 24.
+> **Risco real:** GuiaFlow não está parado — está em release contínuo. Toda semana é uma chance de eles cobrirem o gap. **EasyDemo precisa correr**. A janela competitiva é **6–12 meses**, não 24.
 
 **Mitigação:** acelerar roadmap de features que **NÃO podem ser OSS** (ex.: AI voice cloning PT-BR + WhatsApp Business API + integração nativa com HubSpot BR/RD/Kommo via OAuth) e travar clientes com multi-tenant + onboarding assistido.
 
@@ -260,7 +260,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 
 #### **#6 🟢 CONCORRENTE SUPADEMO ENTRAR NO BR COM PIX**
 
-`COMPETITIVE-BATTLECARDS.md` §1 cita: "Supademo Scale $50 ≈ R$ 275. Supademo Business $249 ≈ R$ 1.000. DemoBR Pro é 82 % mais barato." Diferencial é forte. Mas a Supademo tem capital (50+ funcionários, ARR US$ 4M, fundamento de 200k+ usuários), pode **adicionar PIX/boleto/Asaas em 30 dias** se quiser entrar no BR de fato. **Por que não fizeram ainda?** Mercado BR sozinho é TAM ~R$ 30M/ano (SYNTHESIS.md §1) — pequeno para Supademo. Mas se GuiaFlow OSS comer parcela, eles podem reagir.
+`COMPETITIVE-BATTLECARDS.md` §1 cita: "Supademo Scale $50 ≈ R$ 275. Supademo Business $249 ≈ R$ 1.000. EasyDemo Pro é 82 % mais barato." Diferencial é forte. Mas a Supademo tem capital (50+ funcionários, ARR US$ 4M, fundamento de 200k+ usuários), pode **adicionar PIX/boleto/Asaas em 30 dias** se quiser entrar no BR de fato. **Por que não fizeram ainda?** Mercado BR sozinho é TAM ~R$ 30M/ano (SYNTHESIS.md §1) — pequeno para Supademo. Mas se GuiaFlow OSS comer parcela, eles podem reagir.
 
 **Severidade real:** 🟢 baixa — não-bloqueador para 6 meses; precisa monitoramento.
 
@@ -280,7 +280,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 
 #### **#9 🟡 SETUP POSTHOG "EU OPT-IN" NÃO CONFIRMADO**
 
-`subprocessors-list.md` diz "PostHog Cloud... 🇺🇸 EUA + 🇪🇺 UE (data residency EU opt-in)". Isto é **declaração de disponibilidade**, não de **uso**. Se DemoBR não configurou Data Residency EU no painel PostHog, dados de leads EU (não temos leads EU ainda, mas potenciais) iriam para servidor US. Em 18 meses, isso vira problema.
+`subprocessors-list.md` diz "PostHog Cloud... 🇺🇸 EUA + 🇪🇺 UE (data residency EU opt-in)". Isto é **declaração de disponibilidade**, não de **uso**. Se EasyDemo não configurou Data Residency EU no painel PostHog, dados de leads EU (não temos leads EU ainda, mas potenciais) iriam para servidor US. Em 18 meses, isso vira problema.
 
 **Severidade real:** 🟡 média — depende do plano de expansão LATAM (M6+).
 
@@ -300,7 +300,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 
 ```
 [ ] Aprovar orçamento (R$ 2k/mês para PJ retainer júnior — caminho B do DPO.md)
-[ ] Definir caminho (B — PJ retainer — recomendado para porte DemoBR)
+[ ] Definir caminho (B — PJ retainer — recomendado para porte EasyDemo)
 [ ] Coletar 3+ DPOs certificados (CIPP/E, CIPM, EXIN PDP F) em:
     - LinkedIn "DPO BR certificado + SaaS"
     - Plataforma JusBrasil (filtrar "LGPD" + "DPO")
@@ -361,7 +361,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 [ ] DPIA inicial rascunhada (LGPD art. 38) — focada em: dados de lead + analytics + DSR
 [ ] Banner de cookies implementado (c.f. Seção 2.1 #5)
 [ ] Selfie com documento removida do fluxo DSR (c.f. Seção 2.1 #3)
-[ ] Comunicação oficial: "DemoBR nomeou [NOME] como Encarregado (DPO)"
+[ ] Comunicação oficial: "EasyDemo nomeou [NOME] como Encarregado (DPO)"
     - LinkedIn post
     - Email para waitlist
     - Atualização em todos os canais
@@ -405,7 +405,7 @@ BLOCO 1 (6 min) — Contexto
 - "Seus demos estão no Loom/Zoom/Slides ou já migrou pra algo mais sofisticado?"
 
 BLOCO 2 (6 min) — Demo do produto (NÃO pitch)
-- Founder grava 1 demo de 5 passos ANTES (a "demo de DemoBR")
+- Founder grava 1 demo de 5 passos ANTES (a "demo de EasyDemo")
 - Pedir para entrevistado assistir a demo completa **sem opinar**
 - Fazer 3 perguntas:
   - "Isso te ajuda em algo que você faz hoje?"
@@ -655,7 +655,7 @@ Output:
 
 ### Síntese em 1 parágrafo
 
-> **A DemoBR tem produto tecnicamente sólido, documentação de privacidade pedagogicamente correta, e plano de lançamento profissional. Mas a base factual de receita é **inferida, não medida**: pricing não validado com cliente real, personas compostas (não entrevistas), cases fictícios (não publicados), métricas-alvo baseadas em benchmark setorial BR (não no segmento "interactive demo BR"). A documentação legal está 95% pronta — falta identidade jurídica + DPO + banner de cookies operacional. A janela competitiva (especialmente vs GuiaFlow OSS) é 6–12 meses, não 24. O founder precisa parar de planejar e começar a executar com clientes reais. **Se eu fosse o investidor-anjo,**(a) eu pediria: (1) 5 entrevistas de ICP antes de lançar, (2) CNPJ + DPO antes de publicar, (3) banner de cookies funcional antes do go-live — esses 3 juntos custam R$ 12–25k e protegem R$ 200k+ de exposição. O resto é execução.**
+> **A EasyDemo tem produto tecnicamente sólido, documentação de privacidade pedagogicamente correta, e plano de lançamento profissional. Mas a base factual de receita é **inferida, não medida**: pricing não validado com cliente real, personas compostas (não entrevistas), cases fictícios (não publicados), métricas-alvo baseadas em benchmark setorial BR (não no segmento "interactive demo BR"). A documentação legal está 95% pronta — falta identidade jurídica + DPO + banner de cookies operacional. A janela competitiva (especialmente vs GuiaFlow OSS) é 6–12 meses, não 24. O founder precisa parar de planejar e começar a executar com clientes reais. **Se eu fosse o investidor-anjo,**(a) eu pediria: (1) 5 entrevistas de ICP antes de lançar, (2) CNPJ + DPO antes de publicar, (3) banner de cookies funcional antes do go-live — esses 3 juntos custam R$ 12–25k e protegem R$ 200k+ de exposição. O resto é execução.**
 
 ### Posição sobre publicação
 
@@ -678,7 +678,7 @@ Output:
 
 ### Tese final
 
-A DemoBR **NÃO ESTÁ PRONTA** para go-live público completo, mas **ESTÁ PRONTA** para go-live de waitlist + 5 entrevistas de validação + contratação de DPO FAST-TRACK. Em 30 dias, com R$ 12–25k de investimento, ela pode entrar em mercado com proteção jurídica adequada. **O investimento é alto para o porte, mas é desproporcionalmente pequeno comparado ao risco de NÃO investir.**
+A EasyDemo **NÃO ESTÁ PRONTA** para go-live público completo, mas **ESTÁ PRONTA** para go-live de waitlist + 5 entrevistas de validação + contratação de DPO FAST-TRACK. Em 30 dias, com R$ 12–25k de investimento, ela pode entrar em mercado com proteção jurídica adequada. **O investimento é alto para o porte, mas é desproporcionalmente pequeno comparado ao risco de NÃO investir.**
 
 ---
 
@@ -728,5 +728,5 @@ A conclusão **NÃO é recomendação de investimento** nem **due diligence form
 Status: Triagem crítica — revisão humana (advogado + PM sênior) obrigatória
 Autor: Mini-Conclave subagente (Advogado + PM)
 Versão: 1.0
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX (placeholder, c.f. Seção 1.2)
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX (placeholder, c.f. Seção 1.2)
 ```

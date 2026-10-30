@@ -1,6 +1,6 @@
 # Política do Endpoint DSR (LGPD art. 18)
 
-> Define como a DemoBR responde aos pedidos de titulares relativos aos
+> Define como a EasyDemo responde aos pedidos de titulares relativos aos
 > 10 direitos previstos no art. 18 da LGPD.
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
@@ -11,11 +11,11 @@
 ## 1. Quem pode pedir?
 
 Qualquer pessoa física ("titular") cujos dados pessoais são tratados
-pela DemoBR, em um dos seguintes papéis:
+pela EasyDemo, em um dos seguintes papéis:
 
 | Papel | Quem é? |
 |-------|---------|
-| **Creator** | Conta registrada no DemoBR |
+| **Creator** | Conta registrada no EasyDemo |
 | **Lead** | Captou e-mail/telefone em um demo |
 | **Viewer** | Visitou um demo público (anonimamente) |
 | **Antigo creator** / ex-lead | Conta desativada, mas ainda em retenção |
@@ -23,7 +23,7 @@ pela DemoBR, em um dos seguintes papéis:
 
 > **Visitante anônimo sem rastreamento**: se uma pessoa cujo IP nunca
 > foi armazenado e cujo User-Agent foi apenas hasheado solicita DSR,
-> a DemoBR responderá explicando que não há dados que possam
+> a EasyDemo responderá explicando que não há dados que possam
 > identificá-la, com prova dessa ausência (vide §5 RTBF-template.md).
 
 ---
@@ -53,7 +53,7 @@ Campos obrigatórios:
 - Assunto "DSR — [direito escolhido]"
 - Anexar mesma prova de identidade do item anterior
 
-> O e-mail acima é um **placeholder funcional** enquanto a DemoBR
+> O e-mail acima é um **placeholder funcional** enquanto a EasyDemo
 > não concluiu a nomeação formal do DPO. Ver
 > [`DPO-PROCESS.md`](./DPO-PROCESS.md) para o cronograma de
 > contratação (até 90 dias).
@@ -84,7 +84,7 @@ por escrito ao titular**.
 
 ### 4.1 Confirmação da existência de tratamento (art. 18, I)
 
-**Ação**: confirmar se a DemoBR trata dados do requerente.
+**Ação**: confirmar se a EasyDemo trata dados do requerente.
 **Resposta**: modelo em [`RTBF-template.md`](./RTBF-template.md).
 **Formato**: e-mail + documento PDF simples (carta).
 
@@ -98,7 +98,7 @@ por escrito ao titular**.
 
 ### 4.3 Correção (art. 18, III)
 
-**Ação**: o titular informa o dado incorreto/desatualizado e a DemoBR
+**Ação**: o titular informa o dado incorreto/desatualizado e a EasyDemo
 corrige.
 **Formato**: endpoint PATCH / formulário web.
 **Prazo**: 7 dias.
@@ -171,7 +171,7 @@ DELETE /api/v1/dsr?token=...   inicia eliminação (LGPD art. 18, VI)
 PATCH  /api/v1/dsr?token=...   corrige um dado
 ```
 
-- `token` é um JWT assinado com chave DemoBR, de uso único, válido
+- `token` é um JWT assinado com chave EasyDemo, de uso único, válido
   por 30 dias.
 - Toda chamada gera entrada em `app.dsr_log` (LGPD art. 37 + art. 50).
 - Logs ficam retidos por **24 meses** (compliance) e são pseudonymizados
@@ -230,7 +230,7 @@ representado.
 
 ## 8. Recusa justificada
 
-A DemoBR pode **recusar** DSR mediante justificativa (LGPD art. 18, §7º):
+A EasyDemo pode **recusar** DSR mediante justificativa (LGPD art. 18, §7º):
 
 - Pedido **genérico** que não permite identificação do titular.
 - Pedido com **indícios de fraude**.
@@ -255,5 +255,5 @@ ao titular o canal da ANPD.
 ```
 Última atualização: 18/Out/2026
 Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso público
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX
 ```

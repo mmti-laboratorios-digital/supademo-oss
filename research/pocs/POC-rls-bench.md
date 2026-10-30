@@ -1,7 +1,7 @@
 # POC-2 — Overhead de Row-Level Security (Postgres 17)
 
 **Data**: 2026-10-18
-**Autor**: subagente DemoBR
+**Autor**: subagente EasyDemo
 
 > ⚠️ **Nota de versão:** este POC foi executado com **PostgreSQL 17**, que **não é** a versão canônica do stack (a canônica é **16** — ver [`docs/ADRs/ADR-013-postgres-16-canonical.md`](../../docs/ADRs/ADR-013-postgres-16-canonical.md)). O registro fica intacto porque reflete o que realmente rodou; os números **não são version-matched** com a produção. Re-rodar com `postgres:16-alpine` antes de usar qualquer número como SLA.
 
@@ -15,7 +15,7 @@
 Row-Level Security no Postgres é **muito citada** em guias de multi-tenant SaaS,
 mas **raramente medida**. A dúvida concreta: se ligarmos `FORCE ROW LEVEL SECURITY`
 em `demos` e `demo_steps`, qual é o **overhead real** nas queries mais comuns do
-DemoBR (listar 50 demos de um tenant; listar steps de um demo)?
+EasyDemo (listar 50 demos de um tenant; listar steps de um demo)?
 
 A suspeita: **com índice em `tenant_id`, RLS custa menos de 5%**. Sem índice,
 a política força um filtro adicional que **Sequential Scan não consegue cortar**
@@ -112,7 +112,7 @@ política** — o índice em `tenant_id` já corta tudo.
 | RLS adiciona latência perceptível? | **Não.** p95 do pior caso (RLS+sem idx) = 6.6 ms vs 6.1 ms (sem RLS) = +0.5 ms. p95 absoluto é dominado pelo I/O e nunca pelo policy check. |
 | Vale o custo de manter? | **Sim — sempre.** É a **única defesa em profundidade** que sobrevive a bug no ORM: mesmo que alguém esqueça `WHERE tenant_id = ?`, o banco recusa linhas de outros tenants. |
 | Quando RLS fica caro? | Em queries que escaneiam muitas linhas de **muitos tenants** sem índice — exemplo: relatório cross-tenant (`SELECT count(*) FROM demos`). Aí o filtro extra percorre todas as 10k+ rows e custa CPU. **Mitigação**: índices parciais (`WHERE tenant_id = current_setting('app.tenant_id')`) ou desabilitar RLS para `SECURITY DEFINER` functions de relatório. |
-| Recomendações para DemoBR | (1) **Sempre criar índice em `tenant_id`** em toda tabela tenant-scoped (custo: medido 0.69 ms p50 = economia de 100%). (2) **Usar `FORCE ROW LEVEL SECURITY`** mesmo para o owner — sem ele, queries feitas pelo service role ignoram o policy. (3) **Definir `app.tenant_id` no início de toda transação** via `set_config(..., true)` (local, não global). |
+| Recomendações para EasyDemo | (1) **Sempre criar índice em `tenant_id`** em toda tabela tenant-scoped (custo: medido 0.69 ms p50 = economia de 100%). (2) **Usar `FORCE ROW LEVEL SECURITY`** mesmo para o owner — sem ele, queries feitas pelo service role ignoram o policy. (3) **Definir `app.tenant_id` no início de toda transação** via `set_config(..., true)` (local, não global). |
 
 ### Anexo — como rodar
 

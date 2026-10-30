@@ -1,4 +1,4 @@
-# Diagrama de arquitetura — DemoBR (clone Supademo BR)
+# Diagrama de arquitetura — EasyDemo (clone Supademo BR)
 
 > Visão geral completa do sistema: usuário final → extensão → API → storage → CDN → player público → analytics.
 
@@ -11,7 +11,7 @@ flowchart TB
     %% Atores
     Creator[👤 Criador<br/>Marketing/Sales/CS]
     Visitor[👤 Lead/Visitante<br/>demo.demo.br/cliente]
-    Admin[👤 Admin DemoBR<br/>time interno]
+    Admin[👤 Admin EasyDemo<br/>time interno]
 
     %% Edge / Cliente
     subgraph Edge["Edge (Cloudflare)"]
@@ -228,7 +228,7 @@ flowchart TB
                               │
                               ▼ (dashboards)
 ┌─────────────────────────────────────────────────────────────────┐
-│ DemoBR Dashboard                                                 │
+│ EasyDemo Dashboard                                                 │
 │ - nosso próprio dashboard (Next.js + Tremor):                  │
 │   - funil por passo, completion rate, dwell time                │
 │ - PostHog iframe embed:                                         │
@@ -302,7 +302,7 @@ flowchart TB
 │ pgBackRest comprime (lz4) e encripta (AES-256-CBC opcional)    │
 │ Envia para repo1 (R2 S3-compatible)                              │
 │ Endpoint: ${R2_ACCOUNT_ID}.r2.cloudflarestorage.com              │
-│ Bucket: demobr-pgbackrest                                       │
+│ Bucket: easydemo-pgbackrest                                       │
 │ Path: /pgbackrest/{stanza}/{date}/{backup}.tar.gz               │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -310,7 +310,7 @@ flowchart TB
 ┌─────────────────────────────────────────────────────────────────┐
 │ Restore drill (script manual roda mensalmente)                   │
 │  - sobe VPS temporário com imagem do mesmo SO                   │
-│  - pgbackrest restore --stanza=demobr --target-time=...         │
+│  - pgbackrest restore --stanza=easydemo --target-time=...         │
 │  - start postgres                                               │
 │  - valida via SELECT count(*) em tabelas críticas               │
 │  - script de notificação no Slack se falhar                     │
@@ -385,7 +385,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                              │
                              ▼
                   ┌──────────────────────┐
-                  │ ghcr.io/demobr/app   │
+                  │ ghcr.io/easydemo/app   │
                   │ + tag sha            │
                   └──────────┬───────────┘
                              │
@@ -462,16 +462,16 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                               │ WAL stream + daily full
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ Cloudflare R2 bucket 'demobr-pgbackrest'                      │
-│ Path: /pgbackrest/demobr/2026-10-15/backup.tar.gz             │
-│       /pgbackrest/demobr/archive/00000001000000...             │
+│ Cloudflare R2 bucket 'easydemo-pgbackrest'                      │
+│ Path: /pgbackrest/easydemo/2026-10-15/backup.tar.gz             │
+│       /pgbackrest/easydemo/archive/00000001000000...             │
 │ Retention: 7 full + 4 weekly + 12 monthly                     │
 └──────────────────────────────────────────────────────────────┘
                               │
                               │ lifecycle policy
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ Cloudflare R2 bucket 'demobr-prod' (CDN de mídia)            │
+│ Cloudflare R2 bucket 'easydemo-prod' (CDN de mídia)            │
 │ Path:                                                         │
 │  - /demos/{tenant}/{demo}/{step}.webp                         │
 │  - /demos/{tenant}/{demo}/{step}_thumb.webp                   │
@@ -510,7 +510,7 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                               │ JWT + RLS + rate limit
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 🔵 TRUST ZONE 3: Admin DemoBR (time interno)                  │
+│ 🔵 TRUST ZONE 3: Admin EasyDemo (time interno)                  │
 │ - acesso via SSH (chave) + bastion                            │
 │ - acesso ao banco via role separada (auditado)                │
 │ - dashboards SigNoz + Sentry                                  │

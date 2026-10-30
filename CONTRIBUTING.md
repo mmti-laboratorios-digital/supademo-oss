@@ -1,6 +1,6 @@
-# Contributing to DemoBR
+# Contributing to EasyDemo
 
-Obrigado por contribuir com **DemoBR** — clone brasileiro do Supademo, focado no mercado PT-BR com PIX/boleto, LGPD de ponta a ponta e player em pt-BR.
+Obrigado por contribuir com **EasyDemo** — clone brasileiro do Supademo, focado no mercado PT-BR com PIX/boleto, LGPD de ponta a ponta e player em pt-BR.
 
 ## 🚦 Status atual
 

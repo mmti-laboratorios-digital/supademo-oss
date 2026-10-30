@@ -1,11 +1,11 @@
 openapi: 3.1.0
 
 info:
-  title: DemoBR REST API
+  title: EasyDemo REST API
   version: 1.0.0
-  summary: API REST do DemoBR — Demos interativas para times BR.
+  summary: API REST do EasyDemo — Demos interativas para times BR.
   description: |
-    API REST do **DemoBR** (clone brasileiro do Supademo/GuiaFlow). Permite criar,
+    API REST do **EasyDemo** (clone brasileiro do Supademo/GuiaFlow). Permite criar,
     gerenciar e publicar demos interativas, capturar leads, consultar analytics,
     gerenciar billing via Asaas e cumprir obrigações LGPD (DSR export/erase).
 
@@ -47,7 +47,7 @@ info:
     Responses são cacheadas por 24h.
 
   contact:
-    name: DemoBR Engineering
+    name: EasyDemo Engineering
     url: https://easydemo.io/docs
     email: api@easydemo.io
 
@@ -89,7 +89,7 @@ tags:
   - name: DSR (LGPD)
     description: Data Subject Rights — export e delete (LGPD art. 18).
   - name: Webhooks (entrada)
-    description: Webhooks que DemoBR recebe (Clerk, Asaas).
+    description: Webhooks que EasyDemo recebe (Clerk, Asaas).
   - name: Workspaces
     description: Metadata do workspace atual (autenticado).
 
@@ -1014,7 +1014,7 @@ components:
           type: string
           nullable: true
           description: Texto LGPD exato mostrado no formulário
-          example: Concordo com a Política de Privacidade da DemoBR.
+          example: Concordo com a Política de Privacidade da EasyDemo.
         final_cta:
           type: object
           nullable: true
@@ -1785,7 +1785,7 @@ components:
             status: published
             language: pt-BR
             lead_form_enabled: true
-            lead_form_consent_text: Concordo com a Política de Privacidade da DemoBR.
+            lead_form_consent_text: Concordo com a Política de Privacidade da EasyDemo.
             final_cta:
               type: whatsapp
               url: https://wa.me/5511999999999
@@ -1824,7 +1824,7 @@ components:
         description: Tour interativo das principais features do Q4
         language: pt-BR
         lead_form_enabled: true
-        lead_form_consent_text: Concordo com a Política de Privacidade da DemoBR.
+        lead_form_consent_text: Concordo com a Política de Privacidade da EasyDemo.
         final_cta:
           type: whatsapp
           url: https://wa.me/5511999999999
@@ -1882,7 +1882,7 @@ components:
     UploadSignPng:
       summary: Upload sign para screenshot PNG
       value:
-        upload_url: https://demobr-pub.r2.cloudflarestorage.com/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=...
+        upload_url: https://demo-public.r2.cloudflarestorage.com/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=...
         r2_key: workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
         expires_at: '2026-10-18T14:37:00.000Z'
         required_headers:

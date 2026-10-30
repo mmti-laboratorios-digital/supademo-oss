@@ -56,15 +56,15 @@ DB_HOST="$(printf '%s' "$HOSTPORT" | awk -F':' '{print $1}')"
 DB_PORT="$(printf '%s' "$HOSTPORT" | awk -F':' '{print $2}')"
 DB_PORT="${DB_PORT:-55432}"
 
-# Se for docker (demobr-postgres), usa docker exec
+# Se for docker (easydemo-postgres), usa docker exec
 USE_DOCKER=false
-if command -v docker >/dev/null 2>&1 && docker ps --format '{{.Names}}' | grep -q '^demobr-postgres$'; then
+if command -v docker >/dev/null 2>&1 && docker ps --format '{{.Names}}' | grep -q '^easydemo-postgres$'; then
   USE_DOCKER=true
 fi
 
 TS="$(date +%Y-%m-%d-%H%M)"
 OUT_FILE="$BACKUP_DIR/db-$TS.sql.gz"
-TMP_FILE="$(mktemp -t demobr-dump.XXXXXX.sql)"
+TMP_FILE="$(mktemp -t easydemo-dump.XXXXXX.sql)"
 
 log "Destino: $OUT_FILE"
 log "Origem : ${DB_USER}@${DB_HOST}:${DB_PORT}/${DB_NAME} (docker=$USE_DOCKER)"
@@ -73,7 +73,7 @@ run_pg_dump() {
   if [[ "$USE_DOCKER" == "true" ]]; then
     docker exec \
       -e PGPASSWORD="$DB_PASS" \
-      demobr-postgres \
+      easydemo-postgres \
       pg_dump --schema=public --no-owner --no-privileges \
         -U "$DB_USER" -d "$DB_NAME"
   else

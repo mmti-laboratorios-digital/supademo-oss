@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-O DemoBR precisa entregar três superfícies distintas:
+O EasyDemo precisa entregar três superfícies distintas:
 
 1. **Painel admin/editor** (autenticado, dashboard, CRUD de demos, billing).
 2. **Landing page pública** (pricing, marketing, SEO).
@@ -108,6 +108,6 @@ Detalhes da configuração:
 - [Next.js 15 release notes](https://nextjs.org/blog/next-15)
 - [App Router docs](https://nextjs.org/docs/app)
 - [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)
-- RFC DemoBR §2.1, §2.2
+- RFC EasyDemo §2.1, §2.2
 - `research/tech/backend-stack.md` §1 — escolha de framework
 - `research/tech/architecture-diagram.md` §1 — diagrama geral

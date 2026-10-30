@@ -2,11 +2,11 @@
 
 - **Status:** Accepted
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 
 ## Context and Problem Statement
 
-DemoBR é um SaaS B2B vendido no Brasil em reais (BRL). O público-alvo (CMOs, gerentes de marketing, heads de growth) paga com:
+EasyDemo é um SaaS B2B vendido no Brasil em reais (BRL). O público-alvo (CMOs, gerentes de marketing, heads de growth) paga com:
 
 - **PIX** (~70% das transações em SaaS B2B BR pequeno).
 - **Boleto bancário** (~15% — empresas com fluxo de caixa mensal).
@@ -37,7 +37,7 @@ Devemos escolher entre gateways que suportem **PIX + boleto + cartão recorrente
 
 Configuração:
 
-- Conta Asaas **produção** com CNPJ da DemoBR.
+- Conta Asaas **produção** com CNPJ da EasyDemo.
 - **API key** em env `ASAAS_API_KEY` (produção vs sandbox separados).
 - Webhook secret em `ASAAS_WEBHOOK_SECRET` (HMAC SHA256).
 - Endpoint `/api/webhooks/asaas` valida assinatura e processa eventos: `PAYMENT_RECEIVED`, `PAYMENT_OVERDUE`, `PAYMENT_CONFIRMED`, `PAYMENT_REFUNDED`, `SUBSCRIPTION_INACTIVATED`, `SUBSCRIPTION_REACTIVATED`.
@@ -123,5 +123,5 @@ Configuração:
 - [Mercado Pago subscriptions](https://www.mercadopago.com.br/developers/pt/reference/subscriptions/_preapprovals/post)
 - [Pagar.me](https://docs.pagar.me/)
 - [Stripe BR](https://stripe.com/br)
-- RFC DemoBR §2.2 — escolha de pagamento
+- RFC EasyDemo §2.2 — escolha de pagamento
 - `research/pricing/payment-brazil.md` — comparativo completo

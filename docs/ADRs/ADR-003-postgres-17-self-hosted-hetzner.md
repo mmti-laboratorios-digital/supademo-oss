@@ -4,7 +4,7 @@
   [ADR-013](ADR-013-postgres-16-canonical.md). A decisão de **self-host no
   Hetzner** (em vez de Supabase/Neon/RDS) permanece válida.
 - **Date:** 2026-10-18
-- **Deciders:** Tech lead DemoBR, Founding engineer
+- **Deciders:** Tech lead EasyDemo, Founding engineer
 - **Superseded by:** [ADR-013](ADR-013-postgres-16-canonical.md) — apenas no
   que toca a versão do Postgres (a canônica é **16**)
 
@@ -14,10 +14,10 @@
 
 ## Context and Problem Statement
 
-DemoBR é um SaaS B2B que armazena dados de clientes B2B (workspaces, membros, demos, leads capturados, eventos de analytics). Esses dados são:
+EasyDemo é um SaaS B2B que armazena dados de clientes B2B (workspaces, membros, demos, leads capturados, eventos de analytics). Esses dados são:
 
 - **Sensíveis** (leads de terceiros, dados de billing).
-- **Regulados por LGPD** (operador é a DemoBR; temos DPO/controlador obligations).
+- **Regulados por LGPD** (operador é a EasyDemo; temos DPO/controlador obligations).
 - **Volume moderado** — projeção 12 meses: ~50 GB raw, ~5M eventos/mês, ~100 workspaces.
 - **Críticos** — perda de leads capturados = perda de receita do cliente.
 
@@ -116,6 +116,6 @@ Configuração:
 - [pgBackRest docs](https://pgbackrest.org/)
 - [Hetzner Cloud pricing](https://www.hetzner.com/cloud)
 - [LGPD art. 33 (transferência internacional)](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm)
-- RFC DemoBR §2.2, §2.3
+- RFC EasyDemo §2.2, §2.3
 - `research/tech/infra-vps.md` §1 — escolha do VPS
 - `research/tech/RECOMMENDATION.md` §2.5 — banco de dados

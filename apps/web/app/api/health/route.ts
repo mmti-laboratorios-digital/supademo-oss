@@ -130,7 +130,7 @@ export async function GET() {
     {
       status,
       checks,
-      service: "demobr-web",
+      service: "easydemo-web",
       version: process.env.npm_package_version ?? null,
       timestamp: new Date().toISOString(),
     },

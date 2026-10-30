@@ -228,17 +228,17 @@
   "mvp_phases": [
     {
       "id": "PR1",
-      "name": "PR 1 — Rename (DemoBR → EasyDemo)",
+      "name": "PR 1 — Rename (EasyDemo → EasyDemo)",
       "parallel_with": "F0, F9",
       "deliverables": [
         "npm scope @easydemo/* → @easydemo/* (3 pacotes + ~40 imports)",
-        "package root demobr → easydemo",
+        "package root easydemo → easydemo",
         "49 URLs easydemo.io → easydemo.io (+ app. api. docs. webhooks.)",
-        "Docker tags demobr/* → easydemo/*",
+        "Docker tags easydemo/* → easydemo/*",
         "Banco supademo → easydemo (infra/postgres/init-roles.sql, docker-compose)",
         "195 arquivos versionados, 1618 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
       ],
-      "exit_criteria": "git grep -in demobr retorna 0 no versionado; lint + typecheck + 152 testes + build verdes.",
+      "exit_criteria": "git grep -in easydemo retorna 0 no versionado; lint + typecheck + 152 testes + build verdes.",
       "success_metric": "G0",
       "gate": "G0"
     },
@@ -402,7 +402,7 @@
     {
       "id": "G0",
       "name": "Rename limpo",
-      "criteria": "git grep -in demobr = 0; CI verde",
+      "criteria": "git grep -in easydemo = 0; CI verde",
       "phase": "PR1"
     },
     {

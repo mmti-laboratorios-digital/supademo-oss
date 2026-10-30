@@ -1,4 +1,4 @@
-# 📋 Phase 5 — Auditoria Jurídica Simulada — DemoBR
+# 📋 Phase 5 — Auditoria Jurídica Simulada — EasyDemo
 
 > **Sumário da auditoria jurídica simulada dos documentos em
 > `/home/dan/saas/supademo-oss/legal/`**, executada em
@@ -55,7 +55,7 @@
 
 ### 2.2 Tópicos críticos a endereçar antes da publicação pública
 
-1. 🔴 **Preencher identidade jurídica real da DemoBR LTDA** (CNPJ, endereço, razão social).
+1. 🔴 **Preencher identidade jurídica real da EasyDemo LTDA** (CNPJ, endereço, razão social).
 2. 🔴 **Nomear formalmente o DPO/Encarregado** e comunicar à ANPD.
 3. 🔴 **Validar cláusulas de limitação de responsabilidade** sob CDC art. 51, I.
 4. 🔴 **Validar cláusula de foro** conforme sede real e cenários B2C/B2B.
@@ -85,7 +85,7 @@
 - **§3 (tabela)**: Linha 87 — "base legal" para "personalização PT-BR/EN" é "consentimento via banner" — pode ser otimizado para "interesse legítimo" dependendo do uso.
 - **§3.1**: Linha 105 — "efeito retroativo limitado" pode ser controverso. Revogação tem efeito **ex-nunc**, mas a LGPD não trata explicitamente isso para todos os tratamentos.
 - **§7**: Conta 10 direitos (linhas 182-197) mas LGPD art. 18 tem apenas 9 incisos + 1 parágrafo único. Suspeita: duplicação de direito VIII ou contagem do direito X (reclamação) como direito autônomo. Advogado deve confirmar.
-- **§10**: Linha 286 — "DemoBR não é direcionada a menores de 18 anos" — confirmar com advogado se a redação cobre art. 14º adequadamente (incluindo situações em que menor acessa por acidente).
+- **§10**: Linha 286 — "EasyDemo não é direcionada a menores de 18 anos" — confirmar com advogado se a redação cobre art. 14º adequadamente (incluindo situações em que menor acessa por acidente).
 - **§11**: Linha 294 — "Nome: a definir". Bloqueador.
 - **§13**: Linha 318-320 — Foro único de São Paulo sem considerar sede real.
 - **Anexo — Histórico**: apenas 1 versão; precisa de processo de versionamento público documentado.
@@ -102,14 +102,14 @@
 
 **Pontos fortes:**
 - Estrutura B2C clara com 13 seções.
-- Aborda propriedade intelectual do criador vs. DemoBR (separação).
+- Aborda propriedade intelectual do criador vs. EasyDemo (separação).
 - DMCA-style handling para copyright claims (8.3).
 - SLA estratificado por plano.
 
 **Pontos fracos:**
 - **§2**: Linha 32 — "Residir em país onde o serviço está disponível (atualmente: Brasil)". Concorrente com mercado LATAM. Advogado deve validar exclusividade.
-- **§3.2**: Linha 62-65 — "DemoBR não se responsabiliza por danos decorrentes de uso não autorizado da sua conta causado por falha sua em proteger suas credenciais" — pode ser considerado abusivo sob CDC em alguns cenários (ex.: MFA obrigatória não oferecida).
-- **§4.5**: Linha 113 — "A DemoBR pode alterar preços com aviso prévio de 30 dias" — pode ser contestado em contratos plurianuais.
+- **§3.2**: Linha 62-65 — "EasyDemo não se responsabiliza por danos decorrentes de uso não autorizado da sua conta causado por falha sua em proteger suas credenciais" — pode ser considerado abusivo sob CDC em alguns cenários (ex.: MFA obrigatória não oferecida).
+- **§4.5**: Linha 113 — "A EasyDemo pode alterar preços com aviso prévio de 30 dias" — pode ser contestado em contratos plurianuais.
 - **§5.1**: Linha 128 — "99,5 % informativo (sem crédito)" — não fica claro se "informativo" é juridicamente vinculante. Advogado deve opinar.
 - **§6.2**: Linha 165-168 — política de reembolso de 7 dias — alinhada com CDC art. 49 para compras online, mas há controvérsia para SaaS/assinaturas digitais.
 - **§9**: Linha 251 — Limitação ao "valor pago nos 12 meses anteriores" — risco de nulidade sob CDC art. 51, I em B2C. Advogado deve redigir corretamente.
@@ -140,7 +140,7 @@
 - **§9.2**: Linha 261-263 — SLA interno de 5+5 dias é factível para startup? Validar com operação.
 - **§10.1**: Linha 270-273 — "Export completo em até 30 dias após o término" — sem detalhe do formato. Citar schema.
 - **§11.1**: Linha 293 — "Custos arcados pelo Cliente, salvo se achados forem relevantes (escopo > 5% das verificações)" — pode ser contestado. Advogado deve opinar.
-- **§13**: Linha 318 — "este DPA pode ser atualizado pela DemoBR mediante aviso de 30 dias; mudanças nas finalidades ou natureza exigem novo aceite escrito" — verificar adequação legal.
+- **§13**: Linha 318 — "este DPA pode ser atualizado pela EasyDemo mediante aviso de 30 dias; mudanças nas finalidades ou natureza exigem novo aceite escrito" — verificar adequação legal.
 
 **Claims que precisam validação:**
 - 100% subprocessadores com DPA assinado (subprocessors-list.md) — advogado deve confirmar individualmente cada DPA.
@@ -211,7 +211,7 @@
 **Pontos fracos:**
 - **Vários**: Linha 30 — Clerk "DPA padrão + BAA quando aplicável". Para SaaS B2B sem PHI (Protected Health Information), BAA não é obrigatório. Revisar a redação para deixar claro.
 - **Linha 36**: Asaas é "processador de dados financeiros sob nossa relação". Advogado deve confirmar se termos de serviço Asaas equivalem a DPA formal.
-- **Linha 51-52**: PostHog "data residency EU opt-in" — verificar se DemoBR configurou EU opt-in (status atual ambíguo).
+- **Linha 51-52**: PostHog "data residency EU opt-in" — verificar se EasyDemo configurou EU opt-in (status atual ambíguo).
 - **Linha 69**: OpenAI/Anthropic/ElevenLabs marcadas como "Fase 2 — opcional". Se ativadas, precisam de atualização de privacy policy com aviso de 30 dias.
 - **Linha 85-87**: Procedimento de objeção a novos subprocessadores — alinhado com GDPR §2º. OK.
 
@@ -422,7 +422,7 @@ O conjunto de 12 documentos está **bem estruturado como ponto de partida**, com
 | Validar cláusulas contratuais com advogado | 4–8 semanas |
 | Traduzir e publicar | 2–4 semanas |
 
-**Após a contratação do advogado e a incorporação das revisões**, o pacote jurídico da DemoBR LTDA estará pronto para publicação pública.
+**Após a contratação do advogado e a incorporação das revisões**, o pacote jurídico da EasyDemo LTDA estará pronto para publicação pública.
 
 **Orçamento de revisão jurídica estimado**: R$ 8.000 – R$ 25.000 (PJ, fixed-price) ou R$ 350 – R$ 800/hora (avulso).
 
@@ -435,5 +435,5 @@ identificando pontos a validar com advogado habilitado.
 Última atualização: 18/Out/2026
 Status: Auditoria simulada — Revisão por advogado obrigatória antes de uso público
 Auditado por: Ferramenta automatizada de triagem técnica (Phase 5, Mission 5)
-DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX (placeholder)
+EasyDemo LTDA — CNPJ XX.XXX.XXX/0001-XX (placeholder)
 ```

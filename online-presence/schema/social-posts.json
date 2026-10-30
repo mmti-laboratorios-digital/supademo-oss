@@ -3,9 +3,9 @@
     "id": "sp-001",
     "date": "2026-01-06",
     "channel": "linkedin",
-    "text_pt": "Demo boa é demo que o lead assiste sozinho. Em 2026, ainda estamos mandando PDF pra lead MQL. Isso vai custar a call que você não vai fazer essa semana. — DemoBR",
-    "text_en": "A good demo is one the lead watches alone. In 2026, we're still sending PDFs to MQL leads. That costs you the call you won't have this week. — DemoBR",
-    "image_concept": "Screenshot do player DemoBR rodando com cursor pulsante",
+    "text_pt": "Demo boa é demo que o lead assiste sozinho. Em 2026, ainda estamos mandando PDF pra lead MQL. Isso vai custar a call que você não vai fazer essa semana. — EasyDemo",
+    "text_en": "A good demo is one the lead watches alone. In 2026, we're still sending PDFs to MQL leads. That costs you the call you won't have this week. — EasyDemo",
+    "image_concept": "Screenshot do player EasyDemo rodando com cursor pulsante",
     "hashtags": ["#SaaSBR", "#Demos", "#PMM"],
     "link": "https://easydemo.io/blog/como-fazer-demo-interativa"
   },
@@ -13,9 +13,9 @@
     "id": "sp-002",
     "date": "2026-01-08",
     "channel": "twitter",
-    "text_pt": "PIX, boleto, NF-e e LGPD não são features nice-to-have. São o chão. — DemoBR",
-    "text_en": "PIX, boleto, NF-e and LGPD aren't nice-to-have features. They're the floor. — DemoBR",
-    "image_concept": "Logo DemoBR com ícones PIX/LGPD",
+    "text_pt": "PIX, boleto, NF-e e LGPD não são features nice-to-have. São o chão. — EasyDemo",
+    "text_en": "PIX, boleto, NF-e and LGPD aren't nice-to-have features. They're the floor. — EasyDemo",
+    "image_concept": "Logo EasyDemo com ícones PIX/LGPD",
     "hashtags": ["#SaaSBR", "#LGPD", "#PIX"],
     "link": "https://easydemo.io"
   },
@@ -43,20 +43,20 @@
     "id": "sp-005",
     "date": "2026-01-15",
     "channel": "twitter",
-    "text_pt": "DemoBR > Supademo se você mora no Brasil e cobra em R$. Simples assim.",
-    "text_en": "DemoBR > Supademo if you live in Brazil and bill in R$. Simple as that.",
+    "text_pt": "EasyDemo > Supademo se você mora no Brasil e cobra em R$. Simples assim.",
+    "text_en": "EasyDemo > Supademo if you live in Brazil and bill in R$. Simple as that.",
     "image_concept": "Tabela comparativa Free × Pro × Business",
     "hashtags": ["#SaaSBR", "#Compare"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow"
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow"
   },
   {
     "id": "sp-006",
     "date": "2026-01-17",
     "channel": "instagram",
-    "text_pt": "Dá pra fazer demo interativa em 5 minutos? Dá. A DemoBR capturou 7 passos do nosso onboarding em 4:30 sem precisar de call. Salva esse story!",
-    "text_en": "Can you do an interactive demo in 5 minutes? Yes. DemoBR captured 7 steps of our onboarding in 4:30 with no call needed. Save this story!",
+    "text_pt": "Dá pra fazer demo interativa em 5 minutos? Dá. A EasyDemo capturou 7 passos do nosso onboarding em 4:30 sem precisar de call. Salva esse story!",
+    "text_en": "Can you do an interactive demo in 5 minutes? Yes. EasyDemo captured 7 steps of our onboarding in 4:30 with no call needed. Save this story!",
     "image_concept": "Time-lapse mostrando captura até publicação",
-    "hashtags": ["#BehindTheScenes", "#DemoBR"],
+    "hashtags": ["#BehindTheScenes", "#EasyDemo"],
     "link": "https://easydemo.io"
   },
   {
@@ -73,8 +73,8 @@
     "id": "sp-008",
     "date": "2026-01-22",
     "channel": "twitter",
-    "text_pt": "LGPD by design ≠ banner LGPD configurável. DemoBR coleta consent, permite revogação por e-mail em 1 clique, e responde DSR em 15 dias.",
-    "text_en": "LGPD by design ≠ configurable LGPD banner. DemoBR collects consent, allows email revocation in 1 click, and answers DSR in 15 days.",
+    "text_pt": "LGPD by design ≠ banner LGPD configurável. EasyDemo coleta consent, permite revogação por e-mail em 1 clique, e responde DSR em 15 dias.",
+    "text_en": "LGPD by design ≠ configurable LGPD banner. EasyDemo collects consent, allows email revocation in 1 click, and answers DSR in 15 days.",
     "image_concept": "Captura de tela do form de lead com consentimento LGPD",
     "hashtags": ["#LGPD", "#Compliance"],
     "link": "https://easydemo.io/lgpd"
@@ -135,7 +135,7 @@
     "channel": "instagram",
     "text_pt": "Como capturar demo em 1 clique (sem saber programar): 1. Instala extensão 2. Clica em começar 3. Vai clicando no seu SaaS. Cada clique vira um step. Pronto. Demo publicada.",
     "image_concept": "Carrossel 3 passos ilustrados",
-    "hashtags": ["#Tutorial", "#DemoBR"],
+    "hashtags": ["#Tutorial", "#EasyDemo"],
     "link": "https://easydemo.io/blog/como-fazer-demo-interativa",
     "text_en": "How to capture a demo in 1 click (no code required): 1. Install the extension 2. Click start 3. Click around your SaaS. Each click becomes a step. Done. Demo published."
   },
@@ -153,8 +153,8 @@
     "id": "sp-016",
     "date": "2026-02-10",
     "channel": "linkedin",
-    "text_pt": "Pra que DemoBR existe: tirar a demo analógica de 2025 do caminho dos PMMs brasileiros. Em R$, com PIX, com LGPD. — DemoBR",
-    "text_en": "Why DemoBR exists: to get the 2025 analog demo out of the way of Brazilian PMMs. In R$, with PIX, with LGPD. — DemoBR",
+    "text_pt": "Pra que EasyDemo existe: tirar a demo analógica de 2025 do caminho dos PMMs brasileiros. Em R$, com PIX, com LGPD. — EasyDemo",
+    "text_en": "Why EasyDemo exists: to get the 2025 analog demo out of the way of Brazilian PMMs. In R$, with PIX, with LGPD. — EasyDemo",
     "image_concept": "Logo + tagline",
     "hashtags": ["#WhyWeBuild", "#SaaSBR"],
     "link": "https://easydemo.io/sobre"
@@ -215,7 +215,7 @@
     "channel": "instagram",
     "text_pt": "Demo publicada em 3 passos: 1. Clica 'Publicar' 2. Escolhe slug 3. Copia link. Esse link funciona pra sempre (até você despublicar).",
     "image_concept": "3 cards numerados",
-    "hashtags": ["#QuickTip", "#DemoBR"],
+    "hashtags": ["#QuickTip", "#EasyDemo"],
     "link": "https://easydemo.io",
     "text_en": "Published demo in 3 steps: 1. Click 'Publish' 2. Pick a slug 3. Copy the link. That link works forever (until you unpublish)."
   },
@@ -243,11 +243,11 @@
     "id": "sp-025",
     "date": "2026-03-03",
     "channel": "instagram",
-    "text_pt": "Como faço demo do meu SaaS quando ainda nem lancei? DemoBR tem modo preview, com marca d'água 'Beta' e link bloqueado até você liberar. Útil pra beta fechada.",
+    "text_pt": "Como faço demo do meu SaaS quando ainda nem lancei? EasyDemo tem modo preview, com marca d'água 'Beta' e link bloqueado até você liberar. Útil pra beta fechada.",
     "image_concept": "Captura do modo preview",
     "hashtags": ["#BetaStrategy", "#Launch"],
     "link": "https://easydemo.io",
-    "text_en": "How do I demo my SaaS when I haven't even launched? DemoBR has a preview mode with a 'Beta' watermark and a locked link until you release it. Useful for closed betas."
+    "text_en": "How do I demo my SaaS when I haven't even launched? EasyDemo has a preview mode with a 'Beta' watermark and a locked link until you release it. Useful for closed betas."
   },
   {
     "id": "sp-026",
@@ -283,8 +283,8 @@
     "id": "sp-029",
     "date": "2026-03-12",
     "channel": "instagram",
-    "text_pt": "Antes do DemoBR eu gravava demo em Loom toda semana. Perdida. Hoje gravo uma vez, reedito quando muda UI, e o link funciona pra sempre. Time saved: ~3h/semana. (Alex, founder)",
-    "text_en": "Before DemoBR I recorded demos in Loom weekly. Lost. Today I record once, re-edit when UI changes, link works forever. Time saved: ~3h/week. (Alex, founder)",
+    "text_pt": "Antes do EasyDemo eu gravava demo em Loom toda semana. Perdida. Hoje gravo uma vez, reedito quando muda UI, e o link funciona pra sempre. Time saved: ~3h/semana. (Alex, founder)",
+    "text_en": "Before EasyDemo I recorded demos in Loom weekly. Lost. Today I record once, re-edit when UI changes, link works forever. Time saved: ~3h/week. (Alex, founder)",
     "image_concept": "Foto do founder + computador",
     "hashtags": ["#BehindTheScenes", "#Founder"],
     "link": "https://easydemo.io/sobre"
@@ -293,18 +293,18 @@
     "id": "sp-030",
     "date": "2026-03-14",
     "channel": "twitter",
-    "text_pt": "DemoBR é o único SaaS BR de demos interativas com PIX + boleto + NF-e + LGPD by design. Concorrentes gringos? Stripe USD, sem NF-e, banner LGPD configurável. Diferença real.",
-    "text_en": "DemoBR is the only BR demos SaaS with PIX + boleto + NF-e + LGPD by design. Foreign competitors? Stripe USD, no NF-e, configurable LGPD banner. Real difference.",
-    "image_concept": "Comparação DemoBR vs gringo",
+    "text_pt": "EasyDemo é o único SaaS BR de demos interativas com PIX + boleto + NF-e + LGPD by design. Concorrentes gringos? Stripe USD, sem NF-e, banner LGPD configurável. Diferença real.",
+    "text_en": "EasyDemo is the only BR demos SaaS with PIX + boleto + NF-e + LGPD by design. Foreign competitors? Stripe USD, no NF-e, configurable LGPD banner. Real difference.",
+    "image_concept": "Comparação EasyDemo vs gringo",
     "hashtags": ["#SaaSBR", "#LocalWins"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow"
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow"
   },
   {
     "id": "sp-031",
     "date": "2026-03-17",
     "channel": "linkedin",
-    "text_pt": "PII redaction automática na DemoBR: detecta CPF, CNPJ, e-mail, telefone, cartão nas suas screenshots antes de publicar. Você revisa antes de subir.",
-    "text_en": "Automatic PII redaction in DemoBR: detects CPF, CNPJ, email, phone, card in your screenshots before publishing. You review before publishing.",
+    "text_pt": "PII redaction automática na EasyDemo: detecta CPF, CNPJ, e-mail, telefone, cartão nas suas screenshots antes de publicar. Você revisa antes de subir.",
+    "text_en": "Automatic PII redaction in EasyDemo: detects CPF, CNPJ, email, phone, card in your screenshots before publishing. You review before publishing.",
     "image_concept": "Print mostrando redação ativa",
     "hashtags": ["#PIIRedaction", "#LGPD"],
     "link": "https://easydemo.io/lgpd"
@@ -323,8 +323,8 @@
     "id": "sp-033",
     "date": "2026-03-21",
     "channel": "linkedin",
-    "text_pt": "DemoBR tem white-label no Business: seu domínio, sem 'Feito com DemoBR', branding 100% seu. Útil pra quem vende pra clientes enterprise.",
-    "text_en": "DemoBR has white-label on Business: your domain, no 'Made with DemoBR', 100% your branding. Useful for those selling to enterprise clients.",
+    "text_pt": "EasyDemo tem white-label no Business: seu domínio, sem 'Feito com EasyDemo', branding 100% seu. Útil pra quem vende pra clientes enterprise.",
+    "text_en": "EasyDemo has white-label on Business: your domain, no 'Made with EasyDemo', 100% your branding. Useful for those selling to enterprise clients.",
     "image_concept": "Print do player white-label",
     "hashtags": ["#WhiteLabel", "#Business"],
     "link": "https://easydemo.io/pricing"
@@ -343,8 +343,8 @@
     "id": "sp-035",
     "date": "2026-03-26",
     "channel": "linkedin",
-    "text_pt": "Quem usa DemoBR: 200+ times de PMM, head de CX, fundadores de SaaS B2B no Brasil. Indústria: fintech, edtech, healthtech, logística, SaaS. Sem cliente enterprise 'Premium'. PME/mid-market é nosso ICP.",
-    "text_en": "Who uses DemoBR: 200+ PMM, CX heads, B2B SaaS founders in Brazil. Industry: fintech, edtech, healthtech, logistics, SaaS. No enterprise 'Premium' clients. SMB/mid-market is our ICP.",
+    "text_pt": "Quem usa EasyDemo: 200+ times de PMM, head de CX, fundadores de SaaS B2B no Brasil. Indústria: fintech, edtech, healthtech, logística, SaaS. Sem cliente enterprise 'Premium'. PME/mid-market é nosso ICP.",
+    "text_en": "Who uses EasyDemo: 200+ PMM, CX heads, B2B SaaS founders in Brazil. Industry: fintech, edtech, healthtech, logistics, SaaS. No enterprise 'Premium' clients. SMB/mid-market is our ICP.",
     "image_concept": "Gráfico de barras por vertical",
     "hashtags": ["#Customers", "#ICP"],
     "link": "https://easydemo.io/sobre"
@@ -383,8 +383,8 @@
     "id": "sp-039",
     "date": "2026-04-04",
     "channel": "linkedin",
-    "text_pt": "DemoBR tem API REST + embed iframe. Não importa se você quer integrar demo no seu app ou postar no seu blog — funciona.",
-    "text_en": "DemoBR has REST API + iframe embed. Whether you want to integrate demos in your app or post on your blog — it works.",
+    "text_pt": "EasyDemo tem API REST + embed iframe. Não importa se você quer integrar demo no seu app ou postar no seu blog — funciona.",
+    "text_en": "EasyDemo has REST API + iframe embed. Whether you want to integrate demos in your app or post on your blog — it works.",
     "image_concept": "Snippet de código de API + iframe",
     "hashtags": ["#API", "#Embed"],
     "link": "https://easydemo.io/api/v1"
@@ -393,18 +393,18 @@
     "id": "sp-040",
     "date": "2026-04-07",
     "channel": "instagram",
-    "text_pt": "Como demos da DemoBR são renderizadas: SSR + CDN + R2. Lighthouse média: 96. Carrega em <1.5s em qualquer país.",
+    "text_pt": "Como demos da EasyDemo são renderizadas: SSR + CDN + R2. Lighthouse média: 96. Carrega em <1.5s em qualquer país.",
     "image_concept": "Lighthouse score",
     "hashtags": ["#Performance", "#WebVitals"],
     "link": "https://easydemo.io",
-    "text_en": "How DemoBR demos are rendered: SSR + CDN + R2. Average Lighthouse: 96. Loads in <1.5s anywhere."
+    "text_en": "How EasyDemo demos are rendered: SSR + CDN + R2. Average Lighthouse: 96. Loads in <1.5s anywhere."
   },
   {
     "id": "sp-041",
     "date": "2026-04-09",
     "channel": "linkedin",
-    "text_pt": "LGPD art. 18 garantido: você revoga consentimento a qualquer momento com 1 clique no email de lead. DemoBR processa DSR em até 15 dias.",
-    "text_en": "LGPD art. 18 guaranteed: you revoke consent anytime with 1 click from the lead email. DemoBR processes DSR in 15 days.",
+    "text_pt": "LGPD art. 18 garantido: você revoga consentimento a qualquer momento com 1 clique no email de lead. EasyDemo processa DSR em até 15 dias.",
+    "text_en": "LGPD art. 18 guaranteed: you revoke consent anytime with 1 click from the lead email. EasyDemo processes DSR in 15 days.",
     "image_concept": "Print do link de revogação",
     "hashtags": ["#LGPD", "#Compliance"],
     "link": "https://easydemo.io/lgpd"
@@ -413,11 +413,11 @@
     "id": "sp-042",
     "date": "2026-04-11",
     "channel": "twitter",
-    "text_pt": "PR: DemoBR agora com white-label no Business. Use seu domínio, sua marca, sem 'Feito com DemoBR' visível.",
+    "text_pt": "PR: EasyDemo agora com white-label no Business. Use seu domínio, sua marca, sem 'Feito com EasyDemo' visível.",
     "image_concept": "Player white-label",
     "hashtags": ["#WhiteLabel", "#Release"],
     "link": "https://easydemo.io/pricing",
-    "text_en": "Release: DemoBR now with white-label on Business. Use your domain, your brand, no 'Made with DemoBR' visible."
+    "text_en": "Release: EasyDemo now with white-label on Business. Use your domain, your brand, no 'Made with EasyDemo' visible."
   },
   {
     "id": "sp-043",
@@ -433,31 +433,31 @@
     "id": "sp-044",
     "date": "2026-04-16",
     "channel": "instagram",
-    "text_pt": "Webhook de DemoBR dispara em 4 eventos: view, step, lead, completion. Integre no RD Station, HubSpot, Kommo, Slack.",
+    "text_pt": "Webhook de EasyDemo dispara em 4 eventos: view, step, lead, completion. Integre no RD Station, HubSpot, Kommo, Slack.",
     "image_concept": "Lista de eventos",
     "hashtags": ["#Webhooks", "#CRM"],
     "link": "https://easydemo.io/api/v1",
-    "text_en": "DemoBR's webhook fires on 4 events: view, step, lead, completion. Integrate with RD Station, HubSpot, Kommo, Slack."
+    "text_en": "EasyDemo's webhook fires on 4 events: view, step, lead, completion. Integrate with RD Station, HubSpot, Kommo, Slack."
   },
   {
     "id": "sp-045",
     "date": "2026-04-18",
     "channel": "linkedin",
-    "text_pt": "PMM escreve copy 80% do tempo. DemoBR tira o Loom do caminho. Tempo livre = estratégia. — Alex, founder DemoBR.",
+    "text_pt": "PMM escreve copy 80% do tempo. EasyDemo tira o Loom do caminho. Tempo livre = estratégia. — Alex, founder EasyDemo.",
     "image_concept": "Foto + citação",
     "hashtags": ["#PMM", "#Founder"],
     "link": "https://easydemo.io/sobre",
-    "text_en": "PMM writes copy 80% of the time. DemoBR takes Loom out of the way. Free time = strategy. — Alex, DemoBR founder."
+    "text_en": "PMM writes copy 80% of the time. EasyDemo takes Loom out of the way. Free time = strategy. — Alex, EasyDemo founder."
   },
   {
     "id": "sp-046",
     "date": "2026-04-21",
     "channel": "twitter",
-    "text_pt": "DemoBR é um SaaS BR-first. O que isso significa na prática: suporte 24h pt-BR, NF-e em todos os planos pagos, PIX/boleto/cartão, LGPD garantido. 🇧🇷",
+    "text_pt": "EasyDemo é um SaaS BR-first. O que isso significa na prática: suporte 24h pt-BR, NF-e em todos os planos pagos, PIX/boleto/cartão, LGPD garantido. 🇧🇷",
     "image_concept": "Bandeira BR estilizada + lista",
     "hashtags": ["#BR", "#SaaSBR"],
     "link": "https://easydemo.io/sobre",
-    "text_en": "DemoBR is a BR-first SaaS. What that means in practice: 24h PT-BR support, NF-e on all paid plans, PIX/boleto/card, LGPD guaranteed. 🇧🇷"
+    "text_en": "EasyDemo is a BR-first SaaS. What that means in practice: 24h PT-BR support, NF-e on all paid plans, PIX/boleto/card, LGPD guaranteed. 🇧🇷"
   },
   {
     "id": "sp-047",
@@ -483,8 +483,8 @@
     "id": "sp-049",
     "date": "2026-04-28",
     "channel": "linkedin",
-    "text_pt": "Newsletter quinzenal DemoBR sai quinta-feira. Curto, útil, sem spam. Mais de 800 PMMs já assinam.",
-    "text_en": "DemoBR bi-weekly newsletter goes out Thursdays. Short, useful, no spam. 800+ PMMs already subscribed.",
+    "text_pt": "Newsletter quinzenal EasyDemo sai quinta-feira. Curto, útil, sem spam. Mais de 800 PMMs já assinam.",
+    "text_en": "EasyDemo bi-weekly newsletter goes out Thursdays. Short, useful, no spam. 800+ PMMs already subscribed.",
     "image_concept": "Print da newsletter",
     "hashtags": ["#Newsletter", "#PMM"],
     "link": "https://easydemo.io#newsletter"
@@ -506,28 +506,28 @@
     "text_pt": "Tutorial de 5 minutos pra criar sua primeira demo (texto + vídeo passo a passo). Sem cartão. Salva pro time.",
     "text_en": "5-minute tutorial to create your first demo (text + video walkthrough). No credit card. Save for the team.",
     "image_concept": "Print do tutorial",
-    "hashtags": ["#Tutorial", "#DemoBR"],
+    "hashtags": ["#Tutorial", "#EasyDemo"],
     "link": "https://easydemo.io/blog/como-fazer-demo-interativa"
   },
   {
     "id": "sp-052",
     "date": "2026-05-05",
     "channel": "instagram",
-    "text_pt": "Release: domínio customizado no Business. Use demobr.suaempresa.com.br. CNAME em <5min. White-label completo.",
+    "text_pt": "Release: domínio customizado no Business. Use easydemo.suaempresa.com.br. CNAME em <5min. White-label completo.",
     "image_concept": "Print do settings com CNAME",
     "hashtags": ["#Release", "#WhiteLabel"],
     "link": "https://easydemo.io/pricing",
-    "text_en": "Release: custom domain on Business. Use demobr.yourcompany.com.br. CNAME in <5min. Full white-label."
+    "text_en": "Release: custom domain on Business. Use easydemo.yourcompany.com.br. CNAME in <5min. Full white-label."
   },
   {
     "id": "sp-053",
     "date": "2026-05-07",
     "channel": "linkedin",
-    "text_pt": "Quem NÃO deve usar DemoBR: time enterprise global com budget pra USD, lead de fora do Brasil, demo conceitual (API, infra). Pra esses casos, Supademo é melhor.",
-    "text_en": "Who SHOULDN'T use DemoBR: global enterprise team with USD budget, lead outside Brazil, conceptual demo (API, infra). For those cases, Supademo is better.",
+    "text_pt": "Quem NÃO deve usar EasyDemo: time enterprise global com budget pra USD, lead de fora do Brasil, demo conceitual (API, infra). Pra esses casos, Supademo é melhor.",
+    "text_en": "Who SHOULDN'T use EasyDemo: global enterprise team with USD budget, lead outside Brazil, conceptual demo (API, infra). For those cases, Supademo is better.",
     "image_concept": "Tabela com ICP",
     "hashtags": ["#HonestyWins"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow"
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow"
   },
   {
     "id": "sp-054",
@@ -553,11 +553,11 @@
     "id": "sp-056",
     "date": "2026-05-14",
     "channel": "instagram",
-    "text_pt": "Comparação rápida: DemoBR vs Supademo vs Guideflow. Salva pra usar na hora de escolher.",
+    "text_pt": "Comparação rápida: EasyDemo vs Supademo vs Guideflow. Salva pra usar na hora de escolher.",
     "image_concept": "3 logos lado a lado",
     "hashtags": ["#Compare", "#SaaS"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow",
-    "text_en": "Quick comparison: DemoBR vs Supademo vs Guideflow. Save to use when you're choosing."
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow",
+    "text_en": "Quick comparison: EasyDemo vs Supademo vs Guideflow. Save to use when you're choosing."
   },
   {
     "id": "sp-057",
@@ -603,8 +603,8 @@
     "id": "sp-061",
     "date": "2026-05-26",
     "channel": "linkedin",
-    "text_pt": "PMMs que estão substituindo Loom por DemoBR: ~80% reportam economia > 2h/semana. Menos re-gravações, mais demos no ar, leads mais quentes.",
-    "text_en": "PMMs replacing Loom with DemoBR: ~80% report saving > 2h/week. Fewer re-records, more demos live, hotter leads.",
+    "text_pt": "PMMs que estão substituindo Loom por EasyDemo: ~80% reportam economia > 2h/semana. Menos re-gravações, mais demos no ar, leads mais quentes.",
+    "text_en": "PMMs replacing Loom with EasyDemo: ~80% report saving > 2h/week. Fewer re-records, more demos live, hotter leads.",
     "image_concept": "Gráfico de economia de tempo",
     "hashtags": ["#ProductivityWins", "#DataWins"],
     "link": "https://easydemo.io"
@@ -613,18 +613,18 @@
     "id": "sp-062",
     "date": "2026-05-28",
     "channel": "twitter",
-    "text_pt": "Inside DemoBR: extensão Chrome MV3 que tira screenshots + captura cliques + aplica hotspot em tempo real. Sem servidor rodando.",
+    "text_pt": "Inside EasyDemo: extensão Chrome MV3 que tira screenshots + captura cliques + aplica hotspot em tempo real. Sem servidor rodando.",
     "image_concept": "Captura da extensão ativa",
     "hashtags": ["#Engineering"],
     "link": "https://easydemo.io/blog",
-    "text_en": "Inside DemoBR: Chrome MV3 extension that takes screenshots + captures clicks + applies hotspot in real time. No server running."
+    "text_en": "Inside EasyDemo: Chrome MV3 extension that takes screenshots + captures clicks + applies hotspot in real time. No server running."
   },
   {
     "id": "sp-063",
     "date": "2026-05-30",
     "channel": "linkedin",
-    "text_pt": "CTO/Eng: DemoBR é Postgres + R2 + Edge workers. Stack simples, scale horizontal. Custos em R$, billing em R$. Sem dependência AWS-only.",
-    "text_en": "CTO/Eng: DemoBR is Postgres + R2 + Edge workers. Simple stack, horizontal scale. Costs in R$, billing in R$. No AWS-only dependency.",
+    "text_pt": "CTO/Eng: EasyDemo é Postgres + R2 + Edge workers. Stack simples, scale horizontal. Custos em R$, billing em R$. Sem dependência AWS-only.",
+    "text_en": "CTO/Eng: EasyDemo is Postgres + R2 + Edge workers. Simple stack, horizontal scale. Costs in R$, billing in R$. No AWS-only dependency.",
     "image_concept": "Diagrama de arquitetura simples",
     "hashtags": ["#Architecture", "#Stack"],
     "link": "https://easydemo.io/blog"
@@ -643,11 +643,11 @@
     "id": "sp-065",
     "date": "2026-06-04",
     "channel": "linkedin",
-    "text_pt": "Comparação honesta: DemoBR é o único SaaS BR de demos com native PIX + boleto + cartão + NF-e. Concorrentes gringos só Stripe USD.",
-    "text_en": "Honest comparison: DemoBR is the only BR demos SaaS with native PIX + boleto + card + NF-e. Foreign competitors only offer Stripe USD.",
+    "text_pt": "Comparação honesta: EasyDemo é o único SaaS BR de demos com native PIX + boleto + cartão + NF-e. Concorrentes gringos só Stripe USD.",
+    "text_en": "Honest comparison: EasyDemo is the only BR demos SaaS with native PIX + boleto + card + NF-e. Foreign competitors only offer Stripe USD.",
     "image_concept": "Tabela comparativa",
     "hashtags": ["#SaaSBR", "#HonestyWins"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow"
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow"
   },
   {
     "id": "sp-066",
@@ -663,8 +663,8 @@
     "id": "sp-067",
     "date": "2026-06-09",
     "channel": "linkedin",
-    "text_pt": "Quem é o DemoBR: PMM, head de CX, fundador de SaaS B2B no Brasil que cansou de gravar demo em Loom toda semana e pagar Stripe IOF.",
-    "text_en": "Who DemoBR is: PMM, CX head, B2B SaaS founder in Brazil tired of recording demos in Loom weekly and paying Stripe IOF.",
+    "text_pt": "Quem é o EasyDemo: PMM, head de CX, fundador de SaaS B2B no Brasil que cansou de gravar demo em Loom toda semana e pagar Stripe IOF.",
+    "text_en": "Who EasyDemo is: PMM, CX head, B2B SaaS founder in Brazil tired of recording demos in Loom weekly and paying Stripe IOF.",
     "image_concept": "Persona ilustrada",
     "hashtags": ["#ICP", "#Persona"],
     "link": "https://easydemo.io/sobre"
@@ -693,18 +693,18 @@
     "id": "sp-070",
     "date": "2026-06-16",
     "channel": "twitter",
-    "text_pt": "Quem somos (de novo): o PMM que construiu seu próprio demo porque nenhuma ferramenta BR-first entregava qualidade. DemoBR existe porque precisava existir.",
-    "image_concept": "Texto em caps 'Por isso DemoBR existe'",
+    "text_pt": "Quem somos (de novo): o PMM que construiu seu próprio demo porque nenhuma ferramenta BR-first entregava qualidade. EasyDemo existe porque precisava existir.",
+    "image_concept": "Texto em caps 'Por isso EasyDemo existe'",
     "hashtags": ["#WhyWeBuild"],
     "link": "https://easydemo.io/sobre",
-    "text_en": "Who we are (again): the PMM who built his own demo because no BR-first tool delivered quality. DemoBR exists because it had to."
+    "text_en": "Who we are (again): the PMM who built his own demo because no BR-first tool delivered quality. EasyDemo exists because it had to."
   },
   {
     "id": "sp-071",
     "date": "2026-06-18",
     "channel": "linkedin",
-    "text_pt": "PMM numbers que importam: views, starts, completions, leads. DemoBR expõe tudo. Conecte seu RD/HubSpot/Kommo e use pra segmentar campanhas.",
-    "text_en": "PMM numbers that matter: views, starts, completions, leads. DemoBR exposes everything. Connect your RD/HubSpot/Kommo and use to segment campaigns.",
+    "text_pt": "PMM numbers que importam: views, starts, completions, leads. EasyDemo expõe tudo. Conecte seu RD/HubSpot/Kommo e use pra segmentar campanhas.",
+    "text_en": "PMM numbers that matter: views, starts, completions, leads. EasyDemo exposes everything. Connect your RD/HubSpot/Kommo and use to segment campaigns.",
     "image_concept": "Dashboard com 4 KPIs",
     "hashtags": ["#Analytics", "#CRM"],
     "link": "https://easydemo.io/blog/tour-interativo-produto"
@@ -715,7 +715,7 @@
     "channel": "instagram",
     "text_pt": "Tour com 5 steps pra entender nosso onboarding: clique no link, gaste 4 minutos, decida se quer conversar. Não precisa call. Não precisa agendar.",
     "image_concept": "Tour embed ilustrado",
-    "hashtags": ["#Onboarding", "#DemoBR"],
+    "hashtags": ["#Onboarding", "#EasyDemo"],
     "link": "https://easydemo.io/d/crm-onboarding",
     "text_en": "5-step tour to understand our onboarding: click the link, spend 4 minutes, decide if you want to chat. No call needed. No scheduling."
   },
@@ -723,8 +723,8 @@
     "id": "sp-073",
     "date": "2026-06-23",
     "channel": "linkedin",
-    "text_pt": "Por que white-label importa no B2B: cliente enterprise não confia em 'Feito com DemoBR'. Quer ver DEMOEMPRESA. Use Business + seu domínio.",
-    "text_en": "Why white-label matters in B2B: enterprise client doesn't trust 'Made with DemoBR'. They want to see CLIENTCOMPANY. Use Business + your domain.",
+    "text_pt": "Por que white-label importa no B2B: cliente enterprise não confia em 'Feito com EasyDemo'. Quer ver DEMOEMPRESA. Use Business + seu domínio.",
+    "text_en": "Why white-label matters in B2B: enterprise client doesn't trust 'Made with EasyDemo'. They want to see CLIENTCOMPANY. Use Business + your domain.",
     "image_concept": "Demo white-label vs branded",
     "hashtags": ["#WhiteLabel", "#Enterprise"],
     "link": "https://easydemo.io/pricing"
@@ -733,18 +733,18 @@
     "id": "sp-074",
     "date": "2026-06-25",
     "channel": "twitter",
-    "text_pt": "DemoBR é SaaS em R$. Pro: R$ 49/mês. Business: R$ 199/mês. NF-e em ambos. Sem IOF, sem spread de cartão internacional.",
+    "text_pt": "EasyDemo é SaaS em R$. Pro: R$ 49/mês. Business: R$ 199/mês. NF-e em ambos. Sem IOF, sem spread de cartão internacional.",
     "image_concept": "Tabela de preços",
     "hashtags": ["#Pricing", "#SaaSBR"],
     "link": "https://easydemo.io/pricing",
-    "text_en": "DemoBR is SaaS priced in R$. Pro: R$ 49/month. Business: R$ 199/month. NF-e on both. No IOF, no international card spread."
+    "text_en": "EasyDemo is SaaS priced in R$. Pro: R$ 49/month. Business: R$ 199/month. NF-e on both. No IOF, no international card spread."
   },
   {
     "id": "sp-075",
     "date": "2026-06-27",
     "channel": "linkedin",
-    "text_pt": "Reflexão: LGPD não é checkbox. DemoBR tem DPO interno, política pública, DSR automatizado em 15 dias, opt-out de analytics first-class. Compliance > PDF de rodapé.",
-    "text_en": "Reflection: LGPD isn't a checkbox. DemoBR has in-house DPO, public policy, automated DSR in 15 days, first-class analytics opt-out. Compliance > footer PDF.",
+    "text_pt": "Reflexão: LGPD não é checkbox. EasyDemo tem DPO interno, política pública, DSR automatizado em 15 dias, opt-out de analytics first-class. Compliance > PDF de rodapé.",
+    "text_en": "Reflection: LGPD isn't a checkbox. EasyDemo has in-house DPO, public policy, automated DSR in 15 days, first-class analytics opt-out. Compliance > footer PDF.",
     "image_concept": "Política pública com destaque",
     "hashtags": ["#LGPD", "#Compliance"],
     "link": "https://easydemo.io/lgpd"
@@ -783,11 +783,11 @@
     "id": "sp-079",
     "date": "2026-07-07",
     "channel": "linkedin",
-    "text_pt": "Pergunta honesta: você ainda manda PDF pra lead MQL? DemoBR converteu 200+ times brasileiros que pararam. Demora 5 min pra testar.",
+    "text_pt": "Pergunta honesta: você ainda manda PDF pra lead MQL? EasyDemo converteu 200+ times brasileiros que pararam. Demora 5 min pra testar.",
     "image_concept": "Comparativo PDF vs tour",
     "hashtags": ["#Question", "#Reflection"],
     "link": "https://easydemo.io",
-    "text_en": "Honest question: do you still send PDFs to MQL leads? DemoBR converted 200+ Brazilian teams who stopped. 5 minutes to try."
+    "text_en": "Honest question: do you still send PDFs to MQL leads? EasyDemo converted 200+ Brazilian teams who stopped. 5 minutes to try."
   },
   {
     "id": "sp-080",
@@ -803,8 +803,8 @@
     "id": "sp-081",
     "date": "2026-07-11",
     "channel": "linkedin",
-    "text_pt": "Por que white-label ainda é underrated em SaaS BR: 65% dos B2B enterprise rejeitam 'Feito com X' visível no player. DemoBR Business sai por R$ 199/mês e resolve.",
-    "text_en": "Why white-label is still underrated in BR SaaS: 65% of B2B enterprise reject visible 'Made with X' on the player. DemoBR Business at R$ 199/mo solves it.",
+    "text_pt": "Por que white-label ainda é underrated em SaaS BR: 65% dos B2B enterprise rejeitam 'Feito com X' visível no player. EasyDemo Business sai por R$ 199/mês e resolve.",
+    "text_en": "Why white-label is still underrated in BR SaaS: 65% of B2B enterprise reject visible 'Made with X' on the player. EasyDemo Business at R$ 199/mo solves it.",
     "image_concept": "Stats de rejeição",
     "hashtags": ["#WhiteLabel", "#Enterprise"],
     "link": "https://easydemo.io/pricing"
@@ -823,11 +823,11 @@
     "id": "sp-083",
     "date": "2026-07-16",
     "channel": "linkedin",
-    "text_pt": "Brand voice DemoBR: próximo, técnico quando precisa, zero corporativês. A gente diz 'ferramenta' não 'solução'. 'Time' não 'stakeholder'. Você fala com PMM.",
+    "text_pt": "Brand voice EasyDemo: próximo, técnico quando precisa, zero corporativês. A gente diz 'ferramenta' não 'solução'. 'Time' não 'stakeholder'. Você fala com PMM.",
     "image_concept": "Lista do que falamos vs o que evitamos",
     "hashtags": ["#BrandVoice", "#CopyWins"],
     "link": "https://easydemo.io/sobre",
-    "text_en": "DemoBR brand voice: close, technical when needed, zero corporate-speak. We say 'tool' not 'solution'. 'Team' not 'stakeholder'. You talk to a PMM."
+    "text_en": "EasyDemo brand voice: close, technical when needed, zero corporate-speak. We say 'tool' not 'solution'. 'Team' not 'stakeholder'. You talk to a PMM."
   },
   {
     "id": "sp-084",
@@ -853,38 +853,38 @@
     "id": "sp-086",
     "date": "2026-07-23",
     "channel": "twitter",
-    "text_pt": "DemoBR Roadmap Q3: AI caption rewriter, analytics heatmap por step, integração Zapier. Conta no Discord o que você quer priorizar.",
+    "text_pt": "EasyDemo Roadmap Q3: AI caption rewriter, analytics heatmap por step, integração Zapier. Conta no Discord o que você quer priorizar.",
     "image_concept": "Lista do roadmap",
     "hashtags": ["#Roadmap", "#Community"],
     "link": "https://easydemo.io",
-    "text_en": "DemoBR Q3 roadmap: AI caption rewriter, per-step analytics heatmap, Zapier integration. Tell us on Discord what you want to prioritize."
+    "text_en": "EasyDemo Q3 roadmap: AI caption rewriter, per-step analytics heatmap, Zapier integration. Tell us on Discord what you want to prioritize."
   },
   {
     "id": "sp-087",
     "date": "2026-07-25",
     "channel": "linkedin",
-    "text_pt": "PMM job-to-be-done: 'Mostrar valor do produto pra lead não-qualificado, em escala, sem queimar tempo do AE'. DemoBR resolve. 200+ times concordam.",
+    "text_pt": "PMM job-to-be-done: 'Mostrar valor do produto pra lead não-qualificado, em escala, sem queimar tempo do AE'. EasyDemo resolve. 200+ times concordam.",
     "image_concept": "Diagrama JTBD",
     "hashtags": ["#JTBD", "#PMM"],
     "link": "https://easydemo.io",
-    "text_en": "PMM job-to-be-done: 'Show product value to non-qualified lead, at scale, without burning AE time.' DemoBR solves it. 200+ teams agree."
+    "text_en": "PMM job-to-be-done: 'Show product value to non-qualified lead, at scale, without burning AE time.' EasyDemo solves it. 200+ teams agree."
   },
   {
     "id": "sp-088",
     "date": "2026-07-28",
     "channel": "instagram",
-    "text_pt": "Comparação rápida: DemoBR Pro (R$ 49/mês) vs Supademo Pro ($49/mês ≈ R$ 250 com IOF). DemoBR é 5x mais barato pra empresa brasileira.",
+    "text_pt": "Comparação rápida: EasyDemo Pro (R$ 49/mês) vs Supademo Pro ($49/mês ≈ R$ 250 com IOF). EasyDemo é 5x mais barato pra empresa brasileira.",
     "image_concept": "Comparação lado a lado",
     "hashtags": ["#Pricing", "#BR"],
-    "link": "https://easydemo.io/blog/demobr-vs-supademo-vs-guideflow",
-    "text_en": "Quick comparison: DemoBR Pro (R$ 49/month) vs Supademo Pro ($49/month ≈ R$ 250 with IOF). DemoBR is 5x cheaper for a Brazilian company."
+    "link": "https://easydemo.io/blog/easydemo-vs-supademo-vs-guideflow",
+    "text_en": "Quick comparison: EasyDemo Pro (R$ 49/month) vs Supademo Pro ($49/month ≈ R$ 250 with IOF). EasyDemo is 5x cheaper for a Brazilian company."
   },
   {
     "id": "sp-089",
     "date": "2026-07-30",
     "channel": "linkedin",
-    "text_pt": "LGPD é a única razão pela qual alguns prospects preferem DemoBR a Supademo. Dados em RDS sa-east-1 (Brasil), DPO interno, política em /lgpd pública.",
-    "text_en": "LGPD is the only reason some prospects prefer DemoBR over Supademo. Data in RDS sa-east-1 (Brazil), in-house DPO, public policy at /lgpd.",
+    "text_pt": "LGPD é a única razão pela qual alguns prospects preferem EasyDemo a Supademo. Dados em RDS sa-east-1 (Brasil), DPO interno, política em /lgpd pública.",
+    "text_en": "LGPD is the only reason some prospects prefer EasyDemo over Supademo. Data in RDS sa-east-1 (Brazil), in-house DPO, public policy at /lgpd.",
     "image_concept": "Página /lgpd em destaque",
     "hashtags": ["#LGPD", "#DataWins"],
     "link": "https://easydemo.io/lgpd"
@@ -893,10 +893,10 @@
     "id": "sp-090",
     "date": "2026-08-01",
     "channel": "twitter",
-    "text_pt": "5 anos atrás: call de 30 min era obrigatória. Hoje: tour de 4 min + call só de deepening. DemoBR existe pra acelerar essa transição. 🇧🇷",
+    "text_pt": "5 anos atrás: call de 30 min era obrigatória. Hoje: tour de 4 min + call só de deepening. EasyDemo existe pra acelerar essa transição. 🇧🇷",
     "image_concept": "Linha do tempo 2020 → 2026",
     "hashtags": ["#FutureOfSales", "#SaaSBR"],
     "link": "https://easydemo.io",
-    "text_en": "5 years ago: 30-min call was mandatory. Today: 4-min tour + call only for deepening. DemoBR exists to accelerate this transition. 🇧🇷"
+    "text_en": "5 years ago: 30-min call was mandatory. Today: 4-min tour + call only for deepening. EasyDemo exists to accelerate this transition. 🇧🇷"
   }
 ]

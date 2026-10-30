@@ -34,7 +34,7 @@ const R2_BUCKET = process.env.R2_BUCKET ?? "demo";
 const USE_MINIO = process.env.MINIO_ENDPOINT ?? ""; // ex: http://127.0.0.1:9000
 const MINIO_ACCESS = process.env.MINIO_ACCESS ?? "minioadmin";
 const MINIO_SECRET = process.env.MINIO_SECRET ?? "minioadmin";
-const MINIO_BUCKET = process.env.MINIO_BUCKET ?? "demobr-poc";
+const MINIO_BUCKET = process.env.MINIO_BUCKET ?? "easydemo-poc";
 
 type Stats = { p50: number; p95: number; p99: number; min: number; max: number; mean: number };
 

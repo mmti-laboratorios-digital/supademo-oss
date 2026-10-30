@@ -98,7 +98,7 @@
 - "async video for teams", "Loom alternative", "screen recorder", compara com Vidyard.
 - Likely $1M+/mo globally.
 
-### DemoBR priority keywords (recomendado para Q1 2027)
+### EasyDemo priority keywords (recomendado para Q1 2027)
 
 1. **demo interativa** (pt-BR T1)
 2. **tour interativo** (pt-BR T1)

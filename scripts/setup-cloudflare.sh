@@ -39,8 +39,8 @@ ok "Account ID: $ACCOUNT_ID"
 # -----------------------------------------------------------------------------
 # 3. Cria buckets R2 (public + private)
 # -----------------------------------------------------------------------------
-PUBLIC_BUCKET="${DEMOBR_R2_PUBLIC:-demo-public}"
-PRIVATE_BUCKET="${DEMOBR_R2_PRIVATE:-demo-private}"
+PUBLIC_BUCKET="${EASYDEMO_R2_PUBLIC:-demo-public}"
+PRIVATE_BUCKET="${EASYDEMO_R2_PRIVATE:-demo-private}"
 
 log "Criando bucket '$PUBLIC_BUCKET' (se não existir)…"
 wrangler r2 bucket create "$PUBLIC_BUCKET" 2>/dev/null \
@@ -65,7 +65,7 @@ read -r CF_TOKEN_NAME
 # -----------------------------------------------------------------------------
 # 5. Custom domain (cdn.demo.br)
 # -----------------------------------------------------------------------------
-CDN_DOMAIN="${DEMOBR_CDN_DOMAIN:-cdn.demo.br}"
+CDN_DOMAIN="${EASYDEMO_CDN_DOMAIN:-cdn.demo.br}"
 printf "\n${YELLOW}Configurar custom domain ${CDN_DOMAIN} → bucket público?${NC} [s/N]: "
 read -r ANS
 ANS="$(printf '%s' "$ANS" | tr '[:upper:]' '[:lower:]')"

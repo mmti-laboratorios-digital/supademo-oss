@@ -1,7 +1,7 @@
-# Scripts operacionais — DemoBR
+# Scripts operacionais — EasyDemo
 
 Este diretório contém scripts de provisionamento, validação e manutenção do
-ambiente DemoBR. Todos são idempotentes (podem rodar várias vezes sem efeito
+ambiente EasyDemo. Todos são idempotentes (podem rodar várias vezes sem efeito
 colateral) e imprimem mensagens coloridas com `[ok]`/`[warn]`/`[err]`.
 
 ## TL;DR
@@ -58,7 +58,7 @@ bash scripts/setup-cloudflare.sh
 
 - Todos os scripts carregam `.env` automaticamente (se existir no diretório raiz).
 - `DATABASE_URL` é parseada para extrair `user/password/host/port/db`.
-- Containers docker (`demobr-postgres`) são detectados e usados preferencialmente.
+- Containers docker (`easydemo-postgres`) são detectados e usados preferencialmente.
 
 ## Pré-requisitos comuns
 

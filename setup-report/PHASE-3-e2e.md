@@ -1,6 +1,6 @@
 # PHASE 3 — E2E (Playwright)
 
-**Projeto:** DemoBR / Supademo OSS
+**Projeto:** EasyDemo / Supademo OSS
 **Data de execução:** 2026-10-18
 **Operador:** subagent (Missao 3)
 **Versão Playwright:** `@playwright/test@1.48.2` (apps/web)
@@ -75,7 +75,7 @@ mcp-chrome-for-testing-ff95245
 
 ## 2. Postgres para integration tests
 
-### 2.1 Container compose alvo (`demobr-postgres` na porta 5432)
+### 2.1 Container compose alvo (`easydemo-postgres` na porta 5432)
 
 Não foi necessário subir — ele já estava rodando externamente:
 
@@ -91,11 +91,11 @@ CONTAINER ID   IMAGE                ... STATUS        PORTS                     
 $ docker compose -f infra/docker-compose.yml up -d postgres 2>&1 | tail -10
  Network infra_default Creating
  ...
- Container demobr-postgres Creating
- Container demobr-postgres Created
- Container demobr-postgres Starting
+ Container easydemo-postgres Creating
+ Container easydemo-postgres Created
+ Container easydemo-postgres Starting
 Error response from daemon: failed to set up container networking: driver failed
-programming external connectivity on endpoint demobr-postgres: failed to bind
+programming external connectivity on endpoint easydemo-postgres: failed to bind
 host port 127.0.0.1:5432/tcp: address already in use
 ```
 
@@ -368,7 +368,7 @@ pnpm exec playwright install chromium       # sem --with-deps (libs já no host)
 
 # Suba Postgres (se ainda não estiver)
 docker run -d --name supademo-test \
-  -e POSTGRES_USER=app_user -e POSTGRES_PASSWORD=demobr \
+  -e POSTGRES_USER=app_user -e POSTGRES_PASSWORD=easydemo \
   -e POSTGRES_DB=supademo -p 55432:5432 postgres:16-alpine
 
 # Suba o dev server (Playwright reusa se up)

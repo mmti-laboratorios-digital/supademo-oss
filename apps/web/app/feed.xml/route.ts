@@ -51,12 +51,12 @@ export async function GET() {
      xmlns:atom="http://www.w3.org/2005/Atom"
      xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>DemoBR — Blog</title>
+    <title>EasyDemo — Blog</title>
     <link>${escapeXml(baseUrl)}/blog</link>
-    <description>Guias, news e engineering sobre demos interativas, LGPD e a plataforma DemoBR.</description>
+    <description>Guias, news e engineering sobre demos interativas, LGPD e a plataforma EasyDemo.</description>
     <language>pt-BR</language>
     <lastBuildDate>${now}</lastBuildDate>
-    <generator>DemoBR / Next.js</generator>
+    <generator>EasyDemo / Next.js</generator>
     <atom:link href="${escapeXml(baseUrl)}/feed.xml" rel="self" type="application/rss+xml" />
 ${items}
   </channel>

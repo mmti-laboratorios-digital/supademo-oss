@@ -5,7 +5,7 @@ import { Client } from "pg";
  * Testes de INTEGRAÇÃO com Postgres real — verifica que RLS está ativo
  * em `app.demos` e bloqueia SELECT/UPDATE entre tenants.
  *
- * Pré-requisito: container docker supademo-test rodando em 127.0.0.1:55432
+ * Pré-requisito: container docker easydemo-test rodando em 127.0.0.1:55432
  * com schema 0000_init.sql aplicado.
  *
  * Uso:
@@ -13,7 +13,7 @@ import { Client } from "pg";
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-const DB_URL = process.env.DATABASE_URL ?? "postgres://app_user:demobr@127.0.0.1:55432/supademo";
+const DB_URL = process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
 
 // app_user = respeita RLS, app_owner = bypassa RLS
 const APP_USER_URL = DB_URL;

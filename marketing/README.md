@@ -1,6 +1,6 @@
-# Marketing — DemoBR
+# Marketing — EasyDemo
 
-> Pacote de marketing + growth + brand para o produto brasileiro de demos interativas (DemoBR).
+> Pacote de marketing + growth + brand para o produto brasileiro de demos interativas (EasyDemo).
 > **Data:** 2026-10-18.
 > **Origem:** grounded em `research/` (demos, pricing, tech) + `docs/RFC-Brazilian-Supademo.md` + `specs/mvp-scope.json`.
 
@@ -55,7 +55,7 @@ marketing/
 
 | Tópico | Decisão | Fonte |
 |---|---|---|
-| **Nome do produto** | **DemoBR** (mantido, conforme README + RFC + mvp-scope) | alinhar com pesquisa |
+| **Nome do produto** | **EasyDemo** (mantido, conforme README + RFC + mvp-scope) | alinhar com pesquisa |
 | **Tagline PT-BR** | "Demos interativas pra vender mais, sem uma reunião a mais." | alinhado com ICPs + market |
 | **Tagline EN** | "Interactive demos, Brazilian-style." | curto + claro |
 | **Pricing** | Free + Pro R$ 49 + Business R$ 199 (manter RFC) | `research/pricing/SYNTHESIS.md` §3 |
@@ -135,5 +135,5 @@ marketing/
 
 **Pacote criado em:** 2026-10-18
 **Versão:** 1.0
-**Owner:** equipe de marketing DemoBR
+**Owner:** equipe de marketing EasyDemo
 **Próxima revisão:** após feedback W4 (1 mês de launch)
