@@ -13,8 +13,8 @@
   },
   "current": {
     "phase": "F0",
-    "step": "F0.1",
-    "status": "pending"
+    "step": "F0.2",
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -51,9 +51,9 @@
       "depends_on": [
         "PR1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F0.1", "title": "0004_flat_plans.sql: manter max_views_per_month e setar NULL nos 3 planos (não dropar), adicionar max_creators integer, lead_form true no Free, max_leads_per_month do Free = 20, seeds conforme §5", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 1, "id": "F0.1", "title": "0004_flat_plans.sql: manter max_views_per_month e setar NULL nos 3 planos (não dropar), adicionar max_creators integer, lead_form true no Free, max_leads_per_month do Free = 20, seeds conforme §5", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "Migration 0004_flat_plans.sql: max_views_per_month mantida e setada NULL nos 3 planos (NULL=ilimitado, decisão D1), novas colunas max_creators/link_ttl_days/custom_domain/watermark_on_cta/lead_form, seeds dos 3 planos com a §5" },
         { "n": 2, "id": "F0.2", "title": "Atualizar apps/web/db/schema/app.ts (tabela plans, linhas 130–142) e db/migrations/meta/_journal.json", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 3, "id": "F0.3", "title": "Criar apps/web/lib/plans.ts com getPlanLimits(planId) e assertWithinLimits(workspaceId, resource, count) — resource ∈ demo|step|lead, usando withTenant", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 4, "id": "F0.4", "title": "Atualizar specs/mvp-scope.json → pricing_brl com a §5", "status": "pending", "done_at": null, "commit": null, "note": null },
