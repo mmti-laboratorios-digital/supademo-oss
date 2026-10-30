@@ -50,15 +50,6 @@ importers:
       '@clerk/nextjs':
         specifier: 6.0.0
         version: 6.0.0(next@15.0.3(@babel/core@7.29.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.48.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@demo.br/player':
-        specifier: workspace:*
-        version: link:../../packages/player
-      '@demo.br/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
-      '@demo.br/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@dnd-kit/core':
         specifier: ^6.3.0
         version: 6.3.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -68,6 +59,15 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@19.0.0)
+      '@easydemo/player':
+        specifier: workspace:*
+        version: link:../../packages/player
+      '@easydemo/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@easydemo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@hookform/resolvers':
         specifier: 3.9.1
         version: 3.9.1(react-hook-form@7.53.1(react@19.0.0))
@@ -276,7 +276,7 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: 3.682.0
         version: 3.682.0
-      '@demo.br/shared':
+      '@easydemo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       dotenv:
@@ -328,7 +328,7 @@ importers:
 
   packages/player:
     dependencies:
-      '@demo.br/shared':
+      '@easydemo/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:
