@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --experimental-strip-types
 /**
- * POC-4: tamanho real do bundle @demo.br/player
+ * POC-4: tamanho real do bundle @easydemo/player
  *
  * Estratégia:
  *  1) Faz `vite build` no pacote.
@@ -18,8 +18,8 @@ import zlib from "node:zlib";
 const PKG = "packages/player";
 
 function buildOnce() {
-  console.log("→ vite build @demo.br/player …");
-  execSync("pnpm --filter @demo.br/player build", { stdio: "inherit" });
+  console.log("→ vite build @easydemo/player …");
+  execSync("pnpm --filter @easydemo/player build", { stdio: "inherit" });
 }
 
 function brotli(b: Buffer) {
@@ -48,7 +48,7 @@ function main() {
   const dist = join(PKG, "dist");
   const files = readdirSync(dist).filter((f) => !f.endsWith(".map"));
   const rows = files.map((f) => reportOne(join(dist, f)));
-  console.log("\n=== POC-4: @demo.br/player bundle size ===");
+  console.log("\n=== POC-4: @easydemo/player bundle size ===");
   console.table(
     rows.map((r) => ({
       file: r.file.replace(`${PKG}/dist/`, ""),

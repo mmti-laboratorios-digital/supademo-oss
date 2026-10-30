@@ -16,7 +16,7 @@
 
   "server": {
     "transport": "stdio",
-    "command": "npx -y @demo.br/mcp-server@latest",
+    "command": "npx -y @easydemo/mcp-server@latest",
     "environment_variables": {
       "DEMOBR_API_KEY": {
         "required": true,
@@ -822,7 +822,7 @@
         "mcpServers": {
           "demobr": {
             "command": "npx",
-            "args": ["-y", "@demo.br/mcp-server@latest"],
+            "args": ["-y", "@easydemo/mcp-server@latest"],
             "env": {
               "DEMOBR_API_KEY": "gf_live_abc123def456ghi789jkl012mno345pq"
             }

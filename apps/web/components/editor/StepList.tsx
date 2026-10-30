@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslate } from "@/lib/i18n";
-import type { HotspotType, Step } from "@demo.br/shared";
+import type { HotspotType, Step } from "@easydemo/shared";
 import {
   DndContext,
   type DragEndEvent,

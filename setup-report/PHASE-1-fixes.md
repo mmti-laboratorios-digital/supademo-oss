@@ -65,7 +65,7 @@
  "use client";
 
  import * as React from "react";
- import { messagesPtBR, messagesEn } from "@demo.br/shared";
+ import { messagesPtBR, messagesEn } from "@easydemo/shared";
 
 +import { DEFAULT_LOCALE, LOCALE_COOKIE, resolveLocale } from "./constants";
 +

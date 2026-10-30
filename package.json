@@ -1,5 +1,5 @@
 {
-  "name": "demobr",
+  "name": "easydemo",
   "version": "0.1.0",
   "private": true,
   "description": "Demos interativas do seu produto, em PT-BR, com PIX e LGPD.",
@@ -43,7 +43,7 @@
     "scripts:check-dpo": "pnpm exec tsx scripts/check-dpo-missing.ts",
     "scripts:mvp-status": "pnpm exec tsx scripts/mvp-status.ts",
     "scripts:mvp-task": "pnpm exec tsx scripts/mvp-task.ts",
-    "prepare": "node -e \"console.log('DemoBR — pnpm install detectado')\""
+    "prepare": "node -e \"console.log('EasyDemo — pnpm install detectado')\""
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

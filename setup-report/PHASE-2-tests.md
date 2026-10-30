@@ -127,7 +127,7 @@ captura o throw subsequente.
 | `lgpd-redact.test.ts` | 10 | ✅ Pass | `lib/lgpd/redact.ts` (79.72%) |
 | `r2-presigned.test.ts` | 8 | ✅ Pass | `lib/r2-presigned.ts` (87.01%) |
 | `rl.integration.test.ts` | 7 | ✅ Pass (após fix §4) | policies RLS exercitadas |
-| `validators.test.ts` | 12 | ✅ Pass | schemas `@demo.br/shared` |
+| `validators.test.ts` | 12 | ✅ Pass | schemas `@easydemo/shared` |
 
 **Total `lib/__tests__/`: 55 testes** (49 únicos + 6 from `it.each()`).
 

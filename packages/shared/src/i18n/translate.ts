@@ -13,7 +13,7 @@
  *
  * Usage:
  *
- *   import { t, createTranslator } from "@demo.br/shared/i18n/translate";
+ *   import { t, createTranslator } from "@easydemo/shared/i18n/translate";
  *
  *   // RSC + emails — pick a locale, get a `t()` and a dictionary.
  *   const { t } = createTranslator("pt-BR");

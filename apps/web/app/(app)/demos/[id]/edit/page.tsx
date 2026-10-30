@@ -3,7 +3,7 @@ import { EditorI18n } from "@/components/editor/EditorI18n";
 import { demos, steps, workspaces } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
-import type { Demo, Step } from "@demo.br/shared";
+import type { Demo, Step } from "@easydemo/shared";
 import { asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 

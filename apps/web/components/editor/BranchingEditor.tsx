@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { useTranslate } from "@/lib/i18n";
-import type { Step } from "@demo.br/shared";
+import type { Step } from "@easydemo/shared";
 import { Plus, Trash2 } from "lucide-react";
 import type * as React from "react";
 

@@ -277,7 +277,7 @@ analytics   billing       settings     errors       emails        a11y      mark
 **Uso:**
 
 ```ts
-import { createTranslator } from "@demo.br/shared/i18n/translate";
+import { createTranslator } from "@easydemo/shared/i18n/translate";
 
 const { t } = createTranslator("pt-BR");
 t("common.save");                                  // "Salvar"
@@ -291,7 +291,7 @@ t("demos.stepCount", { count: 7 });               // "7 steps" (plural-aware)
 **Validar diff entre catálogos:**
 
 ```ts
-import { diffCatalogs } from "@demo.br/shared/i18n/translate";
+import { diffCatalogs } from "@easydemo/shared/i18n/translate";
 console.log(diffCatalogs()); // { missingInPtBR, missingInEN, shared }
 ```
 

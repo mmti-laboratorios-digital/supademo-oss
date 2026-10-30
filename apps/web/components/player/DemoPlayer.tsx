@@ -1,6 +1,6 @@
 "use client";
 
-import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@demo.br/shared";
+import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@easydemo/shared";
 import * as React from "react";
 import { HotspotOverlay } from "./HotspotOverlay";
 import { initialState, playerReducer } from "./state-machine";

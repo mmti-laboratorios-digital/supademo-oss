@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslate } from "@/lib/i18n";
-import type { Hotspot, HotspotType } from "@demo.br/shared";
+import type { Hotspot, HotspotType } from "@easydemo/shared";
 import { Plus } from "lucide-react";
 import * as React from "react";
 

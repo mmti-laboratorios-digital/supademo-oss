@@ -473,8 +473,8 @@ node:crypto
 ### Diagnóstico
 
 - `lib/i18n/index.tsx` é um arquivo `"use client"` (client bundle).
-- Ele faz `import { messagesPtBR, messagesEn } from "@demo.br/shared"`.
-- `@demo.br/shared` aponta para `packages/shared/src/index.ts`, que tinha:
+- Ele faz `import { messagesPtBR, messagesEn } from "@easydemo/shared"`.
+- `@easydemo/shared` aponta para `packages/shared/src/index.ts`, que tinha:
 
 ```ts
 export * from "./test-utils/asaas-payloads";
@@ -496,8 +496,8 @@ Removido o re-export de `test-utils/asaas-payloads` do `index.ts`:
 -export * from "./test-utils/asaas-payloads";
 +// NOTE: ./test-utils/asaas-payloads uses `node:crypto` and is server/test only.
 +// Do NOT re-export here — it pollutes the client bundle via lib/i18n/index.tsx
-+// which imports from "@demo.br/shared". Import directly from
-+// "@demo.br/shared/test-utils/asaas-payloads" in server/test code.
++// which imports from "@easydemo/shared". Import directly from
++// "@easydemo/shared/test-utils/asaas-payloads" in server/test code.
  export { default as messagesPtBR } from "./i18n/messages.pt-BR.json";
  export { default as messagesEn } from "./i18n/messages.en.json";
 ```
@@ -508,9 +508,9 @@ Arquivos que usam `asaas-payloads` continuam funcionando pois importam **diretam
 $ grep -rn "asaas-payloads" apps/web --include="*.ts" --include="*.tsx"
 apps/web/scripts/fire-asaas-webhook.ts:34:
   import { asaasWebhookPayload, asaasWebhookSignature }
-    from "@demo.br/shared/test-utils/asaas-payloads";
+    from "@easydemo/shared/test-utils/asaas-payloads";
 apps/web/app/api/__tests__/webhook-asaas.sandbox.integration.test.ts:38:
-  } from "@demo.br/shared/test-utils/asaas-payloads";
+  } from "@easydemo/shared/test-utils/asaas-payloads";
 ```
 
 Ambos continuam válidos — paths diretos continuam funcionando.
@@ -655,7 +655,7 @@ Recriado conforme padrão do `test-rls.ts`. Cobre:
 
 ### 2. `packages/shared/src/index.ts` (FIX)
 
-Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de `node:crypto` para o client bundle via `lib/i18n/index.tsx → @demo.br/shared`. Comentário explicativo adicionado.
+Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de `node:crypto` para o client bundle via `lib/i18n/index.tsx → @easydemo/shared`. Comentário explicativo adicionado.
 
 ```diff
  export * from "./types/demo";
@@ -666,8 +666,8 @@ Removido `export * from "./test-utils/asaas-payloads"` para evitar vazamento de 
 -export * from "./test-utils/asaas-payloads";
 +// NOTE: ./test-utils/asaas-payloads uses `node:crypto` and is server/test only.
 +// Do NOT re-export here — it pollutes the client bundle via lib/i18n/index.tsx
-+// which imports from "@demo.br/shared". Import directly from
-+// "@demo.br/shared/test-utils/asaas-payloads" in server/test code.
++// which imports from "@easydemo/shared". Import directly from
++// "@easydemo/shared/test-utils/asaas-payloads" in server/test code.
  export { default as messagesPtBR } from "./i18n/messages.pt-BR.json";
  export { default as messagesEn } from "./i18n/messages.en.json";
  export * from "./i18n/translate";

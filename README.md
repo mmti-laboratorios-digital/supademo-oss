@@ -60,7 +60,7 @@ apps/
   workers/     # graphile-worker process
 packages/
   shared/      # types + zod schemas
-  player/      # @demo.br/player (vanilla, publicável)
+  player/      # @easydemo/player (vanilla, publicável)
   ui/          # shadcn-style primitives
 infra/         # docker-compose, Caddy, Postgres, OTEL
 scripts/       # init-db, seed, deploy

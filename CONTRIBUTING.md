@@ -45,7 +45,7 @@ Todos devem passar antes de merge.
 - **`apps/extension`** — Chrome MV3 via WXT
 - **`apps/workers`** — graphile-worker (Postgres-only queue)
 - **`packages/shared`** — tipos, schemas Zod, i18n
-- **`packages/player`** — `@demo.br/player` (React publicável)
+- **`packages/player`** — `@easydemo/player` (React publicável)
 - **`packages/ui`** — primitives shadcn-style
 - **`infra/`** — docker-compose, postgres config, observability
 - **`scripts/`** — 14 scripts operacionais

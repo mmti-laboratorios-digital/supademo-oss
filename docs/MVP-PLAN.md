@@ -690,7 +690,7 @@ de revisar. Decisão D7.
 
 **O que fazer:**
 1. Branch `chore/rename-easydemo` a partir da `main`.
-2. npm scope `@demo.br/*` → `@easydemo/*` e package root `demobr` → `easydemo`
+2. npm scope `@easydemo/*` → `@easydemo/*` e package root `demobr` → `easydemo`
    nos 8 `package.json` + `pnpm-workspace.yaml` + os ~40 imports.
 3. Domínios `demobr.com.br` → `easydemo.io` (+ `app.`/`api.`/`docs.`/`webhooks.`)
    nas 49 URLs de `apps/web`, `marketing`, `online-presence` e `docs`.
@@ -727,7 +727,7 @@ de revisar. Decisão D7.
 
 | Identificador | De | Para |
 |---|---|---|
-| npm scope | `@demo.br/{player,shared,ui}` | `@easydemo/{player,shared,ui}` |
+| npm scope | `@easydemo/{player,shared,ui}` | `@easydemo/{player,shared,ui}` |
 | package root | `demobr` | `easydemo` |
 | domínios | `demobr.com.br` (+ `app.`/`api.`/`docs.`/`webhooks.`) | `easydemo.io` (+ os mesmos subdomínios) |
 | docker tags | `demobr/web`, `demobr/worker`, `demobr/demobr` | `easydemo/*` |
@@ -736,7 +736,7 @@ de revisar. Decisão D7.
 **Arquivos a tocar:**
 - `package.json` (raiz) + `apps/web/package.json`, `apps/workers/package.json`,
   `apps/extension/package.json`, `packages/{shared,player,ui}/package.json`
-- ~40 arquivos que importam `@demo.br/*`
+- ~40 arquivos que importam `@easydemo/*`
 - 49 URLs em `apps/web/**`, `marketing/**`, `online-presence/**`, `docs/**`
 - `apps/web/Dockerfile`, `Dockerfile.worker`, `.dockerignore`,
   `.github/workflows/ci.yml`, `.github/workflows/deploy.yml`,

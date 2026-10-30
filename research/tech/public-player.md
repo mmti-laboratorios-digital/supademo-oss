@@ -118,7 +118,7 @@ Stack:
 Player em React (sugestão de API pública):
 
 ```tsx
-import { DemoPlayer } from '@demo.br/player';
+import { DemoPlayer } from '@easydemo/player';
 
 <DemoPlayer
   demo={demoJson}                          // ou demoUrl="https://..."

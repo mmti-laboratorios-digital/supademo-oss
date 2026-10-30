@@ -36,7 +36,7 @@ import { resolve } from "node:path";
 import {
   asaasWebhookPayload,
   asaasWebhookSignature,
-} from "@demo.br/shared/test-utils/asaas-payloads";
+} from "@easydemo/shared/test-utils/asaas-payloads";
 
 // ---------------------------------------------------------------------------
 // Args & env

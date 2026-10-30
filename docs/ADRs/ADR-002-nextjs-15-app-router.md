@@ -83,7 +83,7 @@ Detalhes da configuração:
 - Good, separação clara de API e UI.
 - Bad, dois deploys, dois Caddy upstreams, dois Dockerfiles.
 - Bad, duplica auth (Clerk middleware duas vezes), validação (Zod duas vezes), logger.
-- Bad, Drizzle types no Nest exigem um pacote `@demo.br/db` adicional — overhead.
+- Bad, Drizzle types no Nest exigem um pacote `@easydemo/db` adicional — overhead.
 - Bad, Nest consome ~120 MB RAM ociosos; no CPX32 isso é dinheiro.
 
 ### Remix

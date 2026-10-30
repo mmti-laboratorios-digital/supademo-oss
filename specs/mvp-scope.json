@@ -231,7 +231,7 @@
       "name": "PR 1 — Rename (DemoBR → EasyDemo)",
       "parallel_with": "F0, F9",
       "deliverables": [
-        "npm scope @demo.br/* → @easydemo/* (3 pacotes + ~40 imports)",
+        "npm scope @easydemo/* → @easydemo/* (3 pacotes + ~40 imports)",
         "package root demobr → easydemo",
         "49 URLs demobr.com.br → easydemo.io (+ app. api. docs. webhooks.)",
         "Docker tags demobr/* → easydemo/*",

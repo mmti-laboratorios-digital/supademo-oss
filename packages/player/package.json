@@ -1,5 +1,5 @@
 {
-  "name": "@demo.br/player",
+  "name": "@easydemo/player",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@demo.br/shared": "workspace:*"
+    "@easydemo/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "19.0.0",

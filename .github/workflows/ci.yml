@@ -245,7 +245,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @demo.br/player build
+      - run: pnpm --filter @easydemo/player build
       - name: Measure gzipped bundle
         id: bundle
         run: |

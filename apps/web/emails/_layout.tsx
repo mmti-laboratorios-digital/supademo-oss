@@ -1,4 +1,4 @@
-import { translate } from "@demo.br/shared/i18n/translate";
+import { translate } from "@easydemo/shared/i18n/translate";
 import { Container, Heading, Hr, Link, Section, Tailwind, Text } from "@react-email/components";
 import type * as React from "react";
 

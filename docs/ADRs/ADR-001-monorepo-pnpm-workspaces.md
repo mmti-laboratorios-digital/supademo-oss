@@ -47,7 +47,7 @@ supademo-oss/
 ├── packages/
 │   ├── ui/              # shadcn/ui wrapper + tokens
 │   ├── shared/          # tipos compartilhados
-│   ├── player/          # @demo.br/player (React)
+│   ├── player/          # @easydemo/player (React)
 │   └── db/              # drizzle schema + migrations
 ├── pnpm-workspace.yaml
 ├── pnpm-lock.yaml

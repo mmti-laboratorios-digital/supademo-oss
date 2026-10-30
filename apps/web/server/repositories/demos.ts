@@ -1,6 +1,6 @@
 import { demos, steps } from "@/db/schema/app";
 import { withTenant } from "@/lib/db";
-import type { Demo, Step } from "@demo.br/shared";
+import type { Demo, Step } from "@easydemo/shared";
 import { and, desc, eq } from "drizzle-orm";
 
 /**

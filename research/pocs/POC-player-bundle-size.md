@@ -1,4 +1,4 @@
-# POC-4 — Tamanho real do bundle `@demo.br/player`
+# POC-4 — Tamanho real do bundle `@easydemo/player`
 
 **Data**: 2026-10-18
 **Autor**: subagente DemoBR
@@ -9,7 +9,7 @@
 
 ## 1. Hipótese
 
-O player público (`@demo.br/player`) é o que o usuário final do embed baixa. O
+O player público (`@easydemo/player`) é o que o usuário final do embed baixa. O
 `tech/RECOMMENDATION.md` projeta **≤ 10 KB gzip** baseado em escolhas de libs
 leves (`framer-motion`, `@floating-ui/dom` — mas atenção, **atualmente o player
 não usa framer-motion ainda**, ver código abaixo).
@@ -20,7 +20,7 @@ Pergunta concreta: **quanto o bundle real pesa com/sem brotli?**
 
 ### 2.1 Build
 
-Roda `pnpm --filter @demo.br/player build` (= `vite build` em modo `lib`).
+Roda `pnpm --filter @easydemo/player build` (= `vite build` em modo `lib`).
 Saída:
 
 ```

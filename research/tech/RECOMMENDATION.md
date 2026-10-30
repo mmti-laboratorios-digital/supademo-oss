@@ -63,13 +63,13 @@
 
 ### 2.3 Player público (biblioteca + embed)
 
-- `@demo.br/core` — state machine (port de `@guideflow/core` pattern)
-- `@demo.br/player` — React 19 component
+- `@easydemo/core` — state machine (port de `@guideflow/core` pattern)
+- `@easydemo/player` — React 19 component
   - `framer-motion@^11` para transições entre passos
   - `@floating-ui/dom@^1.6` para posicionar tooltips
   - `zustand@^5` para state machine
   - `dompurify@^3.1` se aceitar HTML em captions
-- `@demo.br/embed-loader` — vanilla TS, ~3 KB, cria iframe
+- `@easydemo/embed-loader` — vanilla TS, ~3 KB, cria iframe
 - Formato de demo: **JSON Schema próprio** (inspirado em Spotlane)
 - Coordinate system: **fracionário (0-1)** para todos os hotspots, image_size_width/height em px
 
@@ -170,7 +170,7 @@
 
 ```json
 {
-  "name": "demo.br-app",
+  "name": "easydemo-app",
   "dependencies": {
     "next": "^15.1.0",
     "react": "^19.0.0",
@@ -223,7 +223,7 @@
 
 ```json
 {
-  "name": "demo.br-worker",
+  "name": "easydemo-worker",
   "dependencies": {
     "graphile-worker": "^0.16.0",
     "drizzle-orm": "^0.36.0",
@@ -248,7 +248,7 @@
 
 ```json
 {
-  "name": "demo.br-extension",
+  "name": "easydemo-extension",
   "dependencies": {
     "wxt": "^0.18.0",
     "react": "^19.0.0",
@@ -275,7 +275,7 @@
 
 ```json
 {
-  "name": "@demo.br/player",
+  "name": "@easydemo/player",
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -302,7 +302,7 @@
 
 ```json
 {
-  "name": "@demo.br/db",
+  "name": "@easydemo/db",
   "dependencies": {
     "drizzle-orm": "^0.36.0",
     "postgres": "^3.4.4",

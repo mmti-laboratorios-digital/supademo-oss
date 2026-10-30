@@ -1,6 +1,6 @@
 "use client";
 
-import type { Step } from "@demo.br/shared";
+import type { Step } from "@easydemo/shared";
 import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
 import * as React from "react";
 

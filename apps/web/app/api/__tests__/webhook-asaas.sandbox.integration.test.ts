@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import {
   asaasWebhookPayload,
   asaasWebhookSignature,
-} from "@demo.br/shared/test-utils/asaas-payloads";
+} from "@easydemo/shared/test-utils/asaas-payloads";
 import { Client } from "pg";
 /**
  * apps/web/app/api/__tests__/webhook-asaas.sandbox.integration.test.ts
