@@ -76,6 +76,10 @@ lugar nenhum além desses três.
 A fase só entra na `main` quando o **gate dela** (§9 do plano) passa e a CI
 está verde. A entrada no `docs/MVP-PROGRESS.md` vai **no mesmo PR**.
 
+**Depois do merge, delete a branch** — `git push origin --delete <branch>`.
+Confirme antes que ela está 100% mergeada:
+`git merge-base --is-ancestor origin/<branch> origin/main`.
+
 Detalhes, paralelismo e agrupamento de fases: `docs/MVP-PLAN.md` §8.0.
 
 ## Registro de execução (obrigatório)
