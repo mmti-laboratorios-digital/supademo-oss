@@ -15,7 +15,7 @@
 | `{{nome}}` | LinkedIn / assinatura de email | "Marina" |
 | `{{empresa}}` | Site / LinkedIn | "Linneo" |
 | `{{linha_pessoal}}` | Post recente no LinkedIn, podcast, ou tweet específico | "Vi seu post sobre reduzir ciclo de venda" |
-| `{{case_relevante}}` | Case público do demoBR mais próximo do setor | "A SaaS X reduziu onboarding em 60% com demos interativas" |
+| `{{case_relevante}}` | Case público do EasyDemo mais próximo do setor | "A SaaS X reduziu onboarding em 60% com demos interativas" |
 | `{{calendly_link}}` | `https://calendly.com/easydemo/15min` | — |
 | `{{sender_nome}}` | Assinatura padrão | "Ana — EasyDemo" |
 

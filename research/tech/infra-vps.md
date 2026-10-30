@@ -136,25 +136,25 @@ Caddy com **certificados Let's Encrypt automáticos** via `tls` directive. Sem r
 
 ```caddyfile
 # Caddyfile
-app.demo.br {
+app.easydemo.io {
   reverse_proxy app:3000
 }
 
-api.demo.br {
+api.easydemo.io {
   reverse_proxy app:3000
 }
 
-play.demo.br {
+play.easydemo.io {
   reverse_proxy app:3000
   header Cache-Control "public, max-age=300"
 }
 
-embed.demo.br {
+embed.easydemo.io {
   reverse_proxy app:3000
   header Access-Control-Allow-Origin *
 }
 
-db.demo.br {
+db.easydemo.io {
   reverse_proxy db:5432  # via SSH tunnel ou Wireguard — NÃO expor publicamente
 }
 ```
@@ -175,12 +175,12 @@ db.demo.br {
 **Setup:**
 1. Criar bucket `easydemo-prod` em <https://dash.cloudflare.com/>.
 2. Gerar API token com permissão `Object Read & Write` no bucket.
-3. Configurar CORS para o domínio do player (`play.demo.br`).
-4. Custom domain (opcional): `cdn.demo.br` apontando para o bucket.
+3. Configurar CORS para o domínio do player (`play.easydemo.io`).
+4. Custom domain (opcional): `cdn.easydemo.io` apontando para o bucket.
 
 ### 3.2 Cloudflare CDN
 
-Já vem com R2 (Cloudflare CDN em cima do bucket). Mas podemos configurar regras no dashboard do Cloudflare para o domínio `app.demo.br`:
+Já vem com R2 (Cloudflare CDN em cima do bucket). Mas podemos configurar regras no dashboard do Cloudflare para o domínio `app.easydemo.io`:
 
 - **Cache estático:** `/static/*`, `/_next/static/*`, `/favicon.ico` — `Cache-Control: public, max-age=31536000, immutable`.
 - **Cache dinâmico:** `/embed/[id]` — `Cache-Control: public, max-age=60, s-maxage=300`.
@@ -214,7 +214,7 @@ Para acessar Caddy/Postgres do painel Hetzner sem abrir 22/5432 para internet:
 ```bash
 # Instalar cloudflared no VPS
 cloudflared tunnel create easydemo-prod
-cloudflared tunnel route dns easydemo-prod app.demo.br
+cloudflared tunnel route dns easydemo-prod app.easydemo.io
 cloudflared service install
 ```
 
@@ -397,7 +397,7 @@ sdk.start();
 Caddy já tem integração. Zero config:
 
 ```caddyfile
-app.demo.br {
+app.easydemo.io {
   reverse_proxy app:3000
   tls {
     issuer letsencrypt

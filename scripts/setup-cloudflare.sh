@@ -63,9 +63,9 @@ printf "Nome do token (opcional, só para referência): "
 read -r CF_TOKEN_NAME
 
 # -----------------------------------------------------------------------------
-# 5. Custom domain (cdn.demo.br)
+# 5. Custom domain (cdn.easydemo.io)
 # -----------------------------------------------------------------------------
-CDN_DOMAIN="${EASYDEMO_CDN_DOMAIN:-cdn.demo.br}"
+CDN_DOMAIN="${EASYDEMO_CDN_DOMAIN:-cdn.easydemo.io}"
 printf "\n${YELLOW}Configurar custom domain ${CDN_DOMAIN} → bucket público?${NC} [s/N]: "
 read -r ANS
 ANS="$(printf '%s' "$ANS" | tr '[:upper:]' '[:lower:]')"
@@ -88,7 +88,7 @@ if command -v aws >/dev/null 2>&1; then
 {
   "CORSRules": [
     {
-      "AllowedOrigins": ["https://app.demo.br", "https://cdn.demo.br", "http://localhost:3000"],
+      "AllowedOrigins": ["https://app.easydemo.io", "https://cdn.easydemo.io", "http://localhost:3000"],
       "AllowedMethods": ["GET", "HEAD"],
       "AllowedHeaders": ["*"],
       "ExposeHeaders": ["ETag", "Content-Length", "Content-Type"],

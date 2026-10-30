@@ -10,13 +10,13 @@
 flowchart TB
     %% Atores
     Creator[👤 Criador<br/>Marketing/Sales/CS]
-    Visitor[👤 Lead/Visitante<br/>demo.demo.br/cliente]
+    Visitor[👤 Lead/Visitante<br/>demo.easydemo.io/cliente]
     Admin[👤 Admin EasyDemo<br/>time interno]
 
     %% Edge / Cliente
     subgraph Edge["Edge (Cloudflare)"]
         CDN[Cloudflare CDN<br/>cache + WAF]
-        R2Pub[Cloudflare R2<br/>cdn.demo.br]
+        R2Pub[Cloudflare R2<br/>cdn.easydemo.io]
         Worker[Cloudflare Worker<br/>embed analytics proxy]
     end
 
@@ -201,16 +201,16 @@ flowchart TB
 ┌─────────────────────────────────────────────────────────────────┐
 │ Lead / Visitante                                                 │
 │ Site do cliente (ex: empresa.com.br/produto)                    │
-│ <script src="https://embed.demo.br/v1/loader.js" data-easydemo-id="abc">│
+│ <script src="https://embed.easydemo.io/v1/loader.js" data-easydemo-id="abc">│
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼ (script injeta iframe)
 ┌─────────────────────────────────────────────────────────────────┐
-│ play.demo.br/embed/abc                                          │
+│ play.easydemo.io/embed/abc                                          │
 │ Next.js renderiza <DemoPlayer /> React component               │
 │ DemoPlayer faz:                                                  │
 │  - GET /api/v1/public/demos/abc → JSON do demo                │
-│  - GET images do R2 (cdn.demo.br/demos/abc/s1.webp)            │
+│  - GET images do R2 (cdn.easydemo.io/demos/abc/s1.webp)            │
 │  - renderiza imagem + hotspots posicionados em coord fracionárias│
 │  - emite eventos: demo_view, step_view, cta_click, etc        │
 └─────────────────────────────────────────────────────────────────┘
@@ -419,11 +419,11 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
                              ▼
                   ┌──────────────────────────────────────┐
                   │ DNS Cloudflare                       │
-                  │ app.demo.br    → VPS IP              │
-                  │ api.demo.br    → VPS IP              │
-                  │ play.demo.br   → VPS IP              │
-                  │ cdn.demo.br    → R2 bucket           │
-                  │ embed.demo.br  → VPS IP              │
+                  │ app.easydemo.io    → VPS IP              │
+                  │ api.easydemo.io    → VPS IP              │
+                  │ play.easydemo.io   → VPS IP              │
+                  │ cdn.easydemo.io    → R2 bucket           │
+                  │ embed.easydemo.io  → VPS IP              │
                   └──────────────────────────────────────┘
 ```
 
@@ -480,8 +480,8 @@ Creator    Extension      Next.js API     Worker (graphile)   R2          PG
 │  - /avatars/{user}.jpg                                        │
 │  - /pgbackrest/... (separado bucket)                          │
 │                                                               │
-│ CORS: allow play.demo.br, app.demo.br                        │
-│ Custom domain: cdn.demo.br (proxied via Cloudflare)           │
+│ CORS: allow play.easydemo.io, app.easydemo.io                        │
+│ Custom domain: cdn.easydemo.io (proxied via Cloudflare)           │
 └──────────────────────────────────────────────────────────────┘
 ```
 

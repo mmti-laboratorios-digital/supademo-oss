@@ -398,14 +398,14 @@ Mas para SaaS multi-tenant com muitos tenants simultâneos, **recomendo PgBounce
 ```
 # pgbouncer.ini
 [databases]
-demo_br = host=127.0.0.1 port=5432 dbname=demo_br
+easydemo = host=127.0.0.1 port=5432 dbname=easydemo
 [pgbouncer]
 pool_mode = transaction
 max_client_conn = 1000
 default_pool_size = 20
 ```
 
-Acesso do app: `DATABASE_URL=postgres://demo_br:pwd@127.0.0.1:6432/demo_br`.
+Acesso do app: `DATABASE_URL=postgres://easydemo:pwd@127.0.0.1:6432/easydemo`.
 
 **Fonte:** <https://www.indujitechnologies.com/blog/multi-tenant-saas-architecture-nextjs-15-postgresql-rls-2026>
 

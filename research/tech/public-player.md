@@ -52,7 +52,7 @@ Todos os 3 players compartilham estes blocos:
   "steps": [
     {
       "id": "s1",
-      "image": "https://cdn.demo.br/demos/abc123/s1.webp",
+      "image": "https://cdn.easydemo.io/demos/abc123/s1.webp",
       "width": 1280,
       "height": 800,
       "caption": "Clique em Novo Lead",
@@ -172,12 +172,12 @@ Fontes: <https://driverjs.com/> | <https://react-joyride.com/> | <https://introj
 
 ```html
 <div data-easydemo-id="abc123" data-easydemo-theme="dark"></div>
-<script async src="https://embed.demo.br/v1/loader.js"></script>
+<script async src="https://embed.easydemo.io/v1/loader.js"></script>
 ```
 
 O `loader.js` (3 KB):
 1. Encontra todos `[data-easydemo-id]`.
-2. Cria um `<iframe>` apontando para `https://play.demo.br/embed/{id}?theme=...`.
+2. Cria um `<iframe>` apontando para `https://play.easydemo.io/embed/{id}?theme=...`.
 3. Configura `loading="lazy"` para performance.
 4. Expõe `window.EasyDemo.on(event, cb)` para o host receber analytics.
 5. Usa `IntersectionObserver` para autostart quando entra na viewport.
@@ -186,7 +186,7 @@ O `loader.js` (3 KB):
 
 ```html
 <iframe
-  src="https://play.demo.br/embed/abc123?theme=dark"
+  src="https://play.easydemo.io/embed/abc123?theme=dark"
   width="100%" height="640"
   frameborder="0"
   loading="lazy"
@@ -261,7 +261,7 @@ O player envia eventos via `postMessage` para o parent (host) e simultaneamente 
 // Dentro do iframe
 function emit(event, payload) {
   parent.postMessage({ source: 'easydemo', event, payload }, '*');
-  fetch('https://api.demo.br/v1/events', {
+  fetch('https://api.easydemo.io/v1/events', {
     method: 'POST',
     body: JSON.stringify({ event, payload, demoId, sessionId }),
     keepalive: true,

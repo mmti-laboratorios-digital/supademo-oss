@@ -41,7 +41,7 @@ bash scripts/setup-cloudflare.sh
 | `teardown.sh`                       | bootstrap      | Derruba containers e (opcionalmente) volumes                              |
 | `init-db.sh`                        | bootstrap      | Cria roles, schemas e força RLS (idempotente)                             |
 | `provision-hetzner.sh`              | infra-prod     | Cria VPS via hcloud + gera `cloud-init.yaml` (Docker, UFW, Caddy, f2b)    |
-| `setup-cloudflare.sh`               | infra-prod     | Provisiona R2 buckets + API token + custom domain `cdn.demo.br`           |
+| `setup-cloudflare.sh`               | infra-prod     | Provisiona R2 buckets + API token + custom domain `cdn.easydemo.io`           |
 | `health-check.sh`                   | monitor        | GET `/api/health` com exit codes (0 ok / 1 degraded / 2 down)             |
 | `db-snapshot.sh`                    | backup         | `pg_dump` sob demanda → `./backups/db-*.sql.gz`                           |
 | `restore-drill.sh`                  | DR             | DR drill: VPS temp na Hetzner + restore + notifica Slack                  |

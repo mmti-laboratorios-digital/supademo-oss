@@ -228,7 +228,7 @@ async function main() {
        'Tour do produto',
        'Visão geral de 3 passos do produto principal.',
        'published', 'pt-BR', false, null,
-       ${sql.json({ type: "link", url: "https://app.demo.br", label: "Começar grátis" })}::jsonb,
+       ${sql.json({ type: "link", url: "https://app.easydemo.io", label: "Começar grátis" })}::jsonb,
        now(), now(), now())
   `);
 
