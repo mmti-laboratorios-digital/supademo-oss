@@ -294,7 +294,8 @@ git check-ignore -v infra/cloud-init.yaml   → .gitignore:80
   `setup-report/PHASE-5-legal-audit.md`, `setup-report/PHASE-14-runtime-validation.md`,
   `docs/ADRs/ADR-012-pt-br-first-i18n.md`, `marketing/LAUNCH-PLAN.md`,
   `legal/incident-response-plan.md`, `legal/privacy-policy.md`) — pré-existentes,
-  mesma classe de bug do `compress達o` já corrigido antes. **O repo agora tem
+  mesma classe de bug do `compressao` — que tinha um caractere CJK no lugar do
+`ã` — já corrigido antes. **O repo agora tem
   zero CJK.**
 
 **Decisões tomadas durante a execução**
