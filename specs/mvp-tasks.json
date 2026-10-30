@@ -13,7 +13,7 @@
   },
   "current": {
     "phase": "PR1",
-    "step": "PR1.9",
+    "step": "PR1.10",
     "status": "in_progress"
   },
   "phases": [
@@ -36,7 +36,7 @@
         { "n": 6, "id": "PR1.6", "title": "Revisar marketing/ (316 refs) e legal/ (286 refs) à mão — não é replacement cego", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "marketing/ e legal/ revisados: marca renomeada, placeholders de DPO com o dominio novo, concorrente Supademo intacto (86 ocorrencias em marketing, 1 em legal)" },
         { "n": 7, "id": "PR1.7", "title": "Revisar online-presence/ (227 refs) e research/ (108 refs) à mão, preservando os trechos que descrevem o site de um concorrente", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "online-presence/ e research/ revisados: host demo.br -> easydemo.io, demo_br -> easydemo, brand demoBR -> EasyDemo; preservados Supademo BR (293), Getdemo BR, interdemo, demohub e a feature demo_branch" },
         { "n": 8, "id": "PR1.8", "title": "Rodar pnpm install --frozen-lockfile e ajustar o lockfile", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "pnpm install regenerou o lockfile (11 linhas: @demo.br/* -> @easydemo/*) e pnpm install --frozen-lockfile valida em sincronia" },
-        { "n": 9, "id": "PR1.9", "title": "Passar pnpm lint, pnpm typecheck, pnpm test e pnpm build", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 9, "id": "PR1.9", "title": "Passar pnpm lint, pnpm typecheck, pnpm test e pnpm build", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "lint 212 arquivos, typecheck 4/4, test 152/152, build completo verde — corrigidos 2 bugs pre-existentes da extensao (entrypoint popup duplicado e content.ts sem defineContentScript) que impediam o gate do build" },
         { "n": 10, "id": "PR1.10", "title": "Confirmar git grep -in demobr = 0 e git grep -in \"@demo.br\" = 0 (excluindo docs/MVP-PLAN.md, docs/MVP-PROGRESS.md e specs/mvp-tasks.json, que documentam o rename); registrar no docs/MVP-PROGRESS.md e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
       ]
     },
