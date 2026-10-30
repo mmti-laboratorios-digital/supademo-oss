@@ -193,7 +193,7 @@ Sem isso, qualquer um que descobrir a URL `/api/webhooks/asaas` pode dar upgrade
 |---|---|---|---|
 | 1 | Roles `app_owner` / `app_user` batem com `ROLES.md` (NOSUPERUSER + BYPASSRLS) | `psql -c "SELECT rolname, rolsuper, rolbypassrls FROM pg_roles WHERE rolname IN ('app_owner','app_user')"` | ⚠ Divergência (init-db.sh vs init-roles.sql) |
 | 2 | `withTenant()` é a **única** porta de entrada para queries de runtime | `grep -r "getDb()" apps/web/app apps/web/server/actions apps/web/server/repositories` → todas devem estar dentro de `withTenant()` ou serem legítimas (DSR, public player, webhooks) | ⚠ Vários usos de `getDb()` direto (DSR, embed, /d/[slug], leads POST) — todos são casos com policy pendente |
-| 3 | `/d/[slug]` carrega demo pública em browser anônimo | `curl -s https://app.demobr.com.br/d/tour-exemplo` → HTML com markup de player, status 200 | ❌ Não validado em E2E (PHASE-14 Playwright ignorou com seed limitado) |
+| 3 | `/d/[slug]` carrega demo pública em browser anônimo | `curl -s https://app.easydemo.io/d/tour-exemplo` → HTML com markup de player, status 200 | ❌ Não validado em E2E (PHASE-14 Playwright ignorou com seed limitado) |
 | 4 | Webhook Asaas valida HMAC real do payload | Inspecionar `lib/asaas.ts` verifyWebhookSignature | ❌ Implementação incorreta hoje |
 | 5 | `check-dpo-missing.ts` retorna exit 0 | `pnpm exec tsx scripts/check-dpo-missing.ts` | ❌ 23 placeholders encontrados |
 | 6 | DR drill roda mensalmente e notifica IC em falha | Cron GitHub Actions + PagerDuty/SMS no failure | ❌ Não agendado |

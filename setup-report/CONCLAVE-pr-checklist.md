@@ -204,7 +204,7 @@
 
 🔴 **Bloqueadores de go-live comercial** (declarados, não corrigidos aqui):
 
-- **#6** — DPO placeholder (`placeholder@demobr.com.br`) — LGPD art. 41
+- **#6** — DPO placeholder (`placeholder@easydemo.io`) — LGPD art. 41
 - **#7** — DemoBR LTDA em constituição (CNPJ placeholder)
 - **#8** — Banner de cookies opt-in não implementado (LGPD art. 8º)
 - **#3** — `init-db.sh` cria `app_owner SUPERUSER` (divergência com `init-roles.sql`) — fix aberto em PR #SRE-1

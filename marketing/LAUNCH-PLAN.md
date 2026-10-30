@@ -40,9 +40,9 @@
 | 11 | Press kit pronto (logo, screenshots, manifesto) | Marketing | T-7 | ZIP com 4 PNG + 1 SVG + README.md |
 | 12 | Manifesto (1 página "Por que DemoBR") publicado em `/sobre` | Founder | T-7 | Texto revisado, link compartilhável |
 | 13 | Extensão Chrome MV3 enviada para Chrome Web Store review | Founder | T-7 | Status "In review" |
-| 14 | Domínio `demobr.com.br` registrado e DNS apontado | Founder | T-9 | Cloudflare proxy ativo |
+| 14 | Domínio `easydemo.io` registrado e DNS apontado | Founder | T-9 | Cloudflare proxy ativo |
 | 15 | Sentry + Better Stack capturando erros | Back-end | T-7 | Alerta configurado |
-| 16 | Uptime Kuma monitorando `app.demobr.com.br` | DevOps | T-7 | Alerta para down > 5min |
+| 16 | Uptime Kuma monitorando `app.easydemo.io` | DevOps | T-7 | Alerta para down > 5min |
 | 17 | Google Analytics 4 + Plausible configurados | Marketing | T-7 | Pageviews + signup events fluindo |
 | 18 | Google Search Console verificado | Marketing | T-7 | Sitemap enviado |
 
@@ -165,7 +165,7 @@ press-kit/
 - **Nome:** "DemoBR"
 - **Tagline:** "Demos interativas com PIX, NF-e e LGPD. Em PT-BR."
 - **Thumbnail:** 240×240, símbolo ▶ + "DemoBR", fundo `--brand-primary`
-- **Descrição:** 280 chars, link para `/`, GIF de 10s gravado em `app.demobr.com.br/d/exemplo-saas-b2b`
+- **Descrição:** 280 chars, link para `/`, GIF de 10s gravado em `app.easydemo.io/d/exemplo-saas-b2b`
 - **Topics:** SaaS, Marketing, Sales, Product Demos
 - **Makers:** Founder (perfil público + LinkedIn link)
 - **Comentário do maker:** "Why I built this" — 3 parágrafos, história pessoal, link manifesto
@@ -212,7 +212,7 @@ press-kit/
 > Hoje é o dia.
 >
 > → [link PH]
-> → [link app.demobr.com.br]
+> → [link app.easydemo.io]
 >
 > **Bônus early adopter:** 30% off no Pro vitalício se você assinar até sexta-feira. Use o cupom `EARLY30` no checkout.
 >
@@ -357,7 +357,7 @@ press-kit/
 
 ### Se erro crítico em produção
 1. Rollback via `git revert` + redeploy.
-2. Banner "Estamos com instabilidade" em `app.demobr.com.br`.
+2. Banner "Estamos com instabilidade" em `app.easydemo.io`.
 3. Comunicado em LinkedIn + email waitlist.
 
 ---

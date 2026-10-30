@@ -83,7 +83,7 @@ export function PasswordResetEmail({
 
 PasswordResetEmail.PreviewProps = {
   firstName: "Bruna",
-  resetUrl: "https://demobr.com.br/reset?token=eyJhbGciOi...",
+  resetUrl: "https://easydemo.io/reset?token=eyJhbGciOi...",
   expiresInMinutes: 30,
   ipAddress: "201.20.34.10",
   userAgent: "Chrome 130 (macOS)",

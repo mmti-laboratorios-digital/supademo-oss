@@ -137,13 +137,13 @@ async function main() {
       (${workspaceId}, 'demo', 'Demo Workspace', 'pt-BR', 'pro', '#0066FF', now(), now())
   `);
 
-  console.log("▶ Criando membro demo@demo.br…");
+  console.log("▶ Criando membro demo@easydemo.io…");
   const memberId = randomUUID();
   await db.execute(sql`
     INSERT INTO app.members
       (id, workspace_id, email, name, role, email_verified_at, created_at)
     VALUES
-      (${memberId}, ${workspaceId}, 'demo@demo.br', 'Demo User', 'owner', now(), now())
+      (${memberId}, ${workspaceId}, 'demo@easydemo.io', 'Demo User', 'owner', now(), now())
   `);
 
   // ---------------------------------------------------------------------------
@@ -342,7 +342,7 @@ async function main() {
   console.log("✅ Seed concluído");
   console.log(banner);
   console.log("Workspace:    Demo Workspace (slug: demo)");
-  console.log("User:         demo@demo.br (role: owner)");
+  console.log("User:         demo@easydemo.io (role: owner)");
   console.log("Demos:");
   console.log("  • /d/onboarding-crm   (publicado, 5 steps, lead-form ON)");
   console.log("  • /d/tour-do-produto  (publicado, 3 steps, lead-form OFF)");

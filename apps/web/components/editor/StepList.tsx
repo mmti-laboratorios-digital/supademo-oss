@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslate } from "@/lib/i18n";
-import type { HotspotType, Step } from "@easydemo/shared";
 import {
   DndContext,
   type DragEndEvent,
@@ -19,6 +18,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import type { HotspotType, Step } from "@easydemo/shared";
 import {
   ChevronDown,
   ChevronUp,

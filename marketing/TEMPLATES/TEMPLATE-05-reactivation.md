@@ -14,7 +14,7 @@
 | `{{workspace_slug}}` | slug do workspace |
 | `{{ultima_atividade}}` | "você criou uma demo de login há 32 dias" / "você publicou '{{nome_demo}}' há 60 dias" |
 | `{{link_demo_ainda_lá}}` | link público `/d/[slug]` da demo existente |
-| `{{link_dashboard}}` | `app.demobr.com.br/app/{{workspace_slug}}` |
+| `{{link_dashboard}}` | `app.easydemo.io/app/{{workspace_slug}}` |
 | `{{case_dor}}` | dor mais comum em PMMs BR parado |
 | `{{cupom}}` | cupom reativação |
 

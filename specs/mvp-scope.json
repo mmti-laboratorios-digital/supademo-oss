@@ -233,7 +233,7 @@
       "deliverables": [
         "npm scope @easydemo/* → @easydemo/* (3 pacotes + ~40 imports)",
         "package root demobr → easydemo",
-        "49 URLs demobr.com.br → easydemo.io (+ app. api. docs. webhooks.)",
+        "49 URLs easydemo.io → easydemo.io (+ app. api. docs. webhooks.)",
         "Docker tags demobr/* → easydemo/*",
         "Banco supademo → easydemo (infra/postgres/init-roles.sql, docker-compose)",
         "195 arquivos versionados, 1618 ocorrências — marketing/, legal/, docs/, research/ com revisão manual"
@@ -358,7 +358,7 @@
       "name": "F8 — Legal + go-live",
       "parallel_with": ["F1"],
       "deliverables": [
-        "legal/*.md — CNPJ, endereço e e-mail do DPO reais (hoje placeholder@demobr.com.br e {nome_do_DPO})",
+        "legal/*.md — CNPJ, endereço e e-mail do DPO reais (hoje placeholder@easydemo.io e {nome_do_DPO})",
         "Reativar job check-dpo-placeholders no .github/workflows/ci.yml",
         "scripts/check-dpo-missing.ts aceita o valor real"
       ],

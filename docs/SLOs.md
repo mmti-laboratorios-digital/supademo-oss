@@ -333,5 +333,5 @@ Alert se > 86400 (24h).
 ---
 
 **Mantido por**: Tech lead DemoBR.
-**Dashboard**: <https://demobr.com.br/admin/observability/slos>
+**Dashboard**: <https://easydemo.io/admin/observability/slos>
 **Runbook geral**: `runbooks/observability.md`

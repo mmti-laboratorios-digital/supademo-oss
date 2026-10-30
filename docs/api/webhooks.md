@@ -4,7 +4,7 @@
 > webhook.site para debug) sobre eventos da plataforma.
 
 **Versão:** 1.0
-**Base URL de envio:** `https://webhooks.demobr.com.br/v1/{workspace_id}`
+**Base URL de envio:** `https://webhooks.easydemo.io/v1/{workspace_id}`
 **Última atualização:** 2026-10-18
 
 ---
@@ -30,7 +30,7 @@ Toda chamada de webhook é:
 ### 2.1 Via API
 
 ```bash
-curl -X POST https://api.demobr.com.br/api/v1/webhooks \
+curl -X POST https://api.easydemo.io/api/v1/webhooks \
   -H "Authorization: Bearer gf_live_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -189,7 +189,7 @@ Resposta:
     "demo_id": "01H8XK7B3V4Y5Z6W7N8M9P0Q1R",
     "slug": "produto-novo-q4-2026",
     "title": "Produto Novo — Tour de 3 min",
-    "public_url": "https://demobr.com.br/d/produto-novo-q4-2026",
+    "public_url": "https://easydemo.io/d/produto-novo-q4-2026",
     "published_by_user_id": "user_abc123"
   }
 }

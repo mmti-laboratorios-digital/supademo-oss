@@ -166,7 +166,7 @@
 >  Feito com ▶ DemoBR
 > ```
 > - Texto "Feito com" em Inter 13px 500 cinza (`--neutral-700`), símbolo ▶ primary, "DemoBR" em Sora 600 13px primary.
-> - Aparece em demos Free no canto inferior direito, link para `demobr.com.br`.
+> - Aparece em demos Free no canto inferior direito, link para `easydemo.io`.
 >
 > **Uso incorreto:**
 > - ❌ Cor de gradiente no ▶ (vira Apple Music).

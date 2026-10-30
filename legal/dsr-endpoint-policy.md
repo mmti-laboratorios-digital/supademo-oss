@@ -34,7 +34,7 @@ Oferecemos **2 canais oficiais**:
 
 ### 2.1 Formulário público (recomendado)
 
-`https://app.demobr.com.br/privacidade/solicitacao`
+`https://app.easydemo.io/privacidade/solicitacao`
 
 Campos obrigatórios:
 - Nome completo
@@ -49,7 +49,7 @@ Campos obrigatórios:
 
 ### 2.2 E-mail
 
-`placeholder@demobr.com.br` com:
+`placeholder@easydemo.io` com:
 - Assunto "DSR — [direito escolhido]"
 - Anexar mesma prova de identidade do item anterior
 
@@ -244,11 +244,11 @@ ao titular o canal da ANPD.
 
 ## 9. Contato
 
-- **DPO (placeholder funcional)**: `placeholder@demobr.com.br`
+- **DPO (placeholder funcional)**: `placeholder@easydemo.io`
   *(a ser substituído pelo e-mail real do DPO após contratação — ver
   `DPO-PROCESS.md`)*
-- **Formulário**: `https://app.demobr.com.br/privacidade/solicitacao`
-- **Página pública**: `https://www.demobr.com.br/dpo`
+- **Formulário**: `https://app.easydemo.io/privacidade/solicitacao`
+- **Página pública**: `https://www.easydemo.io/dpo`
 
 ---
 

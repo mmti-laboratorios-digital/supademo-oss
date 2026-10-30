@@ -129,7 +129,7 @@ export function EmailLayout({
 
             <Text className="mt-4 m-0">
               <Link
-                href="https://demobr.com.br/account/preferences"
+                href="https://easydemo.io/account/preferences"
                 className="text-brand-primary underline"
               >
                 {t("emails.footerPreferences")}
@@ -139,7 +139,7 @@ export function EmailLayout({
                 {t("emails.footerHelp")}
               </Link>
               {" · "}
-              <Link href="https://demobr.com.br/lgpd" className="text-brand-primary underline">
+              <Link href="https://easydemo.io/lgpd" className="text-brand-primary underline">
                 {t("emails.footerLegal")}
               </Link>
             </Text>

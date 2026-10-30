@@ -171,12 +171,12 @@ Fontes: <https://driverjs.com/> | <https://react-joyride.com/> | <https://introj
 ### 4.1 Script-tag embed (modo padrão)
 
 ```html
-<div data-demo-br-id="abc123" data-demo-br-theme="dark"></div>
+<div data-easydemo-id="abc123" data-easydemo-theme="dark"></div>
 <script async src="https://embed.demo.br/v1/loader.js"></script>
 ```
 
 O `loader.js` (3 KB):
-1. Encontra todos `[data-demo-br-id]`.
+1. Encontra todos `[data-easydemo-id]`.
 2. Cria um `<iframe>` apontando para `https://play.demo.br/embed/{id}?theme=...`.
 3. Configura `loading="lazy"` para performance.
 4. Expõe `window.DemoBR.on(event, cb)` para o host receber analytics.
@@ -199,7 +199,7 @@ O `loader.js` (3 KB):
 
 ### 4.3 Deep links (share)
 
-`https://demo.br/d/abc123?step=s2&token=xxx&var1=Joao&var2=Acme` — player consome query string, salta para o step e aplica variáveis (`{{name}}` → `João`, `{{company}}` → `Acme`).
+`https://easydemo.io/d/abc123?step=s2&token=xxx&var1=Joao&var2=Acme` — player consome query string, salta para o step e aplica variáveis (`{{name}}` → `João`, `{{company}}` → `Acme`).
 
 ---
 
@@ -227,7 +227,7 @@ O `loader.js` (3 KB):
 - A **página** `/embed/{id}` (a que o iframe carrega) tem `og:*` meta tags dinâmicas, `<title>` e `<meta description>` por demo.
 - Schema.org `VideoObject` ou `Course` para a página pública do demo.
 - Sitemap.xml inclui URLs de demos publicados.
-- O `<noscript>` do loader mostra um link `<a href="https://demo.br/d/abc123">Ver demo interativo</a>`.
+- O `<noscript>` do loader mostra um link `<a href="https://easydemo.io/d/abc123">Ver demo interativo</a>`.
 - Lighthouse-friendly: o iframe carrega assets lazy, prefetch DNS de R2.
 
 ---
@@ -249,7 +249,7 @@ function interpolate(text: string, vars: Record<string, string>) {
 Casos:
 - Variáveis capturadas via URL (`?var_email=...`) — auto-fill.
 - Variáveis capturadas via formulário de lead capture dentro do player.
-- Variáveis injetadas pelo embed code do host via `data-demo-br-vars='{"name":"João"}'`.
+- Variáveis injetadas pelo embed code do host via `data-easydemo-vars='{"name":"João"}'`.
 
 ---
 
@@ -260,7 +260,7 @@ O player envia eventos via `postMessage` para o parent (host) e simultaneamente 
 ```js
 // Dentro do iframe
 function emit(event, payload) {
-  parent.postMessage({ source: 'demo-br', event, payload }, '*');
+  parent.postMessage({ source: 'easydemo', event, payload }, '*');
   fetch('https://api.demo.br/v1/events', {
     method: 'POST',
     body: JSON.stringify({ event, payload, demoId, sessionId }),

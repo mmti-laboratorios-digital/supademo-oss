@@ -201,7 +201,7 @@ flowchart TB
 ┌─────────────────────────────────────────────────────────────────┐
 │ Lead / Visitante                                                 │
 │ Site do cliente (ex: empresa.com.br/produto)                    │
-│ <script src="https://embed.demo.br/v1/loader.js" data-demo-br-id="abc">│
+│ <script src="https://embed.demo.br/v1/loader.js" data-easydemo-id="abc">│
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼ (script injeta iframe)

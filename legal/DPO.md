@@ -33,7 +33,7 @@ Este documento:
 
 > ⚠️ **Importante**: até a nomeação formal, **não fazemos nenhuma
 > afirmação pública de que a DemoBR já tem DPO contratado**. O
-> canal `dpo@demobr.com.br` é um **placeholder funcional** que
+> canal `dpo@easydemo.io` é um **placeholder funcional** que
 > encaminha para a liderança da DemoBR LTDA, conforme descrito em
 > [`DPO-PROCESS.md`](./DPO-PROCESS.md).
 
@@ -276,7 +276,7 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 6.1 Endereço de e-mail oficial
 
-- **E-mail:** `dpo@demobr.com.br` *(placeholder — ver nota abaixo)*
+- **E-mail:** `dpo@easydemo.io` *(placeholder — ver nota abaixo)*
 - **Tipo:** alias que **encaminha** para a liderança da DemoBR
   até que o DPO formal seja contratado.
 - **Configuração recomendada:**
@@ -287,7 +287,7 @@ O DPO, ao ser contratado, assume os seguintes compromissos
 
 ### 6.2 Página pública do DPO
 
-URL planejada: `https://www.demobr.com.br/dpo`
+URL planejada: `https://www.easydemo.io/dpo`
 
 Conteúdo da página (quando publicada):
 
@@ -301,7 +301,7 @@ Conteúdo da página (quando publicada):
 
 ### 6.3 Formulário público DSR
 
-URL: `https://app.demobr.com.br/privacidade/solicitacao`
+URL: `https://app.easydemo.io/privacidade/solicitacao`
 
 - Para titulares que não querem mandar e-mail.
 - Backend com identidade verificada (ver
@@ -309,7 +309,7 @@ URL: `https://app.demobr.com.br/privacidade/solicitacao`
 
 ### 6.4 Canal de emergência
 
-URL/email: `security@demobr.com.br`
+URL/email: `security@easydemo.io`
 
 - Para reportar incidentes de segurança ou suspeita de vazamento.
 - Resposta inicial: ≤ 24h (ver
@@ -325,7 +325,7 @@ privacidade:
 
 ```
 D+0      Publicação da política de privacidade
-         (todos os docs em legal/ com placeholder `dpo@demobr.com.br`)
+         (todos os docs em legal/ com placeholder `dpo@easydemo.io`)
 
 D+0 a D+15
          Fase 0 — Levantamento
@@ -350,10 +350,10 @@ D+75 a D+90
          - Assinar contrato.
          - Onboarding (ver `DPO-PROCESS.md` §2).
          - Atualizar `privacy-policy.md` §11 com nome real.
-         - Atualizar página `https://www.demobr.com.br/dpo`.
+         - Atualizar página `https://www.easydemo.io/dpo`.
          - Comunicar nomeação à ANPD (formulário disponível em
            https://www.gov.br/anpd/).
-         - Substituir `placeholder@demobr.com.br` por e-mail real
+         - Substituir `placeholder@easydemo.io` por e-mail real
            do DPO em todos os docs (ver `PHASE-13-dpo-placeholder.md`
            para o script de substituição).
 
@@ -414,7 +414,7 @@ Este documento **NÃO** afirma:
 
 - ❌ Que a DemoBR já contratou um DPO.
 - ❌ Que existe uma pessoa física ou jurídica ocupando o cargo.
-- ❌ Que o canal `dpo@demobr.com.br` é monitorado por um
+- ❌ Que o canal `dpo@easydemo.io` é monitorado por um
   encarregado certificado.
 
 Este documento **AFIRMA**:
@@ -438,11 +438,11 @@ Esta seção é **para o usuário humano** que opera a DemoBR LTDA.
 4. **Conduzir entrevistas** com finalistas.
 5. **Após contratação**:
    - Substituir todos os placeholders
-     `placeholder@demobr.com.br` por e-mail real do DPO (script
+     `placeholder@easydemo.io` por e-mail real do DPO (script
      em `setup-report/PHASE-13-dpo-placeholder.md`).
    - Preencher `CHANGELOG-DPO.md` §4 com nome e CPF do DPO.
    - Atualizar `legal/privacy-policy.md` §11.
-   - Atualizar `https://www.demobr.com.br/dpo`.
+   - Atualizar `https://www.easydemo.io/dpo`.
    - Comunicar nomeação à ANPD.
 6. **Rodar `pnpm exec tsx scripts/check-dpo-missing.ts`** — deve
    retornar exit 0.

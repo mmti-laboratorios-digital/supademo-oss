@@ -183,8 +183,8 @@ em:
 
 | Arquivo | Status | Localização pública |
 |---------|--------|---------------------|
-| `privacy-policy.md` v0.1 | Substituída | `demobr.com.br/privacidade/historico/v0.1` |
-| `terms-of-service.md` v0.1 | Substituída | `demobr.com.br/termos/historico/v0.1` |
+| `privacy-policy.md` v0.1 | Substituída | `easydemo.io/privacidade/historico/v0.1` |
+| `terms-of-service.md` v0.1 | Substituída | `easydemo.io/termos/historico/v0.1` |
 | ... | ... | ... |
 
 ---

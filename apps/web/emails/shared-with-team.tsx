@@ -81,7 +81,7 @@ SharedWithTeamEmail.PreviewProps = {
   inviterName: "Bruna",
   workspaceName: "Empresa XYZ S.A.",
   role: "editor",
-  inviteUrl: "https://demobr.com.br/invite/abc123",
+  inviteUrl: "https://easydemo.io/invite/abc123",
   expiresInDays: 7,
   locale: "pt-BR",
 } satisfies SharedWithTeamEmailProps;

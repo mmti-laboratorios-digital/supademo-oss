@@ -135,11 +135,11 @@ Para clientes europeus ou que tenham titulares na UE, observe:
 ## 6. Contato
 
 Para dúvidas sobre subprocessadores:
-- **DPO** (placeholder funcional): `placeholder@demobr.com.br`
+- **DPO** (placeholder funcional): `placeholder@easydemo.io`
   *(a ser substituído pelo e-mail real do DPO após contratação — ver
   `DPO-PROCESS.md`)*
-- **Segurança**: `security@demobr.com.br`
-- **Página pública**: `https://www.demobr.com.br/subprocessadores`
+- **Segurança**: `security@easydemo.io`
+- **Página pública**: `https://www.easydemo.io/subprocessadores`
 
 ---
 

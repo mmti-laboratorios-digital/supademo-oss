@@ -207,11 +207,11 @@ Fluxo:
 | `DEMOBR_IMAGE`        | `ubuntu-24.04`| Slug da imagem                               |
 | `DEMOBR_LOCATION`     | `fsn1`        | Datacenter (`fsn1`, `nbg1`, `hel1`, etc.)    |
 | `DEMOBR_SERVER_NAME`  | `demobr-prod-01` | Hostname Hetzner (metadata, não OS)        |
-| `CN_DOMAIN`           | *(vazio)*     | Domínio dos serviços Caddy (ex.: `demo.br`) |
+| `CN_DOMAIN`           | *(vazio)*     | Domínio dos serviços Caddy (ex.: `easydemo.io`) |
 
 Exemplo para produção:
 ```bash
-DEMOBR_SERVER_TYPE=cpx32 CN_DOMAIN=demo.br bash scripts/provision-hetzner.sh
+DEMOBR_SERVER_TYPE=cpx32 CN_DOMAIN=easydemo.io bash scripts/provision-hetzner.sh
 ```
 
 > ⚠️ O script **não tem flag `--dry-run` explícita** — o dry-run é o

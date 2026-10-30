@@ -168,7 +168,7 @@ Aplicamos STRIDE em cada categoria:
 
 - **Controlador**: Cliente DemoBR (workspace owner) — define finalidades.
 - **Operador**: DemoBR LTDA — processa em nome do controlador.
-- **Encarregado (DPO)**: `dpo@demobr.com.br` — canal de comunicação com ANPD.
+- **Encarregado (DPO)**: `dpo@easydemo.io` — canal de comunicação com ANPD.
 - **Suboperadores**: subprocessadores listados em §2, cada um com DPA assinado.
 
 ### 4.2 Bases legais (LGPD art. 7º)
@@ -339,7 +339,7 @@ Implementação:
 
 | Componente | Método | Retenção | Local |
 |------------|--------|----------|-------|
-| **Postgres dados** | pgBackRest full semanal + diff diário + WAL contínuo | 7 full + diff diário + 30 WAL days | R2 (`demo-br-pgbackrest`, cifrado AES-256) |
+| **Postgres dados** | pgBackRest full semanal + diff diário + WAL contínuo | 7 full + diff diário + 30 WAL days | R2 (`demo-private`, cifrado AES-256) |
 | **Postgres 1× mês long-term** | pgBackRest full | 24 meses | R2 (cifrado) |
 | **VPS volume-level** | Hetzner Snapshot | 4 semanas | Hetzner Storage Box |
 | **R2 public assets** | Versionamento R2 | 30 dias (delete markers) | R2 |
@@ -461,5 +461,5 @@ Logs de drill em `infra/postgres/RESTORE-LOGS.md`.
 ---
 
 **Mantido por**: Tech lead + DPO.
-**Contato de segurança**: `security@demobr.com.br` (PGP key em `/security/pgp.txt`).
+**Contato de segurança**: `security@easydemo.io` (PGP key em `/security/pgp.txt`).
 **Bug bounty**: em planejamento para 2027 (post-SOC2 Type I).

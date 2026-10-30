@@ -82,7 +82,7 @@
 >
 > **3 passos, 1 tela cada:**
 >
-> 1. **Workspace já está criado** → seu link: `app.demobr.com.br/app/{{workspace_slug}}`
+> 1. **Workspace já está criado** → seu link: `app.easydemo.io/app/{{workspace_slug}}`
 >
 > 2. **Instale a extensão Chrome** (se ainda não instalou):
 >    → [{{link_extensao_chrome}}]
@@ -165,7 +165,7 @@
 > 2. **Embed no seu site** ([como fazer]({{link_doc_embed}}))
 > 3. **Adicione ao LinkedIn** ([como adicionar como feature]({{link_doc_linkedin}}))
 >
-> **Dica avançada:** a primeira métrica a olhar é **completion rate** (no dashboard `app.demobr.com.br/app/{{workspace_slug}}/analytics`). Meta: ≥ 40%. Se estiver < 30%, revise os hotspots.
+> **Dica avançada:** a primeira métrica a olhar é **completion rate** (no dashboard `app.easydemo.io/app/{{workspace_slug}}/analytics`). Meta: ≥ 40%. Se estiver < 30%, revise os hotspots.
 >
 > —
 > **Ana · DemoBR**

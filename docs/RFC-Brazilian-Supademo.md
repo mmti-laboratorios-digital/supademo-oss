@@ -675,7 +675,7 @@ Estimativa: pillar page no top 3 do Google para "como fazer demo interativa" = *
 ### 8.2 Estrutura inicial de pastas (Next.js App Router + extensão)
 
 ```
-supademo-br/
+easydemo/
 ├── apps/
 │   ├── web/                          # Next.js 15 App Router
 │   │   ├── app/

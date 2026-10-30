@@ -86,7 +86,7 @@ ou para `apps/web/app/icon.svg` (que o Next.js serve automaticamente).
 
 ### OG padrão (`brand/social/og-default.svg`)
 
-Para o site `https://demobr.com.br` usar como OG fallback:
+Para o site `https://easydemo.io` usar como OG fallback:
 
 ```tsx
 // apps/web/app/layout.tsx
@@ -249,8 +249,8 @@ const html = await render(
   WelcomeEmail({
     firstName: "Bruna",
     workspaceName: "Empresa XYZ S.A.",
-    dashboardUrl: "https://app.demobr.com.br",
-    guideUrl: "https://demobr.com.br/blog/como-fazer-demo-interativa",
+    dashboardUrl: "https://app.easydemo.io",
+    guideUrl: "https://easydemo.io/blog/como-fazer-demo-interativa",
   }),
 );
 ```

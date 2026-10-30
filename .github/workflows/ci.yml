@@ -62,7 +62,7 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # Check DPO placeholders (bloqueador de publicação até contratação formal)
-  # Falha o CI se restar placeholder@demobr.com.br, DPO_NAME_AQUI,
+  # Falha o CI se restar placeholder@easydemo.io, DPO_NAME_AQUI,
   # [NOME_DO_DPO] ou {nome_do_DPO} em legal/.
   #
   # DESATIVADO POR ORA — DemoBR ainda está em desenvolvimento e não há DPO

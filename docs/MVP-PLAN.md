@@ -676,7 +676,9 @@ log por fase.
 - [ ] A entrada no `docs/MVP-PROGRESS.md` foi adicionada no **final** do arquivo
 - [ ] A tabela "Status atual" do `docs/MVP-PROGRESS.md` foi atualizada
 - [ ] A fase está marcada como `done` em `specs/mvp-tasks.json`
-- [ ] `git grep -in demobr` retorna 0 (se o PR1 já foi mergeado)
+- [ ] `git grep -in demobr` retorna 0 nos arquivos de conteúdo (excluindo
+      `docs/MVP-PLAN.md`, `docs/MVP-PROGRESS.md` e `specs/mvp-tasks.json`, que
+      **documentam** o rename e por isso mantêm o nome antigo)
 
 ### PR1 — Rename (DemoBR → EasyDemo)
 
@@ -692,7 +694,7 @@ de revisar. Decisão D7.
 1. Branch `chore/rename-easydemo` a partir da `main`.
 2. npm scope `@easydemo/*` → `@easydemo/*` e package root `demobr` → `easydemo`
    nos 8 `package.json` + `pnpm-workspace.yaml` + os ~40 imports.
-3. Domínios `demobr.com.br` → `easydemo.io` (+ `app.`/`api.`/`docs.`/`webhooks.`)
+3. Domínios `easydemo.io` → `easydemo.io` (+ `app.`/`api.`/`docs.`/`webhooks.`)
    nas 49 URLs de `apps/web`, `marketing`, `online-presence` e `docs`.
 4. Docker tags `demobr/*` → `easydemo/*` e banco `supademo` → `easydemo` em
    `infra/` (compose, `init-roles.sql`, prod).
@@ -711,8 +713,13 @@ de revisar. Decisão D7.
    lockfile — com a flag, ele falha) → regenera o lockfile → depois
    `pnpm install --frozen-lockfile` pra validar que ficou em sincronia.
 9. `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
-10. `git grep -in demobr` = 0 e `git grep -in "@demo.br"` = 0 → registrar no
-    `docs/MVP-PROGRESS.md` e abrir o PR.
+10. `git grep -in demobr` = 0 e `git grep -in "@demo.br"` = 0 nos arquivos de
+    conteúdo → registrar no `docs/MVP-PROGRESS.md` e abrir o PR.
+    > Os 3 arquivos que **documentam** o rename (`docs/MVP-PLAN.md`,
+    > `docs/MVP-PROGRESS.md`, `specs/mvp-tasks.json`) ficam de fora do grep:
+    > eles citam o nome antigo **como alvo da busca**, e o log é append-only.
+    > Comando:
+    > `git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'`
 
 **Arquivos a ler antes:**
 - `package.json` (raiz) e os 7 `package.json` dos workspaces — npm scope e nomes
@@ -729,7 +736,7 @@ de revisar. Decisão D7.
 |---|---|---|
 | npm scope | `@easydemo/{player,shared,ui}` | `@easydemo/{player,shared,ui}` |
 | package root | `demobr` | `easydemo` |
-| domínios | `demobr.com.br` (+ `app.`/`api.`/`docs.`/`webhooks.`) | `easydemo.io` (+ os mesmos subdomínios) |
+| domínios | `easydemo.io` (+ `app.`/`api.`/`docs.`/`webhooks.`) | `easydemo.io` (+ os mesmos subdomínios) |
 | docker tags | `demobr/web`, `demobr/worker`, `demobr/demobr` | `easydemo/*` |
 | nome do banco | `supademo` | `easydemo` |
 
@@ -749,8 +756,8 @@ de revisar. Decisão D7.
   `docs/**` (139), `research/**` (108) — **revisão manual**
 
 **Acceptance criteria:**
-- [ ] `git grep -in demobr` retorna 0 no versionado
-- [ ] `git grep -in "@demo.br"` retorna 0
+- [ ] `git grep -in demobr` retorna 0 nos arquivos de conteúdo
+- [ ] `git grep -in "@demo.br"` retorna 0 nos arquivos de conteúdo
 - [ ] `pnpm install --frozen-lockfile` passa
 - [ ] `pnpm lint && pnpm typecheck && pnpm test` verdes
 - [ ] `pnpm build` passa
@@ -758,8 +765,10 @@ de revisar. Decisão D7.
 
 **Validação:**
 ```
-git grep -in demobr            # deve retornar nada
-git grep -in "@demo.br"        # deve retornar nada
+# 0 = ok. Exclui os 3 arquivos que documentam o rename (eles citam o
+# nome antigo como alvo da busca; o log é append-only).
+git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'
+git grep -in '@demo\.br' -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'
 pnpm install --frozen-lockfile
 pnpm lint && pnpm typecheck && pnpm test
 pnpm build
@@ -1261,7 +1270,7 @@ padrão com exit 1 quando sobram placeholders.
 **Pendências legais (bloqueantes de lançamento público):**
 - [ ] CNPJ real em todos os documentos
 - [ ] Endereço real
-- [ ] E-mail do encarregado (DPO) real — hoje `placeholder@demobr.com.br`
+- [ ] E-mail do encarregado (DPO) real — hoje `placeholder@easydemo.io`
 - [ ] `{nome_do_DPO}` substituído
 - [ ] Revisão por advogado de ToS, Privacidade e Cookies
 - [ ] Job de DPO reativado e passando
@@ -1416,7 +1425,7 @@ comprar mídia antes de G6. Não publicar case fictício.
 
 | Gate | Critério | Como verificar | Se falhar |
 |---|---|---|---|
-| **G0** | Rename: `grep -ri demobr` = 0 no versionado; CI verde | `git grep -in demobr` | corrigir e re-push **antes** de F0 |
+| **G0** | Rename: `grep -ri demobr` = 0 nos arquivos de conteúdo; CI verde | `git grep -in demobr -- . ':!docs/MVP-PLAN.md' ':!docs/MVP-PROGRESS.md' ':!specs/mvp-tasks.json'` | corrigir e re-push **antes** de F0 |
 | **G0.5** | Pricing do banco bate com o spec: `plans.max_views_per_month` = `NULL` nos 3 planos, `max_creators` = 1/1/3, `lead_form` = `true` no Free, `max_leads_per_month` = 20/100/`NULL` — e `lib/plans.ts` devolve exatamente a §5 | `pnpm --filter web db:migrate` + comparar `getPlanLimits()` com `specs/mvp-scope.json` → `pricing_brl` | corrigir a F0. **Não seguir pra F1** — todo gate downstream valida contra o pricing, e preço errado aprova tudo errado |
 | **G1** | Demo criada no painel → publicada → `/d/[slug]` abre em anônimo com todos os steps em ordem | manual no `pnpm dev` | voltar a F1 |
 | **G1.5** | Demo criada **sem extensão** → publicada → link abre | manual, upload manual | voltar a F2 — **alpha travado sem isso** |
@@ -1440,7 +1449,7 @@ comprar mídia antes de G6. Não publicar case fictício.
 > **G6 e G7 são gates diferentes.** O **alpha** (G6) pode rodar com o DPO
 > pendente — é um grupo fechado de early users, não há liberação pública. O
 > **go-live público** (G7) exige DPO, CNPJ e documentos legais reais. Num produto
-> que vende "LGPD by design", publicar com `placeholder@demobr.com.br` nos
+> que vende "LGPD by design", publicar com `placeholder@easydemo.io` nos
 > documentos legais destrói a proposta de valor.
 
 ---

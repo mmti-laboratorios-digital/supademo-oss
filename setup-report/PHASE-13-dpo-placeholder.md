@@ -23,7 +23,7 @@ sancionável pela ANPD. Até a contratação formal do DPO, a DemoBR
 **não pode publicar a política de privacidade** com nome/e-mail
 pessoal inventados — daí o uso de **placeholders honestos**:
 
-- `placeholder@demobr.com.br` (canal de e-mail com encaminhamento
+- `placeholder@easydemo.io` (canal de e-mail com encaminhamento
   para a liderança)
 - `DPO_NAME_AQUI`, `[NOME_DO_DPO]`, `{nome_do_DPO}` (para nome)
 
@@ -105,7 +105,7 @@ pnpm exec tsx scripts/check-dpo-missing.ts
 #      email.real@dpo.com.br      → e-mail real do DPO
 #    nos comandos abaixo
 
-# Padrão 1: placeholder@demobr.com.br → email.real@dpo.com.br
+# Padrão 1: placeholder@easydemo.io → email.real@dpo.com.br
 grep -rl 'placeholder@demobr\.com\.br' legal/ \
   | grep -vE '(DPO\.md|DPO-PROCESS\.md|ADVOGADO-CHECKLIST\.md|CHANGELOG-DPO\.md|README\.md)' \
   | xargs sed -i 's|placeholder@demobr\.com\.br|email.real@dpo.com.br|g'
@@ -146,8 +146,8 @@ Substitua o bloco "Status atual" por:
 - **E-mail**: email.real@dpo.com.br
 - **Telefone**: +55 (XX) XXXXX-XXXX *(opcional)*
 - **CPF**: XXX.XXX.XXX-XX *(sigiloso, visível apenas à ANPD)*
-- **Página pública**: https://www.demobr.com.br/dpo
-- **Formulário DSR**: https://app.demobr.com.br/privacidade/solicitacao
+- **Página pública**: https://www.easydemo.io/dpo
+- **Formulário DSR**: https://app.easydemo.io/privacidade/solicitacao
 
 **Histórico de nomeações:**
 
@@ -183,7 +183,7 @@ Substitua o placeholder pela entrada definitiva:
 
 E remova a nota "PENDENTE de contratação formal".
 
-#### d) Página `https://www.demobr.com.br/dpo`
+#### d) Página `https://www.easydemo.io/dpo`
 
 Publicar a página com:
 
@@ -206,7 +206,7 @@ disponível em https://www.gov.br/anpd/ (quando habilitado).
 [ ] `legal/privacy-policy.md` §11 editado manualmente (ver §4.2a)
 [ ] `legal/CHANGELOG-DPO.md` §4 + §1 atualizados (ver §4.2b)
 [ ] `legal/README.md` §Contato atualizado (ver §4.2c)
-[ ] `https://www.demobr.com.br/dpo` publicada (ver §4.2d)
+[ ] `https://www.easydemo.io/dpo` publicada (ver §4.2d)
 [ ] Comunicação à ANPD enviada (ver §4.2e)
 [ ] `pnpm exec tsx scripts/check-dpo-missing.ts` retorna exit 0
 [ ] CI verde (job `check-dpo-placeholders` passa)
@@ -239,7 +239,7 @@ O subagente **FEZ**:
 - ✅ Documentou **processo de contratação** em 4 fases + checklist
   de onboarding.
 - ✅ Documentou **SLAs** do DPO (DSR, ANPD, treinamento, reporte).
-- ✅ Substituiu `dpo@demobr.com.br` por `placeholder@demobr.com.br`
+- ✅ Substituiu `dpo@easydemo.io` por `placeholder@easydemo.io`
   em **9 documentos** (privacy-policy, dpa, dsr, cookie,
   subprocessors, incident-response, terms-of-service, rtbf-template,
   rtbf-data-export-schema.json).
@@ -273,7 +273,7 @@ false
 
 O script também cobre:
 
-- ✅ Detecção de `placeholder@demobr.com.br` em `.md` e `.json`.
+- ✅ Detecção de `placeholder@easydemo.io` em `.md` e `.json`.
 - ✅ Detecção de `DPO_NAME_AQUI`, `DPO_NAME`, `[NOME_DO_DPO]`,
   `{nome_do_DPO}` (case-sensitive e case-insensitive).
 - ✅ Whitelist para arquivos históricos (`DPO.md`, `DPO-PROCESS.md`,

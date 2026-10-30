@@ -176,12 +176,12 @@ Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso p�
 ## 📞 Contato
 
 - **Encarregado/DPO** *(placeholder funcional — contratação em
-  até 90 dias)*: `placeholder@demobr.com.br`
-- **Segurança**: `security@demobr.com.br`
-- **Privacidade**: `privacy@demobr.com.br`
+  até 90 dias)*: `placeholder@easydemo.io`
+- **Segurança**: `security@easydemo.io`
+- **Privacidade**: `privacy@easydemo.io`
 
 > ⏳ **Status do DPO**: PENDENTE de contratação formal. A DemoBR
-> mantém o alias `placeholder@demobr.com.br` que encaminha para a
+> mantém o alias `placeholder@easydemo.io` que encaminha para a
 > liderança enquanto a nomeação não é concluída. Detalhes sobre o
 > processo de seleção, persona, critérios, SLAs e cronograma estão
 > em [`DPO.md`](./DPO.md) e [`DPO-PROCESS.md`](./DPO-PROCESS.md).
@@ -192,7 +192,7 @@ Status: Modelo (rascunho) — Revisão por advogado obrigatória antes de uso p�
 > 2. Decidir caminho de contratação (`DPO.md` §4).
 > 3. Publicar vaga ou pedir proposta a plataformas.
 > 4. Após contratação, executar o checklist de `DPO-PROCESS.md` §2.
-> 5. Substituir `placeholder@demobr.com.br` pelo e-mail real em
+> 5. Substituir `placeholder@easydemo.io` pelo e-mail real em
 >    todos os docs (script de busca em
 >    `setup-report/PHASE-13-dpo-placeholder.md`).
 >

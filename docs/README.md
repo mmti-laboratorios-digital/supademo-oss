@@ -216,7 +216,7 @@ pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · G7 go-live
 
 **G6 ≠ G7.** O alpha (grupo fechado de early users) pode rodar com o DPO
 pendente. O **go-live público** exige DPO, CNPJ e legal revisado — num produto
-que vende "LGPD by design", publicar com `placeholder@demobr.com.br` destrói a
+que vende "LGPD by design", publicar com `placeholder@easydemo.io` destrói a
 proposta de valor.
 
 ---

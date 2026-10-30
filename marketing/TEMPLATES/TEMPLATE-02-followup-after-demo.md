@@ -111,8 +111,8 @@
 
 - Link da demo criada na call (sempre)
 - 1 case similar (com métrica real ou fictícia — ver `CASE-STUDIES/`)
-- Link do trial Pro: `https://app.demobr.com.br/signup?ref=call-{{nome}}`
-- Link da central de ajuda: `https://docs.demobr.com.br`
+- Link do trial Pro: `https://app.easydemo.io/signup?ref=call-{{nome}}`
+- Link da central de ajuda: `https://docs.easydemo.io`
 - Calendly pra agendar onboarding assistido: `https://calendly.com/demobr/onboarding`
 
 ---

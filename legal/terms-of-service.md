@@ -10,7 +10,7 @@
 
 ## 1. Aceitação dos Termos
 
-Ao criar uma conta, acessar o painel `app.demobr.com.br` ou usar
+Ao criar uma conta, acessar o painel `app.easydemo.io` ou usar
 qualquer recurso do DemoBR, você declara que **leu, compreendeu e
 concorda** com estes Termos e com a
 [Política de Privacidade](./privacy-policy.md).
@@ -56,7 +56,7 @@ Você é responsável por:
 - Manter sua **senha em sigilo**.
 - **Não compartilhar** credenciais com terceiros.
 - **Ativar autenticação multifator (MFA)** quando disponível.
-- Notificar a DemoBR imediatamente em `security@demobr.com.br` caso
+- Notificar a DemoBR imediatamente em `security@easydemo.io` caso
   suspeite de acesso não autorizado.
 
 A DemoBR **não se responsabiliza** por danos decorrentes de uso não
@@ -66,7 +66,7 @@ credenciais.
 ### 3.3 Encerramento da conta
 
 Você pode encerrar sua conta a qualquer momento pelo painel admin ou
-solicitando via `placeholder@demobr.com.br` *(placeholder funcional
+solicitando via `placeholder@easydemo.io` *(placeholder funcional
 até a nomeação formal do DPO — ver
 [`DPO-PROCESS.md`](./DPO-PROCESS.md))*. Ver §6 (Cancelamento e
 reembolso) e a
@@ -153,9 +153,9 @@ erros ou imune a eventos de força maior (ver §9).
 ### 6.1 Cancelamento
 
 Você pode cancelar a qualquer momento, sem custos:
-- **No painel**: `app.demobr.com.br/admin/billing/cancel`.
-- **Por e-mail**: `billing@demobr.com.br`.
-- **Via formulário DSR**: `app.demobr.com.br/privacidade/solicitacao`.
+- **No painel**: `app.easydemo.io/admin/billing/cancel`.
+- **Por e-mail**: `billing@easydemo.io`.
+- **Via formulário DSR**: `app.easydemo.io/privacidade/solicitacao`.
 
 O cancelamento é **efetivo ao fim do ciclo vigente**. Você continua
 com acesso até a data de renovação.
@@ -224,7 +224,7 @@ Você não pode usar nossas marcas sem autorização prévia por escrito.
 
 Se você acredita que conteúdo hospedado na DemoBR **viola seus direitos
 autorais**, envie uma notificação (DMCA-style) para
-`dmca@demobr.com.br` contendo:
+`dmca@easydemo.io` contendo:
 
 1. Assinatura física ou eletrônica.
 2. Identificação da obra protegida.
@@ -297,7 +297,7 @@ Quando alterarmos estes Termos:
 - Para mudanças **substanciais** (preço, SLA, casos de suspensão),
   avisamos com **30 dias de antecedência** por e-mail.
 - Se você não concordar, pode cancelar antes da vigência (§6.1).
-- Versões anteriores em `https://www.demobr.com.br/termos/historico`.
+- Versões anteriores em `https://www.easydemo.io/termos/historico`.
 
 ---
 
@@ -325,12 +325,12 @@ direito do consumidor de optar pelo foro de seu domicílio
 
 | Assunto | E-mail |
 |---------|--------|
-| Suporte geral | `suporte@demobr.com.br` |
-| Billing / cobrança | `billing@demobr.com.br` |
-| Segurança / incidentes | `security@demobr.com.br` |
-| Privacidade / DSR | `placeholder@demobr.com.br` *(DPO — placeholder até contratação)* |
-| DMCA / copyright | `dmca@demobr.com.br` |
-| DPO | `placeholder@demobr.com.br` *(placeholder até contratação; ver `DPO-PROCESS.md`)* |
+| Suporte geral | `suporte@easydemo.io` |
+| Billing / cobrança | `billing@easydemo.io` |
+| Segurança / incidentes | `security@easydemo.io` |
+| Privacidade / DSR | `placeholder@easydemo.io` *(DPO — placeholder até contratação)* |
+| DMCA / copyright | `dmca@easydemo.io` |
+| DPO | `placeholder@easydemo.io` *(placeholder até contratação; ver `DPO-PROCESS.md`)* |
 
 ---
 

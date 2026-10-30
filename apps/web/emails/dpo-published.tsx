@@ -55,7 +55,7 @@ export function DpoPublishedEmail({
           </a>
         </Text>
         <Text className="mt-4 m-0 text-xs uppercase tracking-wider text-ink-subtle">Slug</Text>
-        <Text className="mt-1 mb-0 font-mono text-sm text-ink">demobr.com.br/d/{demoSlug}</Text>
+        <Text className="mt-1 mb-0 font-mono text-sm text-ink">easydemo.io/d/{demoSlug}</Text>
       </Section>
 
       <Section className="mt-6 text-center">
@@ -97,10 +97,10 @@ DpoPublishedEmail.PreviewProps = {
   firstName: "Bruna",
   demoTitle: "Tour do CRM para PMEs",
   demoSlug: "crm-tour-pmes",
-  publishedUrl: "https://demobr.com.br/d/crm-tour-pmes",
+  publishedUrl: "https://easydemo.io/d/crm-tour-pmes",
   embedCode:
-    '<iframe src="https://demobr.com.br/embed/crm-tour-pmes" width="100%" height="540" frameborder="0" allowfullscreen></iframe>',
-  editUrl: "https://demobr.com.br/demos/crm-tour-pmes/edit",
+    '<iframe src="https://easydemo.io/embed/crm-tour-pmes" width="100%" height="540" frameborder="0" allowfullscreen></iframe>',
+  editUrl: "https://easydemo.io/demos/crm-tour-pmes/edit",
   locale: "pt-BR",
 } satisfies DpoPublishedEmailProps;
 

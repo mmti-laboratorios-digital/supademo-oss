@@ -99,7 +99,7 @@ HTTP 202 Accepted
   "dsr_id": "uuid",
   "status": "in_progress",
   "estimated_completion": "<now + 30d>",
-  "tracking_url": "https://app.demobr.com.br/admin/dsr/{dsr_id}"
+  "tracking_url": "https://app.easydemo.io/admin/dsr/{dsr_id}"
 }
 ```
 

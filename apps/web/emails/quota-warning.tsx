@@ -150,8 +150,8 @@ QuotaWarningEmail.PreviewProps = {
     { label: "Minutos TTS pt-BR", used: 24, limit: 30, unit: "min" },
     { label: "Requisições AI text", used: 412, limit: 500 },
   ],
-  upgradeUrl: "https://demobr.com.br/billing?intent=upgrade",
-  billingUrl: "https://demobr.com.br/billing",
+  upgradeUrl: "https://easydemo.io/billing?intent=upgrade",
+  billingUrl: "https://easydemo.io/billing",
   percentUsed: 87,
   locale: "pt-BR",
 } satisfies QuotaWarningEmailProps;

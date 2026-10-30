@@ -19,7 +19,7 @@ Também usamos **tecnologias similares**:
 - **SessionStorage** (limpa ao fechar a aba).
 - **IndexedDB** (banco de dados do navegador).
 
-Cookies podem ser **de primeira-parte** (definidos por `*.demobr.com.br`)
+Cookies podem ser **de primeira-parte** (definidos por `*.easydemo.io`)
 ou **de terceiros** (definidos por outros domínios).
 
 ---
@@ -47,18 +47,18 @@ ou **de terceiros** (definidos por outros domínios).
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `__session` | `app.demobr.com.br` | Sessão (até fechar o navegador) | Identificar a sessão do usuário logado; prevenir CSRF | 1ª parte |
-| `__refresh` | `app.demobr.com.br` | 30 dias rolling | Refresh token de sessão (rotacionado a cada uso) | 1ª parte |
-| `__cf_bm` | `*.demobr.com.br` | 30 min | Cloudflare Bot Management — distinguir humanos de bots | 1ª parte (Cloudflare) |
-| `__stripe_mid` (legado) | `app.demobr.com.br` | 1 ano | Token antifraude caso Stripe seja usado em integrações específicas | 3ª parte |
+| `__session` | `app.easydemo.io` | Sessão (até fechar o navegador) | Identificar a sessão do usuário logado; prevenir CSRF | 1ª parte |
+| `__refresh` | `app.easydemo.io` | 30 dias rolling | Refresh token de sessão (rotacionado a cada uso) | 1ª parte |
+| `__cf_bm` | `*.easydemo.io` | 30 min | Cloudflare Bot Management — distinguir humanos de bots | 1ª parte (Cloudflare) |
+| `__stripe_mid` (legado) | `app.easydemo.io` | 1 ano | Token antifraude caso Stripe seja usado em integrações específicas | 3ª parte |
 
 ### 3.2 Cookies de analytics
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `_pk_id.*` | `app.demobr.com.br` | 30 dias | Identificador anônimo de visitante (PostHog, hash) | 1ª parte |
-| `_pk_ses.*` | `app.demobr.com.br` | 30 min | Sessão ativa de analytics | 1ª parte |
-| `ph_phc_*` | `app.demobr.com.br` | 1 ano | Identificador PostHog (LocalStorage) | 1ª parte |
+| `_pk_id.*` | `app.easydemo.io` | 30 dias | Identificador anônimo de visitante (PostHog, hash) | 1ª parte |
+| `_pk_ses.*` | `app.easydemo.io` | 30 min | Sessão ativa de analytics | 1ª parte |
+| `ph_phc_*` | `app.easydemo.io` | 1 ano | Identificador PostHog (LocalStorage) | 1ª parte |
 
 > ⚠️ Estes cookies são **definidos pela DemoBR para o nosso próprio
 > analytics**. Não compartilhamos com terceiros. O opt-out via banner
@@ -68,9 +68,9 @@ ou **de terceiros** (definidos por outros domínios).
 
 | Nome | Domínio | Duração | Finalidade | Tipo |
 |------|---------|---------|-----------|------|
-| `locale` | `app.demobr.com.br` | 1 ano | Idioma preferido (PT-BR ou EN) | 1ª parte |
-| `theme` | `app.demobr.com.br` | 1 ano | Tema (claro/escuro) | 1ª parte |
-| `cookie_consent_v1` | `*.demobr.com.br` | 1 ano | Armazena sua escolha no banner (essencial/essential=true + analytics=true/false) | 1ª parte |
+| `locale` | `app.easydemo.io` | 1 ano | Idioma preferido (PT-BR ou EN) | 1ª parte |
+| `theme` | `app.easydemo.io` | 1 ano | Tema (claro/escuro) | 1ª parte |
+| `cookie_consent_v1` | `*.easydemo.io` | 1 ano | Armazena sua escolha no banner (essencial/essential=true + analytics=true/false) | 1ª parte |
 
 ### 3.4 Cookies de marketing
 
@@ -150,15 +150,15 @@ Quando alterarmos esta política:
 - Publicamos a versão atualizada nesta URL, com nova data no rodapé.
 - Mudanças **substanciais** (ex.: novo subprocessador) são avisadas
   no banner de cookies no próximo acesso.
-- Versões anteriores em `https://www.demobr.com.br/cookies/historico`.
+- Versões anteriores em `https://www.easydemo.io/cookies/historico`.
 
 ---
 
 ## 7. Contato
 
 - **E-mail do DPO** (placeholder funcional enquanto a nomeação
-  formal não é concluída): `placeholder@demobr.com.br`
-- **Formulário DSR**: `https://app.demobr.com.br/privacidade/solicitacao`
+  formal não é concluída): `placeholder@easydemo.io`
+- **Formulário DSR**: `https://app.easydemo.io/privacidade/solicitacao`
 - **Página de configurações**: clique em "Configurar cookies" no
   rodapé do site.
 

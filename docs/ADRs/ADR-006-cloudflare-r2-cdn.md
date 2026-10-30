@@ -40,13 +40,13 @@ Custos de egress são o **maior vilão** em SaaS com mídia (S3 cobra $0.09/GB e
 
 Estrutura de buckets:
 
-- `demobr-public` — screenshots, OG images, áudio TTS — CDN habilitado, custom domain `cdn.demobr.com.br`.
+- `demobr-public` — screenshots, OG images, áudio TTS — CDN habilitado, custom domain `cdn.easydemo.io`.
 - `demobr-private` — backups pgBackRest, exports DSR — CDN desabilitado, acesso via presigned URL curta (TTL 5 min).
 
 Integração:
 
 - **SDK oficial**: `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` (R2 é S3-API compatível).
-- **Custom domain** `cdn.demobr.com.br` apontando para `demobr-public.r2.dev` (ou bucket-level domain) — CNAME via Cloudflare.
+- **Custom domain** `cdn.easydemo.io` apontando para `demobr-public.r2.dev` (ou bucket-level domain) — CNAME via Cloudflare.
 - **Cache rules**: `Cache-Control: public, max-age=31536000, immutable` para imagens (versionadas por path com hash).
 - **Privacy regions** habilitado (EU) para backups de DSR — garante residência UE.
 

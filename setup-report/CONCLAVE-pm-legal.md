@@ -21,7 +21,7 @@ A documentação legal está **estruturalmente completa e pedagogicamente corret
 
 ### 1.2 Bloqueador #1 — DPO (Encarregado) **não nomeado**
 
-A LGPD art. 41 torna a nomeação do Encarregado **obrigatória** para todo agente de tratamento. O `placeholder@demobr.com.br` é honesto (não inventa CPF/nome), porém:
+A LGPD art. 41 torna a nomeação do Encarregado **obrigatória** para todo agente de tratamento. O `placeholder@easydemo.io` é honesto (não inventa CPF/nome), porém:
 
 - LGPD art. 52, §1º, II prevê sanção administrativa (multa de até 2 % do faturamento, limitada a R$ 50 milhões por infração) por **não nomear** encarregado.
 - Anunciar "DPO a definir" publicamente cria **exposição midiática gratuita** — qualquer matéria sobre PMEs SaaS BR pode citar isso como descumprimento.
@@ -274,7 +274,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 
 #### **#8 🟢 VÍDEO DEMO DE 30s NÃO VERIFICADO ESTAR PRONTO**
 
-`LAUNCH-PLAN.md` §3.3 menciona "GIF de 10s gravado em `app.demobr.com.br/d/exemplo-saas-b2b`" para Product Hunt, mas não vi o arquivo. Risco baixo, mas é placeholder até confirmar. Verificar antes do go-live.
+`LAUNCH-PLAN.md` §3.3 menciona "GIF de 10s gravado em `app.easydemo.io/d/exemplo-saas-b2b`" para Product Hunt, mas não vi o arquivo. Risco baixo, mas é placeholder até confirmar. Verificar antes do go-live.
 
 **Severidade real:** 🟢 baixa.
 
@@ -343,7 +343,7 @@ A pergunta que o fundador precisa responder **antes de lançar programa** é: **
 ### DIA 21–25: Comunicação e disclosures
 
 ```
-[ ] Substituir placeholder@demobr.com.br em todos os 13 docs:
+[ ] Substituir placeholder@easydemo.io em todos os 13 docs:
     - scripts/check-dpo-missing.ts + busca manual (DPO não vem por grep)
     - Atualizar CHANGELOG-DPO.md (entrada v1.0)
 [ ] Comunicar nomeação à ANPD (https://www.gov.br/anpd/)
@@ -476,7 +476,7 @@ PARA BUSINESS (R$ 199):
 ### DIA 1–7: Validação interna + launch soft
 
 ```
-[ ] DIA -3 (antes): domain demobr.com.br + SSL + DNS testados
+[ ] DIA -3 (antes): domain easydemo.io + SSL + DNS testados
 [ ] DIA -2: página /dpo + /privacidade/solicitacao published
 [ ] DIA -1: 5 usuários beta-PMM (NÃO amigos do founder) com demo criada
 [ ] DIA 0 (terça, 9h BRT, conforme LAUNCH-PLAN.md §3.1):

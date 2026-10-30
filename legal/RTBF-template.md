@@ -81,7 +81,7 @@ Escolher conforme a origem do titular:
 ```
 DemoBR LTDA — CNPJ XX.XXX.XXX/0001-XX
 Rua Exemplo, nº 123, sala 45, Centro, Cidade/UF, CEP XXXXX-XXX
-E-mail do DPO: placeholder@demobr.com.br *(placeholder funcional
+E-mail do DPO: placeholder@easydemo.io *(placeholder funcional
 até a nomeação formal do DPO — ver `DPO-PROCESS.md`)*
 
 {dia} de {mês} de {ano}
@@ -143,7 +143,7 @@ Após verificação da sua identidade, vimos informar:
 5. COMPARTILHAMENTO
 
    Seus dados podem ter sido compartilhados com os subprocessadores
-   listados em https://www.demobr.com.br/subprocessadores, sob
+   listados em https://www.easydemo.io/subprocessadores, sob
    cláusulas-padrão contratuais em conformidade com LGPD art. 33.
 
 6. RETENÇÃO
@@ -156,8 +156,8 @@ Após verificação da sua identidade, vimos informar:
 
    Você pode exercer a qualquer momento os demais direitos
    previstos no LGPD art. 18, II a X, por meio do formulário
-   https://app.demobr.com.br/privacidade/solicitacao ou pelo
-   e-mail placeholder@demobr.com.br *(placeholder até contratação
+   https://app.easydemo.io/privacidade/solicitacao ou pelo
+   e-mail placeholder@easydemo.io *(placeholder até contratação
    do DPO — ver `DPO-PROCESS.md`)*.
 
 8. CANAL COM A ANPD
@@ -174,7 +174,7 @@ Atenciosamente,
 ─────────────────────────────────────────
 {nome_do_DPO}
 Encarregado (DPO) — DemoBR LTDA
-E-mail: placeholder@demobr.com.br *(placeholder até contratação
+E-mail: placeholder@easydemo.io *(placeholder até contratação
 formal — ver `DPO-PROCESS.md`)*
 ```
 
@@ -186,7 +186,7 @@ formal — ver `DPO-PROCESS.md`)*
 - **Formato de envio**: PDF assinado digitalmente (ou texto simples
   com assinatura visual do DPO).
 - **Registro**: enviar via canal autenticado (e-mail de
-  `placeholder@demobr.com.br` para o e-mail declarado pelo titular
+  `placeholder@easydemo.io` para o e-mail declarado pelo titular
   — placeholder funcional até a contratação formal do DPO).
 - **Log**: registrar em `app.dsr_log` com `action='confirm'`,
   `status='done'`.

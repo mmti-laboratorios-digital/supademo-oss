@@ -14,8 +14,8 @@
 | `{{nome}}` | "Carla" |
 | `{{seguidores}}` | "5k seguidores" / "12k na newsletter" |
 | `{{nicho}}` | "marketing SaaS" / "RevOps" / "PLG para startups" |
-| `{{link_afiliados}}` | `https://app.demobr.com.br/afiliados/signup?ref={{ref_code}}` |
-| `{{link_dashboard_demo}}` | `https://app.demobr.com.br/afiliados/dashboard` |
+| `{{link_afiliados}}` | `https://app.easydemo.io/afiliados/signup?ref={{ref_code}}` |
+| `{{link_dashboard_demo}}` | `https://app.easydemo.io/afiliados/dashboard` |
 
 ---
 

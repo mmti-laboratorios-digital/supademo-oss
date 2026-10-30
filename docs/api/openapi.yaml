@@ -9,8 +9,8 @@ info:
     gerenciar e publicar demos interativas, capturar leads, consultar analytics,
     gerenciar billing via Asaas e cumprir obrigações LGPD (DSR export/erase).
 
-    **Base URL (produção):** `https://api.demobr.com.br/api/v1`
-    **Base URL (sandbox):** `https://api.sandbox.demobr.com.br/api/v1`
+    **Base URL (produção):** `https://api.easydemo.io/api/v1`
+    **Base URL (sandbox):** `https://api.sandbox.easydemo.io/api/v1`
 
     ## Autenticação
 
@@ -48,20 +48,20 @@ info:
 
   contact:
     name: DemoBR Engineering
-    url: https://demobr.com.br/docs
-    email: api@demobr.com.br
+    url: https://easydemo.io/docs
+    email: api@easydemo.io
 
   license:
     name: Proprietary
-    url: https://demobr.com.br/legal/api-terms
+    url: https://easydemo.io/legal/api-terms
 
   x-logo:
-    url: https://demobr.com.br/logo.svg
+    url: https://easydemo.io/logo.svg
 
 servers:
-  - url: https://api.demobr.com.br/api/v1
+  - url: https://api.easydemo.io/api/v1
     description: Produção
-  - url: https://api.sandbox.demobr.com.br/api/v1
+  - url: https://api.sandbox.easydemo.io/api/v1
     description: Sandbox (dados fake, Asaas sandbox)
 
 security:
@@ -1048,7 +1048,7 @@ components:
           type: string
           format: uri
           description: URL pública (derivada, somente leitura)
-          example: https://demobr.com.br/d/produto-novo-q4-2026
+          example: https://easydemo.io/d/produto-novo-q4-2026
 
     DemoCreateInput:
       type: object
@@ -1145,7 +1145,7 @@ components:
           type: string
           format: uri
           description: URL pública (somente leitura, com cache CDN)
-          example: https://cdn.demobr.com.br/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
+          example: https://cdn.easydemo.io/workspaces/01H.../demos/01H.../steps/01H.../screenshot.png
         source_url:
           type: string
           format: uri
@@ -1796,7 +1796,7 @@ components:
             created_at: '2026-10-12T08:00:00.000Z'
             updated_at: '2026-10-18T14:30:00.000Z'
             deleted_at: null
-            public_url: https://demobr.com.br/d/produto-novo-q4-2026
+            public_url: https://easydemo.io/d/produto-novo-q4-2026
           - id: 01H8XK7B3V4Y5Z6W7N8M9P0Q1S3
             workspace_id: 01H8WKP0M3Y5Z6W7N8M9P0Q1R2
             slug: onboarding-clientes-novos

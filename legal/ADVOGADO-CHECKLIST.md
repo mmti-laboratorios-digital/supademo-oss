@@ -51,9 +51,9 @@ Para cada item, marque:
     ou consultoria especializada)
 [ ] Nome completo do DPO
 [ ] CPF do DPO (para eventual notificação ANPD)
-[ ] E-mail funcional (atualmente placeholder dpo@demobr.com.br)
+[ ] E-mail funcional (atualmente placeholder dpo@easydemo.io)
 [ ] Telefone de contato (opcional — alguns modelos exigem)
-[ ] Página pública do DPO em www.demobr.com.br/dpo (LGPD art. 41, §1º)
+[ ] Página pública do DPO em www.easydemo.io/dpo (LGPD art. 41, §1º)
 [ ] Comunicar nomeação à ANPD (art. 41, §1º) — formulário disponível
     em https://www.gov.br/anpd/
 [ ] Definir política interna para casos em que DPO esteja ausente

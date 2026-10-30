@@ -184,7 +184,7 @@ A DemoBR informará ao Cliente:
 - Número estimado de titulares afetados.
 - Medidas de mitigação adotadas.
 - Plano de remediação.
-- Contato para mais detalhes (`security@demobr.com.br`).
+- Contato para mais detalhes (`security@easydemo.io`).
 
 ### 7.3 Colaboração na notificação
 
@@ -232,7 +232,7 @@ A DemoBR pode transferir dados para países listados em
 - **Cooperação entre autoridades** (LGPD art. 33, IV).
 
 Cópia das cláusulas-padrão contratuais pode ser solicitada via
-`placeholder@demobr.com.br` (encaminhado para a liderança da DemoBR
+`placeholder@easydemo.io` (encaminhado para a liderança da DemoBR
 até a nomeação formal do DPO — ver `DPO-PROCESS.md`).
 
 ---
@@ -253,7 +253,7 @@ por meio de:
 | V. Portabilidade | Export JSON estruturado |
 | VI. Eliminação | [`RTBF-deletion-procedure.md`](./RTBF-deletion-procedure.md) |
 | VII. Informações de entidades | Lista de subprocessadores |
-| VIII–X. Demais | Suporte via `placeholder@demobr.com.br` |
+| VIII–X. Demais | Suporte via `placeholder@easydemo.io` |
 
 ### 9.2 SLA de resposta a DSR
 
@@ -311,10 +311,10 @@ A nomeação será concluída em até **90 dias** da publicação.
 
 Enquanto isso:
 
-- **E-mail (placeholder funcional)**: `placeholder@demobr.com.br`
+- **E-mail (placeholder funcional)**: `placeholder@easydemo.io`
 - **Encaminhamento**: alias que direciona para a liderança da DemoBR.
 - **Prazo de resposta**: 15 dias úteis (LGPD art. 18, §5º).
-- **Página pública** (a publicar): `https://www.demobr.com.br/dpo`.
+- **Página pública** (a publicar): `https://www.easydemo.io/dpo`.
 - **Reporte direto com ANPD** (LGPD art. 41, §1º) — após nomeação.
 
 > Detalhes sobre persona, critérios de seleção, processo de

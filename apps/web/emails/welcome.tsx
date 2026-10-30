@@ -94,8 +94,8 @@ export function WelcomeEmail({
 WelcomeEmail.PreviewProps = {
   firstName: "Bruna",
   workspaceName: "Empresa XYZ S.A.",
-  dashboardUrl: "https://demobr.com.br/dashboard",
-  guideUrl: "https://demobr.com.br/blog/como-fazer-demo-interativa",
+  dashboardUrl: "https://easydemo.io/dashboard",
+  guideUrl: "https://easydemo.io/blog/como-fazer-demo-interativa",
   locale: "pt-BR",
 } satisfies WelcomeEmailProps;
 

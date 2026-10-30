@@ -138,10 +138,10 @@
     [ ] Leitura de `docs/SECURITY-MODEL.md`
     [ ] Leitura de `incident-response-plan.md`
 [ ] Nomeação comunicada à ANPD
-[ ] Atualização da página `https://www.demobr.com.br/dpo`
+[ ] Atualização da página `https://www.easydemo.io/dpo`
 [ ] Atualização de `legal/privacy-policy.md` §11
 [ ] Atualização de `legal/CHANGELOG-DPO.md` §4
-[ ] Substituição de `placeholder@demobr.com.br` em todos os docs
+[ ] Substituição de `placeholder@easydemo.io` em todos os docs
 [ ] Primeiro reporte mensal programado
 ```
 
@@ -222,7 +222,7 @@ definidos em §5 e §6 abaixo.
 
 | Origem | Canal | SLA de resposta do DPO |
 |--------|-------|-------------------------|
-| **Titular (DSR)** | `dpo@demobr.com.br` | ≤ 15 dias úteis |
+| **Titular (DSR)** | `dpo@easydemo.io` | ≤ 15 dias úteis |
 | **Engenheiro (incidente P0/P1)** | Slack `#incidentes` + PagerDuty | Imediato (P0) / 1h (P1) |
 | **Suporte (dúvidas de privacidade)** | Slack `#privacidade` | 1 dia útil |
 | **CEO/sócios (questões estratégicas)** | Reunião 1:1 semanal | Próxima reunião |
@@ -240,7 +240,7 @@ definidos em §5 e §6 abaixo.
 
 ### 3.3 Ferramentas de comunicação
 
-- **DSR / titulares**: e-mail `dpo@demobr.com.br` → fila em
+- **DSR / titulares**: e-mail `dpo@easydemo.io` → fila em
   `app.dsr_log` → Linear (projeto "Privacy").
 - **Incidentes**: Slack `#p0-fire` (P0) ou `#incidentes` (P1+),
   com DPO em canal.
@@ -418,7 +418,7 @@ Se o DPO for desligado (PJ) ou pedir demissão (CLT):
 [ ] ANPD é notificada da substituição (LGPD art. 41, §1º)
 [ ] `legal/privacy-policy.md` §11 é atualizado
 [ ] `legal/CHANGELOG-DPO.md` §4 é atualizado
-[ ] `https://www.demobr.com.br/dpo` é atualizado
+[ ] `https://www.easydemo.io/dpo` é atualizado
 ```
 
 ### 6.3 Indicadores de qualidade
@@ -440,7 +440,7 @@ A cada 6 meses, a DemoBR avalia o DPO por:
 Este documento **NÃO** afirma:
 
 - ❌ Que a DemoBR já tem DPO contratado.
-- ❌ Que existe um DPO designado respondendo `dpo@demobr.com.br`.
+- ❌ Que existe um DPO designado respondendo `dpo@easydemo.io`.
 
 Este documento **AFIRMA**:
 

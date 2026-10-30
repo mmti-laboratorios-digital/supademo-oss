@@ -109,7 +109,7 @@
 >
 > Mandei 2 emails nas últimas 2 semanas sobre demos interativas que ajudariam a {{empresa}}. Não respondendo, vou assumir que não é prioridade agora — e tudo bem.
 >
-> Se um dia quiser testar (DemoBR Pro é R$ 49/mês, com trial de 14 dias sem cartão), a porta está aberta: app.demobr.com.br.
+> Se um dia quiser testar (DemoBR Pro é R$ 49/mês, com trial de 14 dias sem cartão), a porta está aberta: app.easydemo.io.
 >
 > Sucesso com a {{empresa}} 🚀
 >

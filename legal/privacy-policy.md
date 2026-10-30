@@ -2,7 +2,7 @@
 
 > Esta política descreve como a **DemoBR LTDA** coleta, usa, compartilha
 > e protege os dados pessoais dos usuários do nosso serviço de demos
-> interativas (`app.demobr.com.br` e players públicos `app.demobr.com.br/d/[slug]`).
+> interativas (`app.easydemo.io` e players públicos `app.easydemo.io/d/[slug]`).
 >
 > **Modelo (template) — gerado em 18/Out/2026. Necessária revisão por
 > advogado antes de publicação.**
@@ -19,13 +19,13 @@ descritos nesta política.
 - **CNPJ**: XX.XXX.XXX/0001-XX (a preencher)
 - **Endereço**: Rua Exemplo, nº 123, sala 45, Bairro Centro,
   Cidade/Estado, CEP XXXXX-XXX (a preencher)
-- **E-mail do encarregado (DPO)**: `placeholder@demobr.com.br` *(a
+- **E-mail do encarregado (DPO)**: `placeholder@easydemo.io` *(a
   ser substituído quando o DPO for contratado — ver §11)*
-- **Website**: `https://www.demobr.com.br`
+- **Website**: `https://www.easydemo.io`
 
 > ⚠️ **Placeholder**: preencha CNPJ e endereço reais a partir do
 > contrato social antes de publicar. O e-mail
-> `placeholder@demobr.com.br` é um alias que encaminha para a
+> `placeholder@easydemo.io` é um alias que encaminha para a
 > liderança da DemoBR enquanto a nomeação formal não é concluída.
 
 ---
@@ -202,16 +202,16 @@ no art. 18:
 ### 7.1 Como exercer
 
 **Para visitantes do demo ou leads** (que não têm login):
-- Preencher o formulário público em `https://app.demobr.com.br/privacidade/solicitacao`
+- Preencher o formulário público em `https://app.easydemo.io/privacidade/solicitacao`
   com prova de identidade (e-mail de contato + documento ou selfie).
-- Ou enviar e-mail para `placeholder@demobr.com.br` com:
+- Ou enviar e-mail para `placeholder@easydemo.io` com:
   - Nome completo
   - E-mail que usou no demo/lead
   - Documento de identidade (RG/CNH, com foto nítida)
   - Qual direito está exercendo (1 a 10 acima)
 
 **Para creators** (que têm login):
-- O próprio painel admin em `app.demobr.com.br/admin/dsr` tem um
+- O próprio painel admin em `app.easydemo.io/admin/dsr` tem um
   formulário autenticado (mais rápido).
 - API para integrações: `GET/DELETE /api/v1/dsr?token=...` (detalhes em
   [`dsr-endpoint-policy.md`](./dsr-endpoint-policy.md)).
@@ -280,7 +280,7 @@ proteção** ou mediante **cláusulas-padrão contratuais**.
 > (SCCs)** da Comissão Europeia para clientes europeus.
 
 > **Caso o titular queira cópia das cláusulas-padrão**: solicite via
-> `placeholder@demobr.com.br` (LGPD art. 33, §2º).
+> `placeholder@easydemo.io` (LGPD art. 33, §2º).
 
 ---
 
@@ -301,20 +301,20 @@ concluída nos próximos 90 dias contados da publicação desta política.
 Enquanto isso, qualquer comunicação relacionada à proteção de dados
 pessoais deve ser direcionada para:
 
-- **E-mail:** `placeholder@demobr.com.br`
+- **E-mail:** `placeholder@easydemo.io`
 - **Assunto:** "DPO - [NOME DO TITULAR] - [MOTIVO]"
 - **Prazo de resposta:** 15 dias úteis (art. 18, §5º da LGPD)
 
-Para emergências ou incidentes: `security@demobr.com.br`
+Para emergências ou incidentes: `security@easydemo.io`
 (resposta inicial em 24h, conforme plano de resposta a incidentes)
 
 Após a nomeação formal, esta seção será atualizada com:
 
 - **Nome** do DPO contratado
-- **E-mail funcional** (substituir `placeholder@demobr.com.br`)
+- **E-mail funcional** (substituir `placeholder@easydemo.io`)
 - **Telefone** (se aplicável)
-- **Página pública**: `https://www.demobr.com.br/dpo`
-- **Formulário DSR**: `https://app.demobr.com.br/privacidade/solicitacao`
+- **Página pública**: `https://www.easydemo.io/dpo`
+- **Formulário DSR**: `https://app.easydemo.io/privacidade/solicitacao`
 - **Histórico de nomeações** (para accountability)
 
 O encarregado é o canal oficial de comunicação entre a DemoBR, os
@@ -334,7 +334,7 @@ Quando alterarmos esta política:
   subprocessador, ampliação de retenção), notificamos por e-mail os
   titulares afetados com **pelo menos 30 dias de antecedência**.
 - Versões anteriores ficam disponíveis em
-  `https://www.demobr.com.br/privacidade/historico`.
+  `https://www.easydemo.io/privacidade/historico`.
 
 ---
 

@@ -1,17 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://demobr.com.br/mcp/server.json",
+  "$id": "https://easydemo.io/mcp/server.json",
   "name": "DemoBR MCP Server",
   "version": "1.0.0",
   "description": "Model Context Protocol server exposing DemoBR demo management as tools for AI agents (Claude, GPT-4, Cursor, etc.).",
 
   "metadata": {
     "vendor": "DemoBR",
-    "homepage": "https://demobr.com.br/mcp",
+    "homepage": "https://easydemo.io/mcp",
     "license": "Proprietary",
-    "support_email": "support@demobr.com.br",
-    "documentation": "https://docs.demobr.com.br/mcp",
-    "openapi_equivalent": "https://docs.demobr.com.br/api/openapi.yaml"
+    "support_email": "support@easydemo.io",
+    "documentation": "https://docs.easydemo.io/mcp",
+    "openapi_equivalent": "https://docs.easydemo.io/api/openapi.yaml"
   },
 
   "server": {
@@ -25,7 +25,7 @@
       },
       "DEMOBR_API_BASE": {
         "required": false,
-        "default": "https://api.demobr.com.br/api/v1",
+        "default": "https://api.easydemo.io/api/v1",
         "description": "Override API base URL (use sandbox for dev)"
       },
       "DEMOBR_LOG_LEVEL": {
@@ -39,9 +39,9 @@
   "authentication": {
     "scheme": "OAuth 2.1 with PKCE",
     "spec": "RFC 6749 + RFC 7636",
-    "authorization_endpoint": "https://auth.demobr.com.br/oauth/authorize",
-    "token_endpoint": "https://auth.demobr.com.br/oauth/token",
-    "revocation_endpoint": "https://auth.demobr.com.br/oauth/revoke",
+    "authorization_endpoint": "https://auth.easydemo.io/oauth/authorize",
+    "token_endpoint": "https://auth.easydemo.io/oauth/token",
+    "revocation_endpoint": "https://auth.easydemo.io/oauth/revoke",
     "scopes": ["demos:read", "demos:write", "demos:delete", "analytics:read", "publish:write"],
     "default_scopes": ["demos:read", "demos:write", "analytics:read", "publish:write"],
     "pkce_required": true,
@@ -625,7 +625,7 @@
         }
       },
       "output_schema": {
-        "$ref": "https://docs.demobr.com.br/api/openapi.yaml#/components/schemas/AnalyticsReport"
+        "$ref": "https://docs.easydemo.io/api/openapi.yaml#/components/schemas/AnalyticsReport"
       },
       "maps_to": "GET /api/v1/demos/{id}/analytics"
     },
@@ -832,11 +832,11 @@
     },
     "http_run_with_oauth": {
       "description": "Conectar a Claude Code via OAuth 2.1 + PKCE",
-      "url": "https://mcp.demobr.com.br/v1",
+      "url": "https://mcp.easydemo.io/v1",
       "oauth_flow": {
-        "step_1": "GET https://mcp.demobr.com.br/v1/.well-known/oauth-authorization-server",
-        "step_2": "Browser redirects user to https://auth.demobr.com.br/oauth/authorize?response_type=code&client_id=...&code_challenge=...&code_challenge_method=S256&scope=demos:read+demos:write",
-        "step_3": "Exchange code at https://auth.demobr.com.br/oauth/token with code_verifier",
+        "step_1": "GET https://mcp.easydemo.io/v1/.well-known/oauth-authorization-server",
+        "step_2": "Browser redirects user to https://auth.easydemo.io/oauth/authorize?response_type=code&client_id=...&code_challenge=...&code_challenge_method=S256&scope=demos:read+demos:write",
+        "step_3": "Exchange code at https://auth.easydemo.io/oauth/token with code_verifier",
         "step_4": "Use access_token as Bearer in MCP requests"
       }
     },
@@ -864,8 +864,8 @@
   },
 
   "references": {
-    "openapi_spec": "https://docs.demobr.com.br/api/openapi.yaml",
-    "webhooks_spec": "https://docs.demobr.com.br/api/webhooks.md",
+    "openapi_spec": "https://docs.easydemo.io/api/openapi.yaml",
+    "webhooks_spec": "https://docs.easydemo.io/api/webhooks.md",
     "model_context_protocol": "https://modelcontextprotocol.io/",
     "oauth_2_1_spec": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1",
     "anthropic_mcp_docs": "https://docs.anthropic.com/en/docs/agents-and-tools/mcp",
