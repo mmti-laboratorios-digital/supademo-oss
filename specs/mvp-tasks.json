@@ -13,7 +13,7 @@
   },
   "current": {
     "phase": "PR1",
-    "step": "PR1.2",
+    "step": "PR1.3",
     "status": "in_progress"
   },
   "phases": [
@@ -29,7 +29,7 @@
       "status": "in_progress",
       "steps": [
         { "n": 1, "id": "PR1.1", "title": "Criar a branch chore/rename-easydemo a partir da main", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "branch chore/rename-easydemo criada da main + 3 ajustes no plano (contagem viva, ordem do pnpm install, regra supademo banco-vs-concorrente)" },
-        { "n": 2, "id": "PR1.2", "title": "Renomear npm scope @easydemo/* → @easydemo/* e package root demobr → easydemo nos 8 package.json + pnpm-workspace.yaml + os ~40 imports", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 2, "id": "PR1.2", "title": "Renomear npm scope @easydemo/* → @easydemo/* e package root demobr → easydemo nos 8 package.json + pnpm-workspace.yaml + os ~40 imports", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "scope @demo.br/* -> @easydemo/* em 42 arquivos; package root demobr -> easydemo; pnpm-workspace e prepare em EasyDemo; nomes de pacote em research/tech/RECOMMENDATION.md" },
         { "n": 3, "id": "PR1.3", "title": "Renomear domínios demobr.com.br → easydemo.io (+ app./api./docs./webhooks.) nas 49 URLs de apps/web, marketing, online-presence e docs", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 4, "id": "PR1.4", "title": "Renomear docker tags demobr/* → easydemo/* e o banco supademo → easydemo em infra/ (compose, init-roles, prod)", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 5, "id": "PR1.5", "title": "Renomear scripts/ (~12 arquivos) + Makefile, CONTRIBUTING.md, README.md, LICENSE e .env.example", "status": "pending", "done_at": null, "commit": null, "note": null },
