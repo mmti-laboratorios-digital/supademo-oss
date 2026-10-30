@@ -13,7 +13,7 @@
   },
   "current": {
     "phase": "PR1",
-    "step": "PR1.5",
+    "step": "PR1.6",
     "status": "in_progress"
   },
   "phases": [
@@ -32,7 +32,7 @@
         { "n": 2, "id": "PR1.2", "title": "Renomear npm scope @demo.br/* → @easydemo/* e package root demobr → easydemo nos 8 package.json + pnpm-workspace.yaml + os ~40 imports", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "scope @demo.br/* -> @easydemo/* em 42 arquivos; package root demobr -> easydemo; pnpm-workspace e prepare em EasyDemo; nomes de pacote em research/tech/RECOMMENDATION.md" },
         { "n": 3, "id": "PR1.3", "title": "Renomear domínios demobr.com.br e demo.br → easydemo.io (+ app./api./docs./webhooks./cdn./play./embed.) nas URLs de apps/web, marketing, online-presence e docs", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "demobr.com.br e hosts demo.br -> easydemo.io em 64 arquivos (341 ocorrencias); e-mails, data attributes do embed e nomes de pacote; ADR-010 e SECURITY-MODEL alinhados ao config real do pgbackrest" },
         { "n": 4, "id": "PR1.4", "title": "Renomear docker tags demobr/* → easydemo/* e o banco supademo → easydemo em infra/ (compose, init-roles, prod)", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "marca DemoBR/demobr -> EasyDemo/easydemo em 189 arquivos; containers/tags docker, banco supademo->easydemo (so as 52 do nosso), headers do webhook, buckets R2 alinhados ao config real; corrigido o regex do check-dpo que o escape deixou aponto pra .com.br" },
-        { "n": 5, "id": "PR1.5", "title": "Renomear scripts/ (~12 arquivos) + Makefile, CONTRIBUTING.md, README.md, LICENSE e .env.example", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 5, "id": "PR1.5", "title": "Renomear scripts/ (~12 arquivos) + Makefile, CONTRIBUTING.md, README.md, LICENSE e .env.example", "status": "done", "done_at": "2026-10-30", "commit": null, "note": "scripts/, Makefile, LICENSE, .env.example, .github/, CONTRIBUTING e README conferidos: ja cobertos pelo rename em bloco do passo 4; LICENSE segue proprietario; deploy path /opt/easydemo e imagens ghcr.io/*/easydemo-*" },
         { "n": 6, "id": "PR1.6", "title": "Revisar marketing/ (316 refs) e legal/ (286 refs) à mão — não é replacement cego", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 7, "id": "PR1.7", "title": "Revisar online-presence/ (227 refs) e research/ (108 refs) à mão, preservando os trechos que descrevem o site de um concorrente", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 8, "id": "PR1.8", "title": "Rodar pnpm install --frozen-lockfile e ajustar o lockfile", "status": "pending", "done_at": null, "commit": null, "note": null },
