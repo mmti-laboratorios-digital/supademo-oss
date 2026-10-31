@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-30",
+  "updated_at": "2026-10-31",
   "plan": "docs/MVP-PLAN.md",
   "progress_log": "docs/MVP-PROGRESS.md",
   "scope": "specs/mvp-scope.json",
@@ -13,8 +13,8 @@
   },
   "current": {
     "phase": "F1",
-    "step": "F1.1",
-    "status": "pending"
+    "step": "F1.2",
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -73,9 +73,9 @@
       "depends_on": [
         "F0"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F1.1", "title": "Criar apps/web/app/(app)/demos/new/page.tsx: server action que cria a demo (status draft, slug random) e redireciona pra /demos/{id}/edit; se demoId vier por query, reutilizar", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 1, "id": "F1.1", "title": "Criar apps/web/app/(app)/demos/new/page.tsx: server action que cria a demo (status draft, slug random) e redireciona pra /demos/{id}/edit; se demoId vier por query, reutilizar", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Rota /demos/new criada: cria demo draft com slug aleatorio, reutiliza demo existente via query demoId e redireciona ao editor" },
         { "n": 2, "id": "F1.2", "title": "Criar api/v1/demos/[id]/publish/route.ts: validar slug (3–32 chars, [a-z0-9-], único no workspace), exigir ≥1 step, setar status published + published_at", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 3, "id": "F1.3", "title": "Criar api/v1/demos/[id]/unpublish/route.ts: voltar pra draft, limpar published_at", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 4, "id": "F1.4", "title": "Adicionar publishDemo e unpublishDemo em server/repositories/demos.ts, usando withTenant(orgId, ...)", "status": "pending", "done_at": null, "commit": null, "note": null },
