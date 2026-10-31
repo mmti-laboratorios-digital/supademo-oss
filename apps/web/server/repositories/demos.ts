@@ -46,3 +46,70 @@ export async function getDemoWithSteps(
     return { demo: demo as Demo, steps: stepList as Step[] };
   });
 }
+
+export type PublishDemoResult =
+  | { ok: true; demo: typeof demos.$inferSelect }
+  | { ok: false; reason: "NOT_FOUND" | "NO_STEPS" | "SLUG_TAKEN" };
+
+/**
+ * Publica uma demo no slug informado.
+ *
+ * O slug é global no schema (`app.demos.slug` tem UNIQUE), portanto a
+ * unicidade é verificada dentro do tenant para evitar revelar demos de
+ * outro workspace; o índice global continua protegendo contra corrida.
+ */
+export async function publishDemo(
+  orgId: string,
+  demoId: string,
+  slug: string,
+): Promise<PublishDemoResult> {
+  return withTenant(orgId, async (db) => {
+    const [demo] = await db
+      .select({ id: demos.id })
+      .from(demos)
+      .where(and(eq(demos.id, demoId), eq(demos.workspaceId, orgId)))
+      .limit(1);
+    if (!demo) return { ok: false, reason: "NOT_FOUND" };
+
+    const [step] = await db
+      .select({ id: steps.id })
+      .from(steps)
+      .where(eq(steps.demoId, demoId))
+      .limit(1);
+    if (!step) return { ok: false, reason: "NO_STEPS" };
+
+    const [slugOwner] = await db
+      .select({ id: demos.id })
+      .from(demos)
+      .where(eq(demos.slug, slug))
+      .limit(1);
+    if (slugOwner && slugOwner.id !== demoId) {
+      return { ok: false, reason: "SLUG_TAKEN" };
+    }
+
+    const [published] = await db
+      .update(demos)
+      .set({ slug, status: "published", publishedAt: new Date(), updatedAt: new Date() })
+      .where(and(eq(demos.id, demoId), eq(demos.workspaceId, orgId)))
+      .returning();
+
+    if (!published) return { ok: false, reason: "NOT_FOUND" };
+    return { ok: true, demo: published };
+  });
+}
+
+/** Despublica uma demo, voltando para rascunho e limpando `published_at`. */
+export async function unpublishDemo(
+  orgId: string,
+  demoId: string,
+): Promise<{ ok: true; demo: typeof demos.$inferSelect } | { ok: false; reason: "NOT_FOUND" }> {
+  return withTenant(orgId, async (db) => {
+    const [updated] = await db
+      .update(demos)
+      .set({ status: "draft", publishedAt: null, updatedAt: new Date() })
+      .where(and(eq(demos.id, demoId), eq(demos.workspaceId, orgId)))
+      .returning();
+    if (!updated) return { ok: false, reason: "NOT_FOUND" };
+    return { ok: true, demo: updated };
+  });
+}
