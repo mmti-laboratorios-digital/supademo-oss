@@ -13,8 +13,8 @@
   },
   "current": {
     "phase": "F2",
-    "step": "F2.1",
-    "status": "pending"
+    "step": "F2.3",
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -96,10 +96,10 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F2.1", "title": "StepList.tsx: garantir que o DemoEditor passe a função onAddStep real — a prop já é declarada (linha 51) e o botão já é renderizado (98–102), mas nunca é passada", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F2.2", "title": "DemoEditor.tsx: handler que abre file picker (PNG/JPG) → presigned URL em /api/v1/upload/sign → PUT no R2 → cria o step via POST /api/v1/demos/{id}/steps", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 1, "id": "F2.1", "title": "StepList.tsx: garantir que o DemoEditor passe a função onAddStep real — a prop já é declarada (linha 51) e o botão já é renderizado (98–102), mas nunca é passada", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "StepList recebe onAddStep real do DemoEditor: botao Criar dispara file picker de PNG/JPG" },
+        { "n": 2, "id": "F2.2", "title": "DemoEditor.tsx: handler que abre file picker (PNG/JPG) → presigned URL em /api/v1/upload/sign → PUT no R2 → cria o step via POST /api/v1/demos/{id}/steps", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Handler de upload manual implementado: presigned PUT no R2 via /api/v1/upload/sign, depois POST /api/v1/demos/{id}/steps com hotspot central e step adicionado ao editor" },
         { "n": 3, "id": "F2.3", "title": "(app)/demos/new/page.tsx: botão \"criar demo em branco\" que abre o editor sem extensão", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 4, "id": "F2.4", "title": "Tratar imagem acima do limite com mensagem clara", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 5, "id": "F2.5", "title": "Validar: demo criada sem extensão → step com hotspot posicionável → publicada → renderiza em /d/[slug]", "status": "pending", "done_at": null, "commit": null, "note": null },
