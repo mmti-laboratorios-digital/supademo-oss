@@ -40,7 +40,6 @@ export type PublishPanelProps = {
   onChange: (next: PublishPanelState) => void;
   onPublish: () => void | Promise<void>;
   onUnpublish: () => void | Promise<void>;
-  onPublishVersion: () => void | Promise<void>;
   publishing?: boolean;
   workspaceSlug: string;
 };
@@ -52,7 +51,6 @@ export function PublishPanel({
   onChange,
   onPublish,
   onUnpublish,
-  onPublishVersion,
   publishing = false,
   workspaceSlug,
 }: PublishPanelProps): React.ReactElement {
@@ -224,25 +222,15 @@ export function PublishPanel({
               {t("editor.publish.publishButton")}
             </button>
           ) : (
-            <>
-              <button
-                type="button"
-                disabled={publishing}
-                onClick={() => void onPublishVersion()}
-                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-              >
-                {t("editor.publish.publishVersionButton")}
-              </button>
-              <button
-                type="button"
-                disabled={publishing}
-                onClick={() => void onUnpublish()}
-                className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted disabled:opacity-50"
-              >
-                <EyeOff className="h-4 w-4" />
-                {t("editor.publish.unpublishButton")}
-              </button>
-            </>
+            <button
+              type="button"
+              disabled={publishing}
+              onClick={() => void onUnpublish()}
+              className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted disabled:opacity-50"
+            >
+              <EyeOff className="h-4 w-4" />
+              {t("editor.publish.unpublishButton")}
+            </button>
           )}
         </div>
       </Card>
