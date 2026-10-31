@@ -441,20 +441,6 @@ export function DemoEditor({
     }
   }, [demo.id, t]);
 
-  const handlePublishVersion = React.useCallback(async () => {
-    await performSave();
-    try {
-      const res = await fetch(`/api/v1/demos/${demo.id}/versions`, {
-        method: "POST",
-      });
-      if (!res.ok) throw new Error("Version publish failed");
-      // Atualiza lista local (re-fetch pode ser feito em prod)
-    } catch (err) {
-      setSaveStatus("error");
-      setLastError(err instanceof Error ? err.message : t("errors.generic"));
-    }
-  }, [performSave, demo.id, t]);
-
   // ─────────── Render ───────────
 
   return (
@@ -487,18 +473,12 @@ export function DemoEditor({
             </a>
           </Button>
           <Button
-            variant={publishState.status === "published" ? "outline" : "default"}
+            variant="default"
             size="sm"
-            onClick={() =>
-              publishState.status === "published"
-                ? void handlePublishVersion()
-                : void handlePublish()
-            }
+            onClick={() => void handlePublish()}
             disabled={saveStatus === "saving"}
           >
-            {publishState.status === "published"
-              ? t("editor.publish.publishVersionButton")
-              : t("editor.publish.publishButton")}
+            {t("editor.publish.publishButton")}
           </Button>
         </div>
       </header>
@@ -533,7 +513,8 @@ export function DemoEditor({
       <div className="flex flex-1 overflow-hidden">
         {tab === "steps" ? (
           <>
-            <aside className="w-72 shrink-0 border-r border-border bg-muted/20">
+            <aside className="w-72 shrink-0 overflow-y-auto border-r border-border bg-muted/20">
+              <HeroHelper stepCount={steps.length} />
               <StepList
                 steps={steps}
                 selectedId={selectedStepId}
@@ -625,7 +606,6 @@ export function DemoEditor({
                 onChange={setPublishState}
                 onPublish={() => void handlePublish()}
                 onUnpublish={() => void handleUnpublish()}
-                onPublishVersion={() => void handlePublishVersion()}
                 publishing={saveStatus === "saving"}
                 workspaceSlug={workspaceSlug}
               />
@@ -649,6 +629,34 @@ export function DemoEditor({
 }
 
 // ─────────── Sub-components ───────────
+
+/**
+ * Helper passivo (D8): sugere o tamanho ideal de uma demo hero sem bloquear
+ * o creator. Base: docs/MVP-PLAN.md §2.4 — 10–12 steps e hotspot de 15–18
+ * palavras performam melhor; os dados são de mercado, não uma regra do app.
+ */
+function HeroHelper({ stepCount }: { stepCount: number }): React.ReactElement {
+  const stepsInRange = stepCount >= 10 && stepCount <= 12;
+  return (
+    <aside
+      aria-label="Dica para uma demo mais eficaz"
+      className="m-3 rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs"
+    >
+      <p className="font-medium">Dica: uma demo curta e direta converte melhor.</p>
+      <p className="mt-1 text-muted-foreground">
+        Mire em 10–12 steps e hotspots de 15–18 palavras. Você pode publicar antes disso — esta é
+        apenas uma sugestão.
+      </p>
+      {!stepsInRange ? (
+        <p className="mt-1 text-muted-foreground">
+          {stepCount === 0
+            ? "Nenhum step ainda."
+            : `Esta demo tem ${stepCount} ${stepCount === 1 ? "step" : "steps"}.`}
+        </p>
+      ) : null}
+    </aside>
+  );
+}
 
 function SaveBadge({
   status,

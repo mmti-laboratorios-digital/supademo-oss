@@ -11,6 +11,7 @@ import { Client } from "pg";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const APP_OWNER_URL =
+  process.env.DIRECT_URL ??
   process.env.DATABASE_URL?.replace("app_user", "app_owner") ??
   "postgres://app_owner:easydemo@127.0.0.1:55432/easydemo";
 

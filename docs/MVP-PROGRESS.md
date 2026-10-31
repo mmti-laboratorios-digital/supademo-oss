@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F0** — concluída, PR aberto (aguardando merge) |
-| **Última fase concluída** | **F0** — Pricing flat + views ilimitadas (gate G0.5 ✅) |
-| **Próxima fase** | **F1** — Publicação real (gate G1) — só depois do merge do F0 |
-| **Próximo passo** | `F1.1` — rota `/demos/new` (hoje retorna 404) |
-| **Bloqueios** | nenhum |
-| **Branch** | `feat/f0-pricing-flat` (PR aberto) → 1 branch por fase |
-| **Gate atual** | G0.5 (pricing) ✅ → próximo G1 (publicação) |
-| **Passos concluídos** | 17 / 86 |
+| **Fase em andamento** | **F1** — Publicação real (gate G1) — concluída, PR em abertura |
+| **Última fase concluída** | **F1** — Publicação real (gate G1 ✅) |
+| **Próxima fase** | **F2** — Upload manual de screenshot (gate G1.5) ⚠️ bloqueador do alpha |
+| **Próximo passo** | `F2.1` — passar `onAddStep` real do `DemoEditor` ao `StepList` |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F1/F2 |
+| **Branch** | `feat/f1-publicacao` (1 branch por fase) |
+| **Gate atual** | G1 (publicação) ✅ → próximo G1.5 (upload manual) |
+| **Passos concluídos** | 25 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -560,3 +560,64 @@ grep da marca antiga                         → 0
       ainda — a F4 vai precisar dele (ou do `PlanLimits` do `lib/plans.ts`).
 - [ ] `custom_domain: true` no Business (com a feature em V2, §4.2) continua
       como tensão conhecida.
+
+### 2026-10-31 — F1 — Publicação real
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f1-publicacao` · **Commit:** `ec42848` (+ `cd83bb1`, `3e2186a`, `d6474bc`) · **Gate:** G1 ✅
+
+**O que passou a funcionar**
+- O botão "Nova demo" deixou de dar 404: `/demos/new` cria uma demo `draft` com slug aleatório e abre o editor em `/demos/{id}/edit`.
+- Uma demo com pelo menos um step pode ser publicada num slug público válido; a rota pública `/d/{slug}` passa a enxergá-la como publicada.
+- Despublicar devolve a demo para `draft` e limpa `published_at` — o link público volta a 404.
+- Slug inválido ou demo sem step são recusados com mensagem em PT-BR; slug já usado responde 409.
+- O editor mostra um hint passivo de 10–12 steps e hotspots de 15–18 palavras (D8), sem bloquear a criação.
+
+**Arquivos criados**
+- `apps/web/app/(app)/demos/new/page.tsx` — criação da demo e redirecionamento ao editor.
+- `apps/web/app/api/v1/demos/[id]/publish/route.ts` — endpoint de publicação.
+- `apps/web/app/api/v1/demos/[id]/unpublish/route.ts` — endpoint de despublicação.
+- `apps/web/app/api/v1/demos/[id]/versions/route.ts` — contrato futuro, responde `501` (Fase 2).
+- `apps/web/server/repositories/__tests__/demos-publish.integration.test.ts` — 6 testes do repositório.
+- `apps/web/app/api/__tests__/demos-publish-api.integration.test.ts` — 6 testes do contrato HTTP.
+
+**Arquivos modificados**
+- `apps/web/server/repositories/demos.ts` — `publishDemo` e `unpublishDemo` isolados em `withTenant`.
+- `apps/web/components/editor/DemoEditor.tsx` — Hero helper (D8); botão de publicar versão removido.
+- `apps/web/components/editor/PublishPanel.tsx` — botão de publicar versão removido (versionamento é Fase 2).
+- `apps/web/lib/__tests__/rl.integration.test.ts`, `apps/web/app/api/__tests__/demos-api.integration.test.ts`, `apps/web/app/api/__tests__/webhook-asaas.integration.test.ts`, `apps/web/app/api/__tests__/webhook-asaas.sandbox.integration.test.ts` — passam a usar `DIRECT_URL` (app_owner) em vez de trocar o usuário da `DATABASE_URL`.
+
+**Decisões tomadas durante a execução**
+- **D1:** o `/demos/new` é uma Server Component que cria a demo no render, não uma server action isolada. O resultado observável pedido pelo plano (cria → redireciona) é o mesmo, e evita um formulário intermediário que só atrasaria a criação.
+- **D2:** o slug é global no schema (`app.demos.slug` tem `UNIQUE`), mas a checagem de unicidade do repositório roda dentro do tenant, para não revelar a existência de demos de outro workspace. O índice global continua sendo a proteção final contra corrida.
+- **D3:** slug duplicado responde **409** (conflito de recurso), não 400. O plano só exigia "400 com mensagem" para o critério geral de slug; 409 é o status semanticamente correto e a mensagem em PT-BR foi mantida.
+- **D4:** `visibility`, `password` e `coverR2Key` são aceitos pelo endpoint de publicação, mas não persistidos: o schema atual (`app.demos`) não tem colunas para eles e o §8 da F1 proíbe mudar o schema. Ficam para a fase que introduzir visibilidade/cover real.
+- **D5:** `/versions` passou a existir como rota com `501` em vez de continuar ausente, e os botões de "publicar versão" foram escondidos. O endpoint sem implementação dava 404 e escondia a causa real.
+
+**Armadilhas / o que a fase ensina**
+- **O `.env` local tem `SENTRY_DSN=` (vazio) e o schema Zod transforma string vazia em URL inválida.** `pnpm test` morre com "Invalid environment variables" antes de rodar qualquer teste. Workaround: `unset SENTRY_DSN` (ou corrigir o schema para aceitar vazio — dívida).
+- **`DATABASE_URL.replace("app_user", "app_owner")` só funciona se os dois roles compartilharem a senha.** Neste ambiente cada role tem senha própria, então 4 arquivos de teste de integração falhavam com "password authentication failed". A conexão correta é `DIRECT_URL`, que já existe justamente para o `app_owner`.
+- **O build local aborta no prerender de `/_not-found` com `pk_test_xxx`** — o placeholder do Clerk é rejeitado pelo `@clerk/clerk-react`. Para validar o build, use uma publishable key de teste no formato documentado pelo Clerk: `pk_test_` + base64 de `<frontend-api-host>$` (ex.: `pk_test_ZXhhbXBsZS5hY2NvdW50cy5kZXYk`).
+- **O `next build` local pode ser morto com exit 137 (OOM)** na fase de "Linting and checking validity of types" — o container ficou sem memória. Repetir o comando com a chave do Clerk normalmente passa; em CI o build roda em runner próprio.
+- **A action `publishDemo` já existia em `server/actions/demo.ts`, mas publicava sem validar slug nem exigir step.** O plano pedia as regras no repositório; a action antiga foi deixada intacta para não ampliar o escopo da fase, mas continua sendo um caminho que bypassa as garantias novas. **Débito para a F4.**
+
+**Validação rodada**
+```
+pnpm lint                                      → 220 arquivos, 0 erros
+pnpm typecheck                                 → 4/4 pacotes
+pnpm test                                      → 175/175 testes (163 + 12 novos)
+pnpm --filter web build                        → verde (19/19 páginas)
+testes novos de publicação                     → 12/12
+  - slug inválido / 1 caractere                → 400 com mensagem
+  - demo sem step                               → 400 NO_STEPS
+  - slug duplicado                              → 409 SLUG_TAKEN
+  - publicar                                    → 200 status published
+  - despublicar                                 → 200 status draft, published_at null
+  - demo de outro workspace                     → NOT_FOUND
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] A action antiga `publishDemo` em `apps/web/server/actions/demo.ts` publica sem validar slug nem exigir step — remover ou fazer delegar ao repositório na F4.
+- [ ] `visibility`, `password` e `coverR2Key` são aceitos pela API mas não persistidos; o schema precisa das colunas (fase de visibility/cover).
+- [ ] A criação de demo na F1.1 ainda **não** chama `assertWithinLimits` — o limite de 3 demos do plano Free só passa a valer quando o enforcement entrar (F4, conforme o débito já aberto da F0).
+- [ ] O `.env` local usa `SENTRY_DSN=` vazio e a chave Clerk placeholder; ambos quebram o build local sem workaround.

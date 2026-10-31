@@ -15,9 +15,11 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 const DB_URL = process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
 
-// app_user = respeita RLS, app_owner = bypassa RLS
+// app_user = respeita RLS, app_owner = bypassa RLS.
+// `DIRECT_URL` é a conexão app_owner canônica; o replace por username só
+// funciona quando ambos os roles compartilham a mesma senha.
 const APP_USER_URL = DB_URL;
-const APP_OWNER_URL = DB_URL.replace("app_user", "app_owner");
+const APP_OWNER_URL = process.env.DIRECT_URL ?? DB_URL.replace("app_user", "app_owner");
 
 let adminClient: Client;
 let workspaceAId: string;
