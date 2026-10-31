@@ -311,6 +311,21 @@ export function DemoEditor({
    */
   const handleAddStepFromFile = React.useCallback(
     async (file: File) => {
+      if (!isAllowedImageType(file.type)) {
+        setSaveStatus("error");
+        setLastError("Formato inválido. Envie uma imagem PNG, JPG ou WEBP.");
+        return;
+      }
+      if (file.size > MAX_UPLOAD_BYTES) {
+        setSaveStatus("error");
+        setLastError(
+          `Imagem muito grande (${formatFileSize(file.size)}). O limite é ${formatFileSize(
+            MAX_UPLOAD_BYTES,
+          )}. Otimize a imagem antes de enviar.`,
+        );
+        return;
+      }
+
       setUploading(true);
       setSaveStatus("saving");
       setLastError(null);
@@ -715,6 +730,13 @@ export function DemoEditor({
         tabIndex={-1}
       />
 
+      {/* Erro de upload — mensagem visível, não só o badge de autosave */}
+      {uploading ? (
+        <p role="status" aria-live="polite" className="sr-only">
+          Enviando imagem…
+        </p>
+      ) : null}
+
       {/* Hidden live region for screen readers announcing save status */}
       <div role="status" aria-live="polite" className="sr-only">
         {saveStatus === "saving"
@@ -730,6 +752,22 @@ export function DemoEditor({
 }
 
 // ─────────── Helpers locais ───────────
+
+/** Limite do upload manual: 10 MB por imagem (F2.4). */
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
+
+function isAllowedImageType(contentType: string): boolean {
+  return ALLOWED_IMAGE_TYPES.has(contentType);
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes >= 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+  return `${Math.round(bytes / 1024)} KB`;
+}
 
 /**
  * `sourceUrl` do step criado por upload manual.

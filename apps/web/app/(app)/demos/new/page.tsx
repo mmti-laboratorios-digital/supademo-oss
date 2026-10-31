@@ -5,6 +5,7 @@ import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
 import { shortId } from "@/lib/utils";
 import { eq } from "drizzle-orm";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -47,6 +48,8 @@ export default async function NewDemoPage({ searchParams }: { searchParams: Sear
     redirect("/demos");
   }
 
+  // F2.3 — caminho sem extensão Chrome: o creator chega direto no editor e
+  // envia os screenshots pelo upload manual (botão "Criar" na sidebar).
   redirect(`/demos/${demo.id}/edit`);
 }
 
@@ -57,7 +60,7 @@ export function CreateDemoFallback() {
         <h1 className="text-2xl font-bold">Não foi possível criar a demo</h1>
         <p className="mt-2 text-muted-foreground">Tente novamente em alguns instantes.</p>
         <Button asChild className="mt-4">
-          <a href="/demos">Voltar para as demos</a>
+          <Link href="/demos">Voltar para as demos</Link>
         </Button>
       </Card>
     </main>
