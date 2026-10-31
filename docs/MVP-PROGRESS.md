@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F1** — Publicação real (gate G1) — concluída, PR em abertura |
-| **Última fase concluída** | **F1** — Publicação real (gate G1 ✅) |
-| **Próxima fase** | **F2** — Upload manual de screenshot (gate G1.5) ⚠️ bloqueador do alpha |
-| **Próximo passo** | `F2.1` — passar `onAddStep` real do `DemoEditor` ao `StepList` |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F1/F2 |
-| **Branch** | `feat/f1-publicacao` (1 branch por fase) |
-| **Gate atual** | G1 (publicação) ✅ → próximo G1.5 (upload manual) |
-| **Passos concluídos** | 25 / 86 |
+| **Fase em andamento** | **F2** — Upload manual de screenshot (gate G1.5) — concluída, PR em abertura |
+| **Última fase concluída** | **F2** — Upload manual de screenshot (gate G1.5 ✅) |
+| **Próxima fase** | **F3** — Lead form + CTA genérico (gate G2) |
+| **Próximo passo** | `F3.1` — `components/player/LeadForm.tsx` (novo) |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F2/F3 |
+| **Branch** | `feat/f2-upload-manual` (1 branch por fase) |
+| **Gate atual** | G1.5 (upload manual) ✅ → próximo G2 (lead + CTA) |
+| **Passos concluídos** | 31 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -621,3 +621,57 @@ testes novos de publicação                     → 12/12
 - [ ] `visibility`, `password` e `coverR2Key` são aceitos pela API mas não persistidos; o schema precisa das colunas (fase de visibility/cover).
 - [ ] A criação de demo na F1.1 ainda **não** chama `assertWithinLimits` — o limite de 3 demos do plano Free só passa a valer quando o enforcement entrar (F4, conforme o débito já aberto da F0).
 - [ ] O `.env` local usa `SENTRY_DSN=` vazio e a chave Clerk placeholder; ambos quebram o build local sem workaround.
+
+### 2026-10-31 — F2 — Upload manual de screenshot (gate G1.5) ⚠️ BLOQUEADOR DO ALPHA
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f2-upload-manual` · **Commit:** `deaa51c` (+ `1d14b59`, `f626f90`) · **Gate:** G1.5 ✅
+
+**O que passou a funcionar**
+- Um creator **sem a extensão Chrome** consegue criar uma demo e povoá-la de screenshots: o botão "Criar" da sidebar abre o seletor de arquivos, a imagem vai para o R2 e o step aparece no editor, pronto para posicionar o hotspot.
+- Imagem grande demais ou de tipo inválido é recusada **antes** de qualquer upload, com mensagem em PT-BR que diz o tamanho atual e o limite.
+- `/demos/new` leva direto ao editor com a demo em branco — não há mais dependência da extensão para começar.
+
+**Arquivos criados**
+- `apps/web/components/editor/__tests__/upload-manual.test.ts` — 5 testes das regras do upload (tipo, limite, mensagem).
+- `apps/web/app/api/__tests__/steps-upload.integration.test.ts` — 5 testes de integração da API de steps (criação, hotspot inválido, payload incompleto, ordem, RLS).
+
+**Arquivos modificados**
+- `apps/web/components/editor/DemoEditor.tsx` — handler de upload manual (file picker → presigned PUT → POST do step), input de arquivo escondido, validação de tipo e tamanho.
+- `apps/web/app/(app)/demos/new/page.tsx` — `Link` no lugar de `<a>` e doc do fluxo sem extensão.
+
+**Decisões tomadas durante a execução**
+- **D1:** o upload acontece no **client** (o `DemoEditor` já é client component e o `PublishPanel` faz o mesmo para o cover). O passo F2.2 do plano diz "handler que abre file picker" — isso implica client. O server action ficaria sem acesso ao `File` do input.
+- **D2:** o `sourceUrl` do step criado por upload manual é uma URL neutra e estável (`https://easydemo.io/upload/<filename>`). O endpoint exige URL absoluta e o upload manual não tem página de origem; o `sourceTitle` fica editável na sidebar.
+- **D3:** o limite de **10 MB** por imagem foi escolhido com base no POC de latência do R2 (p95 < 600 ms para 5 MB em conexão BR típica) e no `editor.warningLargeImage` que já existia nas traduções. O valor é uma constante local do editor — não há limite no servidor.
+- **D4:** o hotspot do step criado começa **central** (50/50). O plano permitia "calcula o bounding box do clique ou deixa o creator marcar no canvas"; como o upload não tem clique, o creator posiciona no canvas — que é o caminho mais fiel ao produto.
+- **D5:** o `POST /api/v1/demos/[id]/steps` responde com um **presigned extra** para re-upload (comportamento pré-existente do endpoint). Não é usado pelo fluxo manual — o upload acontece antes do POST — mas foi mantido intacto para não alterar o contrato da API.
+
+**Armadilhas / o que a fase ensina**
+- **`onAddStep` era opcional no `StepList`** (`onAddStep?`), então o botão "Criar" simplesmente **não aparecia** — não era "um botão quebrado", era um botão inexistente. A correção do plano ("a prop já é declarada e o botão já é renderizado") descrevia o código, não o comportamento observável.
+- **O endpoint de steps chama `presignPut()` no final do POST** — o que exige credenciais R2 no ambiente. Sem elas, o teste de integração morre com "R2 credentials not configured" **depois** de já ter criado o step. Nos testes é preciso mockar `@/lib/r2`.
+- **A policy RLS de `steps` é via `EXISTS` no demo** — um tenant tentando inserir step num demo alheio recebe `42501` ("new row violates row-level security policy"), que o `errorResponse` translate para **500**, não 403. O comportamento está correto (o insert é bloqueado), mas o status não distingue "sem permissão" de "erro interno".
+- **A ordenação dos steps é por `position`, com UNIQUE(demo_id, position)** — criar step na posição `steps.length + 1` pode colidir se o estado local do editor divergir do banco. Não aconteceu no fluxo testado, mas é a fragilidade do autosave por PATCH completo.
+
+**Validação rodada**
+```
+pnpm lint                        → 222 arquivos, 0 erros
+pnpm typecheck                   → 4/4 pacotes
+pnpm test                        → 185/185 testes (175 + 10 novos)
+pnpm --filter web build          → verde (19/19 páginas)
+testes novos                     → 10/10
+  - tipos aceitos / recusados    → PNG, JPG, WEBP ok; PDF/vídeo/ vazio recusados
+  - limite de tamanho            → 10 MB, mensagem cita tamanho e limite
+  - POST /steps                  → 201 com screenshotR2Key e hotspot
+  - hotspot fora de 0–100        → 400
+  - sem screenshotR2Key          → 400
+  - listagem                     → ordenada por posição
+  - step em demo de outro tenant → bloqueado pela RLS (nada gravado)
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] O limite de 10 MB é **só client** — o `POST /api/v1/upload/sign` e o PUT no R2 aceitam qualquer tamanho. Um cliente que burle a UI sobe arquivo gigante. Endurecer no servidor quando o R2 estiver configurado.
+- [ ] A mensagem de erro do upload aparece no **badge de autosave** do header; não há toast/dialog dedicado. Funciona, mas o erro fica longe do botão que o causou.
+- [ ] O `sourceUrl` sintético (`https://easydemo.io/upload/...`) é um placeholder — quando o upload manual ganhar um "site de origem" real, precisa ser trocado.
+- [ ] `POST /steps` responde 500 (e não 403) quando o RLS bloqueia o insert — a distinção de erro é nem usada.
+- [ ] O estado do editor (steps) é reconciliado por `PATCH /api/v1/demos/[id]` completo; se o estado local divergir do banco, o `position` pode colidir com a UNIQUE `(demo_id, position)`.

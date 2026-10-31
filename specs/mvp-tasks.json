@@ -12,8 +12,8 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F2",
-    "step": "F2.1",
+    "phase": "F3",
+    "step": "F3.1",
     "status": "pending"
   },
   "phases": [
@@ -96,14 +96,14 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "done",
       "steps": [
-        { "n": 1, "id": "F2.1", "title": "StepList.tsx: garantir que o DemoEditor passe a função onAddStep real — a prop já é declarada (linha 51) e o botão já é renderizado (98–102), mas nunca é passada", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F2.2", "title": "DemoEditor.tsx: handler que abre file picker (PNG/JPG) → presigned URL em /api/v1/upload/sign → PUT no R2 → cria o step via POST /api/v1/demos/{id}/steps", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F2.3", "title": "(app)/demos/new/page.tsx: botão \"criar demo em branco\" que abre o editor sem extensão", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F2.4", "title": "Tratar imagem acima do limite com mensagem clara", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F2.5", "title": "Validar: demo criada sem extensão → step com hotspot posicionável → publicada → renderiza em /d/[slug]", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F2.6", "title": "Gate G1.5 (alpha travado sem isso) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F2.1", "title": "StepList.tsx: garantir que o DemoEditor passe a função onAddStep real — a prop já é declarada (linha 51) e o botão já é renderizado (98–102), mas nunca é passada", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "StepList recebe onAddStep real do DemoEditor: botao Criar dispara file picker de PNG/JPG" },
+        { "n": 2, "id": "F2.2", "title": "DemoEditor.tsx: handler que abre file picker (PNG/JPG) → presigned URL em /api/v1/upload/sign → PUT no R2 → cria o step via POST /api/v1/demos/{id}/steps", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Handler de upload manual implementado: presigned PUT no R2 via /api/v1/upload/sign, depois POST /api/v1/demos/{id}/steps com hotspot central e step adicionado ao editor" },
+        { "n": 3, "id": "F2.3", "title": "(app)/demos/new/page.tsx: botão \"criar demo em branco\" que abre o editor sem extensão", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Rota /demos/new aponta direto para o editor: o creator cria a demo em branco e envia screenshots pelo upload manual, sem depender da extensao Chrome" },
+        { "n": 4, "id": "F2.4", "title": "Tratar imagem acima do limite com mensagem clara", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Upload manual valida tipo (PNG/JPG/WEBP) e limite de 10 MB antes do upload, com mensagem clara em PT-BR no badge de erro" },
+        { "n": 5, "id": "F2.5", "title": "Validar: demo criada sem extensão → step com hotspot posicionável → publicada → renderiza em /d/[slug]", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Gate G1.5 validado: 10 testes (5 de regras do upload + 5 de integração da API de steps) — cria step, valida hotspot, ordem por posição e RLS bloqueia tenant alheio" },
+        { "n": 6, "id": "F2.6", "title": "Gate G1.5 (alpha travado sem isso) + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Gate G1.5 fechado: lint 222/0, typecheck 4/4, 185 testes e build verde; F2 registrada no MVP-PROGRESS.md" }
       ]
     },
     {

@@ -293,6 +293,109 @@ export function DemoEditor({
     [selectedStep, updateStepHotspot],
   );
 
+  // ─────────── Upload manual de screenshot (F2) ───────────
+
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const [uploading, setUploading] = React.useState(false);
+
+  const openFilePicker = React.useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  /**
+   * Cria um step a partir de um PNG/JPG enviado pelo creator.
+   *
+   * Fluxo (sem extensão Chrome): presigned PUT no R2 → POST do step.
+   * A posição é a última + 1 e o hotspot começa central — o creator posiciona
+   * no canvas pelo `StepCanvas`.
+   */
+  const handleAddStepFromFile = React.useCallback(
+    async (file: File) => {
+      if (!isAllowedImageType(file.type)) {
+        setSaveStatus("error");
+        setLastError("Formato inválido. Envie uma imagem PNG, JPG ou WEBP.");
+        return;
+      }
+      if (file.size > MAX_UPLOAD_BYTES) {
+        setSaveStatus("error");
+        setLastError(
+          `Imagem muito grande (${formatFileSize(file.size)}). O limite é ${formatFileSize(
+            MAX_UPLOAD_BYTES,
+          )}. Otimize a imagem antes de enviar.`,
+        );
+        return;
+      }
+
+      setUploading(true);
+      setSaveStatus("saving");
+      setLastError(null);
+      try {
+        const stepId = crypto.randomUUID();
+        const key = `demos/${demo.id}/steps/${stepId}/${file.name.replace(/^.*[/\\]/, "")}`;
+
+        const signRes = await fetch("/api/v1/upload/sign", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            bucket: "public",
+            key,
+            contentType: file.type,
+            expiresInSeconds: 600,
+          }),
+        });
+        if (!signRes.ok) {
+          const body = (await signRes.json().catch(() => null)) as { message?: string } | null;
+          throw new Error(body?.message ?? "Falha ao obter a URL de upload");
+        }
+        const sign = (await signRes.json()) as { url: string; key: string };
+
+        const putRes = await fetch(sign.url, {
+          method: "PUT",
+          headers: { "content-type": file.type },
+          body: file,
+        });
+        if (!putRes.ok) throw new Error("Falha ao enviar a imagem");
+
+        const createRes = await fetch(`/api/v1/demos/${demo.id}/steps`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            position: steps.length + 1,
+            screenshotR2Key: sign.key,
+            sourceUrl: sourceUrlForFile(file),
+            hotspot: { type: "pointer", x: 50, y: 50 },
+          }),
+        });
+        if (!createRes.ok) {
+          const body = (await createRes.json().catch(() => null)) as { message?: string } | null;
+          throw new Error(body?.message ?? "Falha ao criar o step");
+        }
+        const body = (await createRes.json()) as { step: Step };
+
+        setSteps((prev) => [...prev, body.step]);
+        setSelectedStepId(body.step.id);
+        setSaveStatus("saved");
+        setSavedAt(new Date());
+      } catch (err) {
+        setSaveStatus("error");
+        setLastError(err instanceof Error ? err.message : t("errors.generic"));
+      } finally {
+        setUploading(false);
+      }
+    },
+    [demo.id, steps.length, t],
+  );
+
+  const handleFileSelected = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      // Permite reescolher o mesmo arquivo depois.
+      event.target.value = "";
+      if (file) void handleAddStepFromFile(file);
+    },
+    [handleAddStepFromFile],
+  );
+
   // ─────────── Auto-save (debounced) ───────────
 
   const autosaveTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -523,6 +626,7 @@ export function DemoEditor({
                 onUpdate={updateStep}
                 onRemove={handleRemoveStep}
                 onDuplicate={handleDuplicateStep}
+                onAddStep={openFilePicker}
               />
             </aside>
 
@@ -614,6 +718,25 @@ export function DemoEditor({
         )}
       </div>
 
+      {/* Upload manual de screenshot — input escondido, disparado pelo StepList */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        className="hidden"
+        onChange={handleFileSelected}
+        disabled={uploading}
+        aria-hidden="true"
+        tabIndex={-1}
+      />
+
+      {/* Erro de upload — mensagem visível, não só o badge de autosave */}
+      {uploading ? (
+        <p role="status" aria-live="polite" className="sr-only">
+          Enviando imagem…
+        </p>
+      ) : null}
+
       {/* Hidden live region for screen readers announcing save status */}
       <div role="status" aria-live="polite" className="sr-only">
         {saveStatus === "saving"
@@ -626,6 +749,35 @@ export function DemoEditor({
       </div>
     </div>
   );
+}
+
+// ─────────── Helpers locais ───────────
+
+/** Limite do upload manual: 10 MB por imagem (F2.4). */
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
+
+function isAllowedImageType(contentType: string): boolean {
+  return ALLOWED_IMAGE_TYPES.has(contentType);
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes >= 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+  return `${Math.round(bytes / 1024)} KB`;
+}
+
+/**
+ * `sourceUrl` do step criado por upload manual.
+ *
+ * O endpoint exige URL absoluta; no upload manual não há página de origem,
+ * então usamos uma URL estável e neutra. O título da origem fica no
+ * `sourceTitle`, que o creator pode editar na sidebar.
+ */
+function sourceUrlForFile(file: File): string {
+  return `https://easydemo.io/upload/${encodeURIComponent(file.name)}`;
 }
 
 // ─────────── Sub-components ───────────
