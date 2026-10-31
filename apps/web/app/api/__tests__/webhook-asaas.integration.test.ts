@@ -15,7 +15,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const APP_USER_URL =
   process.env.DATABASE_URL ?? "postgres://app_user:easydemo@127.0.0.1:55432/easydemo";
-const APP_OWNER_URL = APP_USER_URL.replace("app_user", "app_owner");
+const APP_OWNER_URL = process.env.DIRECT_URL ?? APP_USER_URL.replace("app_user", "app_owner");
 const WEBHOOK_SECRET = "test-webhook-secret-do-not-use-in-prod";
 
 // Mock next/headers (para retornar headers customizados em cada request)
