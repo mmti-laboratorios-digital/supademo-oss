@@ -12,9 +12,9 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F1",
-    "step": "F1.8",
-    "status": "in_progress"
+    "phase": "F2",
+    "step": "F2.1",
+    "status": "pending"
   },
   "phases": [
     {
@@ -73,7 +73,7 @@
       "depends_on": [
         "F0"
       ],
-      "status": "in_progress",
+      "status": "done",
       "steps": [
         { "n": 1, "id": "F1.1", "title": "Criar apps/web/app/(app)/demos/new/page.tsx: server action que cria a demo (status draft, slug random) e redireciona pra /demos/{id}/edit; se demoId vier por query, reutilizar", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Rota /demos/new criada: cria demo draft com slug aleatorio, reutiliza demo existente via query demoId e redireciona ao editor" },
         { "n": 2, "id": "F1.2", "title": "Criar api/v1/demos/[id]/publish/route.ts: validar slug (3–32 chars, [a-z0-9-], único no workspace), exigir ≥1 step, setar status published + published_at", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Endpoint POST /api/v1/demos/[id]/publish valida slug 3-32 [a-z0-9-], exige ao menos um step e publica a demo com published_at" },
@@ -82,7 +82,7 @@
         { "n": 5, "id": "F1.5", "title": "Implementar o Hero helper (D8) no editor: hint passivo de 10–12 steps e hotspot de 15–18 palavras", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Hero helper D8 adicionado no editor como hint passivo de 10-12 steps e hotspot de 15-18 palavras" },
         { "n": 6, "id": "F1.6", "title": "Deixar /versions retornando 501 e esconder o botão correspondente", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Endpoint /versions retorna 501 e botoes de publicar versao foram escondidos no editor e PublishPanel" },
         { "n": 7, "id": "F1.7", "title": "Validar manualmente: criar demo → publicar → /d/{slug} em aba anônima; slug inválido, duplicado ou demo sem step → 400", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Gate G1 validado com 12 testes de integração (repositorio + API): slug invalido 400, demo sem step 400, slug duplicado 409, publicar 200 published, despublicar 200 draft; build verde com chave Clerk de teste" },
-        { "n": 8, "id": "F1.8", "title": "Gate G1 + lint/typecheck/test; registrar no docs/MVP-PROGRESS.md e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 8, "id": "F1.8", "title": "Gate G1 + lint/typecheck/test; registrar no docs/MVP-PROGRESS.md e abrir o PR", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Gate G1 fechado: lint/typecheck/test verdes (175 testes) e build ok; F1 registrada no MVP-PROGRESS.md" }
       ]
     },
     {
