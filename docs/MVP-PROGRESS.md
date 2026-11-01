@@ -1027,7 +1027,7 @@ Cobertura nova:
 ### 2026-11-01 — F7 — Branding no player (gate G5)
 
 **Estado:** ✅ concluída
-**Branch:** `feat/f7-branding` · **Commit:** `PENDENTE` · **Gate:** G5 ✅
+**Branch:** `feat/f7-branding` · **Commit:** `34f18c2` · **Gate:** G5 ✅
 
 **O que passou a funcionar**
 
