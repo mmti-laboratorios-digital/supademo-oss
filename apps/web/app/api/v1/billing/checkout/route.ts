@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   try {
     const { orgId } = await requireAuth();
 
-    const body = await req.json().catch(() => null);
+    const body = await readBody(req);
     const parsed = checkoutSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -148,18 +148,26 @@ export async function POST(req: Request) {
       billingType,
     });
 
-    return NextResponse.json(
-      {
-        subscriptionId: asaasSub.id,
-        paymentId: payment.id,
-        planId: plan,
-        priceBrlCents: limits.priceBrlCents,
-        billingType,
-        checkoutUrl: payment.invoiceUrl ?? payment.bankSlipUrl ?? null,
-        pixQrCodeId: payment.pixQrCodeId ?? null,
-      },
-      { status: 201 },
-    );
+    const payload = {
+      subscriptionId: asaasSub.id,
+      paymentId: payment.id,
+      planId: plan,
+      priceBrlCents: limits.priceBrlCents,
+      billingType,
+      checkoutUrl: payment.invoiceUrl ?? payment.bankSlipUrl ?? null,
+      pixQrCodeId: payment.pixQrCodeId ?? null,
+    };
+
+    // Navegador (form da página `/billing`) → redireciona para a tela de
+    // checkout. API (`fetch` com JSON) → devolve o payload.
+    if (wantsHtml(req)) {
+      const target = new URL("/billing/checkout", req.url);
+      target.searchParams.set("subscription", asaasSub.id);
+      target.searchParams.set("plan", plan);
+      return NextResponse.redirect(target, { status: 303 });
+    }
+
+    return NextResponse.json(payload, { status: 201 });
   } catch (err) {
     if (err instanceof Error) {
       if (err.message === "UNAUTHORIZED") {
@@ -172,6 +180,52 @@ export async function POST(req: Request) {
     console.error("[/api/v1/billing/checkout] error:", err);
     return NextResponse.json({ error: "BILLING_UNAVAILABLE" }, { status: 502 });
   }
+}
+
+/**
+ * Detecta se o request veio de um navegador (form submit) em vez de uma
+ * chamada de API (`fetch`).
+ *
+ * O `Accept: text/html` é o sinal padrão — um form do navegador sempre pede
+ * HTML de volta. O `Sec-Fetch-Mode: navigate` reforça.
+ */
+function wantsHtml(req: Request): boolean {
+  const accept = req.headers.get("accept") ?? "";
+  if (accept.includes("text/html")) return true;
+  return (req.headers.get("sec-fetch-mode") ?? "") === "navigate";
+}
+
+/**
+ * Lê o body do request aceitando JSON **e** form-urlencoded.
+ *
+ * O form da página `/billing` é `<form method="post">` (navegador), mas o
+ * checkout também é chamado por `fetch` com JSON. Suportar os dois evita
+ * ter dois endpoints.
+ *
+ * O `plan` pode vir no **query string** (é onde o form o coloca) — por isso
+ * lemos a URL também.
+ */
+async function readBody(req: Request): Promise<Record<string, unknown>> {
+  const url = new URL(req.url);
+  const fromQuery: Record<string, unknown> = {};
+  for (const [key, value] of url.searchParams.entries()) {
+    fromQuery[key] = value;
+  }
+
+  const contentType = req.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    const form = await req.formData();
+    const fromForm: Record<string, unknown> = {};
+    for (const [key, value] of form.entries()) {
+      fromForm[key] = typeof value === "string" ? value : value.name;
+    }
+    return { ...fromQuery, ...fromForm };
+  }
+
+  const json = await req.json().catch(() => null);
+  const fromJson = json && typeof json === "object" ? (json as Record<string, unknown>) : {};
+  return { ...fromQuery, ...fromJson };
 }
 
 /**

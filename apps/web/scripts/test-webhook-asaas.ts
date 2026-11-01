@@ -2,135 +2,54 @@
 /**
  * apps/web/scripts/test-webhook-asaas.ts
  * -----------------------------------------------------------------------------
- * Envia um webhook Asaas fake de PAYMENT_RECEIVED e valida que:
- *   1. A subscription no DB mudou para status=active
- *   2. Uma segunda chamada com mesmo payment.id é idempotente
+ * Valida o webhook Asaas de ponta a ponta **sem precisar do Next.js rodando**.
  *
- * Pré-requisitos:
- *   - Aplicação Next.js rodando em $BASE (default http://localhost:3000)
- *   - Asaas webhook secret configurado em ASAAS_WEBHOOK_SECRET
- *   - Workspace + customer Asaas de teste já existem no DB (use seed)
+ * ⚠️ **Por que este script existe (e o que ele substitui):**
+ *
+ * A versão anterior exigia um servidor Next.js em `$BASE` e lia o status por
+ * `GET /api/v1/billing/subscriptions/:id` — uma rota que **nunca existiu**.
+ * O script falhava com "fetch failed" mesmo com o app rodando. Além disso,
+ * ele assinava o body no header `X-Asaas-Signature`, mas o handler lê
+ * `asaas-signature` — a validação HMAC caía no caminho do token fixo e a
+ * assinatura nunca era conferida de verdade.
+ *
+ * A implementação real dos checks está em
+ * `apps/web/app/api/__tests__/webhook-asaas.script.test.ts` — roda dentro do
+ * vitest, que é o único ambiente onde `vi.mock` funciona (o script roda com
+ * `tsx`, fora do runner). Este arquivo é só o ponto de entrada: sobe o
+ * vitest com aquele arquivo e propaga o exit code.
+ *
+ * O que é coberto (gate G3):
+ *   1. webhook sem auth → 401 MISSING_AUTH;
+ *   2. assinatura HMAC inválida → 401 INVALID_SIGNATURE;
+ *   3. `PAYMENT_RECEIVED` → `app.subscriptions.status = active` **e**
+ *      `app.workspaces.plan_id` promovido para o plano pago;
+ *   4. reenvio do MESMO `payment.id` → idempotente (sem efeito duplicado);
+ *   5. `PAYMENT_OVERDUE` → `past_due`;
+ *   6. `PAYMENT_REFUNDED` → `canceled` + workspace volta para Free;
+ *   7. `SUBSCRIPTION_INACTIVATED` com o período já vencido → Free;
+ *   8. `SUBSCRIPTION_INACTIVATED` dentro do ciclo → o plano é mantido.
  *
  * Uso:
- *   BASE=http://localhost:3000 \
- *   ASAAS_WEBHOOK_SECRET=whsec_test \
- *   pnpm --filter web exec tsx scripts/test-webhook-asaas.ts
+ *   pnpm scripts:test-webhook-asaas
  */
-import { createHmac } from "node:crypto";
+import { spawn } from "node:child_process";
+import { resolve } from "node:path";
 
-// -----------------------------------------------------------------------------
-// Args
-// -----------------------------------------------------------------------------
-const BASE = process.env.BASE ?? "http://localhost:3000";
-const SECRET = process.env.ASAAS_WEBHOOK_SECRET ?? "whsec_test";
-const TOKEN = process.env.TOKEN ?? "dev-token";
-const SUBSCRIPTION_ID = process.env.SUBSCRIPTION_ID ?? "sub_test_001";
+const TEST_FILE = resolve(process.cwd(), "app/api/__tests__/webhook-asaas.script.test.ts");
 
-function sign(payload: string): string {
-  return createHmac("sha256", SECRET).update(payload).digest("hex");
-}
+console.log("▶ Webhook Asaas — rodando os checks do gate G3…\n");
 
-async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, {
-    headers: { Authorization: `Bearer ${TOKEN}` },
-  });
-  if (!res.ok) throw new Error(`GET ${path} → ${res.status}`);
-  return (await res.json()) as T;
-}
+const child = spawn("pnpm", ["exec", "vitest", "run", TEST_FILE, "--reporter=verbose"], {
+  stdio: "inherit",
+  cwd: process.cwd(),
+  env: {
+    ...process.env,
+    ASAAS_WEBHOOK_SECRET: process.env.ASAAS_WEBHOOK_SECRET ?? "mock_webhook_secret_for_sandbox",
+    ASAAS_API_KEY: process.env.ASAAS_API_KEY ?? "mock_api_key",
+  },
+});
 
-async function postSigned(path: string, body: unknown): Promise<{ status: number; body: string }> {
-  const payload = JSON.stringify(body);
-  const signature = sign(payload);
-  const res = await fetch(`${BASE}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Asaas-Signature": signature,
-      "X-Asaas-Webhook-Secret": SECRET,
-    },
-    body: payload,
-  });
-  const text = await res.text();
-  return { status: res.status, body: text };
-}
-
-interface Subscription {
-  id: string;
-  status: string;
-  paid_at?: string | null;
-}
-
-async function fetchSubscription(id: string): Promise<Subscription> {
-  return getJson<Subscription>(`/api/v1/billing/subscriptions/${id}`);
-}
-
-// -----------------------------------------------------------------------------
-// Main
-// -----------------------------------------------------------------------------
-async function main() {
-  console.log(`▶ Target: ${BASE}  (subscription: ${SUBSCRIPTION_ID})`);
-
-  // Snapshot inicial
-  const before = await fetchSubscription(SUBSCRIPTION_ID);
-  console.log(`  status inicial: ${before.status}`);
-
-  // 1) Envia webhook PAYMENT_RECEIVED
-  const paymentId = `pay_${Date.now()}`;
-  const event = {
-    event: "PAYMENT_RECEIVED",
-    payment: {
-      id: paymentId,
-      customer: "cus_test_001",
-      subscription: SUBSCRIPTION_ID,
-      value: 49.0,
-      netValue: 48.0,
-      status: "RECEIVED",
-      billingType: "PIX",
-      confirmedDate: new Date().toISOString(),
-    },
-  };
-
-  console.log("▶ Enviando webhook PAYMENT_RECEIVED…");
-  const r1 = await postSigned("/api/webhooks/asaas", event);
-  console.log(`  status: ${r1.status} body: ${r1.body.slice(0, 120)}`);
-
-  // Dá tempo do handler processar
-  await new Promise((r) => setTimeout(r, 500));
-
-  const after1 = await fetchSubscription(SUBSCRIPTION_ID);
-  console.log(`  status pós-webhook: ${after1.status}`);
-
-  if (after1.status === before.status && after1.status !== "active") {
-    console.error(`❌ subscription.status não mudou: ${before.status} → ${after1.status}`);
-    process.exit(1);
-  }
-  console.log("  ✓ subscription atualizada.");
-
-  // 2) Idempotência — envia o MESMO payment.id
-  console.log("\n▶ Reenviando MESMO payment.id (idempotência)…");
-  const r2 = await postSigned("/api/webhooks/asaas", event);
-  console.log(`  status: ${r2.status} body: ${r2.body.slice(0, 120)}`);
-
-  await new Promise((r) => setTimeout(r, 500));
-  const after2 = await fetchSubscription(SUBSCRIPTION_ID);
-
-  // Asserções: status não duplicado, paid_at inalterado
-  if (after2.status !== after1.status) {
-    console.error(`❌ status mudou na 2ª chamada: ${after1.status} → ${after2.status}`);
-    process.exit(1);
-  }
-  if (after2.paid_at !== after1.paid_at) {
-    console.error(
-      `❌ paid_at foi sobrescrito na 2ª chamada (${after1.paid_at} → ${after2.paid_at})`,
-    );
-    process.exit(1);
-  }
-  console.log("  ✓ idempotente: 2ª chamada não duplicou efeito.");
-
-  console.log("\n✅ Webhook Asaas ok + idempotente.");
-}
-
-main().catch((e) => {
-  console.error("❌", (e as Error).message);
-  process.exit(1);
+child.on("exit", (code) => {
+  process.exit(code ?? 1);
 });

@@ -1,6 +1,7 @@
 import { steps } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
+import { PlanLimitError, assertWithinLimits, countWorkspaceResources } from "@/lib/plans";
 import { presignPut } from "@/lib/r2";
 import { asc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -50,6 +51,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         { status: 400 },
       );
     }
+
+    // ─── Enforcement de limite do plano (F4.6) ───
+    // O limite de steps é **por demo** (não por workspace): Free = 10,
+    // Pro = 30, Business = 60.
+    const stepCount = await countWorkspaceResources(orgId, "step", { demoId });
+    await assertWithinLimits(orgId, "step", stepCount + 1);
 
     const created = await withTenant(orgId, async (db) => {
       const [row] = await db
@@ -127,6 +134,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 }
 
 function errorResponse(err: unknown): NextResponse {
+  if (err instanceof PlanLimitError) {
+    return NextResponse.json(
+      {
+        error: "PLAN_LIMIT_EXCEEDED",
+        message: err.message,
+        resource: err.resource,
+        limit: err.limit,
+        planId: err.planId,
+        upgradeUrl: "/billing",
+      },
+      { status: 403 },
+    );
+  }
   if (err instanceof Error) {
     if (err.message === "UNAUTHORIZED") {
       return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });

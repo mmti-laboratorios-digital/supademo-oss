@@ -90,7 +90,16 @@ export async function POST(req: Request) {
     });
 
     if (!result.ok) {
-      return NextResponse.json({ error: "BAD_REQUEST", message: result.error }, { status: 400 });
+      // Limite de plano estourado (Free = 20 leads/mês) — 429, não 400:
+      // o payload era válido, o que falhou foi a cota do workspace.
+      const isLimit = result.error.includes("permite no máximo");
+      return NextResponse.json(
+        {
+          error: isLimit ? "PLAN_LIMIT_EXCEEDED" : "BAD_REQUEST",
+          message: result.error,
+        },
+        { status: isLimit ? 429 : 400 },
+      );
     }
 
     return NextResponse.json({ leadId: result.leadId }, { status: 201 });
