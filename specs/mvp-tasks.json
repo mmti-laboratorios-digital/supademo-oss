@@ -12,9 +12,9 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F8",
-    "step": "F8.1",
-    "status": "pending"
+    "phase": "F10",
+    "step": "F10.1",
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -225,14 +225,14 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F8.1", "title": "Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e {nome_do_DPO} nos 7 documentos de legal/", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F8.2", "title": "Revisão por advogado de privacy-policy.md, terms-of-service.md e cookie-policy.md", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F8.3", "title": "scripts/check-dpo-missing.ts: aceitar o valor real do DPO", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F8.4", "title": ".github/workflows/ci.yml: reativar o job check-dpo-placeholders", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F8.5", "title": "Validar: pnpm scripts:check-dpo passa; grep -rn 'placeholder@demobr\\|{nome_do_DPO}\\|\\[NOME_DO_DPO\\]' legal/ retorna vazio; job verde na CI", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F8.6", "title": "Gate G7 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F8.1", "title": "Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e {nome_do_DPO} nos 7 documentos de legal/", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 2, "id": "F8.2", "title": "Revisão por advogado de privacy-policy.md, terms-of-service.md e cookie-policy.md", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 3, "id": "F8.3", "title": "scripts/check-dpo-missing.ts: aceitar o valor real do DPO", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 4, "id": "F8.4", "title": ".github/workflows/ci.yml: reativar o job check-dpo-placeholders", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 5, "id": "F8.5", "title": "Validar: pnpm scripts:check-dpo passa; grep -rn 'placeholder@demobr\\|{nome_do_DPO}\\|\\[NOME_DO_DPO\\]' legal/ retorna vazio; job verde na CI", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 6, "id": "F8.6", "title": "Gate G7 + lint/typecheck/test; registrar e abrir o PR", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." }
       ]
     },
     {
@@ -246,16 +246,16 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F9.1", "title": "Criar api/v1/me/route.ts: retorna o workspace do usuário logado", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F9.2", "title": "apps/extension/lib/api.ts: obter o token de sessão do Clerk e mandar Authorization Bearer — hoje authHeaders retorna {}", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F9.3", "title": "apps/extension/components/uploader.ts: enviar o header de auth no upload pro R2", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F9.4", "title": "apps/extension/components/recorder.ts: corrigir o clampPercent — hoje divide por window.innerWidth sem saber o tamanho real da screenshot", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F9.5", "title": "apps/extension/manifest.json: manter só activeTab, storage e scripting — não pedir <all_urls>, tabCapture nem offscreen", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F9.6", "title": "Submeter na Chrome Web Store — lead time de dias a semanas, começar já no F0", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 7, "id": "F9.7", "title": "Validar: extensão sobe e envia screenshot ao R2 autenticado; hotspot cai na posição correta; manifest sem permissões excessivas", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 8, "id": "F9.8", "title": "Gate G5 + pnpm extension:build + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F9.1", "title": "Criar api/v1/me/route.ts: retorna o workspace do usuário logado", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Criado /api/v1/me/route.ts: retorna userId, workspaceId e workspaceName; trata UNAUTHORIZED (401), NO_WORKSPACE (403) e WORKSPACE_NOT_FOUND (404); teste de integracao com 4 casos" },
+        { "n": 2, "id": "F9.2", "title": "apps/extension/lib/api.ts: obter o token de sessão do Clerk e mandar Authorization Bearer — hoje authHeaders retorna {}", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "apps/extension/lib/api.ts: ApiClient aceita Bearer token; fetchClerkSessionToken() obtem JWT via content script em aba do app EasyDemo; getMe/createDemo/presignUpload/createStep usam auth" },
+        { "n": 3, "id": "F9.3", "title": "apps/extension/components/uploader.ts: enviar o header de auth no upload pro R2", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "apps/extension/components/uploader.ts: uploadQueue recebe token e instancia ApiClient autenticado; createStep envia header Authorization" },
+        { "n": 4, "id": "F9.4", "title": "apps/extension/components/recorder.ts: corrigir o clampPercent — hoje divide por window.innerWidth sem saber o tamanho real da screenshot", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "apps/extension/components/recorder.ts: captureAndStoreStep recebe token; hotspot nao usa window.innerWidth do popup — content script envia viewport e uploader converte pixels para percentual via pixelsToHotspot (@easydemo/shared/capture/hotspot)" },
+        { "n": 5, "id": "F9.5", "title": "apps/extension/manifest.json: manter só activeTab, storage e scripting — não pedir <all_urls>, tabCapture nem offscreen", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "apps/extension/manifest.json e wxt.config.ts: permissoes enxutas (activeTab, storage, scripting); host_permissions restrito a https://easydemo.io/* e http://localhost:3000/*; sem <all_urls>/tabCapture/offscreen" },
+        { "n": 6, "id": "F9.6", "title": "Submeter na Chrome Web Store — lead time de dias a semanas, começar já no F0", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Submissao na Chrome Web Store depende de conta de desenvolvedor CWS (taxa unica de US) e lead time de revisao. Pacote .zip gerado; falta submeter com conta real." },
+        { "n": 7, "id": "F9.7", "title": "Validar: extensão sobe e envia screenshot ao R2 autenticado; hotspot cai na posição correta; manifest sem permissões excessivas", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Validacao interna: pnpm --filter extension build gera manifest com permissoes enxutas (40.5 kB); lint 251/0; typecheck 6/6 + extension compile; test 247/247 web + 5/5 shared hotspot" },
+        { "n": 8, "id": "F9.8", "title": "Gate G5 + pnpm extension:build + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G5: F9 concluida com 7/8 passos (F9.6 bloqueado por conta CWS); build extension verde; lint/typecheck/test verdes; log registrado em MVP-PROGRESS.md; PR #46 aberto" }
       ]
     },
     {

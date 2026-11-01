@@ -2,10 +2,23 @@
  * Popup UI — start/stop, lista de steps capturados, link para upload.
  */
 
-import { getApi } from "../../lib/api";
+import { fetchClerkSessionToken, getApi } from "../../lib/api";
 import { getSession, setSession } from "../../lib/store";
 
-const api = getApi();
+async function getAuthenticatedApi() {
+  const token = await fetchClerkSessionToken();
+  // Propaga o token para o service worker assim que o popup abre.
+  if (token) {
+    try {
+      await chrome.runtime.sendMessage({ type: "SET_TOKEN", token });
+    } catch {
+      // SW pode estar dormindo — ignore; o upload envia o token novamente.
+    }
+  }
+  return { api: getApi(undefined, token), token };
+}
+
+const apiPromise = getAuthenticatedApi();
 
 const els = {
   toggle: document.getElementById("toggle") as HTMLButtonElement | null,
@@ -39,16 +52,18 @@ async function refresh(): Promise<void> {
 
   // Auth status via /api/v1/me
   try {
+    const { api } = await apiPromise;
     const me = await api.getMe();
     els.auth!.textContent = me?.workspaceName
       ? `Workspace: ${me.workspaceName}`
-      : "Não autenticado";
+      : "Não autenticado (abra o app EasyDemo numa aba)";
   } catch {
     els.auth!.textContent = "Não autenticado";
   }
 }
 
 els.toggle.addEventListener("click", async () => {
+  const { api } = await apiPromise;
   const session = await getSession();
   const capturing = !!session?.capturing;
 
@@ -63,6 +78,7 @@ els.toggle.addEventListener("click", async () => {
       await setSession({
         capturing: true,
         demoId: created.id,
+        demoTitle: created.title,
         steps: [],
         startedAt: Date.now(),
       });
@@ -70,6 +86,7 @@ els.toggle.addEventListener("click", async () => {
       await setSession({
         capturing: true,
         demoId,
+        demoTitle: "",
         steps: [],
         startedAt: Date.now(),
       });
@@ -95,12 +112,14 @@ els.toggle.addEventListener("click", async () => {
 });
 
 els.upload.addEventListener("click", async () => {
+  const { api } = await apiPromise;
   const session = await getSession();
   if (!session?.demoId) return;
   els.upload!.disabled = true;
   els.upload!.textContent = "Enviando…";
   const result = await chrome.runtime.sendMessage({
     type: "FINISH_AND_UPLOAD",
+    token: api.token,
   });
   if (result?.uploaded != null) {
     const url = `${api.baseUrl.replace(/\/api\/.*$/, "")}/demos/${session.demoId}/edit`;

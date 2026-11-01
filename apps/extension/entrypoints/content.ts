@@ -3,20 +3,15 @@
  *
  * Injeta um Shadow DOM com anel visual em cada elemento clicado.
  * Encaminha seleção para o service worker via chrome.runtime.sendMessage.
+ *
+ * F9: também responde a mensagens da extensão pedindo o token JWT da sessão
+ * do Clerk (quando o usuário está logado no app EasyDemo).
  */
 
+import { defineContentScript } from "wxt/sandbox";
+import type { CapturePayload } from "../lib/api";
 import { maskSensitiveValue, shouldMask } from "../lib/mask";
 import { getCSSPath } from "../lib/selectors";
-
-type CapturePayload = {
-  elementTag: string;
-  elementSelector: string;
-  elementText: string;
-  boundingRect: { x: number; y: number; width: number; height: number };
-  pageUrl: string;
-  pageTitle: string;
-  timestamp: number;
-};
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -84,6 +79,7 @@ export default defineContentScript({
           width: Math.round(rect.width),
           height: Math.round(rect.height),
         },
+        viewport: { width: window.innerWidth, height: window.innerHeight },
         pageUrl: location.href,
         pageTitle: document.title,
         timestamp: Date.now(),
@@ -102,9 +98,35 @@ export default defineContentScript({
       document.addEventListener("click", onClick, true);
     }
 
-    chrome.runtime.onMessage.addListener((message) => {
-      if (message?.type === "OVERLAY_START") activate();
-      if (message?.type === "OVERLAY_STOP") deactivate();
+    chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+      if (message?.type === "OVERLAY_START") {
+        activate();
+        return false;
+      }
+      if (message?.type === "OVERLAY_STOP") {
+        deactivate();
+        return false;
+      }
+
+      // F9: responde pedido de token Clerk vindo da extensão.
+      if (message?.type === "EASYDEMO_GET_CLERK_TOKEN") {
+        // @ts-expect-error — `window.Clerk` é injetado pelo SDK do Clerk.
+        const clerk = window.Clerk;
+        if (clerk?.session?.getToken) {
+          void clerk.session
+            .getToken()
+            .then((token: string | null | undefined) => {
+              sendResponse({ token: token ?? null });
+            })
+            .catch(() => {
+              sendResponse({ token: null });
+            });
+        } else {
+          sendResponse({ token: null });
+        }
+        return true; // indica resposta assíncrona
+      }
+
       return false;
     });
   },

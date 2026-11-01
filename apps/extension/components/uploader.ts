@@ -6,8 +6,8 @@
  *   body: { position, screenshotR2Key, sourceUrl, sourceTitle, hotspot, caption }
  */
 
+import { pixelsToHotspot } from "@easydemo/shared/capture/hotspot";
 import { getApi } from "../lib/api";
-import { getSession } from "../lib/store";
 import type { StoredStep } from "./recorder";
 
 export type UploadResult = {
@@ -16,8 +16,12 @@ export type UploadResult = {
   errors: string[];
 };
 
-export async function uploadQueue(demoId: string, steps: StoredStep[]): Promise<UploadResult> {
-  const api = getApi();
+export async function uploadQueue(
+  demoId: string,
+  steps: StoredStep[],
+  token: string | null,
+): Promise<UploadResult> {
+  const api = getApi(undefined, token);
   let uploaded = 0;
   let failed = 0;
   const errors: string[] = [];
@@ -31,13 +35,8 @@ export async function uploadQueue(demoId: string, steps: StoredStep[]): Promise<
       continue;
     }
 
-    const x = Math.round(s.boundingRect.x);
-    const y = Math.round(s.boundingRect.y);
-    const hotspot = {
-      type: "pointer" as const,
-      x: clampPercent(x),
-      y: clampPercent(y),
-    };
+    const viewport = s.viewport ?? { width: 1920, height: 1080 };
+    const hotspot = pixelsToHotspot(s.boundingRect, viewport, "pointer");
 
     const result = await api.createStep({
       demoId,
@@ -56,12 +55,5 @@ export async function uploadQueue(demoId: string, steps: StoredStep[]): Promise<
     }
   }
 
-  void getSession; // marcador — função mantida para consistência futura
   return { uploaded, failed, errors };
-}
-
-function clampPercent(px: number): number {
-  // Sem acesso ao viewport aqui — clampa em 0..100 sem normalizar.
-  // A normalização (% da viewport) acontece no SW.
-  return Math.max(0, Math.min(100, Math.round((px / Math.max(1, window.innerWidth)) * 100)));
 }

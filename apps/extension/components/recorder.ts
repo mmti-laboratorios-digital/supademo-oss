@@ -20,8 +20,9 @@ export type StoredStep = CapturePayload & {
 export async function captureAndStoreStep(
   tabId: number,
   payload: CapturePayload,
+  token: string | null,
 ): Promise<StoredStep | null> {
-  const api = getApi();
+  const api = getApi(undefined, token);
   const session = await getSession();
   if (!session?.demoId) return null;
 
