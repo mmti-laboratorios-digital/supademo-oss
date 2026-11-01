@@ -13,8 +13,8 @@
   },
   "current": {
     "phase": "F8",
-    "step": "F8.1",
-    "status": "pending"
+    "step": null,
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -225,14 +225,14 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F8.1", "title": "Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e {nome_do_DPO} nos 7 documentos de legal/", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F8.2", "title": "Revisão por advogado de privacy-policy.md, terms-of-service.md e cookie-policy.md", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F8.3", "title": "scripts/check-dpo-missing.ts: aceitar o valor real do DPO", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F8.4", "title": ".github/workflows/ci.yml: reativar o job check-dpo-placeholders", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F8.5", "title": "Validar: pnpm scripts:check-dpo passa; grep -rn 'placeholder@demobr\\|{nome_do_DPO}\\|\\[NOME_DO_DPO\\]' legal/ retorna vazio; job verde na CI", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F8.6", "title": "Gate G7 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F8.1", "title": "Preencher CNPJ real, endereço real, e-mail do encarregado (DPO) real e {nome_do_DPO} nos 7 documentos de legal/", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 2, "id": "F8.2", "title": "Revisão por advogado de privacy-policy.md, terms-of-service.md e cookie-policy.md", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 3, "id": "F8.3", "title": "scripts/check-dpo-missing.ts: aceitar o valor real do DPO", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 4, "id": "F8.4", "title": ".github/workflows/ci.yml: reativar o job check-dpo-placeholders", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 5, "id": "F8.5", "title": "Validar: pnpm scripts:check-dpo passa; grep -rn 'placeholder@demobr\\|{nome_do_DPO}\\|\\[NOME_DO_DPO\\]' legal/ retorna vazio; job verde na CI", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." },
+        { "n": 6, "id": "F8.6", "title": "Gate G7 + lint/typecheck/test; registrar e abrir o PR", "status": "blocked", "done_at": "2026-11-01", "commit": null, "note": "Fase F8 bloqueada por dependencia externa: CNPJ real, endereco real e e-mail/nome do DPO real. Nao inventar dados (MVP-PLAN.md §1290)." }
       ]
     },
     {

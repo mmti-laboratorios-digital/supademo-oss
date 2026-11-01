@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F8** — Legal + go-live (gate G7) — não iniciada |
+| **Fase em andamento** | **F9** — Extensão Chrome (gate G5) — não iniciada |
 | **Última fase concluída** | **F7** — Branding no player (gate G5 ✅) |
-| **Próxima fase** | **F8** — Legal + go-live (gate G7) |
-| **Próximo passo** | `F8.1` — preencher CNPJ, endereço e DPO nos documentos legais |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F7 |
-| **Branch** | `feat/f7-branding` (1 branch por fase) |
-| **Gate atual** | G5 (branding) ✅ · próximo G7 (legal, F8) |
-| **Passos concluídos** | 63 / 86 |
+| **Próxima fase** | **F9** — Extensão Chrome (gate G5) |
+| **Próximo passo** | `F9.1` — endpoint `/api/v1/me` + auth real na extensão |
+| **Bloqueios** | **F8** bloqueada por dependência externa: CNPJ real, endereço real, e-mail/nome do DPO real. Será retomada quando os dados chegarem. |
+| **Branch** | `feat/f9-extension` (1 branch por fase) |
+| **Gate atual** | G5 (cobre F5/F7/F9) · F8/G7 bloqueado externamente |
+| **Passos concluídos** | 63 / 86 (6 bloqueados na F8) |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -1130,3 +1130,39 @@ Cobertura nova:
 - [ ] Build local OOM continua aberto (F6).
 - [ ] Débito da F4 (job de expurgo de assinatura) continua aberto.
 - [ ] Débitos da F5 (analytics) continuam abertos.
+
+### 2026-11-01 — F8 — Legal + go-live (gate G7) — BLOQUEADA
+
+**Estado:** ⏸️ bloqueada por dependência externa
+**Branch:** `feat/f8-legal` (não criada) · **Gate:** G7 (Go-live)
+
+**Por que parou**
+
+A fase F8 exige dados reais da empresa:
+
+- CNPJ real;
+- Endereço real;
+- E-mail do encarregado (DPO) real;
+- Nome do DPO real (substituir `{nome_do_DPO}`);
+- Revisão por advogado de `privacy-policy.md`, `terms-of-service.md` e
+  `cookie-policy.md`.
+
+Conforme instrução explícita do `MVP-PLAN.md` §1290–1302: **não inventar
+esses dados**. Registrar o bloqueio e seguir para a próxima fase independente
+(F9 — Extensão Chrome).
+
+**Passos marcados como `blocked` em `specs/mvp-tasks.json`**
+
+- F8.1 — Preencher CNPJ/endereço/DPO
+- F8.2 — Revisão por advogado
+- F8.3 — `scripts/check-dpo-missing.ts` aceitar valor real do DPO
+- F8.4 — Reativar job `check-dpo-placeholders` na CI
+- F8.5 — `pnpm scripts:check-dpo` passando
+- F8.6 — Gate G7
+
+**O que falta para desbloquear**
+
+1. Fornecer CNPJ, endereço, e-mail e nome do DPO.
+2. Advogado revisar os 3 documentos legais principais.
+3. Atualizar os 7 documentos em `legal/`.
+4. Reativar o job `check-dpo-placeholders` em `.github/workflows/ci.yml`.
