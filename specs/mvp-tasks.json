@@ -12,9 +12,9 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F5",
-    "step": "F5.6",
-    "status": "in_progress"
+    "phase": "F6",
+    "step": "F6.1",
+    "status": "pending"
   },
   "phases": [
     {
@@ -164,14 +164,14 @@
       "depends_on": [
         "F0"
       ],
-      "status": "in_progress",
+      "status": "done",
       "steps": [
         { "n": 1, "id": "F5.1", "title": "lib/analytics/visitor.ts: setVisitorCookie() — gera id, hasheia com salt, grava httpOnly + sameSite lax + maxAge de VISITOR_COOKIE_TTL_DAYS (30) + secure em produção; chamar em /d/[slug] e /embed/[id]", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Cookie de visitante gravado: modulo Edge-safe lib/analytics/visitor-id.ts (Web Crypto) + setVisitorCookie em visitor.ts; o middleware cria o cookie nas rotas do player e injeta o hash no header interno x-visitor-id (a pagina e o cookie usam o MESMO hash — sem isso a 1a visita contaria 2); mesmoSite=lax + httpOnly + secure so em prod" },
         { "n": 2, "id": "F5.2", "title": "lib/analytics/events.ts: garantir step_seen, cta_click, lead_captured e complete", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Eventos garantidos: hook use-analytics.ts (client) envia view/step_seen/cta_click/complete via POST /api/v1/events com keepalive; o onEvent do DemoPlayer estava desconectado (nenhum evento saia); clique do CTA final agora e rastreado; bounce novo (saiu sem avancar); lead_captured ja era gravado no server action" },
         { "n": 3, "id": "F5.3", "title": "(app)/demos/[id]/analytics/page.tsx: completion rate, drop-off por step, CTA CTR, device e país — consumindo lib/analytics/funnel.ts que já está pronto", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Dashboard: lib/analytics/summary.ts com agregados no banco (COUNT DISTINCT visitor) + funil via computeFunnel (pure, nao mexida); completionRate = completers/visitantes unicos; ctaCtr = cliques/visitantes que chegaram ao ULTIMO step; device, pais e referrers; a query roda em withTenant (a policy events_select exige tenant)" },
         { "n": 4, "id": "F5.4", "title": "components/analytics/StatsChart.tsx: renderizar completion e drop-off", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "StatsChart reescrito: 4 metricas-chave (visitantes, conclusao, CTA CTR, leads), funil com drop-off por step (rotulado por stepId, nao por indice) e distribuicoes por device/pais/referrer" },
         { "n": 5, "id": "F5.5", "title": "Validar: 2 views do mesmo navegador = 1 visitor; drop-off com os steps corretos; CTA CTR = cliques / viewers que chegaram ao último step", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Validacao do gate G5: 9 testes de integracao (analytics.integration) + 12 unitarios (visitor-id, incluindo paridade Edge/Node) + 4 E2E (visitor-cookie). Achado corrigido: postgres-js nao aceita Date como parametro ('Received an instance of Date') - o since foi convertido para ISO" },
-        { "n": 6, "id": "F5.6", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 6, "id": "F5.6", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G5 fechado: lint 239/0, typecheck 4/4, 236 testes (215 + 21 novos), build verde (22/22); F5 registrada no MVP-PROGRESS.md" }
       ]
     },
     {
