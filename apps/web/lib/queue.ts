@@ -14,7 +14,8 @@ export type JobPayload =
   | { type: "tts_job"; stepId: string; text: string; lang: "pt-BR" | "en" }
   | { type: "generate_og"; demoId: string }
   | { type: "cleanup_expired" }
-  | { type: "sync_billing"; asaasEventId: string };
+  | { type: "sync_billing"; asaasEventId: string }
+  | { type: "purge_expired_subscriptions" };
 
 export const taskList: TaskList = {
   process_demo: async () => {
@@ -33,6 +34,9 @@ export const taskList: TaskList = {
     /* implementado em apps/workers */
   },
   sync_billing: async () => {
+    /* implementado em apps/workers */
+  },
+  purge_expired_subscriptions: async () => {
     /* implementado em apps/workers */
   },
 };

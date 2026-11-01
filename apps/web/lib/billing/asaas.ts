@@ -186,6 +186,19 @@ export type AsaasPayment = {
 };
 
 /**
+ * Resposta de `GET /v3/payments/{id}/pixQrCode`.
+ *
+ * ⚠️ O `encodedImage` vem em **base64 com prefixo** (`data:image/png;base64,...`
+ * no sandbox; em produção pode vir sem prefixo). O helper
+ * `pixQrCodeDataUrl()` normaliza para um `data:` URL pronto para `<img src>`.
+ */
+export type AsaasPixQrCode = {
+  encodedImage?: string;
+  payload?: string;
+  expirationDate?: string;
+};
+
+/**
  * Converte BRL em centavos — a unidade que o Asaas espera.
  *
  * ⚠️ **Armadilha**: o `app.plans.price_brl_cents` JÁ está em centavos
@@ -436,4 +449,44 @@ export async function createPayment(args: {
       dueDate: args.dueDate ?? todayAsAsaasDate(),
     }),
   });
+}
+
+/**
+ * Busca o QR Code dinâmico do PIX de uma cobrança.
+ *
+ * ⚠️ **Por que a chamada tem que ficar no servidor:** o endpoint do Asaas
+ * exige o header `access_token`. Devolver a imagem e o código copia-e-cola
+ * ao browser é seguro (não expõe a key), mas **chamar o Asaas do browser
+ * seria** — a API key jamais pode ir para o cliente.
+ *
+ * Devolve `null` quando o pagamento não é PIX ou o Asaas ainda não gerou o
+ * QR Code (a cobrança pode levar alguns segundos para ficar pronta).
+ */
+export async function getPixQrCode(paymentId: string): Promise<AsaasPixQrCode | null> {
+  try {
+    return await asaasRequest<AsaasPixQrCode>(`/payments/${paymentId}/pixQrCode`, {
+      method: "GET",
+    });
+  } catch (err) {
+    // 404 = pagamento sem QR Code (ex.: boleto). Não é erro fatal — a UI
+    // cai no link de pagamento.
+    console.warn(`[asaas] QR Code indisponível para o payment ${paymentId}:`, err);
+    return null;
+  }
+}
+
+/**
+ * Normaliza o `encodedImage` do Asaas em um `data:` URL pronto para `<img src>`.
+ *
+ * ⚠️ O Asaas **inconsiste**: o sandbox devolve
+ * `data:image/png;base64,iVBOR...` (com prefixo) e a produção devolve
+ * `iVBOR...` (base64 puro). Sem esta normalização, a imagem não renderiza
+ * em produção — e o bug só aparece com a API key real.
+ */
+export function pixQrCodeDataUrl(encodedImage: string | undefined): string | null {
+  if (!encodedImage) return null;
+  const trimmed = encodedImage.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith("data:")) return trimmed;
+  return `data:image/png;base64,${trimmed}`;
 }
