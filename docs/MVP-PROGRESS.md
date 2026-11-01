@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F9** — Extensão Chrome (gate G5) — não iniciada |
-| **Última fase concluída** | **F7** — Branding no player (gate G5 ✅) |
-| **Próxima fase** | **F9** — Extensão Chrome (gate G5) |
-| **Próximo passo** | `F9.1` — endpoint `/api/v1/me` + auth real na extensão |
-| **Bloqueios** | **F8** bloqueada por dependência externa: CNPJ real, endereço real, e-mail/nome do DPO real. Será retomada quando os dados chegarem. |
-| **Branch** | `feat/f9-extension` (1 branch por fase) |
-| **Gate atual** | G5 (cobre F5/F7/F9) · F8/G7 bloqueado externamente |
-| **Passos concluídos** | 63 / 86 (6 bloqueados na F8) |
+| **Fase em andamento** | **F10** — E2E + alpha GTM (gates G5 + G6) — não iniciada |
+| **Última fase concluída** | **F9** — Extensão Chrome (gate G5 ✅) |
+| **Próxima fase** | **F10** — E2E + alpha GTM (gates G5 + G6) |
+| **Próximo passo** | `F10.1` — configurar secret `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` no CI e remover `continue-on-error` do Playwright |
+| **Bloqueios** | **F8** bloqueada por dependência externa: CNPJ real, endereço real, e-mail/nome do DPO real. **F9.6** bloqueada por conta CWS (taxa de desenvolvedor). |
+| **Branch** | `feat/f10-e2e-alpha` (1 branch por fase) |
+| **Gate atual** | G5 (E2E cobre F5/F7/F9) ✅ · G6 alpha · F8/G7 e F9.6 bloqueados externamente |
+| **Passos concluídos** | 69 / 86 (6 bloqueados na F8, 1 bloqueado na F9) |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -1166,3 +1166,117 @@ esses dados**. Registrar o bloqueio e seguir para a próxima fase independente
 2. Advogado revisar os 3 documentos legais principais.
 3. Atualizar os 7 documentos em `legal/`.
 4. Reativar o job `check-dpo-placeholders` em `.github/workflows/ci.yml`.
+
+### 2026-11-01 — F9 — Extensão Chrome (gate G5)
+
+**Estado:** ✅ concluída (7/8 passos; F9.6 bloqueada por conta CWS)
+**Branch:** `feat/f9-extension` · **Commit:** `5782962` · **Gate:** G5 ✅
+
+**O que passou a funcionar**
+
+- **Autenticação real da extensão.** A extensão MV3 não lê cookies httpOnly,
+  então implementamos um handshake via content script: o popup pede o token
+  JWT da sessão do Clerk à página web autenticada (`window.Clerk.session.getToken()`)
+  e envia `Authorization: Bearer <token>` em todas as chamadas à API.
+- **Endpoint `/api/v1/me`.** Retorna `userId`, `workspaceId` e `workspaceName`
+  para a extensão descobrir em qual workspace criar a demo.
+- **Upload autenticado.** `uploadQueue` recebe o token e usa `ApiClient` com
+  Bearer para chamar `POST /api/v1/demos/:id/steps`.
+- **Hotspot preciso.** O content script envia o `viewport` da página capturada
+  junto com o `boundingRect`. A conversão pixel → percentual usa essas
+  dimensões (`pixelsToHotspot` em `@easydemo/shared/capture/hotspot`), não
+  `window.innerWidth` do popup/background — o que antes deslocaria o hotspot.
+- **Manifest enxuto.** Permissões reduzidas a `activeTab`, `storage` e
+  `scripting`; `host_permissions` restrito a `https://easydemo.io/*` e
+  `http://localhost:3000/*`. Sem `<all_urls>`, `tabCapture` ou `offscreen`.
+- **Build da extensão verde.** `pnpm --filter extension build` gera o pacote
+  Chrome MV3 (≈40 kB) com manifest correto.
+
+**Arquivos criados**
+
+- `apps/web/app/api/v1/me/route.ts` — perfil autenticado para extensão.
+- `apps/web/app/api/v1/me/__tests__/route.integration.test.ts` — 4 testes.
+- `packages/shared/src/capture/hotspot.ts` — `pixelsToHotspot` reutilizável.
+- `packages/shared/src/capture/__tests__/hotspot.test.ts` — 5 testes.
+
+**Arquivos modificados**
+
+- `apps/extension/lib/api.ts` — `ApiClient` com Bearer token;
+  `fetchClerkSessionToken()`; endpoints `getMe`, `createDemo`, `presignUpload`,
+  `createStep`.
+- `apps/extension/lib/store.ts` — sessão agora guarda `token`.
+- `apps/extension/entrypoints/content.ts` — responde a
+  `EASYDEMO_GET_CLERK_TOKEN`; envia `viewport` no payload de captura.
+- `apps/extension/entrypoints/popup/popup.ts` — autentica antes de chamar API;
+  envia `SET_TOKEN` para o service worker; passa token no upload.
+- `apps/extension/entrypoints/background.ts` — armazena token da sessão;
+  `CAPTURE_STEP` usa token da sessão; `FINISH_AND_UPLOAD` aceita token do popup.
+- `apps/extension/components/recorder.ts` — recebe token para presignUpload.
+- `apps/extension/components/uploader.ts` — recebe token e converte hotspot via
+  `pixelsToHotspot`.
+- `apps/extension/wxt.config.ts` e `manifest.json` — permissões e hosts
+  reduzidos.
+- `packages/shared/package.json` — novo export `./capture/*` e vitest devDep.
+- `apps/extension/package.json` — adiciona `@easydemo/shared` devDep.
+- `pnpm-lock.yaml` — lock das novas dependências.
+
+**Decisões tomadas durante a execução**
+
+- **D1:** estratégia de auth por content script. Não há como a extensão ler
+  o cookie httpOnly do Clerk; pedir o JWT via `window.Clerk` na aba do app é
+  o padrão usado por extensões que precisam de token de SPA autenticado.
+- **D2:** token via service worker. O popup obtém o token e o envia ao SW
+  (`SET_TOKEN`), para que o SW possa usá-lo durante `CAPTURE_STEP` sem depender
+  da aba ativa ser o app no momento exato da captura.
+- **D3:** hotspot com viewport da página. O erro antigo dividia por
+  `window.innerWidth` do contexto errado. Agora o content script grava o
+  viewport real e a conversão é feita na hora do upload.
+- **D4:** função compartilhada em `@easydemo/shared/capture/hotspot`. Evita
+  duplicar a lógica entre extensão e possíveis futuros clients (upload manual,
+  outras capturas).
+- **D5:** CWS submission fica fora do commit de código. É uma ação externa que
+  exige conta de desenvolvedor (US$5) e lead time de revisão; o código está
+  pronto e o pacote pode ser submetido assim que a conta existir.
+
+**Armadilhas / o que a fase ensina**
+
+- **MV3 não lê cookies httpOnly.** Se o auth da extensão dependesse de cookie,
+  não funcionaria. O token JWT é a única saída viável sem backend de bridge.
+- **`window.Clerk` só existe quando o SDK do Clerk foi carregado.** O content
+  script precisa estar rodando numa aba do app EasyDemo; abas de outros sites
+  não têm `window.Clerk`, e a extensão instrui o usuário a abrir o app.
+- **Hotspot percentual requer viewport real.** Usar `window.innerWidth` de um
+  contexto diferente (popup/SW) introduz erro sistemático quando o screenshot
+  tem escala ou dimensões diferentes.
+- **WXT precisa de import de `wxt/sandbox` no TypeScript.** Os helpers
+  `defineContentScript`/`defineBackground` não são globais no `tsc` sem o
+  import; o build do WXT funciona, mas `tsc --noEmit` falha.
+
+**Validação rodada**
+
+```
+pnpm --filter extension build   → ✅ chrome-mv3, 40.5 kB, manifest correto
+pnpm lint                       → 251 arquivos, 0 erros
+pnpm typecheck                  → 6/6 pacotes
+pnpm --filter extension compile → ✅
+pnpm --filter shared test       → 5/5 (hotspot)
+pnpm test                       → 247/247 (web)
+```
+
+Build local do Next.js não rodado nesta fase (OOM ambiental documentado na F6).
+A CI via Docker é a validação oficial de build do web.
+
+**Bloqueio externo registrado**
+
+- **F9.6 — Submissão na Chrome Web Store:** bloqueada até que exista uma conta
+  de desenvolvedor CWS (taxa única de US$5) e alguém com acesso submeta o
+  pacote `.output/chrome-mv3`. O lead time de revisão da CWS pode levar dias a
+  semanas.
+
+**Débitos registrados**
+
+- [ ] F8 continua bloqueada por CNPJ/endereço/DPO reais.
+- [ ] F9.6 (CWS submission) depende de conta de desenvolvedor.
+- [ ] Build local OOM continua aberto (F6).
+- [ ] Débito da F4 (job de expurgo de assinatura) continua aberto.
+- [ ] Débitos da F5/F7 continuam abertos.
