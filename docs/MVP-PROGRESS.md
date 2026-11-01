@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F10** — E2E + alpha GTM (gates G5 + G6) — não iniciada |
+| **Fase em andamento** | **F10** — E2E + alpha GTM (gates G5 + G6) — parcial (4/9 passos, 4 bloqueados) |
 | **Última fase concluída** | **F9** — Extensão Chrome (gate G5 ✅) |
-| **Próxima fase** | **F10** — E2E + alpha GTM (gates G5 + G6) |
-| **Próximo passo** | `F10.1` — configurar secret `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` no CI e remover `continue-on-error` do Playwright |
-| **Bloqueios** | **F8** bloqueada por dependência externa: CNPJ real, endereço real, e-mail/nome do DPO real. **F9.6** bloqueada por conta CWS (taxa de desenvolvedor). |
+| **Próxima fase** | nenhuma — F10 é a última fase do MVP; restam desbloqueios externos |
+| **Próximo passo** | `F10.9` — gate G5/G6 + log + PR #47 |
+| **Bloqueios** | F8 (CNPJ/DPO/endereço); F9.6 (conta CWS); F10.1/10.2 (chave Clerk real no CI); F10.6 (GTM/launch); F10.7 (entrevistas ICP) |
 | **Branch** | `feat/f10-e2e-alpha` (1 branch por fase) |
-| **Gate atual** | G5 (E2E cobre F5/F7/F9) ✅ · G6 alpha · F8/G7 e F9.6 bloqueados externamente |
-| **Passos concluídos** | 69 / 86 (6 bloqueados na F8, 1 bloqueado na F9) |
+| **Gate atual** | G5 (E2E) · G6 (alpha) · múltiplos bloqueios externos |
+| **Passos concluídos** | 74 / 86 (7 bloqueados) |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -1280,3 +1280,62 @@ A CI via Docker é a validação oficial de build do web.
 - [ ] Build local OOM continua aberto (F6).
 - [ ] Débito da F4 (job de expurgo de assinatura) continua aberto.
 - [ ] Débitos da F5/F7 continuam abertos.
+
+### 2026-11-01 — F10 — E2E + alpha GTM (gates G5 + G6) — PARCIAL
+
+**Estado:** ⏳ parcial (4/9 passos concluídos; 4 bloqueados por dependências externas)
+**Branch:** `feat/f10-e2e-alpha` · **Commit:** `e4692d2` · **Gate:** G5 + G6
+
+**O que foi feito nesta rodada**
+
+- **F10.3 — E2E full-flow:** criado `tests/e2e/full-flow.spec.ts` com o fluxo
+  completo: criar demo → upload manual → publicar → abrir `/d/[slug]` anônimo
+  → submeter lead → verificar em `/demos/{id}/leads`. O spec é **condicional**:
+  só executa quando `PLAYWRIGHT_E2E_AUTH=1` + chaves reais do Clerk; senão,
+  skipa (a chave placeholder faz o dev server do Playwright não subir).
+- **F10.4 — Ajustes nos specs existentes:** `playwright.config.ts` passa a
+  repassar `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` e `CLERK_SECRET_KEY` ao dev server
+  do E2E quando disponíveis no ambiente.
+- **F10.5 — Cases fictícios removidos:** excluídos os 3 arquivos fictícios de
+  `marketing/CASE-STUDIES/` (F01 fintech, F02 agência, F03 edtech). Eles já
+  carregavam disclaimers, mas o plano proíbe publicar cases fictícios num
+  produto que vende "LGPD by design".
+- **F10.8 — Metrics dashboard instrumentado:** criado
+  `apps/web/scripts/metrics-snapshot.ts`, que lê workspaces ativos, demos
+  publicadas, leads/views (30d), planos pagos e MRR estimado direto do Postgres.
+  `marketing/METRICS-DASHBOARD.md` foi atualizado com a instrução de uso.
+
+**Passos bloqueados por dependência externa**
+
+- **F10.1 / F10.2 — CI com chaves reais do Clerk:** sem uma conta Clerk com
+  chave `pk_test_` real, o middleware do Clerk rejeita a key e o dev server do
+  Playwright não sobe. Remover `continue-on-error` antes disso quebra a CI.
+- **F10.6 — Executar launch plan:** depende de data de lançamento (T-0), conta
+  Product Hunt, material de compare pages, canal de cold outreach e orçamento.
+- **F10.7 — Entrevistas ICP:** depende de recrutamento de 3–5 PMMs reais.
+
+**Bloqueios herdados das fases anteriores**
+
+- **F8** (legal + go-live): CNPJ real, endereço real, e-mail/nome do DPO real e
+  revisão por advogado.
+- **F9.6** (submissão CWS): conta de desenvolvedor Chrome Web Store (taxa US$5).
+
+**Validação rodada**
+
+```
+pnpm lint      → 253 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → 247/247 (web)
+```
+
+Script `metrics-snapshot.ts` executado localmente e retornou métricas reais do
+banco de desenvolvimento.
+
+**O que falta para fechar o MVP**
+
+1. Desbloquear F8 (dados legais reais + advogado).
+2. Desbloquear F9.6 (conta CWS + submissão).
+3. Desbloquear F10.1/10.2 (chave Clerk real no CI).
+4. Desbloquear F10.6/10.7 (GTM e entrevistas).
+5. Rodar `pnpm test:e2e` sem `continue-on-error` e ter o full-flow verde.
+6. Conseguir 5–10 empresas BR no alpha com funil medido (G6).
