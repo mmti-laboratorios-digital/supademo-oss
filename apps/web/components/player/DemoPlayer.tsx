@@ -31,6 +31,17 @@ export type DemoPlayerProps = {
    * workspace.
    */
   showBadge?: boolean;
+  /** URL pública do logo do workspace (branding). */
+  brandLogoUrl?: string | null;
+  /** Cor primária do workspace em hex (branding). */
+  brandColor?: string | null;
+  /**
+   * Mostra o watermark "Powered by EasyDemo" sobre o CTA final.
+   *
+   * ⚠️ Controlado pelo plano: `watermark_on_cta = true` no Free; Pro/Business
+   * removem. Default `false` para não quebrar previews/editores.
+   */
+  watermarkOnCta?: boolean;
 };
 
 export function DemoPlayer({
@@ -43,6 +54,9 @@ export function DemoPlayer({
   workspaceName = "EasyDemo",
   onLeadSubmit,
   showBadge: showBadgeProp = true,
+  brandLogoUrl,
+  brandColor,
+  watermarkOnCta = false,
 }: DemoPlayerProps) {
   // Fonte única de verdade do estado de navegação. O reducer puro
   // (./state-machine.ts) é coberto por testes; aqui só despachamos ações.
@@ -298,6 +312,21 @@ export function DemoPlayer({
     [locale, onLeadSubmit],
   );
 
+  // ─── Aplica cor primária do workspace via CSS variables (Tailwind HSL) ───
+  const brandStyle = React.useMemo(() => {
+    if (!brandColor) return undefined;
+    const hsl = hexToHsl(brandColor);
+    if (!hsl) return undefined;
+    const fg = hsl.l > 55 ? "222 47% 11%" : "0 0% 100%";
+    return {
+      ["--primary" as string]: `${hsl.h} ${hsl.s}% ${hsl.l}%`,
+      ["--primary-foreground" as string]: fg,
+      ["--ring" as string]: `${hsl.h} ${hsl.s}% ${hsl.l}%`,
+      ["--accent" as string]: `${hsl.h} ${hsl.s}% ${hsl.l}%`,
+      ["--accent-foreground" as string]: fg,
+    } as React.CSSProperties;
+  }, [brandColor]);
+
   return (
     <section
       className={`relative flex min-h-dvh w-full flex-col bg-background ${
@@ -307,9 +336,13 @@ export function DemoPlayer({
       aria-roledescription="carousel"
       data-state={state}
       data-demo-id={demo.id}
+      style={brandStyle}
     >
       <header className="flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
         <div className="flex items-center gap-3">
+          {brandLogoUrl ? (
+            <img src={brandLogoUrl} alt={workspaceName} className="h-6 w-auto object-contain" />
+          ) : null}
           <h1 className="text-sm font-medium">{demo.title}</h1>
           <span
             className="text-xs text-muted-foreground"
@@ -381,6 +414,8 @@ export function DemoPlayer({
         <FinalCta
           cta={demo.finalCta}
           locale={locale}
+          brandColor={brandColor}
+          watermark={watermarkOnCta}
           onClick={() => emit("cta_click", currentStep.id)}
         />
       ) : null}
@@ -422,10 +457,14 @@ function PoweredByBadge({ locale }: { locale: "pt-BR" | "en" }): React.ReactElem
 function FinalCta({
   cta,
   locale,
+  brandColor,
+  watermark,
   onClick,
 }: {
   cta: NonNullable<DemoPlayerDemo["finalCta"]>;
   locale: "pt-BR" | "en";
+  brandColor?: string | null;
+  watermark?: boolean;
   onClick?: () => void;
 }) {
   const href =
@@ -434,6 +473,10 @@ function FinalCta({
       : cta.type === "email"
         ? `mailto:${cta.value}?subject=${encodeURIComponent(cta.label)}`
         : cta.value;
+
+  const buttonStyle = brandColor
+    ? { backgroundColor: brandColor, color: contrastText(brandColor) }
+    : undefined;
 
   return (
     <div className="border-t border-border bg-muted/30 p-6 text-center">
@@ -447,14 +490,78 @@ function FinalCta({
         onClick={onClick}
         aria-label={locale === "pt-BR" ? `Ação final: ${cta.label}` : `Final action: ${cta.label}`}
         className="neobrutalism-button inline-flex items-center justify-center rounded-md px-6 py-3 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        style={buttonStyle}
       >
         {cta.label}
       </a>
-      <p className="mt-3 text-xs text-muted-foreground">
-        {locale === "pt-BR"
-          ? "Demo concluída — obrigado por assistir."
-          : "Demo complete — thanks for watching."}
-      </p>
+      {watermark ? (
+        <p className="mt-3 text-xs text-muted-foreground">
+          {locale === "pt-BR" ? "Feito com EasyDemo" : "Powered by EasyDemo"}
+        </p>
+      ) : (
+        <p className="mt-3 text-xs text-muted-foreground">
+          {locale === "pt-BR"
+            ? "Demo concluída — obrigado por assistir."
+            : "Demo complete — thanks for watching."}
+        </p>
+      )}
     </div>
   );
+}
+
+/**
+ * Determina a cor de texto (preto/branco) que contrasta com o background.
+ * Usa YIQ — bom o suficiente para preview.
+ */
+function contrastText(bg: string): string {
+  const hex = bg.replace("#", "");
+  if (hex.length !== 6) return "#ffffff";
+  const r = Number.parseInt(hex.slice(0, 2), 16);
+  const g = Number.parseInt(hex.slice(2, 4), 16);
+  const b = Number.parseInt(hex.slice(4, 6), 16);
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 128 ? "#0b1220" : "#ffffff";
+}
+
+/**
+ * Converte hex (#RRGGBB) para HSL no formato esperado pelo Tailwind.
+ * Retorna `null` se o hex for inválido.
+ */
+function hexToHsl(hex: string): { h: number; s: number; l: number } | null {
+  const clean = hex.replace("#", "");
+  if (!/^[0-9a-fA-F]{6}$/.test(clean)) return null;
+
+  const r = Number.parseInt(clean.slice(0, 2), 16) / 255;
+  const g = Number.parseInt(clean.slice(2, 4), 16) / 255;
+  const b = Number.parseInt(clean.slice(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+
+  if (max === min) {
+    return { h: 0, s: 0, l: Math.round(l * 100) };
+  }
+
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  switch (max) {
+    case r:
+      h = (g - b) / d + (g < b ? 6 : 0);
+      break;
+    case g:
+      h = (b - r) / d + 2;
+      break;
+    case b:
+      h = (r - g) / d + 4;
+      break;
+  }
+  h /= 6;
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  };
 }

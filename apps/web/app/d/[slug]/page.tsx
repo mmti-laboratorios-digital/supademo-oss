@@ -4,7 +4,9 @@ import type { LeadFormValues } from "@/components/player/LeadForm";
 import { demos, steps, workspaces } from "@/db/schema/app";
 import { recordView } from "@/lib/analytics/events";
 import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { getBrandingByDemoSlug } from "@/lib/branding";
 import { getDb } from "@/lib/db";
+import { getPlanLimits, getWorkspacePlanIdPublic } from "@/lib/plans";
 import type { FinalCta } from "@easydemo/shared";
 import { asc, eq } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -44,6 +46,11 @@ export default async function PublicDemoPage({
   // Visitor cookie first-party (LGPD-safe)
   const cookieStore = await headers();
   const visitor = await analyticsVisitorCookie(cookieStore);
+
+  // Branding e plano do workspace (contexto público — sem tenant).
+  const branding = await getBrandingByDemoSlug(slug);
+  const planId = await getWorkspacePlanIdPublic(demo.workspaceId);
+  const planLimits = await getPlanLimits(planId);
 
   // Registra evento 'view' (fire-and-forget)
   void recordView({
@@ -111,6 +118,9 @@ export default async function PublicDemoPage({
         leadFormConsentText={demo.leadFormConsentText}
         workspaceName={workspace?.name ?? "EasyDemo"}
         onLeadSubmit={handleLeadSubmit}
+        brandLogoUrl={branding?.logoUrl}
+        brandColor={branding?.brandColor}
+        watermarkOnCta={planLimits.watermarkOnCta}
       />
       <ConsentBanner locale={demo.language as "pt-BR" | "en"} />
     </main>
