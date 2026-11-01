@@ -1339,3 +1339,86 @@ banco de desenvolvimento.
 4. Desbloquear F10.6/10.7 (GTM e entrevistas).
 5. Rodar `pnpm test:e2e` sem `continue-on-error` e ter o full-flow verde.
 6. Conseguir 5–10 empresas BR no alpha com funil medido (G6).
+
+### 2026-11-01 — F9.6 — Preparação da submissão na Chrome Web Store (bloqueio externo)
+
+**Estado:** ⏸️ bloqueada por dependência externa (conta CWS) — **pacote pronto**
+**Branch:** `feat/f9-6-cws-submission` · **Commit:** `b233bfb`
+
+**O que foi feito nesta rodada**
+
+O passo F9.6 continua **bloqueado** (a submissão exige conta de desenvolvedor
+CWS, taxa única de US$5, e login humano no dashboard). Mas tudo o que era
+**do lado do código** foi feito — o que resta é carregar o ZIP e clicar em
+"Submit".
+
+**Entregas**
+
+1. **Ícones PNG reais.** Os arquivos em `apps/extension/public/icons/` eram
+   **placeholders de texto** (`// Placeholder — substituir por PNG real`),
+   não imagens. A Chrome Web Store rejeita a extensão com "Invalid icon
+   file". Criado `apps/extension/scripts/generate-icons.ts`, que gera
+   16/32/48/128 px a partir de `online-presence/brand/favicon.svg` via
+   `sharp`.
+2. **Páginas legais públicas.** A CWS exige que a URL de política de
+   privacidade responda **200 sem login**. Não existia rota para os
+   documentos de `legal/`. Criadas `/privacidade`, `/termos`, `/cookies` e
+   `/suporte`, com o loader `apps/web/app/(marketing)/content/legalLoader.ts`
+   (markdown → blocos TSX) lendo a **fonte canônica** em `legal/*.md`.
+3. **Checklist de submissão.** `apps/extension/CWS-SUBMISSION.md` traz o
+   listing pronto (nome, descrição curta e completa), a justificativa
+   escrita de **cada permissão** (campo obrigatório da CWS), as URLs
+   exigidas, o roteiro dos screenshots e o passo a passo do dashboard.
+4. **Docker corrigido (bug de produção).** O `server.js` do standalone do
+   Next fica em `/app/apps/web/server.js` em monorepo — mas o `WORKDIR` era
+   `/app` e o `CMD` era `node server.js`. **A imagem nunca subia**
+   (`Cannot find module '/app/server.js'`). Pior: `public/` e `.next/static`
+   estavam em `/app/`, onde o server não os enxerga — assets estáticos
+   broken. Corrigido o `WORKDIR` e os caminhos dos `COPY`.
+5. **`legal/` no Docker.** O `.dockerignore` ignorava `legal/` como "não usado
+   em runtime". Agora o Dockerfile faz `COPY legal` no build e no runner, e o
+   loader resolve o path em dev, build e runner.
+
+**Validação**
+
+```
+pnpm --filter extension zip      → ✅ ZIP 18.25 kB, 12 arquivos
+pnpm --filter extension build    → ✅ ícones 1.46 kB no bundle (antes 51 B)
+docker build -f apps/web/Dockerfile  → ✅
+docker run (produção)                → ✅ /privacidade, /termos, /cookies,
+                                        /suporte → 200; /og-default.svg → 200
+pnpm lint                         → 262 arquivos, 0 erros
+pnpm typecheck                    → 6/6 pacotes
+pnpm test                         → 254/254 (247 + 7 do legalLoader)
+```
+
+**Achado importante sobre o E2E de browser**
+
+O spec `tests/e2e/legal-pages.spec.ts` é **condicional** (`PLAYWRIGHT_E2E_REAL`).
+Motivo: em `http://localhost`, o Clerk JS de uma instância de **desenvolvimento**
+redireciona o browser para o handshake de dev-browser
+(`https://example.accounts.dev/v1/client/handshake?__clerk_hs_reason=dev-browser-missing`)
+e o Playwright segue o redirect, recebendo 404 do Clerk em vez do conteúdo.
+É o comportamento documentado das instâncias de desenvolvimento do Clerk
+(`clerk.com/docs/guides/development/...`), **não um bug do app** — e é o mesmo
+bloqueio de **F10.1** (chave real do Clerk na CI).
+
+Como workaround, `playwright.config.ts` não usa mais `pk_test_ci_placeholder`
+como fallback do `webServer.env`: o Clerk valida a key **no módulo** e derruba
+o servidor. Agora a env vem do ambiente, e o E2E só sobe com chave real.
+
+**O que falta (externo)**
+
+1. Criar a conta de desenvolvedor CWS (US$5).
+2. Gerar os 5 screenshots (1280×800) — roteiro em `CWS-SUBMISSION.md` §6.
+3. Submeter e anotar o Extensions ID.
+
+**Débitos**
+
+- [ ] `apps/web/app/(marketing)/about/page.tsx` usa e-mails placeholder
+      (`oi@dominio.com.br`, `suporte@dominio.com.br`, `dpo@dominio.com.br`) —
+      inconsistente com `@easydemo.io` e com o que o `/suporte` publica.
+- [ ] A `content script` declara `matches: ["<all_urls>"]` enquanto o
+      `host_permissions` é restrito ao domínio do produto + localhost. É
+      coerente (o `activeTab` cobre o acesso pontual), mas pode ser questionado
+      na revisão da CWS.

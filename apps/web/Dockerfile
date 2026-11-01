@@ -31,6 +31,11 @@ WORKDIR /repo
 COPY apps/web ./apps/web
 COPY apps/workers ./apps/workers
 COPY packages ./packages
+# Os documentos legais são lidos em runtime por fs (rotas públicas /privacidade,
+# /termos, /cookies — a Chrome Web Store exige a URL de privacidade acessível
+# sem login). O standalone do Next NÃO inclui arquivos fora de apps/web, então o
+# diretório precisa estar presente no build.
+COPY legal ./legal
 
 # NODE_ENV precisa ser production durante o build. Se vazar "development"
 # (ex.: de um .env carregado no shell), o prerender de /_error e /404 aborta
@@ -66,17 +71,31 @@ ENV NODE_ENV=production \
     PORT=3000
 
 RUN addgroup -S easydemo && adduser -S easydemo -G easydemo
-WORKDIR /app
+# O `server.js` do standalone fica em `/app/apps/web/server.js` (o output
+# standalone preserva a estrutura do monorepo). O WORKDIR precisa estar
+# lá — o server resolve `./public` e `./.next/static` relativos a si, e
+# `process.cwd()` é usado para achar os documentos legais em `/app/legal`.
+WORKDIR /app/apps/web
 
 # Standalone output do Next.js inclui node_modules mínimos.
 #
-# `output: "standalone"` (next.config.ts) NÃO copia `public/` nem `.next/static`
-# para dentro do standalone — daí os dois COPY explícitos. Se apps/web/public
-# não existir, o primeiro COPY aborta o build; por isso public/ é versionado
-# com pelo menos um asset.
-COPY --from=build --chown=easydemo:easydemo /repo/apps/web/public /app/public
+# ⚠️ **Layout do standalone em monorepo:** o `output: "standalone"` preserva a
+# estrutura do workspace — o `server.js` fica em `/app/apps/web/server.js`, e
+# ele resolve `./public` e `./.next/static` **relativos a si**. Por isso os
+# COPYs apontam para `/app/apps/web/...` e não para `/app/...`.
+#
+# `output: "standalone"` NÃO copia `public/` nem `.next/static` para dentro do
+# standalone — daí os dois COPY explícitos. Se apps/web/public não existir, o
+# primeiro COPY aborta o build; por isso public/ é versionado com pelo menos
+# um asset.
+COPY --from=build --chown=easydemo:easydemo /repo/apps/web/public /app/apps/web/public
 COPY --from=build --chown=easydemo:easydemo /repo/apps/web/.next/standalone /app
-COPY --from=build --chown=easydemo:easydemo /repo/apps/web/.next/static /app/.next/static
+COPY --from=build --chown=easydemo:easydemo /repo/apps/web/.next/static /app/apps/web/.next/static
+# Documentos legais lidos em runtime por fs — o standalone do Next não os
+# inclui (vivem fora de apps/web). Sem este COPY, /privacidade devolve 404 e a
+# extensão é rejeitada na Chrome Web Store (que exige a URL de privacidade
+# acessível sem login).
+COPY --from=build --chown=easydemo:easydemo /repo/legal /app/legal
 
 USER easydemo
 EXPOSE 3000
