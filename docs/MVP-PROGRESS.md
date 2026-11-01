@@ -1516,3 +1516,100 @@ a sessão válida — o que parece "workspace não encontrado" mas é RLS.
 - [ ] Job de expurgo de assinatura (F4) — workspace cancelado nunca volta ao Free.
 - [ ] Tela de checkout não renderiza o QR Code do PIX.
 - [ ] `pnpm test:e2e` sem `continue-on-error` — depende de chave Clerk real (F10.1).
+
+### 2026-11-01 — Débitos de billing: expurgo de assinatura e QR Code do PIX
+
+**Estado:** ✅ concluído (2 débitos da F4 fechados)
+**Branch:** `feat/debts-billing-purge-and-pix` · **Commits:** `b79398a`, `a8883f1` · **PR:** #52
+
+**1. Job de expurgo de assinatura (fecha o débito mais caro da F4)**
+
+O cancelamento segue a semântica do Asaas: o creator pagou o ciclo, então
+continua com o plano até o fim do período. O rebaixamento para Free dependia
+**exclusivamente** do webhook `SUBSCRIPTION_INACTIVATED` chegar depois do
+vencimento — e isso não é garantido (webhook perdido, retry que não chega,
+trial sem nenhum evento).
+
+**Consequência:** o creator ficava **no plano pago para sempre**, sem pagar.
+Era o único jeito de um workspace sair do plano pago sem passar pelo webhook.
+
+Criado `apps/workers/src/tasks/purge_expired_subscriptions.ts`, registrado em
+`apps/workers/src/index.ts` e em `apps/web/lib/queue.ts` (taskList
+compartilhada). O job varre as subscriptions expiradas (`cancel_at_period_end`
++ `current_period_end <= now()`) e rebaixa o workspace, com duas proteções:
+
+- **não rebaixa quem renovou** — se existir outra subscription ativa do mesmo
+  workspace, o plano é mantido;
+- **não rebaixa quem fez upgrade** — só rebaixa se o `plan_id` atual do
+  workspace ainda for o da subscription expirada (ex.: assinou Pro, depois
+  virou Business).
+
+Idempotente. **7 testes de integração** cobrem todos esses cenários.
+
+**Primeira vez que o `apps/workers` tem testes:** adicionados `vitest.config.ts`
+e `vitest.setup.ts`. O setup carrega o `.env` da **raiz** do monorepo — o
+worker roda de `apps/workers`, e sem isso os testes caíam no default
+hardcoded e falhavam com `password authentication failed`.
+
+**2. QR Code do PIX no checkout**
+
+A página `/billing/checkout` dizia "pague com PIX" mas **não mostrava o QR
+Code** — o creator tinha que abrir o e-mail ou o link de pagamento.
+
+O QR Code dinâmico do PIX só vem de `GET /v3/payments/{id}/pixQrCode` no
+Asaas, que exige o header `access_token`. **Chamar do browser vazaria a API
+key.** Então:
+
+- `GET /api/v1/billing/checkout/pix` busca no Asaas (no servidor) e devolve a
+  imagem em base64 + o código copia-e-cola;
+- `PixQrCodePanel` (client) exibe o QR Code, com **retry com backoff** — o
+  Asaas pode levar alguns segundos para gerá-lo e, sem retry, o creator
+  veria uma tela vazia;
+- botão para copiar o código PIX copia-e-cola.
+
+**Migration 0006** (`asaas_payment_id` em `app.subscriptions`): sem ela não
+havia como saber qual cobrança buscar — a tabela só guardava
+`asaas_subscription_id`. Nullable, para as assinaturas anteriores. O checkout
+passou a gravar o `payment.id` **antes** de inserir a row local (a ordem foi
+invertida).
+
+**Normalização do base64:** o Asaas é inconsistente — o sandbox devolve
+`data:image/png;base64,...` e a produção devolve base64 puro. Sem normalizar,
+a imagem **só não renderizaria em produção** (bug que só apareceria com a
+API key real). `pixQrCodeDataUrl()` cobre os dois casos, e o mock do Asaas
+passou a devolver base64 **sem** prefixo — para o teste exercitar a
+normalização.
+
+**8 testes**: devolve imagem + payload, normaliza base64 puro, mantém data URL,
+assinatura paga → sem QR Code, assinatura sem `asaas_payment_id` → fallback,
+**nunca devolve o QR Code de outro workspace**, 401.
+
+**Armadilhas encontradas**
+
+- **Shadowing de função no teste:** o helper local `createSubscription`
+  (inserção no Postgres) tinha o **mesmo nome** do `createSubscription` do
+  Asaas (importado dinamicamente). Dentro do bloco de teste, o import era
+  sobrescrito e a chamada ia para a função errada — o erro aparecia como
+  "Valor da assinatura inválido: undefined". Renomeado para
+  `insertSubscription`.
+- **`pg` retorna `{ rows }`, não um array** — `const [row] = await
+  client.query(...)` quebra (o `Client` do `pg` e o `postgres-js` do Drizzle
+  têm APIs diferentes).
+- **A ordem pagamento → row local:** o `payment.id` só existe depois do
+  `createPayment`, e a row local precisa dele. Inserir antes deixaria o
+  `asaas_payment_id` nulo.
+
+**Validação**
+
+```
+pnpm lint      → 273 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → shared 5/5 · workers 7/7 · web 272/272
+```
+
+**Débitos restantes**
+
+- [ ] O job de expurgo precisa de **cron** configurado no graphile-worker (a
+      task existe e está registrada; o agendamento é infra).
+- [ ] `sync_billing` ainda é um stub — reconcilia a subscription local com o
+      Asaas quando o webhook falha.
