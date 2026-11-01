@@ -46,10 +46,10 @@
     "prepare": "node -e \"console.log('EasyDemo — pnpm install detectado')\""
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/node": "22.9.0",
+    "@biomejs/biome": "2.6.4",
+    "@types/node": "26.6.6",
     "tsx": "4.19.2",
-    "typescript": "5.6.3"
+    "typescript": "7.0.2"
   },
   "pnpm": {
     "overrides": {
