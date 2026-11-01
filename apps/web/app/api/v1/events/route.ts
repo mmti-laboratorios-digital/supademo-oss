@@ -1,5 +1,5 @@
 import { recordView } from "@/lib/analytics/events";
-import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
+import { analyticsVisitorCookie, buildVisitorCookieHeader } from "@/lib/analytics/visitor";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -26,6 +26,11 @@ export async function POST(req: Request) {
 
     const h = await headers();
     const visitor = await analyticsVisitorCookie(h);
+
+    // Garante o cookie de visitante também neste endpoint (Route Handler
+    // pode escrever `Set-Cookie`). O middleware já o cria nas rotas do
+    // player, mas o embed pode chamar a API direto.
+    const cookieHeader = buildVisitorCookieHeader(visitor.idHash);
 
     // workspaceId precisa estar acessível — pegar via demo.
     // Em prod: SELECT workspace_id FROM app.demos WHERE id = demoId LIMIT 1.
@@ -56,7 +61,7 @@ export async function POST(req: Request) {
       utm: parsed.data.utm,
     });
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true }, { headers: { "set-cookie": cookieHeader } });
   } catch (err) {
     console.error("[/api/v1/events] error:", err);
     return NextResponse.json({ ok: false }, { status: 500 });

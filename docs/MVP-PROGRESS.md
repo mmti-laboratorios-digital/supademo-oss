@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F4** — Billing (gate G3) — concluída, PR em abertura |
-| **Última fase concluída** | **F4** — Billing (gate G3 ✅) |
-| **Próxima fase** | **F5** — Analytics (gate G5) |
-| **Próximo passo** | `F5.1` — `lib/analytics/visitor.ts`: `setVisitorCookie()` |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F4/F5 |
-| **Branch** | `feat/f4-billing` (1 branch por fase) |
-| **Gate atual** | G3 (pagamento) ✅ → próximo G4 (embed+badge, F6) |
-| **Passos concluídos** | 47 / 86 |
+| **Fase em andamento** | **F5** — Analytics (gate G5) — concluída, PR em abertura |
+| **Última fase concluída** | **F5** — Analytics (gate G5 ✅) |
+| **Próxima fase** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4) |
+| **Próximo passo** | `F6.1` — rota do badge + embed |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F5/F6 |
+| **Branch** | `feat/f5-analytics` (1 branch por fase) |
+| **Gate atual** | G5 (analytics) ✅ — cobre F5/F7/F9 · próximo G4 (embed+badge, F6) |
+| **Passos concluídos** | 53 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -827,3 +827,98 @@ testes novos (billing-checkout)               → 14/14
 - [ ] `createCustomer` faz `GET /customers?limit=100` para procurar por e-mail e filtrar no cliente. Com mais de 100 customers, a busca falha e um customer duplicado é criado (o Asaas não deduplica por e-mail).
 - [ ] A assinatura local nunca é **atualizada** quando o creator renova — o checkout sempre cria uma row nova. Com renovações sucessivas, `app.subscriptions` acumula rows `incomplete` velhas.
 - [ ] O `PlanLimitError` é verificado com `count + 1` (contagem + 1), o que tem uma corrida: dois requests simultâneos podem criar o 4º demo ao mesmo tempo. O lock pessimista ou uma constraint resolveria.
+
+### 2026-11-01 — F5 — Analytics (gate G5)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f5-analytics` · **Commit:** `894dacc` · **Gate:** G5 ✅
+
+**O que passou a funcionar**
+
+- **O funil de conversão agora existe.** O cookie `_pk_id` é gravado pelo middleware nas rotas do player, os eventos saem do player (`view`, `step_seen`, `cta_click`, `complete`, `bounce`) e o dashboard mostra **drop-off por step**, **taxa de conclusão** e **CTA CTR**.
+- **Duas views do mesmo navegador = 1 visitor.** O cookie é `httpOnly` + `SameSite=Lax` + 30 dias, e o hash do visitante é gravado como SHA-256 + salt (LGPD-safe: nenhum IP, nenhum fingerprint).
+- O dashboard mostra **visitantes únicos**, conclusão, CTA CTR, leads, bounce, e a distribuição por **device**, **país** e **referrer**.
+- O **clique no CTA final** (WhatsApp/e-mail/URL) passou a ser rastreado — antes só o clique no hotspot era.
+
+**Arquivos criados**
+
+- `apps/web/lib/analytics/visitor-id.ts` — geração/hash do visitor id **Edge-safe** (Web Crypto).
+- `apps/web/lib/analytics/use-analytics.ts` — hook client que envia os eventos (fire-and-forget, `keepalive`).
+- `apps/web/lib/analytics/summary.ts` — agregados no banco + funil via `computeFunnel`.
+- `apps/web/lib/__tests__/visitor-id.test.ts` — 12 testes (inclui a **paridade Edge/Node**).
+- `apps/web/app/api/__tests__/analytics.integration.test.ts` — 9 testes de integração do gate G5.
+- `tests/e2e/visitor-cookie.spec.ts` — 4 testes E2E do cookie.
+
+**Arquivos modificados**
+
+- `apps/web/middleware.ts` — cria o cookie do visitante e injeta o hash no header interno.
+- `apps/web/lib/analytics/visitor.ts` — `setVisitorCookie()`, leitura do header injetado, `safeHost()`.
+- `apps/web/components/player/DemoPlayer.tsx` — eventos enviados + CTA final rastreado + detecção de bounce.
+- `apps/web/components/analytics/StatsChart.tsx` — reescrito (métricas-chave + funil + distribuições).
+- `apps/web/app/(app)/demos/[id]/analytics/page.tsx` — consome o resumo e rotula os steps do funil.
+- `apps/web/app/api/v1/events/route.ts` — grava o cookie e devolve `Set-Cookie`.
+
+**Decisões tomadas durante a execução**
+
+- **D1:** o cookie do visitante é gravado pelo **middleware**, não pela página. A página do player é um Server Component, e Server Components **não** podem escrever `Set-Cookie` (só Server Actions e Route Handlers). O middleware tem acesso à resposta — é o lugar certo.
+- **D2:** o middleware injeta o hash no **request header interno** `x-visitor-id`. Sem isso, a **primeira** visita contaria duas vezes: a página leria o cookie (que ainda não existe na requisição) e geraria um hash novo, diferente do que foi gravado na resposta. O header garante que página e cookie usem o **mesmo** valor. O header é interno (middleware → Server Component) e nunca sai para o browser.
+- **D3:** o hash do visitante é calculado em **dois runtimes** — Web Crypto (Edge, no middleware) e `node:crypto` (Node, no `visitor.ts`). Os dois **precisam** gerar o mesmo hash, senão o mesmo visitante contaria como dois — sem nenhum erro visível. Por isso o formato do input (`${salt}:${id}`) vive num módulo único (`visitor-id.ts`) e há um teste que compara as duas implementações byte a byte.
+- **D4:** `sameSite=lax` (não `none`). O embed roda em iframe de outro domínio; `SameSite=None` exigiria `Secure`, que quebraria o dev em HTTP (o browser descartaria o cookie e todo visitor viraria "novo").
+- **D5:** `secure` só em produção. O `buildVisitorCookieHeader` original **sempre** colocava `Secure` — em dev (HTTP) o browser descarta o cookie e o funil fica quebrado exatamente no ambiente onde se desenvolve.
+- **D6:** a **taxa de conclusão** usa visitantes **únicos** no denominador, não views. Um visitante que abre o demo 3 vezes é 1 pessoa, não 3.
+- **D7:** o **CTA CTR** usa como denominador quem **chegou ao último step**, não o total de visitantes. Quem nunca chegou ao último step não tinha chance de clicar — usar o total daria um número artificialmente baixo e sem sentido comercial.
+- **D8:** o clique no **hotspot** e o clique no **CTA final** emitsem `cta_click`, mas com `stepId` diferente — o hotspot é navegação interna, o CTA final é conversão. O dashboard usa o CTA final.
+- **D9:** o **bounce** é detectado no unmount do player (ou `pagehide`): o visitante abriu o demo e **não avançou para o segundo step**. É o sinal mais confiável disponível no client (sem timer, sem heurística de tempo).
+- **D10:** a query do dashboard roda dentro de `withTenant`. A policy `events_select` (migration 0000) exige `app.current_tenant_id()` bater com o workspace da demo — sem o contexto de tenant, a query volta **0 linhas silenciosamente**.
+
+**Armadilhas / o que a fase ensina**
+
+- **O `onEvent` do `DemoPlayer` estava desconectado.** O player emitia `view`, `step_seen`, `cta_click` e `complete` — mas **nenhuma página passava o `onEvent`**, então **nenhum evento saía do navegador**. O funil estava vazio: não era bug de agregação, era ausência de dado.
+- **Não dá para passar função de Server Component para Client Component.** O `onEvent` das páginas `/d/[slug]` e `/embed/[id]` é uma Server Component — passar direto dá erro "Functions cannot be passed directly to Client Components". A solução foi o hook `useAnalytics` **dentro** do `DemoPlayer` (que já é client).
+- **O `await import()` dinâmico no middleware derruba o build com OOM (exit 137).** A primeira versão importava `@/lib/analytics/visitor-id` dinamicamente dentro do handler — o build passava no `main`, mas com a mudança era **morto com OOM** em "Linting and checking validity of types", três vezes seguidas. A causa é o bundler do Next gerar chunks extras para o import dinâmico no Edge bundle. **Solução: import estático** — o módulo já é Edge-safe. Diagnóstico: `git stash` + build no `main` para provar que não era regressão minha.
+- **O `postgres-js` (driver do Drizzle) NÃO aceita `Date` como parâmetro.** `AND created_at >= ${since}` com um `Date` estoura com *"The \"string\" argument must be of type string or an instance of Buffer or ArrayBuffer. Received an instance of Date"*. A correção é passar `.toISOString()`. (O `pg` driver aceita; o `postgres-js` não.)
+- **O `new URL(ref).host` do referer estourava** com referer malformado ("Invalid URL") — e a exceção acontecia **dentro** do `analyticsVisitorCookie`, derrubando o render do player inteiro. Agora há `safeHost()`.
+- **O `request` do Playwright persiste cookies entre requests** (é um `APIRequestContext` com cookie jar). Para simular dois navegadores, é preciso `playwright.request.newContext()` — `request.context()` não existe na API.
+- **`headersArray()` do Playwright** devolve `{ name, value }` onde `name` é o nome do header (`set-cookie`) e `value` é o cookie. Filtrar por "o value contém `_pk_id=`" pega o `NEXT_LOCALE` junto.
+- **O `demo.finalCta` é `jsonb`** e o TS tipa como `unknown` (armadilha da F3, repetida aqui).
+- **O `notFound()` do Next não estreita o tipo** (armadilha da F3, repetida aqui).
+
+**Validação rodada**
+
+```
+pnpm lint                                      → 239 arquivos, 0 erros
+pnpm typecheck                                 → 4/4 pacotes
+pnpm test                                      → 236/236 testes (215 + 21 novos)
+pnpm --filter web build                        → verde (22/22 rotas)
+testes novos — unit (visitor-id)               → 12/12
+  - Edge (Web Crypto) e Node (node:crypto) geram o MESMO hash
+  - salt diferente → hash diferente (salt rotativo)
+  - id aleatório: 32 chars hex, único a cada chamada
+  - TTL inválido (0, -5, "abc") → cai no default de 30
+  - `secure` só em produção
+testes novos — integração (analytics)           → 9/9
+  - 3 views do mesmo navegador → 1 visitor, 3 views
+  - 2 visitantes distintos → 2 visitors
+  - drop-off: 10 veem, 4 chegam ao step 2, 2 ao step 3 → 40% e 50%
+  - stepId do funil é o id REAL do step (não o índice)
+  - CTA CTR: 1 clique / 4 que chegaram ao último step → 25%
+  - CTA CTR = 0 quando ninguém chegou ao último step (não 100%)
+  - taxa de conclusão usa visitantes únicos (10 views, 1 completa → 100%)
+  - distribuição por device, país e referrer
+  - isolamento: demo de outro workspace → 0 (RLS)
+  - demo sem eventos → zeros (não quebra a página)
+testes novos — E2E (visitor-cookie)             → 4/4
+  - 1ª visita recebe o cookie _pk_id
+  - httpOnly + SameSite=Lax + Path=/ (e SEM Secure em dev)
+  - 2ª visita reusa o mesmo cookie
+  - duas requests sem cookie entre si → visitors diferentes
+```
+
+**Ficou pra depois (débito desta fase)**
+
+- [ ] O **evento `view` é gravado no render da página** (server-side) e **também** poderia vir do client. Hoje só o server-side grava — o que conta **1 view por carregamento de página**, não por sessão. Um visitante que dá F5 no último step gera outra view. É o comportamento correto para "visualizações", mas o creator pode ler "visualizações" como "sessões".
+- [ ] O `bounce` é enviado no unmount — mas o `fetch` com `keepalive` só sobrevive ~64KB de payload e o browser pode descartar em `beforeunload`. O bounce é, portanto, **aproximado**.
+- [ ] O dashboard **carrega os eventos brutos** para o `computeFunnel` (que é pure function e não pode ser mexida — o §8 da F5 proíbe). Para uma demo com muito tráfego, isso é memória. Quando o volume justificar, o funil passa a ser calculado no banco.
+- [ ] A **janela é fixa em 30 dias** e não é filtrável pela UI.
+- [ ] Não há **export CSV** do analytics (o de leads existe, da F3).
+- [ ] O header interno `x-visitor-id` é lido de `headers()` sem validar a origem — num app com middleware, é seguro (o header é sobrescrito pelo middleware), mas vale registrar.
