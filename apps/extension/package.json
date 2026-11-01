@@ -14,10 +14,10 @@
   "devDependencies": {
     "@easydemo/shared": "workspace:*",
     "@types/chrome": "0.0.279",
-    "@types/node": "22.9.0",
+    "@types/node": "26.6.6",
     "sharp": "0.33.5",
     "tsx": "4.19.2",
-    "typescript": "5.6.3",
+    "typescript": "7.0.2",
     "wxt": "0.19.7"
   }
 }
