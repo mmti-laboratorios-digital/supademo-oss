@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.r2.cloudflarestorage.com" },
-      { protocol: "https", hostname: "cdn.dominio.com.br" },
+      // Host público do R2 (R2_PUBLIC_BASE_URL). O domínio de exemplo do
+      // scaffold ("dominio.com.br") não existe — placeholder que sobreviveu
+      // ao rename e faria o next/image recusar as imagens de branding.
+      { protocol: "https", hostname: "cdn.easydemo.io" },
     ],
   },
   async headers() {

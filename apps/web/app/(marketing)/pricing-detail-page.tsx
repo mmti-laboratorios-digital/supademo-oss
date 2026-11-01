@@ -88,8 +88,8 @@ export default async function PricingDetailPage() {
 
       <footer className="mt-16 text-center text-sm text-muted-foreground">
         Dúvidas?{" "}
-        <Link href="mailto:dpo@dominio.com.br" className="underline">
-          dpo@dominio.com.br
+        <Link href="mailto:dpo@easydemo.io" className="underline">
+          dpo@easydemo.io
         </Link>{" "}
         · LGPD art. 18 garantido.
       </footer>

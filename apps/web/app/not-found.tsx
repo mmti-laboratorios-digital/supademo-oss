@@ -79,8 +79,8 @@ export default function NotFound() {
 
       <div className="text-xs text-muted-foreground">
         Procurando algo específico? Escreva pra{" "}
-        <Link href="mailto:suporte@dominio.com.br" className="underline">
-          suporte@dominio.com.br
+        <Link href="mailto:suporte@easydemo.io" className="underline">
+          suporte@easydemo.io
         </Link>
         .
       </div>

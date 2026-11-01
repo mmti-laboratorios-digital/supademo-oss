@@ -38,7 +38,7 @@ export async function GET() {
       <link>${escapeXml(url)}</link>
       <guid isPermaLink="true">${escapeXml(url)}</guid>
       <pubDate>${pub}</pubDate>
-      <author>noreply@dominio.com.br (${escapeXml(p.author)})</author>
+      <author>noreply@easydemo.io (${escapeXml(p.author)})</author>
       <category>${escapeXml(p.category)}</category>
       <description>${escapeXml(p.description)}</description>
       <content:encoded><![CDATA[${p.description}]]></content:encoded>

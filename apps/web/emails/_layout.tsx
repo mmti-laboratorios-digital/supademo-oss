@@ -135,7 +135,7 @@ export function EmailLayout({
                 {t("emails.footerPreferences")}
               </Link>
               {" · "}
-              <Link href="mailto:suporte@dominio.com.br" className="text-brand-primary underline">
+              <Link href="mailto:suporte@easydemo.io" className="text-brand-primary underline">
                 {t("emails.footerHelp")}
               </Link>
               {" · "}
