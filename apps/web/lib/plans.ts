@@ -219,6 +219,26 @@ export async function countWorkspaceResources(
   });
 }
 
+/**
+ * Lê o `planId` de um workspace sem contexto de tenant.
+ *
+ * ⚠️ Usada em rotas públicas (`/d/[slug]`, `/embed/[id]`). A policy
+ * `workspaces_select` é pública (`FOR SELECT USING (true)`), então a leitura
+ * é permitida sem `app.current_tenant_id()`.
+ */
+export async function getWorkspacePlanIdPublic(workspaceId: string): Promise<PlanId> {
+  const db = getDb();
+  const [workspace] = await db
+    .select({ planId: workspaces.planId })
+    .from(workspaces)
+    .where(eq(workspaces.id, workspaceId))
+    .limit(1);
+  if (!workspace) {
+    throw new Error(`Workspace não encontrado: ${workspaceId}`);
+  }
+  return workspace.planId as PlanId;
+}
+
 function startOfCurrentMonth(): Date {
   const now = new Date();
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));

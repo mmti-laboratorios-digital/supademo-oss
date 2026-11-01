@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4) — concluída, PR em abertura |
-| **Última fase concluída** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4 ✅) |
-| **Próxima fase** | **F7** — Branding no player (gate G5) |
-| **Próximo passo** | `F7.1` — player consome branding do workspace |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F6/F7 |
-| **Branch** | `feat/f6-embed-badge` (1 branch por fase) |
-| **Gate atual** | G4 (embed+badge) ✅ · próximo G5 (branding, F7) |
-| **Passos concluídos** | 57 / 86 |
+| **Fase em andamento** | **F8** — Legal + go-live (gate G7) — não iniciada |
+| **Última fase concluída** | **F7** — Branding no player (gate G5 ✅) |
+| **Próxima fase** | **F8** — Legal + go-live (gate G7) |
+| **Próximo passo** | `F8.1` — preencher CNPJ, endereço e DPO nos documentos legais |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F7 |
+| **Branch** | `feat/f7-branding` (1 branch por fase) |
+| **Gate atual** | G5 (branding) ✅ · próximo G7 (legal, F8) |
+| **Passos concluídos** | 63 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -1022,4 +1022,111 @@ Cobertura nova:
   ou com build incremental/cache. A CI via Docker é a validação oficial.
 - [ ] Débito da F4 ainda aberto: job de expurgo que rebaixa workspace para Free
   quando `current_period_end` passa.
+- [ ] Débitos da F5 (analytics) continuam abertos.
+
+### 2026-11-01 — F7 — Branding no player (gate G5)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f7-branding` · **Commit:** `PENDENTE` · **Gate:** G5 ✅
+
+**O que passou a funcionar**
+
+- **O player agora exibe a marca do cliente.** Ele lê o branding do
+  **workspace** (`app.workspaces.brand_logo_r2_key` e `app.workspaces.brand_color`)
+  — não da demo — e aplica:
+  - **logo** no header do player (lado do título);
+  - **cor primária** via CSS variables HSL (`--primary`, `--ring`, `--accent`),
+    então botões e o CTA final usam a cor da marca;
+  - **texto contrastante** no CTA (preto/branco calculado pela luminância).
+- **Fallback padrão:** workspace sem branding mantém o tema padrão do Tailwind
+  (não quebra a renderização).
+- **`watermark_on_cta` respeitado:** plano Free mostra "Feito com EasyDemo"/
+  "Powered by EasyDemo" abaixo do CTA final; Pro/Business não mostram (a coluna
+  `watermark_on_cta` de `app.plans` controla).
+
+**Arquivos criados**
+
+- `apps/web/lib/branding.ts` — leitura pública do branding do workspace.
+- `apps/web/lib/__tests__/branding.integration.test.ts` — 4 testes de integração.
+- `apps/web/lib/__tests__/watermark-plan.integration.test.ts` — 3 testes.
+- `tests/e2e/branding.spec.ts` — 2 testes E2E condicionais ao seed.
+
+**Arquivos modificados**
+
+- `apps/web/components/player/DemoPlayer.tsx` — props `brandLogoUrl`,
+  `brandColor`, `watermarkOnCta`; aplica CSS variables HSL; logo no header;
+  `FinalCta` com cor inline e watermark.
+- `apps/web/app/d/[slug]/page.tsx` — busca branding e plano, passa para o player.
+- `apps/web/app/embed/[id]/page.tsx` — mesma coisa para o embed.
+- `apps/web/lib/plans.ts` — `getWorkspacePlanIdPublic()` para contexto público
+  sem tenant.
+
+**Decisões tomadas durante a execução**
+
+- **D1:** o branding é do **workspace**, não da demo. Uma demo herda a marca da
+  organização — é o modelo natural para B2B SaaS (uma empresa, várias demos
+  com a mesma identidade).
+- **D2:** a leitura é **pública e sem tenant**. Rotas `/d/[slug]` e
+  `/embed/[id]` são acessadas por visitantes não autenticados. A policy
+  `workspaces_select` é pública (`FOR SELECT USING (true)`), e o join com
+  `app.demos` filtra `status = 'published'` — então só demos publicadas
+  expõem o branding.
+- **D3:** a cor é convertida de **hex para HSL** antes de setar as CSS
+  variables. O Tailwind/shadcn usa `hsl(var(--primary))`; passar hex direto
+  quebraria o tema. Criamos `hexToHsl()` no `DemoPlayer`.
+- **D4:** o **texto do CTA** usa contraste YIQ (preto `#0b1220` ou branco
+  `#ffffff`) — mesma lógica já usada no `ThemeEditor`.
+- **D5:** `getWorkspacePlanIdPublic()` foi necessária porque
+  `getWorkspacePlanId()` usa `withTenant` (exige contexto de tenant). Em rotas
+  públicas não há tenant; a policy `workspaces_select` pública permite a
+  leitura direta com `getDb()`.
+
+**Armadilhas / o que a fase ensina**
+
+- **O `ThemeEditor` existe mas não persiste.** O editor atual envia um objeto
+  `theme` no PATCH `/api/v1/demos/:id`, mas o endpoint **ignora** o campo.
+  O player agora lê de `app.workspaces`, mas **ainda não há UI** para editar
+  `brand_logo_r2_key` / `brand_color` do workspace. O branding precisa ser
+  inserido no banco manualmente (seed/migration) até o editor ser adaptado.
+- **Não confundir workspace com demo.** A primeira tentativa poderia ser ler o
+  tema da demo, mas a tabela `demos` não tem colunas de branding — elas estão
+  em `workspaces`.
+- **CSS variables HSL vs hex.** Passar `#ff0000` em `--primary` não funciona
+  quando o CSS usa `hsl(var(--primary))`. A conversão hex→HSL é obrigatória.
+- **Contexto de tenant em rotas públicas.** `withTenant` lança/retorna vazio se
+  usado sem `SET LOCAL app.current_tenant_id`. Por isso foi preciso criar a
+  versão pública de `getWorkspacePlanId`.
+
+**Validação rodada**
+
+```
+pnpm lint      → 247 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → 243/243 testes (236 + 7 novos)
+```
+
+Build local: **não rodado** nesta fase (problema de OOM ambiental documentado
+na F6). A CI via Docker continuará sendo a validação oficial de build.
+
+Cobertura nova:
+
+**Integração (7)**:
+- branding por slug e id: logo + cor do workspace;
+- demo inexistente → null;
+- demo não publicada → null (segurança);
+- workspace sem branding → logoUrl null + brandColor null;
+- Free: watermarkOnCta = true;
+- Pro/Business: watermarkOnCta = false.
+
+**E2E (2, condicionais ao seed)**:
+- logo do workspace aparece no header;
+- cor primária é aplicada no CTA final.
+
+**Débitos registrados**
+
+- [ ] `ThemeEditor` não persiste branding do workspace (é só preview local).
+      Precisa adaptar para salvar `brandColor` + `brandLogoR2Key` no workspace
+      (ou criar uma aba/endpoint separado de workspace branding).
+- [ ] Build local OOM continua aberto (F6).
+- [ ] Débito da F4 (job de expurgo de assinatura) continua aberto.
 - [ ] Débitos da F5 (analytics) continuam abertos.

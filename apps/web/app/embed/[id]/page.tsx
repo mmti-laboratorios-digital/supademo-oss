@@ -1,7 +1,9 @@
 import { EmbedPlayer } from "@/components/embed/EmbedPlayer";
 import type { LeadFormValues } from "@/components/player/LeadForm";
 import { demos, steps, workspaces } from "@/db/schema/app";
+import { getBrandingByDemoId } from "@/lib/branding";
 import { getDb } from "@/lib/db";
+import { getPlanLimits, getWorkspacePlanIdPublic } from "@/lib/plans";
 import type { FinalCta } from "@easydemo/shared";
 import { asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -31,6 +33,11 @@ export default async function EmbedPage({
     .from(workspaces)
     .where(eq(workspaces.id, demo.workspaceId))
     .limit(1);
+
+  // Branding e plano do workspace (contexto público — sem tenant).
+  const branding = await getBrandingByDemoId(id);
+  const planId = await getWorkspacePlanIdPublic(demo.workspaceId);
+  const planLimits = await getPlanLimits(planId);
 
   async function handleLeadSubmit(values: LeadFormValues) {
     const res = await fetch("/api/v1/leads", {
@@ -83,6 +90,9 @@ export default async function EmbedPage({
         leadFormConsentText={demo.leadFormConsentText}
         workspaceName={workspace?.name ?? "EasyDemo"}
         onLeadSubmit={handleLeadSubmit}
+        brandLogoUrl={branding?.logoUrl}
+        brandColor={branding?.brandColor}
+        watermarkOnCta={planLimits.watermarkOnCta}
       />
     </main>
   );

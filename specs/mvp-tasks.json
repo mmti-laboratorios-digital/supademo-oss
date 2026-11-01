@@ -12,8 +12,8 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F7",
-    "step": "F7.1",
+    "phase": "F8",
+    "step": "F8.1",
     "status": "pending"
   },
   "phases": [
@@ -205,13 +205,13 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "done",
       "steps": [
-        { "n": 1, "id": "F7.1", "title": "Fazer o player ler a config de branding do workspace — via endpoint público ou metadata no demo, sem tenant no contexto público", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F7.2", "title": "DemoPlayer.tsx: aplicar logo + cor primária", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F7.3", "title": "Respeitar watermark_on_cta do plano", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F7.4", "title": "Validar: demo de workspace com branding aparece com logo e cor; demo sem branding usa o tema padrão; watermark_on_cta do Free aparece no CTA", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F7.5", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F7.1", "title": "Fazer o player ler a config de branding do workspace — via endpoint público ou metadata no demo, sem tenant no contexto público", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Player le branding do workspace: lib/branding.ts com getBrandingByDemoId/slug (contexto publico, join com demos.status=published, sem tenant); DemoPlayer recebe brandLogoUrl, brandColor e watermarkOnCta" },
+        { "n": 2, "id": "F7.2", "title": "DemoPlayer.tsx: aplicar logo + cor primária", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "DemoPlayer aplica logo no header e cor primaria via CSS variables HSL no container; FinalCta usa brandColor no botao e texto contrastante; fallback ao tema padrao quando nao ha branding" },
+        { "n": 3, "id": "F7.3", "title": "Respeitar watermark_on_cta do plano", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Respeita watermark_on_cta do plano: DemoPlayer passa planLimits.watermarkOnCta para FinalCta; Free mostra 'Feito com EasyDemo' abaixo do CTA, Pro/Business nao; teste de integracao confirma os valores por plano" },
+        { "n": 4, "id": "F7.4", "title": "Validar: demo de workspace com branding aparece com logo e cor; demo sem branding usa o tema padrão; watermark_on_cta do Free aparece no CTA", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Validacao: lint 247/0, typecheck 6/6, test 243/243 (236 + 7 novos). Testes de integracao branding (4) e watermark por plano (3); E2E branding condicional ao seed" },
+        { "n": 5, "id": "F7.5", "title": "Gate G5 (verificado no E2E do F10) + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G5 (branding): player le branding do workspace (logo + cor), aplica no header/CTA, fallback padrao, watermark_on_cta respeitado; log no MVP-PROGRESS.md" }
       ]
     },
     {
