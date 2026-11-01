@@ -926,7 +926,7 @@ testes novos — E2E (visitor-cookie)             → 4/4
 ### 2026-11-01 — F6 — Embed + badge "Powered by EasyDemo" (gate G4)
 
 **Estado:** ✅ concluída
-**Branch:** `feat/f6-embed-badge` · **Commit:** `PENDENTE` · **Gate:** G4 ✅
+**Branch:** `feat/f6-embed-badge` · **Commit:** `ee7f41e` · **Gate:** G4 ✅
 
 **O que passou a funcionar**
 

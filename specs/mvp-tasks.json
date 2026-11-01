@@ -12,9 +12,9 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F6",
-    "step": "F6.5",
-    "status": "in_progress"
+    "phase": "F7",
+    "step": "F7.1",
+    "status": "pending"
   },
   "phases": [
     {
@@ -185,13 +185,13 @@
       "depends_on": [
         "F1"
       ],
-      "status": "in_progress",
+      "status": "done",
       "steps": [
         { "n": 1, "id": "F6.1", "title": "Criar (app)/demos/[id]/embed/page.tsx: snippet copiável <iframe src=\"https://easydemo.io/embed/{id}\" ...> com altura responsiva e loading lazy", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Pagina (app)/demos/[id]/embed/page.tsx criada: snippet de iframe copiavel com altura responsiva, loading=lazy, allow=fullscreen; componente client CopySnippet com botao copiar; preview do embed inline; host canonico via NEXT_PUBLIC_APP_URL ou header Host" },
         { "n": 2, "id": "F6.2", "title": "app/embed/[id]/page.tsx: postMessage de step_viewed, cta_click, lead_captured e complete para window.parent, validando event.origin antes de processar", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Embed com postMessage: componente client EmbedPlayer envia step_viewed, cta_click, lead_captured e complete para window.parent quando esta em iframe; site parent deve validar event.origin" },
         { "n": 3, "id": "F6.3", "title": "DemoPlayer.tsx: badge Powered by EasyDemo no player público e no embed — ocultar no preview do editor (?preview=editor) e quando o viewer logado é o dono do workspace", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Badge Powered by EasyDemo no DemoPlayer: prop showBadge (default true), oculta automaticamente no preview (?preview=editor); presente em /d/[slug] e /embed/[id]; link para easydemo.io com UTM" },
         { "n": 4, "id": "F6.4", "title": "Validar: snippet funciona em página HTML externa; postMessage chega no parent; event.origin inválido é ignorado; badge presente no público e ausente no preview/dono", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Validacao: lint 243/0, typecheck 6/6, test 236/236. Testes E2E embed.spec.ts condicionais ao seed (badge, postMessage, origin). Build local aborta com OOM (exit 137) — reproduz tambem no main, nao e regressao da F6; a CI builda via Docker" },
-        { "n": 5, "id": "F6.5", "title": "Gate G4 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 5, "id": "F6.5", "title": "Gate G4 + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G4: pagina de embed copiavel, postMessage tipado para parent, badge Powered by EasyDemo com ocultacao no preview do editor; log no MVP-PROGRESS.md; build local OOM (ambiental), CI via Docker validara" }
       ]
     },
     {
