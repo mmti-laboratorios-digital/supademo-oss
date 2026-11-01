@@ -16,6 +16,7 @@ loadEnv({ path: "../.env" });
 import { cleanupExpired } from "./tasks/cleanup_expired";
 import { generateOg } from "./tasks/generate_og";
 import { processDemo } from "./tasks/process_demo";
+import { purgeExpiredSubscriptions } from "./tasks/purge_expired_subscriptions";
 import { redactPii } from "./tasks/redact_pii";
 import { syncBilling } from "./tasks/sync_billing";
 import { ttsJob } from "./tasks/tts_job";
@@ -31,6 +32,11 @@ const taskList: TaskList = {
   generate_og: generateOg,
   cleanup_expired: cleanupExpired,
   sync_billing: syncBilling,
+  // Expurgo de assinatura (débito da F4): rebaixa para Free o workspace cuja
+  // subscription cancelada já passou do `current_period_end` e que não tem
+  // outra assinatura viva. Sem isso, um webhook perdido deixa o creator
+  // preso no plano pago para sempre.
+  purge_expired_subscriptions: purgeExpiredSubscriptions,
 };
 
 async function main(): Promise<void> {
