@@ -166,6 +166,14 @@ export const subscriptions = app.table("subscriptions", {
     .notNull()
     .references(() => plans.id),
   asaasSubscriptionId: varchar("asaas_subscription_id", { length: 40 }),
+  /**
+   * Id da **cobrança** (payment) do Asaas.
+   *
+   * ⚠️ É o que permite buscar o QR Code do PIX (`GET /v3/payments/{id}/pixQrCode`)
+   * para exibir na tela de checkout. Nullable: assinaturas anteriores à
+   * migration 0006 não têm — a UI cai no link de pagamento como fallback.
+   */
+  asaasPaymentId: varchar("asaas_payment_id", { length: 40 }),
   status: varchar("status", { length: 20 }).notNull(),
   currentPeriodStart: timestamp("current_period_start", {
     withTimezone: true,

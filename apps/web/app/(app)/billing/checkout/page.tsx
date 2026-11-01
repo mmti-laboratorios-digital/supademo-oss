@@ -1,3 +1,4 @@
+import { PixQrCodePanel } from "@/components/billing/PixQrCodePanel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { subscriptions, workspaces } from "@/db/schema/app";
@@ -109,16 +110,17 @@ export default async function CheckoutPage({
       </Card>
 
       {!paid ? (
-        <Card className="mb-6 p-6">
-          <h2 className="mb-2 text-lg font-semibold">Pague com PIX</h2>
-          <p className="text-sm text-muted-foreground">
-            Use o app do seu banco para pagar o QR Code do Asaas. Assim que o pagamento é
-            confirmado, seu plano é liberado automaticamente — não precisa fazer mais nada.
+        <div className="mb-6 space-y-4">
+          {/* F4.8 — o QR Code do PIX agora é exibido de verdade.
+              Antes, a página dizia "pague com PIX" mas mostrava apenas um
+              texto — o creator tinha que abrir o e-mail ou o link de
+              pagamento. A imagem vem de `/api/v1/billing/checkout/pix`, que
+              busca no Asaas com a API key (que nunca vai para o browser). */}
+          <PixQrCodePanel />
+          <p className="text-xs text-muted-foreground">
+            Prefere outro método? O link de pagamento também foi enviado para o seu e-mail.
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Se o QR Code não aparecer, abra o link de pagamento enviado por e-mail.
-          </p>
-        </Card>
+        </div>
       ) : null}
 
       <Button asChild variant="outline">

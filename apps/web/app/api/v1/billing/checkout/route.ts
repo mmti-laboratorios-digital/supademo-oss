@@ -128,24 +128,30 @@ export async function POST(req: Request) {
       description: `EasyDemo ${plan}`,
     });
 
-    // ─── 5. Row local (status "incomplete" até o webhook) ───
-    await withTenant(orgId, async (db) => {
-      await db.insert(subscriptions).values({
-        workspaceId: orgId,
-        planId: plan,
-        asaasSubscriptionId: asaasSub.id,
-        status: "incomplete",
-        cancelAtPeriodEnd: false,
-      });
-    });
-
-    // ─── 6. Primeiro pagamento (a cobrança do ciclo) ───
+    // ─── 5. Primeiro pagamento (a cobrança do ciclo) ───
+    //
+    // ⚠️ O pagamento vem **antes** da row local: precisamos do `payment.id`
+    // para guardá-lo em `subscriptions.asaas_payment_id` (migration 0006) —
+    // é o que permite buscar o QR Code do PIX depois
+    // (`GET /api/v1/billing/checkout/pix`).
     const payment = await createPayment({
       customer: customer.id,
       subscription: asaasSub.id,
       value: limits.priceBrlCents,
       dueDate: todayAsAsaasDate(),
       billingType,
+    });
+
+    // ─── 6. Row local (status "incomplete" até o webhook) ───
+    await withTenant(orgId, async (db) => {
+      await db.insert(subscriptions).values({
+        workspaceId: orgId,
+        planId: plan,
+        asaasSubscriptionId: asaasSub.id,
+        asaasPaymentId: payment.id,
+        status: "incomplete",
+        cancelAtPeriodEnd: false,
+      });
     });
 
     const payload = {

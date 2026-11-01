@@ -263,6 +263,38 @@ async function handleCreatePayment(ctx: Ctx): Promise<void> {
   sendJson(res, 201, payment);
 }
 
+/**
+ * `GET /v3/payments/{id}/pixQrCode`
+ *
+ * ⚠️ Devolve o `encodedImage` **sem** o prefixo `data:image/png;base64,`
+ * (como a produção do Asaas) — é assim que o helper `pixQrCodeDataUrl()`
+ * é testado de verdade. O sandbox do Asaas devolve com prefixo; a
+ * normalização cobre os dois casos.
+ */
+function handleGetPixQrCode(ctx: Ctx, pathname: string): void {
+  const { res, store } = ctx;
+  const id = pathname.split("/")[3] ?? "";
+  const payment = store.payments.get(id);
+  if (!payment) {
+    return sendError(res, 404, "payment_not_found", `Payment ${id} does not exist`);
+  }
+  if (payment.billingType !== "PIX") {
+    return sendError(
+      res,
+      404,
+      "payment_not_pix",
+      `Payment ${id} is not a PIX payment (${payment.billingType})`,
+    );
+  }
+  sendJson(res, 200, {
+    // PNG 1×1 transparente em base64 (sem prefixo data:).
+    encodedImage:
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    payload: `00020101021226730014br.gov.bcb.pix2551pix.mock.asaas.com/pixqrcode/cobv/${id}5204000053039865802BR5913EASYDEMO6009SAO PAULO62070503***63045E7A`,
+    expirationDate: payment.dueDate ?? null,
+  });
+}
+
 // -----------------------------------------------------------------------------
 // Server bootstrap
 // -----------------------------------------------------------------------------
@@ -329,6 +361,9 @@ export async function startMockAsaas(opts: StartOptions = {}): Promise<MockAsaas
       }
       if (req.method === "GET" && /^\/v3\/subscriptions\/[^/]+$/.test(url.pathname)) {
         return handleGetSubscription(ctx);
+      }
+      if (req.method === "GET" && /^\/v3\/payments\/[^/]+\/pixQrCode$/.test(url.pathname)) {
+        return handleGetPixQrCode(ctx, url.pathname);
       }
       if (req.method === "DELETE" && /^\/v3\/subscriptions\/[^/]+$/.test(url.pathname)) {
         return handleDeleteSubscription(ctx);
