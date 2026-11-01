@@ -38,6 +38,10 @@ export default defineConfig({
       APP_BASE_URL: BASE_URL,
       PLAYER_BASE_URL: BASE_URL,
       MARKETING_BASE_URL: BASE_URL,
+      // F10: repassa chaves do Clerk quando houver (evita reescrever o .env).
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+        process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "pk_test_ci_placeholder",
+      CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY ?? "sk_test_ci_placeholder",
     },
   },
   projects: [
