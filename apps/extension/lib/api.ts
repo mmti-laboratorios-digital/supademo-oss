@@ -1,6 +1,6 @@
 /**
  * Wrapper fetch para a API da aplicação.
- * - Adiciona Authorization (Clerk session token via chrome.identity)
+ * - Adiciona Authorization (token JWT da sessão do Clerk, obtido da página web)
  * - Trata erros com mensagens amigáveis
  */
 
@@ -9,6 +9,7 @@ export type CapturePayload = {
   elementSelector: string;
   elementText: string;
   boundingRect: { x: number; y: number; width: number; height: number };
+  viewport: { width: number; height: number };
   pageUrl: string;
   pageTitle: string;
   timestamp: number;
@@ -28,19 +29,25 @@ export type MeResponse = {
 };
 
 export class ApiClient {
-  constructor(public readonly baseUrl: string) {}
+  constructor(
+    public readonly baseUrl: string,
+    public readonly token: string | null,
+  ) {}
 
-  private async authHeaders(): Promise<Record<string, string>> {
-    // Em produção, pegar token Clerk via cookies httpOnly.
-    // Aqui, simplificado: a API valida via cookie de sessão.
-    return {};
+  private headers(): Record<string, string> {
+    const h: Record<string, string> = {
+      "content-type": "application/json",
+      accept: "application/json",
+    };
+    if (this.token) {
+      h.authorization = `Bearer ${this.token}`;
+    }
+    return h;
   }
 
   private async request<T>(path: string, init: RequestInit = {}): Promise<T> {
     const headers = {
-      "content-type": "application/json",
-      accept: "application/json",
-      ...(await this.authHeaders()),
+      ...this.headers(),
       ...(init.headers ?? {}),
     };
     const res = await fetch(`${this.baseUrl}${path}`, { ...init, headers });
@@ -142,6 +149,35 @@ export class ApiClient {
 
 const DEFAULT_BASE = "http://localhost:3000/api/v1";
 
-export function getApi(baseUrl: string = DEFAULT_BASE): ApiClient {
-  return new ApiClient(baseUrl);
+export function getApi(baseUrl: string = DEFAULT_BASE, token: string | null = null): ApiClient {
+  return new ApiClient(baseUrl, token);
+}
+
+/**
+ * Obtém o token JWT da sessão do Clerk a partir de uma página web
+ * autenticada (a própria aplicação EasyDemo).
+ *
+ * ⚠️ A extensão MV3 não pode ler cookies httpOnly. A estratégia é:
+ *   1. a extensão injeta um content script na aba do app (`easydemo.io/demos/*`);
+ *   2. o content script pede `window.Clerk?.session?.getToken()`;
+ *   3. o token é devolvido à extensão via `chrome.runtime.sendMessage`.
+ *
+ * Se a aba atual não for do app EasyDemo, retorna null — o popup deve
+ * instruir o usuário a abrir o app primeiro.
+ */
+export async function fetchClerkSessionToken(): Promise<string | null> {
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab?.id || !tab.url) return null;
+
+    // Só tenta em abas do próprio app EasyDemo.
+    const baseHost = new URL(DEFAULT_BASE).host;
+    const tabHost = new URL(tab.url).host;
+    if (tabHost !== baseHost) return null;
+
+    const res = await chrome.tabs.sendMessage(tab.id, { type: "EASYDEMO_GET_CLERK_TOKEN" });
+    return typeof res?.token === "string" ? res.token : null;
+  } catch {
+    return null;
+  }
 }

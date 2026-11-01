@@ -8,6 +8,7 @@
  *   chrome.tabs.onUpdated          → injeta content script
  */
 
+import { defineBackground } from "wxt/sandbox";
 import { captureAndStoreStep } from "../components/recorder";
 import { uploadQueue } from "../components/uploader";
 import { getSession, setSession } from "../lib/store";
@@ -17,10 +18,9 @@ export default defineBackground(() => {
     const session = await getSession();
     if (!session) {
       await setSession({
-        capturing: false,
-        demoId: null,
+        demoId: "",
+        demoTitle: "",
         steps: [],
-        startedAt: 0,
       });
     }
   });
@@ -29,10 +29,10 @@ export default defineBackground(() => {
     if (!tab.id || tab.url?.startsWith("chrome://")) return;
 
     const session = await getSession();
-    const next = !session?.capturing;
+    const capturing = !session?.capturing;
     await setSession({
-      ...(session ?? { demoId: null, steps: [], startedAt: 0 }),
-      capturing: next,
+      ...(session ?? { demoId: "", demoTitle: "", steps: [] }),
+      capturing,
     });
 
     // toggle overlay na tab ativa
@@ -41,7 +41,7 @@ export default defineBackground(() => {
         target: { tabId: tab.id },
         files: ["content.js"],
       });
-      await chrome.tabs.sendMessage(tab.id, { type: next ? "OVERLAY_START" : "OVERLAY_STOP" });
+      await chrome.tabs.sendMessage(tab.id, { type: capturing ? "OVERLAY_START" : "OVERLAY_STOP" });
     } catch (err) {
       console.warn("injection failed", err);
     }
@@ -57,10 +57,21 @@ export default defineBackground(() => {
           sendResponse({ ok: true });
           break;
 
+        case "SET_TOKEN": {
+          const session = await getSession();
+          await setSession({
+            ...(session ?? { demoId: "", demoTitle: "", steps: [] }),
+            token: message.token,
+          });
+          sendResponse({ ok: true });
+          break;
+        }
+
         case "CAPTURE_STEP": {
           const tabId = sender.tab?.id;
           if (!tabId) return sendResponse({ error: "NO_TAB" });
-          const step = await captureAndStoreStep(tabId, message.payload);
+          const session = await getSession();
+          const step = await captureAndStoreStep(tabId, message.payload, session?.token ?? null);
           sendResponse({ ok: true, step });
           break;
         }
@@ -68,12 +79,12 @@ export default defineBackground(() => {
         case "FINISH_AND_UPLOAD": {
           const session = await getSession();
           if (!session?.demoId) return sendResponse({ error: "NO_DEMO_ID" });
-          const result = await uploadQueue(session.demoId, session.steps);
+          const token = message.token ?? session.token ?? null;
+          const result = await uploadQueue(session.demoId, session.steps, token);
           await setSession({
-            capturing: false,
             demoId: session.demoId,
+            demoTitle: session.demoTitle,
             steps: [],
-            startedAt: 0,
           });
           sendResponse({ ok: true, uploaded: result.uploaded });
           break;
