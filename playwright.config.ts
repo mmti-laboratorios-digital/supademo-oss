@@ -38,10 +38,20 @@ export default defineConfig({
       APP_BASE_URL: BASE_URL,
       PLAYER_BASE_URL: BASE_URL,
       MARKETING_BASE_URL: BASE_URL,
-      // F10: repassa chaves do Clerk quando houver (evita reescrever o .env).
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-        process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "pk_test_ci_placeholder",
-      CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY ?? "sk_test_ci_placeholder",
+      // F10: repassa as chaves do Clerk quando existirem no ambiente.
+      //
+      // ⚠️ **Não há fallback válido.** O Clerk valida a publishableKey no
+      // módulo e derruba o servidor com um placeholder. E a chave sintática
+      // (`pk_test_ZXhhbXBsZS5hY2NvdW50cy5kZXYk`, que aponta para
+      // `example.accounts.dev`) faz o Clerk JS redirecionar o browser para o
+      // **handshake de dev-browser** em qualquer `http://localhost` — é o
+      // comportamento documentado das instâncias de desenvolvimento do Clerk
+      // (ver `docs/MVP-PLAN.md` F10.1: bloqueado por dependência externa).
+      //
+      // Sem uma chave real de desenvolvimento, o E2E **não sobe** — a CI
+      // mantém `continue-on-error: true` por isso.
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "",
+      CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY ?? "",
     },
   },
   projects: [

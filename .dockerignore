@@ -51,7 +51,10 @@ setup-report
 research
 marketing
 online-presence
-legal
+# `legal` NÃO é ignorado: os documentos legais são lidos em runtime por fs
+# pelas rotas públicas /privacidade, /termos e /cookies. A Chrome Web Store
+# exige que a URL de política de privacidade responda 200 sem login, então o
+# Dockerfile faz COPY explícito de legal/ para a imagem final.
 docs
 specs
 .claude
