@@ -25,6 +25,16 @@ export default defineConfig({
     description: "Capture interativa de demos SaaS — screenshots, hotspot, link permanente.",
     permissions: ["activeTab", "storage", "scripting"],
     host_permissions: ["https://easydemo.io/*", "http://localhost:3000/*"],
+    // ⚠️ O WXT **não** inclui os ícones automaticamente no manifest — sem este
+    // bloco, a extensão é submetida sem ícone e a CWS mostra o ícone default
+    // genérico. Os arquivos ficam em `public/icons/` (gerados por
+    // `scripts/generate-icons.ts` a partir do favicon da marca).
+    icons: {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png",
+    },
     content_security_policy: {
       extension_pages: "script-src 'self'; object-src 'self'",
     },

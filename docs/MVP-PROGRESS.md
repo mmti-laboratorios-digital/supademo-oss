@@ -1422,3 +1422,97 @@ o servidor. Agora a env vem do ambiente, e o E2E só sobe com chave real.
       `host_permissions` é restrito ao domínio do produto + localhost. É
       coerente (o `activeTab` cobre o acesso pontual), mas pode ser questionado
       na revisão da CWS.
+
+### 2026-11-01 — Débitos: extensão na CI, branding gravável e placeholders de domínio
+
+**Estado:** ✅ concluído (com 1 pendência externa: escopo `workflow` do token)
+**Branch:** `feat/debts-extension-ci-only` · **Commits:** `34fe1c1`, `6516879` · **PR:** #51
+
+**1. Validador do pacote Chrome + ícones no manifest**
+
+A extensão **nunca foi buildada na CI** — o job de build é o Docker do
+`apps/web`. Por isso dois bugs do scaffold sobreviveram ~3 meses:
+
+- os ícones em `public/icons/` eram **arquivos de texto** com um comentário de
+  placeholder (`// Placeholder — substituir por PNG real`) — a CWS rejeita com
+  "Invalid icon file";
+- o `manifest.json` pedia `host_permissions: ["<all_urls>"]`.
+
+Criado `apps/extension/scripts/validate-package.ts`: falha se o pacote gerado
+não estiver submissível (ícones PNG válidos — checa a assinatura do arquivo —
+permissões mínimas, hosts restritos, entrypoints presentes, tamanho).
+
+**Bug adicional que o validador pegou:** o **WXT não inclui os ícones no
+manifest automaticamente**. O bloco `icons` estava ausente — a extensão seria
+submetida com o ícone default genérico do Chrome. Corrigido em `wxt.config.ts`.
+
+Ambos os bugs do scaffold foram verificados com **teste negativo** (substituir
+o ícone por texto → o validador falha com exit 1; trocar host por `<all_urls>`
+→ falha com 2 erros).
+
+**2. Branding do workspace gravável (fecha o débito da F7)**
+
+O `ThemeEditor` do editor de demos editava um tema que **não tinha onde
+persistir** (o PATCH `/api/v1/demos/:id` ignora o campo `theme`), enquanto o
+player lia o branding do **workspace** — sem nenhuma UI para gravá-lo. O
+branding era inserido manualmente no banco.
+
+- **Endpoint** `GET/PATCH /api/v1/workspace/branding`: grava `brand_color` e
+  `brand_logo_r2_key`; valida o formato hex e **isola a key por tenant**
+  (`branding/<workspaceId>/` — sem isso, o creator poderia apontar o logo
+  para o arquivo de outro tenant).
+- **UI** em `/workspace/settings`: color picker + upload de logo (presigned PUT
+  no R2, mesmo padrão do upload manual da F2). Logo é Pro+; cor é Free.
+- `/api/v1/upload/sign` passou a aceitar o prefixo `branding/{orgId}/`.
+- **Deduplicação:** `lib/branding.ts` tinha uma cópia local de `publicR2Url`; agora
+  usa `publicUrl` de `lib/r2.ts` (mesmo comportamento, uma fonte só).
+- **10 testes de integração.**
+
+**3. Placeholders de domínio**
+
+**24 ocorrências** de `dominio.com.br` — o domínio do scaffold, não do produto —
+espalhadas por emails transacionais, `not-found`, `error`, `feed.xml`,
+`pricing`, `about` (página + mdx), DSR, `lib/env.ts`, `.env.example` e o seed.
+Todas → `@easydemo.io`.
+
+Também removidos links fictícios (`discord.gg/seu-link`, `status.dominio.com.br`)
+e corrigido o `remotePatterns` do `next/image` (`cdn.dominio.com.br` →
+`cdn.easydemo.io`).
+
+**Pendência externa — escopo `workflow` do token**
+
+O token do ambiente **não tem escopo `workflow`**, então o GitHub recusa
+qualquer push que toque em `.github/workflows/ci.yml`:
+
+```
+! [remote rejected] ... (refusing to allow a Personal Access Token to create
+or update workflow `.github/workflows/ci.yml` without `workflow` scope)
+```
+
+A API do GitHub também retorna 403 (`Resource not accessible by personal access
+token`). O job de CI (43 linhas) está pronto no commit `d712e10` (branch
+`backup/with-workflow`) e documentado em `apps/extension/CI-JOB.md` para
+aplicação manual.
+
+**Validação**
+
+```
+pnpm extension:build      → ✅
+pnpm extension:validate   → ✅ (e falha corretamente nos testes negativos)
+pnpm lint                 → 266 arquivos, 0 erros
+pnpm typecheck            → 6/6 pacotes
+pnpm test                 → 264/264 (254 + 10 do branding)
+```
+
+**Armadilha encontrada**
+
+O `withTenant` é **obrigatório** para escrever em `app.workspaces`: sem o
+contexto de tenant, o `UPDATE` afeta 0 linhas e a API devolve **404** mesmo com
+a sessão válida — o que parece "workspace não encontrado" mas é RLS.
+
+**Débitos restantes**
+
+- [ ] Aplicar o job de CI da extensão (escopo `workflow`).
+- [ ] Job de expurgo de assinatura (F4) — workspace cancelado nunca volta ao Free.
+- [ ] Tela de checkout não renderiza o QR Code do PIX.
+- [ ] `pnpm test:e2e` sem `continue-on-error` — depende de chave Clerk real (F10.1).

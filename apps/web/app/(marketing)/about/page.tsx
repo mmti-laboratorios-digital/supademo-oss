@@ -125,26 +125,25 @@ export default function AboutPage() {
         <h2>Contato</h2>
         <ul>
           <li>
-            <strong>Geral:</strong> <Link href="mailto:oi@dominio.com.br">oi@dominio.com.br</Link>
+            <strong>Geral:</strong> <Link href="mailto:oi@easydemo.io">oi@easydemo.io</Link>
           </li>
           <li>
             <strong>Suporte:</strong>{" "}
-            <Link href="mailto:suporte@dominio.com.br">suporte@dominio.com.br</Link>
+            <Link href="mailto:suporte@easydemo.io">suporte@easydemo.io</Link>{" "}
+            <Link href="/suporte">(formulário e prazos)</Link>
           </li>
           <li>
-            <strong>DPO (LGPD):</strong>{" "}
-            <Link href="mailto:dpo@dominio.com.br">dpo@dominio.com.br</Link>
+            <strong>DPO (LGPD):</strong> <Link href="mailto:dpo@easydemo.io">dpo@easydemo.io</Link>
           </li>
           <li>
             <strong>Vendas:</strong>{" "}
-            <Link href="mailto:vendas@dominio.com.br">vendas@dominio.com.br</Link>
+            <Link href="mailto:vendas@easydemo.io">vendas@easydemo.io</Link>
           </li>
           <li>
-            <strong>Comunidade:</strong> <Link href="https://discord.gg/seu-link">Discord</Link>
+            <strong>Privacidade:</strong> <Link href="/privacidade">Política de Privacidade</Link>
           </li>
           <li>
-            <strong>Status:</strong>{" "}
-            <Link href="https://status.dominio.com.br">status.dominio.com.br</Link>
+            <strong>Termos:</strong> <Link href="/termos">Termos de Uso</Link>
           </li>
         </ul>
 
@@ -166,7 +165,7 @@ export default function AboutPage() {
         <p>
           Press kit, screenshots em alta resolução e logo SVG estão em
           <Link href="/press-kit"> /press-kit</Link>. Para pedidos de entrevista ou remarketing
-          escreva para <Link href="mailto:imprensa@dominio.com.br">imprensa@dominio.com.br</Link>.
+          escreva para <Link href="mailto:imprensa@easydemo.io">imprensa@easydemo.io</Link>.
         </p>
       </section>
     </main>

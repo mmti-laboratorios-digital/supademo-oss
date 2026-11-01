@@ -8,7 +8,9 @@
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
-    "compile": "tsc --noEmit"
+    "compile": "tsc --noEmit",
+    "generate-icons": "tsx scripts/generate-icons.ts",
+    "validate-package": "tsx scripts/validate-package.ts"
   },
   "dependencies": {},
   "devDependencies": {

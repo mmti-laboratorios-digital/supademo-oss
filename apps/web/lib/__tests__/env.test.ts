@@ -94,6 +94,6 @@ describe("env()", () => {
     expect(parsed.NODE_ENV).toBe("development");
     expect(parsed.APP_BASE_URL).toBe("http://localhost:3000");
     expect(parsed.R2_BUCKET_PUBLIC).toBe("demo-public");
-    expect(parsed.EMAIL_FROM).toBe("EasyDemo <noreply@dominio.com.br>");
+    expect(parsed.EMAIL_FROM).toBe("EasyDemo <noreply@easydemo.io>");
   });
 });

@@ -277,7 +277,7 @@ async function main() {
        'Demo de 4 passos mostrando um caso de uso SaaS recorrente.',
        'draft', 'pt-BR', true,
        'Autorizo a EasyDemo a entrar em contato conforme LGPD.',
-       ${sql.json({ type: "mailto", url: "mailto:contato@dominio.com.br", label: "Falar por e-mail" })}::jsonb,
+       ${sql.json({ type: "mailto", url: "mailto:contato@easydemo.io", label: "Falar por e-mail" })}::jsonb,
        null, now(), now())
   `);
 

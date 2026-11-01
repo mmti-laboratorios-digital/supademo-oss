@@ -32,8 +32,8 @@ const envSchema = z.object({
   ASAAS_WEBHOOK_SECRET: z.string().min(1).optional(),
 
   RESEND_API_KEY: z.string().min(1).optional(),
-  EMAIL_FROM: z.string().default("EasyDemo <noreply@dominio.com.br>"),
-  EMAIL_DPO: z.string().email().default("dpo@dominio.com.br"),
+  EMAIL_FROM: z.string().default("EasyDemo <noreply@easydemo.io>"),
+  EMAIL_DPO: z.string().email().default("dpo@easydemo.io"),
 
   SENTRY_DSN: z.string().url().optional(),
 

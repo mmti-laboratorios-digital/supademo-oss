@@ -98,7 +98,7 @@ export async function POST(req: Request) {
         } dos seus dados conforme LGPD art. 18.</p>
         <p>Para confirmar, clique: <a href="${url}">${url}</a></p>
         <p>Este link expira em 15 dias.</p>
-        <p>Equipe EasyDemo — dpo@dominio.com.br</p>
+        <p>Equipe EasyDemo — dpo@easydemo.io</p>
       `,
       replyTo: env().EMAIL_DPO,
     });

@@ -32,7 +32,7 @@ export default function GlobalError({
         Não conseguimos carregar essa página.
       </h1>
       <p className="max-w-md text-muted-foreground">
-        Tente recarregar. Se persistir, verifique nossa página de status ou entre em contato.
+        Tente recarregar. Se persistir, fale com a gente pelo suporte.
       </p>
       {error.digest ? (
         <code className="rounded bg-muted px-3 py-1 text-xs text-muted-foreground">
@@ -42,9 +42,7 @@ export default function GlobalError({
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button onClick={reset}>Tentar de novo</Button>
         <Button asChild variant="outline">
-          <Link href="https://status.dominio.com.br" target="_blank" rel="noreferrer">
-            Página de status
-          </Link>
+          <Link href="/suporte">Falar com o suporte</Link>
         </Button>
         <Button asChild variant="ghost">
           <Link href="/">Voltar ao início</Link>

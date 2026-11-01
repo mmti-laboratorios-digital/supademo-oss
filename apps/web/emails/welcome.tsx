@@ -82,8 +82,8 @@ export function WelcomeEmail({
           guia de 5 minutos
         </a>{" "}
         ou escreva pra{" "}
-        <a href="mailto:suporte@dominio.com.br" className="text-brand-primary underline">
-          suporte@dominio.com.br
+        <a href="mailto:suporte@easydemo.io" className="text-brand-primary underline">
+          suporte@easydemo.io
         </a>
         .
       </Text>
