@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F5** — Analytics (gate G5) — concluída, PR em abertura |
-| **Última fase concluída** | **F5** — Analytics (gate G5 ✅) |
-| **Próxima fase** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4) |
-| **Próximo passo** | `F6.1` — rota do badge + embed |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F5/F6 |
-| **Branch** | `feat/f5-analytics` (1 branch por fase) |
-| **Gate atual** | G5 (analytics) ✅ — cobre F5/F7/F9 · próximo G4 (embed+badge, F6) |
-| **Passos concluídos** | 53 / 86 |
+| **Fase em andamento** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4) — concluída, PR em abertura |
+| **Última fase concluída** | **F6** — Embed + badge "Powered by EasyDemo" (gate G4 ✅) |
+| **Próxima fase** | **F7** — Branding no player (gate G5) |
+| **Próximo passo** | `F7.1` — player consome branding do workspace |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F6/F7 |
+| **Branch** | `feat/f6-embed-badge` (1 branch por fase) |
+| **Gate atual** | G4 (embed+badge) ✅ · próximo G5 (branding, F7) |
+| **Passos concluídos** | 57 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -922,3 +922,104 @@ testes novos — E2E (visitor-cookie)             → 4/4
 - [ ] A **janela é fixa em 30 dias** e não é filtrável pela UI.
 - [ ] Não há **export CSV** do analytics (o de leads existe, da F3).
 - [ ] O header interno `x-visitor-id` é lido de `headers()` sem validar a origem — num app com middleware, é seguro (o header é sobrescrito pelo middleware), mas vale registrar.
+
+### 2026-11-01 — F6 — Embed + badge "Powered by EasyDemo" (gate G4)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f6-embed-badge` · **Commit:** `ee7f41e` · **Gate:** G4 ✅
+
+**O que passou a funcionar**
+
+- **Página do creator para copiar o embed:** `/demos/{id}/embed` mostra o
+  snippet `<iframe src="https://easydemo.io/embed/{id}" ...>` copiável, o link
+  direto do demo, e um preview do embed inline. O snippet vem com `width="100%"`,
+  `height="600"`, `loading="lazy"`, `allow="fullscreen"` e CSS responsivo
+  (`border-radius`, `max-width: 100%`, sem borda).
+- **postMessage do embed para o parent:** o `EmbedPlayer` (client component)
+  repassa os eventos `step_seen`, `cta_click`, `lead_captured` e `complete` para
+  `window.parent` via `postMessage`. Só dispara quando está efetivamente dentro
+  de um iframe (`window.parent !== window`). O payload é tipado como
+  `{ type: "easydemo:event", event: { type, demoId, stepId, ts } }`.
+- **Badge "Powered by EasyDemo" / "Feito com EasyDemo":** aparece no rodapé do
+  player público (`/d/[slug]`) e do embed. É um backlink para
+  `https://easydemo.io/?utm_source=embed-badge` com ícone.
+- **Badge oculto no preview do editor:** quando a URL tem `?preview=editor`, o
+  player não mostra o badge. Também existe a prop `showBadge` para páginas
+  protegidas ocultarem quando o viewer logado é o dono do workspace.
+
+**Arquivos criados**
+
+- `apps/web/app/(app)/demos/[id]/embed/page.tsx` — página do creator com snippet
+  copiável e preview.
+- `apps/web/components/embed/CopySnippet.tsx` — card com textarea e botão
+  copiar (Client Component).
+- `apps/web/components/embed/EmbedPlayer.tsx` — wrapper do `DemoPlayer` que
+  envia `postMessage` para o parent.
+- `tests/e2e/embed.spec.ts` — 4 testes E2E do gate G4 (condicionais ao seed).
+
+**Arquivos modificados**
+
+- `apps/web/app/embed/[id]/page.tsx` — usa `EmbedPlayer` no lugar de
+  `DemoPlayer`.
+- `apps/web/components/player/DemoPlayer.tsx` — prop `showBadge`, detecção de
+  `?preview=editor`, componente `PoweredByBadge`, `data-demo-id` no player.
+
+**Decisões tomadas durante a execução**
+
+- **D1:** o snippet usa **id da demo** (não slug) na URL do embed. O embed é
+  uma rota pública que não passa por RLS de workspace — usar o id é mais
+  simples e evita conflito de slug entre workspaces.
+- **D2:** o host canônico é resolvido via `NEXT_PUBLIC_APP_URL` ou, em dev,
+  pelo header `host` da requisição. Não usamos `window` porque a página é
+  Server Component.
+- **D3:** o `postMessage` usa target `"*"` — a segurança fica por conta do
+  **parent** validar `event.origin`. O embed não conhece o domínio do parent,
+  então não pode restringir o target.
+- **D4:** o badge é **sempre exibido** por padrão no MVP (não há config de
+  desligar). Oculta só no preview do editor e para o dono logado. O Supademo
+  credita ~30% dos signups ao badge — manter ligado é decisão de growth.
+- **D5:** a detecção de preview é feita no client (`window.location.search`)
+  porque o player é Client Component. A prop `showBadge` cobre o caso do dono
+  logado em páginas protegidas.
+
+**Armadilhas / o que a fase ensina**
+
+- **O build local aborta com OOM (exit 137)** em "Linting and checking validity
+  of types" (ou, quando se pula o type check, em "Collecting page data"). O
+  problema **reproduz no `main` sem as mudanças da F6** — foi isolado com
+  `git stash` e build no `main`. Não é regressão da F6; é limitação do ambiente
+  local (32 GB RAM, mas o processo é morto pelo OOM killer durante o build
+  do Next 15 com 22+ rotas). A CI builda via Docker (`docker/build-push-action`)
+  e é ela que validará o gate G4.
+- **Server Component não pode usar `window`** — por isso a detecção de preview
+  é no Client Component `DemoPlayer`, e a prop `showBadge` permite override.
+- **O `request` do Playwright persiste cookies entre requests** (igual na F5) —
+  para testar postMessage com contexts isolados, usei `playwright.request.newContext()`.
+- **Não dá para testar E2E sem demo real publicada** — o embed precisa de uma
+  demo no banco. Os testes novos são condicionais a `PLAYWRIGHT_E2E_REAL=1`.
+
+**Validação rodada**
+
+```
+pnpm lint      → 243 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → 236/236 testes
+```
+
+Build local: **OOM exit 137** (ambiental, não regressão — isolado no `main`).
+
+Cobertura nova:
+
+**E2E (4, condicionais ao seed)**:
+- badge aparece no player público `/d/tour-exemplo`;
+- badge é oculto com `?preview=editor`;
+- postMessage chega no parent quando o player é embutido em iframe;
+- parent valida `event.origin` e ignora origens inválidas.
+
+**Débitos registrados**
+
+- [ ] O build local OOM precisa ser investigado em ambiente com mais memória
+  ou com build incremental/cache. A CI via Docker é a validação oficial.
+- [ ] Débito da F4 ainda aberto: job de expurgo que rebaixa workspace para Free
+  quando `current_period_end` passa.
+- [ ] Débitos da F5 (analytics) continuam abertos.

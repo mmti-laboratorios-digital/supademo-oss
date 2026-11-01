@@ -1,4 +1,4 @@
-import { DemoPlayer } from "@/components/player/DemoPlayer";
+import { EmbedPlayer } from "@/components/embed/EmbedPlayer";
 import type { LeadFormValues } from "@/components/player/LeadForm";
 import { demos, steps, workspaces } from "@/db/schema/app";
 import { getDb } from "@/lib/db";
@@ -53,7 +53,7 @@ export default async function EmbedPage({
 
   return (
     <main className="min-h-dvh bg-background">
-      <DemoPlayer
+      <EmbedPlayer
         demo={{
           id: publishedDemo.id,
           slug: publishedDemo.slug,
