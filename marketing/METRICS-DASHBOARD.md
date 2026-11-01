@@ -3,6 +3,7 @@
 > **Data:** 2026-10-18.
 > **Premissa:** MVP live em T-0 (terça-feira). Métricas acompanhadas diariamente na primeira semana, semanalmente até W12, mensalmente após.
 > **Fontes de dados:** Plausible + Google Analytics 4 + Postgres events (LGPD-safe) + Stripe/Asaas webhooks + dashboards internos (Metabase ou similar).
+> **Snapshot via CLI:** `pnpm --filter web exec tsx scripts/metrics-snapshot.ts` gera workspaces ativos, demos publicadas, leads/views (30d), MRR estimado e tier mix direto do Postgres.
 > **Limiar de alerta:** ver §7 (red flags).
 
 ---
