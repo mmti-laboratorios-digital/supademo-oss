@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F3** — Lead form + CTA genérico (gate G2) — concluída, PR em abertura |
-| **Última fase concluída** | **F3** — Lead form + CTA genérico (gate G2 ✅) |
-| **Próxima fase** | **F4** — Billing (gate G3) |
-| **Próximo passo** | `F4.1` — `api/v1/billing/checkout/route.ts` |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F3/F4 |
-| **Branch** | `feat/f3-lead-cta` (1 branch por fase) |
-| **Gate atual** | G2 (lead + CTA) ✅ → próximo G3 (pagamento) |
-| **Passos concluídos** | 39 / 86 |
+| **Fase em andamento** | **F4** — Billing (gate G3) — concluída, PR em abertura |
+| **Última fase concluída** | **F4** — Billing (gate G3 ✅) |
+| **Próxima fase** | **F5** — Analytics (gate G5) |
+| **Próximo passo** | `F5.1` — `lib/analytics/visitor.ts`: `setVisitorCookie()` |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F4/F5 |
+| **Branch** | `feat/f4-billing` (1 branch por fase) |
+| **Gate atual** | G3 (pagamento) ✅ → próximo G4 (embed+badge, F6) |
+| **Passos concluídos** | 47 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -739,3 +739,91 @@ testes novos                                   → 8/8
 - [ ] O `LeadForm` é renderizado no player mas **não há link para a página de leads** no menu do creator — a página existe, mas ninguém chega lá ainda.
 - [ ] O `leadFormEnabled` é lido do banco, mas o `LeadFormEditor` do editor é bloqueado no plano Free (`upgradeRequired`) — enquanto o banco permitir `lead_form_enabled` no Free (D2 da §5), existe divergência entre editor e player.
 - [ ] O `captureLead` grava `consentText` customizado quando o creator define, mas **o texto do form no player vem de `demo.leadFormConsentText`** — se o creator customizar só no editor (que salva em `leadForm.consentText` via PATCH), o valor não chega ao banco. Caminho de persistência do texto customizado ficou aberto.
+
+### 2026-11-01 — F4 — Billing (gate G3)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f4-billing` · **Commits:** `b75a400`, `59ade35` · **Gate:** G3 ✅
+
+**O que passou a funcionar**
+
+- O creator clica em "Assinar Pro via PIX" na página `/billing` e cai num checkout real do Asaas: customer + subscription + cobrança são criados, e a assinatura fica registrada localmente como `incomplete` até o pagamento ser confirmado.
+- O plano **só** é promovido quando o Asaas confirma o dinheiro (`PAYMENT_RECEIVED`/`PAYMENT_CONFIRMED`). Sem webhook, o workspace continua no Free — não há como "comprar" Pro sem pagar.
+- A página `/billing` mostra o plano **real** (`workspaces.plan_id`) e os preços **reais** (`app.plans.price_brl_cents`). Antes, o plano era `"free"` hardcoded e o preço, texto fixo no JSX.
+- Os limites do plano agora são **aplicados**: criar o 4º demo no Free é bloqueado com mensagem de upgrade; o mesmo vale para steps por demo e para leads/mês.
+- O creator pode cancelar a assinatura. O plano é **mantido até o fim do ciclo pago** (o Asaas cobra o ciclo de qualquer forma) e só volta para o Free quando o período termina.
+
+**Arquivos criados**
+
+- `apps/web/app/api/v1/billing/checkout/route.ts` — cria a sessão de assinatura no Asaas e devolve a URL de checkout.
+- `apps/web/app/api/v1/billing/cancel/route.ts` — cancelamento (mantém o plano até o fim do ciclo).
+- `apps/web/app/api/v1/billing/subscription/route.ts` — estado da assinatura (usado pela página de billing).
+- `apps/web/app/(app)/billing/checkout/page.tsx` — tela da cobrança (PIX).
+- `apps/web/app/api/__tests__/billing-checkout.integration.test.ts` — 14 testes de integração do gate G3.
+- `apps/web/app/api/__tests__/webhook-asaas.script.test.ts` — 8 checks do webhook, rodados pelo `scripts:test-webhook-asaas`.
+
+**Arquivos modificados**
+
+- `apps/web/lib/billing/asaas.ts` — camada HTTP + `createSubscription` + mapeamento de preço.
+- `apps/web/lib/asaas.ts` — virou shim de re-export (a duplicata foi consolidada).
+- `apps/web/app/api/webhooks/asaas/route.ts` — semântica de cancelamento e `PAYMENT_DELETED`.
+- `apps/web/app/(app)/billing/page.tsx` — plano e preços reais, CTA no path certo.
+- `apps/web/components/billing/PlanCard.tsx` — `ctaMethod` (o checkout é POST).
+- `apps/web/app/api/v1/demos/route.ts`, `apps/web/app/api/v1/demos/[id]/steps/route.ts`, `apps/web/server/actions/lead.ts` — enforcement de limites.
+- `apps/web/app/api/v1/leads/route.ts` — 429 (em vez de 400) quando a cota do plano estoura.
+- `apps/web/scripts/test-webhook-asaas.ts` — reescrito (antes não rodava).
+
+**Decisões tomadas durante a execução**
+
+- **D1:** o `workspaceId` do checkout **vem da sessão**, nunca do cliente. O body aceita o campo (por compatibilidade com o `ctaHref`), mas ele é ignorado — e se vier diferente da sessão, a resposta é `403 WORKSPACE_MISMATCH`. Mesmo princípio do endpoint de lead (DEC-2026-11-01-024).
+- **D2:** o preço vem **do banco** (`app.plans.price_brl_cents`), nunca de constante no código. Uma única fonte de verdade: mudar o preço muda a página E o checkout. Atenção à armadilha: a coluna **já está em centavos** (4900 = R$ 49,00) — `brlToCents` existe para o caso oposto, não para converter o valor do banco.
+- **D3:** **cancelar ≠ rebaixar na hora.** O Asaas cobra o ciclo já pago, então o cancelamento marca `cancel_at_period_end = true` e **mantém** o plano. O downgrade para Free acontece quando `current_period_end` passa. Isso é a letra do critério de aceitação ("cancelamento volta ao Free **no fim do ciclo**") e evita cobrar o creator por algo que ele não usou. A exceção é o **estorno** (`PAYMENT_REFUNDED`): o dinheiro voltou, então o Free é imediato.
+- **D4:** o `PAYMENT_DELETED` (pagamento removido antes de confirmar) **não** rebaixa o plano. Se o workspace já estava num plano pago (renovação), rebaixar penalizaria quem pagou.
+- **D5:** o checkout responde JSON para `fetch` e **redireciona (303)** para navegador. O CTA da página é um `<form method="post">` porque o endpoint é POST — um `<a href>` dispararia GET e tomaria 405. O endpoint aceita JSON **e** form-urlencoded, e o plano pode vir no query string.
+- **D6:** o `GET /api/v1/billing/subscription` devolve o plano **do workspace**, não o da subscription. Eles divergem quando a assinatura está cancelada mas o creator ainda está dentro do ciclo pago — nesse caso quem manda é o workspace.
+- **D7:** o erro de limite vira `403 PLAN_LIMIT_EXCEEDED` (com `message` em PT-BR e `upgradeUrl`) nas rotas autenticadas e `429` no endpoint público de lead (o payload era válido; o que falhou foi a cota).
+- **D8:** o `lib/asaas.ts` virou **shim de re-export** em vez de ser deletado. Deletar quebraria o import do sandbox test; o shim mantém a compatibilidade e elimina a duplicata de implementação. (O shim será removido quando ninguém mais importar dele.)
+
+**Armadilhas / o que a fase ensina**
+
+- **O `scripts:test-webhook-asaas` não rodava.** Ele exigia um Next.js em `$BASE` e lia o status por `GET /api/v1/billing/subscriptions/:id` — rota que **nunca existiu**. Além disso, assinava o body no header `X-Asaas-Signature`, mas o handler lê `asaas-signature`: a validação HMAC caía no caminho do token fixo e a assinatura **nunca era conferida**. Reescrito: o script agora sobe o vitest com um arquivo de teste próprio (8 checks) e roda sem servidor.
+- **`vi.mock` só funciona dentro do runner do vitest.** A primeira tentativa de reescrever o script foi fazer os mocks direto no `tsx` — não dá (`vitest failed to access its internal state`). Tentar interceptar o loader com `registerHooks` do Node também falhou: o `nextLoad` lança em módulos built-in. A solução que funciona: o script é um wrapper fino que delega para um arquivo de teste do vitest.
+- **`pg` é CJS.** `import { Client } from "pg"` quebra em ESM — precisa de `import pg from "pg"`.
+- **O `notFound()` do Next não estreita o tipo** (mesma armadilha da F3).
+- **`demo.finalCta` é `jsonb`** e o TS tipa como `unknown` — precisa de cast para `FinalCta | null`.
+- **Dois bugs reais que os testes novos pegaram:** (a) o cancelamento com o período **já vencido** não rebaixava para o Free (a checagem do período só existia no webhook, não no endpoint de cancelamento); (b) o `/billing/subscription` devolvia o plano da *subscription* em vez do *workspace* — o que mostrava "free" para quem tinha acabado de assinar.
+- **O `assertWithinLimits` existia desde a F0 e nunca era chamado.** Era o débito aberto mais antigo do MVP: o plano era um rótulo na página de billing, sem nenhuma consequência. Agora é aplicado em demo, step e lead.
+- **O `PlanLimitError` precisa ser tratado explicitamente** nos `errorResponse` das rotas — sem isso, o estouro de limite virava 500 genérico.
+
+**Validação rodada**
+
+```
+pnpm lint                                      → 233 arquivos, 0 erros
+pnpm typecheck                                 → 4/4 pacotes
+pnpm test                                      → 215/215 testes (193 + 22 novos)
+pnpm test:rls                                  → 11/11 checks
+pnpm scripts:test-webhook-asaas                → 8/8 checks
+pnpm --filter web build                        → verde (22/22 rotas)
+testes novos (billing-checkout)               → 14/14
+  - checkout cria customer + subscription + pagamento  → 201, preço 4900
+  - workspaceId do body é ignorado              → 403 WORKSPACE_MISMATCH
+  - plano inválido / "free" sem checkout        → 400
+  - form-urlencoded (form do /billing)          → 303 para /billing/checkout
+  - PAYMENT_RECEIVED promove o plano            → free → pro
+  - 3 demos no Free + 4º bloqueado              → 403 + mensagem de upgrade
+  - 4º demo no Pro                              → 201 (ilimitado)
+  - cancelar dentro do ciclo                    → plano mantido
+  - cancelar com período vencido                → volta para Free
+  - SUBSCRIPTION_INACTIVATED (vencido)          → Free
+  - SUBSCRIPTION_INACTIVATED (dentro do ciclo)  → plano mantido
+  - /billing/subscription devolve o plano real  → business
+  - sem subscription                             → planId free
+```
+
+**Ficou pra depois (débito desta fase)**
+
+- [ ] O job de expurgo que rebaixa o workspace para Free quando `current_period_end` passa **não existe**. Hoje o rebaixamento depende do webhook `SUBSCRIPTION_INACTIVATED` chegar. Se o creator cancelar e o Asaas não mandar o evento, ele fica no plano pago para sempre. O job (ou um cron) precisa fechar o ciclo.
+- [ ] O checkout mostra a tela de cobrança mas **não mostra o QR Code do PIX de verdade** — o `payment.pixQrCodeId` é gravado, mas a página não o renderiza (o Asaas exige autenticação para servir a imagem do QR Code).
+- [ ] `createCustomer` faz `GET /customers?limit=100` para procurar por e-mail e filtrar no cliente. Com mais de 100 customers, a busca falha e um customer duplicado é criado (o Asaas não deduplica por e-mail).
+- [ ] A assinatura local nunca é **atualizada** quando o creator renova — o checkout sempre cria uma row nova. Com renovações sucessivas, `app.subscriptions` acumula rows `incomplete` velhas.
+- [ ] O `PlanLimitError` é verificado com `count + 1` (contagem + 1), o que tem uma corrida: dois requests simultâneos podem criar o 4º demo ao mesmo tempo. O lock pessimista ou uma constraint resolveria.
