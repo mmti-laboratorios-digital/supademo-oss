@@ -15,6 +15,7 @@
 
 import { demos, workspaces } from "@/db/schema/app";
 import { getDb } from "@/lib/db";
+import { publicUrl } from "@/lib/r2";
 import { and, eq } from "drizzle-orm";
 
 export type WorkspaceBranding = {
@@ -46,7 +47,7 @@ export async function getBrandingByDemoId(demoId: string): Promise<WorkspaceBran
 
   return {
     name: row.name,
-    logoUrl: row.brandLogoR2Key ? publicR2Url(row.brandLogoR2Key) : null,
+    logoUrl: row.brandLogoR2Key ? publicUrl(row.brandLogoR2Key) : null,
     brandColor: row.brandColor,
   };
 }
@@ -71,13 +72,7 @@ export async function getBrandingByDemoSlug(slug: string): Promise<WorkspaceBran
 
   return {
     name: row.name,
-    logoUrl: row.brandLogoR2Key ? publicR2Url(row.brandLogoR2Key) : null,
+    logoUrl: row.brandLogoR2Key ? publicUrl(row.brandLogoR2Key) : null,
     brandColor: row.brandColor,
   };
-}
-
-function publicR2Url(key: string): string {
-  const base = process.env.R2_PUBLIC_BASE_URL;
-  if (!base) return `/_static/${key}`;
-  return `${base.replace(/\/$/, "")}/${key}`;
 }

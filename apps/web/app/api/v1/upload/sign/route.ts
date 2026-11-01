@@ -28,8 +28,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // Sanity check: a key deve começar com `demos/{orgId}/`
-    if (!parsed.data.key.startsWith(`demos/${orgId}/`)) {
+    // Sanity check: a key deve começar com `demos/{orgId}/` ou
+    // `branding/{orgId}/` — o branding é do workspace (F7).
+    const allowedPrefixes = [`demos/${orgId}/`, `branding/${orgId}/`];
+    if (!allowedPrefixes.some((prefix) => parsed.data.key.startsWith(prefix))) {
       return NextResponse.json(
         { error: "KEY_OUTSIDE_TENANT", key: parsed.data.key },
         { status: 403 },
