@@ -1,6 +1,7 @@
 import { demos } from "@/db/schema/app";
 import { requireAuth } from "@/lib/auth";
 import { withTenant } from "@/lib/db";
+import { PlanLimitError, assertWithinLimits, countWorkspaceResources } from "@/lib/plans";
 import { and, desc, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -81,6 +82,12 @@ export async function POST(req: Request) {
       );
     }
 
+    // ─── Enforcement de limite do plano (F4.6) ───
+    // O Free permite 3 demos. Criar o 4º precisa falhar com mensagem de
+    // upgrade — sem isso, o plano é só um rótulo na página de billing.
+    const demoCount = await countWorkspaceResources(orgId, "demo");
+    await assertWithinLimits(orgId, "demo", demoCount + 1);
+
     const created = await withTenant(orgId, async (db) => {
       const [row] = await db
         .insert(demos)
@@ -105,6 +112,21 @@ export async function POST(req: Request) {
 }
 
 function errorResponse(err: unknown): NextResponse {
+  if (err instanceof PlanLimitError) {
+    // 403 + mensagem de upgrade — é o que o creator vê quando estourou o
+    // limite do plano. O `message` já é PT-BR e aponta o caminho.
+    return NextResponse.json(
+      {
+        error: "PLAN_LIMIT_EXCEEDED",
+        message: err.message,
+        resource: err.resource,
+        limit: err.limit,
+        planId: err.planId,
+        upgradeUrl: "/billing",
+      },
+      { status: 403 },
+    );
+  }
   if (err instanceof Error) {
     if (err.message === "UNAUTHORIZED") {
       return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });

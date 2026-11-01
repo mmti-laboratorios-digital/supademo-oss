@@ -5,6 +5,7 @@ import { recordLeadCaptured } from "@/lib/analytics/events";
 import { analyticsVisitorCookie } from "@/lib/analytics/visitor";
 import { getDb } from "@/lib/db";
 import { getDefaultConsentText } from "@/lib/lgpd/consent";
+import { PlanLimitError, assertWithinLimits, countWorkspaceResources } from "@/lib/plans";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
@@ -40,6 +41,19 @@ export async function captureLead(
   const ip = h.get("x-forwarded-for") ?? "";
   const uaHash = hashPii(ua, "ua");
   const ipHash = hashPii(ip, "ip");
+
+  // ─── Enforcement de limite do plano (F4.6) ───
+  // Free = 20 leads/mês. Passou do limite, o lead **não** é gravado — o
+  // creator precisa fazer upgrade para continuar capturando.
+  try {
+    const leadCount = await countWorkspaceResources(parsed.data.workspaceId, "lead");
+    await assertWithinLimits(parsed.data.workspaceId, "lead", leadCount + 1);
+  } catch (err) {
+    if (err instanceof PlanLimitError) {
+      return { ok: false, error: err.message };
+    }
+    throw err;
+  }
 
   const db = getDb();
   const [row] = await db

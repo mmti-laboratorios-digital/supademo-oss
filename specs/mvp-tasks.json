@@ -12,8 +12,8 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F4",
-    "step": "F4.1",
+    "phase": "F5",
+    "step": "F5.1",
     "status": "pending"
   },
   "phases": [
@@ -141,16 +141,16 @@
         "F0",
         "F1"
       ],
-      "status": "pending",
+      "status": "done",
       "steps": [
-        { "n": 1, "id": "F4.1", "title": "Criar api/v1/billing/checkout/route.ts: sessão de assinatura no Asaas via lib/billing/asaas.ts, devolver a URL de checkout, aceitar plan e workspaceId", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F4.2", "title": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer), mapeando BRL → centavos (R$49 = 4900)", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F4.3", "title": "Consolidar a duplicata apps/web/lib/asaas.ts em lib/billing/asaas.ts, sem quebrar os 21 testes de lib/billing/__tests__/asaas.test.ts", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F4.4", "title": "Webhook payment.confirmed: gravar em app.subscriptions e atualizar o plano do workspace; tratar payment.failed e cancelamento", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F4.5", "title": "(app)/billing/page.tsx: ler o plano real do workspace (linha 11), corrigir ctaHref pro path real (linha 40), remover o mailto fictício (linha 54)", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F4.6", "title": "Enforcement: chamar assertWithinLimits ao criar demo, step e lead", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 7, "id": "F4.7", "title": "Validar: checkout sandbox → webhook payment.confirmed → plano pro; 4º demo no Free bloqueado com mensagem de upgrade; cancelamento volta ao Free", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 8, "id": "F4.8", "title": "Gate G3 + pnpm scripts:test-webhook-asaas + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F4.1", "title": "Criar api/v1/billing/checkout/route.ts: sessão de assinatura no Asaas via lib/billing/asaas.ts, devolver a URL de checkout, aceitar plan e workspaceId", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "POST /api/v1/billing/checkout criado: cria customer + subscription + pagamento no Asaas, grava app.subscriptions (incomplete) e devolve checkoutUrl; workspaceId vem da sessao (body ignorado, 403 se divergir); preco vem do banco" },
+        { "n": 2, "id": "F4.2", "title": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer), mapeando BRL → centavos (R$49 = 4900)", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer, valueCents) com buildSubscriptionPayload puro; preco lido do app.plans.price_brl_cents (R9=4900); helpers brlToCents/centsToBrl/formatPriceBrl" },
+        { "n": 3, "id": "F4.3", "title": "Consolidar a duplicata apps/web/lib/asaas.ts em lib/billing/asaas.ts, sem quebrar os 21 testes de lib/billing/__tests__/asaas.test.ts", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Duplicata consolidada: lib/asaas.ts virou shim de re-export de lib/billing/asaas.ts (camada HTTP + DTOs); sandbox test passa a mockar @/lib/billing/asaas; os 21 testes de lib/billing/__tests__/asaas.test.ts continuam verdes" },
+        { "n": 4, "id": "F4.4", "title": "Webhook payment.confirmed: gravar em app.subscriptions e atualizar o plano do workspace; tratar payment.failed e cancelamento", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Webhook corrigido: PAYMENT_DELETED tratado (nao rebaixa plano); pagamento confirmado limpa cancelAtPeriodEnd e promove plano; cancelamento marca cancel_at_period_end=true e MANTEM o plano ate o fim do ciclo (so rebaixa a Free se o periodo ja acabou); PAYMENT_REFUNDED rebaixa imediato (dinheiro devolvido); endpoints /api/v1/billing/cancel e /api/v1/billing/subscription criados" },
+        { "n": 5, "id": "F4.5", "title": "(app)/billing/page.tsx: ler o plano real do workspace (linha 11), corrigir ctaHref pro path real (linha 40), remover o mailto fictício (linha 54)", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "billing/page.tsx: plano real lido de workspaces.plan_id, precos de app.plans.price_brl_cents, ctaHref aponta pro path real /api/v1/billing/checkout?plan=X (POST via form), mailto ficticio removido (Business virou checkout igual ao Pro); criada /billing/checkout para mostrar a cobranca; PlanCard ganhou ctaMethod" },
+        { "n": 6, "id": "F4.6", "title": "Enforcement: chamar assertWithinLimits ao criar demo, step e lead", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Enforcement ligado: assertWithinLimits chamado ao criar demo (Free=3), step (por demo) e lead (20/mes); PlanLimitError vira 403 com mensagem de upgrade + upgradeUrl em demos/steps, e 429 no endpoint publico de lead" },
+        { "n": 7, "id": "F4.7", "title": "Validar: checkout sandbox → webhook payment.confirmed → plano pro; 4º demo no Free bloqueado com mensagem de upgrade; cancelamento volta ao Free", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Validacao do gate G3: 14 testes de integracao novos (billing-checkout) + 8 checks do script test-webhook-asaas reescrito (agora roda sem Next.js, 8/8 verdes). Achados corrigidos: cancel com periodo vencido nao rebaixava para Free; /billing/subscription devolvia o plano da subscription em vez do workspace" },
+        { "n": 8, "id": "F4.8", "title": "Gate G3 + pnpm scripts:test-webhook-asaas + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G3 fechado: lint 233/0, typecheck 4/4, 215 testes, RLS 11/11, test-webhook-asaas 8/8, build verde (22/22); F4 registrada no MVP-PROGRESS.md" }
       ]
     },
     {

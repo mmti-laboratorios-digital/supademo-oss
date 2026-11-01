@@ -153,6 +153,11 @@ export async function POST(req: Request) {
         case "PAYMENT_REFUNDED":
           await handlePaymentRefunded(event.payment);
           break;
+        case "PAYMENT_DELETED":
+          // Pagamento removido antes de confirmar (ex.: cancelado pelo
+          // creator no checkout). Não é estorno — a assinatura continua.
+          await handlePaymentDeleted(event.payment);
+          break;
         case "SUBSCRIPTION_CREATED":
         case "SUBSCRIPTION_UPDATED":
           await handleSubscriptionUpdated(event.subscription);
@@ -182,6 +187,17 @@ export async function POST(req: Request) {
   }
 }
 
+/**
+ * Pagamento confirmado → o workspace é promovido ao plano pago.
+ *
+ * Este é o **único** caminho que promove o plano. O checkout grava a
+ * subscription como "incomplete" e o plano só muda quando o Asaas confirma
+ * que o dinheiro entrou — assim o creator não ganha Pro sem pagar.
+ *
+ * ⚠️ Reativar uma assinatura que estava cancelada limpa o
+ * `cancel_at_period_end` (o creator pagou de novo, o cancelamento anterior
+ * deixou de valer).
+ */
 async function handlePaymentConfirmed(payment: AsaasEvent["payment"] | undefined) {
   if (!payment?.subscription) return;
   const db = getAdminDb();
@@ -192,13 +208,23 @@ async function handlePaymentConfirmed(payment: AsaasEvent["payment"] | undefined
     .limit(1);
   if (!sub) return;
 
+  // Fim do ciclo: o Asaas manda `nextDueDate` na subscription; no payment
+  // não vem. Mantemos o fim do período já conhecido (ou null).
+  const now = new Date();
+
   await db
     .update(subscriptions)
-    .set({ status: "active", updatedAt: new Date() })
+    .set({
+      status: "active",
+      cancelAtPeriodEnd: false,
+      currentPeriodStart: sub.currentPeriodStart ?? now,
+      updatedAt: now,
+    })
     .where(eq(subscriptions.id, sub.id));
+
   await db
     .update(workspaces)
-    .set({ planId: sub.planId, updatedAt: new Date() })
+    .set({ planId: sub.planId, updatedAt: now })
     .where(eq(workspaces.id, sub.workspaceId));
 }
 
@@ -211,6 +237,13 @@ async function handlePaymentOverdue(payment: AsaasEvent["payment"] | undefined) 
     .where(eq(subscriptions.asaasSubscriptionId, payment.subscription));
 }
 
+/**
+ * Pagamento estornado (refund).
+ *
+ * Diferente do cancelamento, um estorno **devolve o dinheiro** — logo o
+ * workspace volta para Free imediatamente. A assinatura fica cancelada com
+ * `cancel_at_period_end = true` (registro histórico do que aconteceu).
+ */
 async function handlePaymentRefunded(payment: AsaasEvent["payment"] | undefined) {
   if (!payment?.subscription) return;
   const db = getAdminDb();
@@ -230,6 +263,27 @@ async function handlePaymentRefunded(payment: AsaasEvent["payment"] | undefined)
     .where(eq(workspaces.id, sub.workspaceId));
 }
 
+/**
+ * Pagamento removido antes de ser confirmado.
+ *
+ * Não é estorno: o creator cancelou o pagamento (ou o Asaas limpou uma
+ * cobrança nunca paga). A assinatura continua ativa — o que muda é o status
+ * da subscription para "incomplete", porque **não houve pagamento**.
+ *
+ * ⚠️ Não mexemos em `workspaces.plan_id`: se o workspace já estava num plano
+ * pago (ex.: renovação de um ciclo anterior), rebaixar para Free aqui
+ * penalizaria quem pagou. O downgrade para Free acontece no fim do ciclo,
+ * tratado por `handleSubscriptionDeleted`.
+ */
+async function handlePaymentDeleted(payment: AsaasEvent["payment"] | undefined) {
+  if (!payment?.subscription) return;
+  const db = getAdminDb();
+  await db
+    .update(subscriptions)
+    .set({ status: "incomplete", updatedAt: new Date() })
+    .where(eq(subscriptions.asaasSubscriptionId, payment.subscription));
+}
+
 async function handleSubscriptionUpdated(sub: AsaasEvent["subscription"] | undefined) {
   if (!sub) return;
   const db = getAdminDb();
@@ -243,6 +297,24 @@ async function handleSubscriptionUpdated(sub: AsaasEvent["subscription"] | undef
     .where(eq(subscriptions.asaasSubscriptionId, sub.id));
 }
 
+/**
+ * Subscription cancelada / inativada no Asaas.
+ *
+ * ⚠️ **Semântica do "no fim do ciclo"** (critério de aceitação do gate G3):
+ *
+ * O Asaas **cobra o ciclo já pago**. Quando o creator cancela, ele continua
+ * com o plano até o fim do período já pago. Então:
+ *
+ *   1. a subscription vira "canceled" com `cancel_at_period_end = true`;
+ *   2. o `workspaces.plan_id` **permanece** o plano pago — o creator não
+ *      perde o que pagou;
+ *   3. quando o `current_period_end` passa, o job de expurgo (ou o próximo
+ *      webhook) rebaixa o workspace para "free".
+ *
+ * A exceção é a **inativação por inadimplência**: quando o status do
+ * Asaas é "INACTIVE"/"EXPIRED" **e** o período já terminou, o plano volta
+ * para Free agora.
+ */
 async function handleSubscriptionDeleted(sub: AsaasEvent["subscription"] | undefined) {
   if (!sub) return;
   const db = getAdminDb();
@@ -252,12 +324,25 @@ async function handleSubscriptionDeleted(sub: AsaasEvent["subscription"] | undef
     .where(eq(subscriptions.asaasSubscriptionId, sub.id))
     .limit(1);
   if (!row) return;
+
+  const periodEnd = row.currentPeriodEnd ? new Date(row.currentPeriodEnd) : null;
+  const periodFinished = periodEnd !== null && periodEnd.getTime() <= Date.now();
+
   await db
     .update(subscriptions)
-    .set({ status: "canceled", updatedAt: new Date() })
+    .set({
+      status: "canceled",
+      cancelAtPeriodEnd: !periodFinished,
+      updatedAt: new Date(),
+    })
     .where(eq(subscriptions.id, row.id));
-  await db
-    .update(workspaces)
-    .set({ planId: "free", updatedAt: new Date() })
-    .where(eq(workspaces.id, row.workspaceId));
+
+  // Só rebaixa para Free se o período pago já acabou. Enquanto o creator
+  // estiver dentro do ciclo que pagou, ele mantém o plano.
+  if (periodFinished) {
+    await db
+      .update(workspaces)
+      .set({ planId: "free", updatedAt: new Date() })
+      .where(eq(workspaces.id, row.workspaceId));
+  }
 }
