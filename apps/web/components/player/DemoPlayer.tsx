@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnalytics } from "@/lib/analytics/use-analytics";
 import { getDefaultConsentText } from "@/lib/lgpd/consent";
 import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@easydemo/shared";
 import * as React from "react";
@@ -64,11 +65,24 @@ export function DemoPlayer({
   }, []);
 
   // stepId explícito: evita closure obsoleta nos callbacks de transição.
+  //
+  // ⚠️ **Analytics (F5.2):** o player emite `view`, `step_seen`, `cta_click`
+  // e `complete`. O envio é feito **aqui dentro** (o player já é um Client
+  // Component) porque o `onEvent` das páginas `/d/[slug]` e `/embed/[id]` é
+  // uma Server Component — passar função de Server Component para Client
+  // Component dá erro. O hook `useAnalytics` faz o POST fire-and-forget.
+  //
+  // A prop `onEvent` continua existindo: quem embute o player (ex.: o
+  // player do pacote `@easydemo/player`) pode querer os eventos.
+  const trackEvent = useAnalytics(demo.id);
+
   const emit = React.useCallback(
     (type: DemoEvent["type"], stepId?: string) => {
-      onEvent?.({ type, demoId: demo.id, stepId, ts: Date.now() });
+      const event: DemoEvent = { type, demoId: demo.id, stepId, ts: Date.now() };
+      trackEvent(event);
+      onEvent?.(event);
     },
-    [demo.id, onEvent],
+    [demo.id, onEvent, trackEvent],
   );
 
   // Timeout de transição precisa ser cancelado no unmount e a cada avanço,
@@ -113,6 +127,43 @@ export function DemoPlayer({
     dispatch({ type: "RESET" });
   }, []);
 
+  // ─── Analytics: detecção de bounce (F5.2) ───
+  //
+  // ⚠️ **O que é "bounce" aqui:** o visitante abriu o demo mas **não avançou
+  // para o segundo step**. É a métrica que diz "a primeira tela não prendeu
+  // a atenção" — a mais acionável para o creator.
+  //
+  // ⚠️ **Como detectamos:** quando o componente é desmontado (o visitor
+  // fechou a aba, navegou para fora, ou o embed saiu da tela) **sem** o
+  // demo ter sido completado. Não depende de timer nem de heurística de
+  // tempo — é o sinal mais confiável disponível no client.
+  //
+  // ⚠️ `pagehide` também dispara: o visitor fecha a aba. Cobrimos os dois
+  // (o unmount do React e o pagehide do browser) e usamos uma flag para não
+  // contar duas vezes.
+  const maxStepSeen = React.useRef(0);
+  const completedRef = React.useRef(false);
+  const bounceSent = React.useRef(false);
+
+  // Marca o step mais avançado que o visitor viu.
+  React.useEffect(() => {
+    const idx = steps.findIndex((s) => s.id === currentStepId);
+    if (idx > maxStepSeen.current) maxStepSeen.current = idx;
+  }, [currentStepId, steps]);
+
+  React.useEffect(() => {
+    if (state === "completed") completedRef.current = true;
+  }, [state]);
+
+  const sendBounce = React.useCallback(() => {
+    if (bounceSent.current) return;
+    if (completedRef.current) return;
+    // Bounce = viu o primeiro step e não avançou.
+    if (maxStepSeen.current > 0) return;
+    bounceSent.current = true;
+    emit("bounce", stepIds[0]);
+  }, [emit, stepIds]);
+
   // Keyboard nav: setas + Espaço + Enter + Esc para sair.
   React.useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -136,6 +187,18 @@ export function DemoPlayer({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [advance, previous, reset, start, state]);
+
+  // Envia o bounce quando o visitor sai sem completar.
+  React.useEffect(() => {
+    // `pagehide` cobre "fechou a aba" e o back/forward do browser.
+    const onPageHide = () => sendBounce();
+    window.addEventListener("pagehide", onPageHide);
+    return () => {
+      window.removeEventListener("pagehide", onPageHide);
+      // Unmount do React (navegou para outra rota, embed saiu da tela).
+      sendBounce();
+    };
+  }, [sendBounce]);
 
   if (state === "idle") {
     return (
@@ -294,7 +357,11 @@ export function DemoPlayer({
       ) : null}
 
       {state === "completed" && demo.finalCta ? (
-        <FinalCta cta={demo.finalCta} locale={locale} />
+        <FinalCta
+          cta={demo.finalCta}
+          locale={locale}
+          onClick={() => emit("cta_click", currentStep.id)}
+        />
       ) : null}
     </section>
   );
@@ -303,9 +370,11 @@ export function DemoPlayer({
 function FinalCta({
   cta,
   locale,
+  onClick,
 }: {
   cta: NonNullable<DemoPlayerDemo["finalCta"]>;
   locale: "pt-BR" | "en";
+  onClick?: () => void;
 }) {
   const href =
     cta.type === "whatsapp"
@@ -320,6 +389,10 @@ function FinalCta({
         href={href}
         target="_blank"
         rel="noopener noreferrer"
+        // ⚠️ Analytics (F5.2): o clique no CTA final é a conversão. O
+        // `onClick` dispara o evento **antes** da navegação — o request
+        // usa `keepalive`, então sobrevive à saída do visitor.
+        onClick={onClick}
         aria-label={locale === "pt-BR" ? `Ação final: ${cta.label}` : `Final action: ${cta.label}`}
         className="neobrutalism-button inline-flex items-center justify-center rounded-md px-6 py-3 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >

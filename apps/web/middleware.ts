@@ -1,4 +1,10 @@
 import {
+  VISITOR_ID_HEADER,
+  hashVisitorId,
+  randomVisitorId,
+  visitorCookieConfig,
+} from "@/lib/analytics/visitor-id";
+import {
   DEFAULT_LOCALE,
   LOCALE_COOKIE,
   type Locale,
@@ -22,6 +28,17 @@ const isPublicApiRoute = createRouteMatcher([
   "/api/dsr(.*)",
   "/api/v1/upload/sign(.*)",
 ]);
+
+/**
+ * Rotas públicas do player — as que precisam do cookie de visitante.
+ *
+ * ⚠️ O cookie do visitante é criado **aqui** (middleware) e não na página:
+ * `/d/[slug]` e `/embed/[id]` são Server Components, e Server Components
+ * **não** podem escrever `Set-Cookie` (o Next lança "Cookies can only be
+ * modified in a Server Action or Route Handler"). O middleware tem acesso à
+ * resposta, então é o lugar certo.
+ */
+const isPlayerRoute = createRouteMatcher(["/d/(.*)", "/embed/(.*)"]);
 
 /**
  * Detecta locale do usuário via:
@@ -83,6 +100,58 @@ export default clerkMiddleware(async (auth, req) => {
       sameSite: "lax",
     });
   }
+
+  // ─── Cookie de visitante (analytics) ───
+  // Sem isso, cada view do player conta como um visitor diferente e o
+  // funil de conversão fica quebrado (ver F5.1 do MVP-PLAN).
+  //
+  // ⚠️ **Por que injetar no request header (`x-visitor-id`)?**
+  //
+  // A página do player (`/d/[slug]`) é um Server Component: ela lê o
+  // cookie via `headers()`. Mas na **primeira** visita o cookie ainda não
+  // existe na requisição — ele está sendo criado agora, na resposta. Se a
+  // página gerasse um hash novo, ela registraria o evento `view` com um
+  // hash **diferente** do cookie que acabamos de gravar → o mesmo visitante
+  // contaria como dois.
+  //
+  // Por isso o middleware injeta o hash no **request header**: a página lê
+  // `x-visitor-id` (quando presente) e cai no cookie quando não está. Os
+  // dois caminhos convergem para o mesmo valor.
+  //
+  // ⚠️ `sameSite=lax` (não `none`): o embed roda em iframe de outro
+  // domínio, e `SameSite=None` exigiria `Secure` — que quebraria o dev em
+  // HTTP. `lax` mantém o cookie no primeiro acesso (navegação) e evita o
+  // vazamento em iframes de terceiros.
+  if (isPlayerRoute(req)) {
+    const cfg = visitorCookieConfig();
+    const existing = req.cookies.get(cfg.name)?.value;
+    let idHash = existing;
+
+    if (!idHash) {
+      // Gera o hash no Edge (Web Crypto) — o Node lê o mesmo formato.
+      idHash = await hashVisitorId(randomVisitorId(), cfg.salt);
+      res.cookies.set({
+        name: cfg.name,
+        value: idHash,
+        path: "/",
+        maxAge: cfg.ttlDays * 86400,
+        sameSite: "lax",
+        httpOnly: true,
+        secure: cfg.secure,
+      });
+    }
+
+    // Injeta no request header para a página ler o MESMO hash.
+    const headersWithVisitor = new Headers(requestHeaders);
+    headersWithVisitor.set(VISITOR_ID_HEADER, idHash);
+    const res2 = NextResponse.next({ request: { headers: headersWithVisitor } });
+    // Preserva os cookies já montados no `res` (locale + visitante).
+    for (const cookie of res.cookies.getAll()) {
+      res2.cookies.set(cookie);
+    }
+    return res2;
+  }
+
   return res;
 });
 
