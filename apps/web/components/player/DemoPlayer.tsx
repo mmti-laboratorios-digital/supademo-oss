@@ -23,6 +23,14 @@ export type DemoPlayerProps = {
   workspaceName?: string;
   /** Callback do submit do lead form (F3). */
   onLeadSubmit?: (values: LeadFormValues) => void | Promise<void>;
+  /**
+   * Mostra o badge "Powered by EasyDemo" no rodapé.
+   *
+   * ⚠️ Default `true` para player público e embed. Ocultar no preview do
+   * editor (`?preview=editor`) e quando o viewer logado é o dono do
+   * workspace.
+   */
+  showBadge?: boolean;
 };
 
 export function DemoPlayer({
@@ -34,6 +42,7 @@ export function DemoPlayer({
   leadFormConsentText,
   workspaceName = "EasyDemo",
   onLeadSubmit,
+  showBadge: showBadgeProp = true,
 }: DemoPlayerProps) {
   // Fonte única de verdade do estado de navegação. O reducer puro
   // (./state-machine.ts) é coberto por testes; aqui só despachamos ações.
@@ -164,6 +173,17 @@ export function DemoPlayer({
     emit("bounce", stepIds[0]);
   }, [emit, stepIds]);
 
+  // ─── Badge "Powered by EasyDemo" (F6.3) ───
+  //
+  // Oculta automaticamente no preview do editor (?preview=editor). Páginas
+  // também podem passar `showBadge={false}` quando o viewer logado é o dono
+  // do workspace.
+  const isPreview = React.useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return new URLSearchParams(window.location.search).get("preview") === "editor";
+  }, []);
+  const showBadge = showBadgeProp && !isPreview;
+
   // Keyboard nav: setas + Espaço + Enter + Esc para sair.
   React.useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -286,6 +306,7 @@ export function DemoPlayer({
       aria-label={demo.title}
       aria-roledescription="carousel"
       data-state={state}
+      data-demo-id={demo.id}
     >
       <header className="flex items-center justify-between border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
         <div className="flex items-center gap-3">
@@ -363,7 +384,38 @@ export function DemoPlayer({
           onClick={() => emit("cta_click", currentStep.id)}
         />
       ) : null}
+
+      {showBadge ? <PoweredByBadge locale={locale} /> : null}
     </section>
+  );
+}
+
+function PoweredByBadge({ locale }: { locale: "pt-BR" | "en" }): React.ReactElement {
+  return (
+    <div className="border-t border-border bg-muted/30 px-4 py-2 text-center">
+      <a
+        href="https://easydemo.io/?utm_source=embed-badge"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        {locale === "pt-BR" ? "Feito com EasyDemo" : "Powered by EasyDemo"}
+      </a>
+    </div>
   );
 }
 
