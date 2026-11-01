@@ -1,6 +1,8 @@
 import { DemoPlayer } from "@/components/player/DemoPlayer";
-import { demos, steps } from "@/db/schema/app";
+import type { LeadFormValues } from "@/components/player/LeadForm";
+import { demos, steps, workspaces } from "@/db/schema/app";
 import { getDb } from "@/lib/db";
+import type { FinalCta } from "@easydemo/shared";
 import { asc, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -16,23 +18,50 @@ export default async function EmbedPage({
   const [demo] = await db.select().from(demos).where(eq(demos.id, id)).limit(1);
   if (!demo || demo.status !== "published") notFound();
 
+  const publishedDemo = demo;
+
   const stepList = await db
     .select()
     .from(steps)
     .where(eq(steps.demoId, demo.id))
     .orderBy(asc(steps.position));
 
+  const [workspace] = await db
+    .select({ name: workspaces.name })
+    .from(workspaces)
+    .where(eq(workspaces.id, demo.workspaceId))
+    .limit(1);
+
+  async function handleLeadSubmit(values: LeadFormValues) {
+    const res = await fetch("/api/v1/leads", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        demoId: publishedDemo.id,
+        name: values.name,
+        email: values.email,
+        phone: values.phone || undefined,
+        consent: values.consent,
+        locale: publishedDemo.language === "en" ? "en" : "pt-BR",
+      }),
+    });
+    if (!res.ok) {
+      const body = (await res.json().catch(() => null)) as { message?: string } | null;
+      throw new Error(body?.message ?? "Não foi possível enviar seus dados.");
+    }
+  }
+
   return (
     <main className="min-h-dvh bg-background">
       <DemoPlayer
         demo={{
-          id: demo.id,
-          slug: demo.slug,
-          title: demo.title,
-          description: demo.description ?? "",
-          language: demo.language === "en" ? "en" : "pt-BR",
-          leadFormEnabled: false,
-          finalCta: null,
+          id: publishedDemo.id,
+          slug: publishedDemo.slug,
+          title: publishedDemo.title,
+          description: publishedDemo.description ?? "",
+          language: publishedDemo.language === "en" ? "en" : "pt-BR",
+          leadFormEnabled: publishedDemo.leadFormEnabled,
+          finalCta: (publishedDemo.finalCta as FinalCta | null) ?? null,
         }}
         steps={stepList.map((s) => ({
           id: s.id,
@@ -51,6 +80,9 @@ export default async function EmbedPage({
         }))}
         locale={demo.language as "pt-BR" | "en"}
         embedded
+        leadFormConsentText={demo.leadFormConsentText}
+        workspaceName={workspace?.name ?? "EasyDemo"}
+        onLeadSubmit={handleLeadSubmit}
       />
     </main>
   );

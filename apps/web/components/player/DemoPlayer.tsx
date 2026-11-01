@@ -1,8 +1,10 @@
 "use client";
 
+import { getDefaultConsentText } from "@/lib/lgpd/consent";
 import type { DemoEvent, DemoPlayerDemo, DemoPlayerStep } from "@easydemo/shared";
 import * as React from "react";
 import { HotspotOverlay } from "./HotspotOverlay";
+import { LeadForm, type LeadFormValues } from "./LeadForm";
 import { initialState, playerReducer } from "./state-machine";
 
 export type DemoPlayerProps = {
@@ -11,9 +13,27 @@ export type DemoPlayerProps = {
   locale: "pt-BR" | "en";
   embedded?: boolean;
   onEvent?: (e: DemoEvent) => void;
+  /**
+   * Texto de consentimento LGPD do demo. Cai no texto padrão quando
+   * ausente — o player é público e não depende do creator configurar.
+   */
+  leadFormConsentText?: string | null;
+  /** Nome do workspace, usado no texto de consentimento padrão. */
+  workspaceName?: string;
+  /** Callback do submit do lead form (F3). */
+  onLeadSubmit?: (values: LeadFormValues) => void | Promise<void>;
 };
 
-export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: DemoPlayerProps) {
+export function DemoPlayer({
+  demo,
+  steps,
+  locale,
+  embedded = false,
+  onEvent,
+  leadFormConsentText,
+  workspaceName = "EasyDemo",
+  onLeadSubmit,
+}: DemoPlayerProps) {
   // Fonte única de verdade do estado de navegação. O reducer puro
   // (./state-machine.ts) é coberto por testes; aqui só despachamos ações.
   const [player, dispatch] = React.useReducer(playerReducer, initialState);
@@ -151,6 +171,50 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
       ? `Step ${resolvedIndex + 1} de ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`
       : `Step ${resolvedIndex + 1} of ${totalSteps}: ${currentStep.caption || currentStep.sourceTitle || ""}`;
 
+  // ─────────── Lead form (F3) ───────────
+
+  const [leadSubmitted, setLeadSubmitted] = React.useState(false);
+  const [leadSubmitting, setLeadSubmitting] = React.useState(false);
+  const [leadError, setLeadError] = React.useState<string | null>(null);
+
+  const consentText = React.useMemo(() => {
+    if (leadFormConsentText && leadFormConsentText.trim().length > 0) {
+      return leadFormConsentText;
+    }
+    return getDefaultConsentText(workspaceName, locale);
+  }, [leadFormConsentText, workspaceName, locale]);
+
+  /**
+   * O form é **gate do step 1**: enquanto o lead não foi capturado, o
+   * visitante não avança. É o que o Supademo faz ("create gated sections
+   * that unlock after form completion").
+   */
+  const leadGateActive = demo.leadFormEnabled && !leadSubmitted;
+
+  const handleLeadSubmit = React.useCallback(
+    async (values: LeadFormValues) => {
+      if (!onLeadSubmit) {
+        setLeadError(
+          locale === "pt-BR"
+            ? "Não foi possível enviar agora. Tente novamente."
+            : "Could not submit right now. Please try again.",
+        );
+        return;
+      }
+      setLeadSubmitting(true);
+      setLeadError(null);
+      try {
+        await onLeadSubmit(values);
+        setLeadSubmitted(true);
+      } catch (err) {
+        setLeadError(err instanceof Error ? err.message : null);
+      } finally {
+        setLeadSubmitting(false);
+      }
+    },
+    [locale, onLeadSubmit],
+  );
+
   return (
     <section
       className={`relative flex min-h-dvh w-full flex-col bg-background ${
@@ -209,7 +273,7 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
             emit("cta_click");
             advance();
           }}
-          disabled={state !== "playing"}
+          disabled={state !== "playing" || leadGateActive}
         />
       </div>
 
@@ -217,6 +281,16 @@ export function DemoPlayer({ demo, steps, locale, embedded = false, onEvent }: D
         <footer className="border-t border-border bg-background px-4 py-3">
           <p className="text-sm">{currentStep.caption}</p>
         </footer>
+      ) : null}
+
+      {leadGateActive ? (
+        <LeadForm
+          consentText={consentText}
+          locale={locale}
+          submitting={leadSubmitting}
+          serverError={leadError}
+          onSubmit={handleLeadSubmit}
+        />
       ) : null}
 
       {state === "completed" && demo.finalCta ? (

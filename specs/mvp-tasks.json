@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-31",
+  "updated_at": "2026-11-01",
   "plan": "docs/MVP-PLAN.md",
   "progress_log": "docs/MVP-PROGRESS.md",
   "scope": "specs/mvp-scope.json",
@@ -12,8 +12,8 @@
     "blocked": "não pode avançar — exige `note` explicando o que falta e quem resolve"
   },
   "current": {
-    "phase": "F3",
-    "step": "F3.1",
+    "phase": "F4",
+    "step": "F4.1",
     "status": "pending"
   },
   "phases": [
@@ -117,16 +117,16 @@
       "depends_on": [
         "F1"
       ],
-      "status": "pending",
+      "status": "done",
       "steps": [
-        { "n": 1, "id": "F3.1", "title": "Criar apps/web/components/player/LeadForm.tsx: nome, e-mail, telefone (opcional), checkbox de consentimento LGPD desmarcado por padrão, texto do consentimento vindo do demo; label real e aria-describedby no erro", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F3.2", "title": "DemoPlayer.tsx: renderizar o form quando demo.leadFormEnabled, como gate do step 1", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F3.3", "title": "app/d/[slug]/page.tsx:59 — trocar finalCta: null por finalCta: demo.finalCta (o schema já tem a coluna JSONB final_cta)", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 4, "id": "F3.4", "title": "app/embed/[id]/page.tsx: mesma correção do CTA", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 5, "id": "F3.5", "title": "Criar api/v1/leads/route.ts: wrapper REST sobre o server action server/actions/lead.ts que já existe, respeitando o withTenant do workspace do demo", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 6, "id": "F3.6", "title": "Criar (app)/demos/[id]/leads/page.tsx: listar os leads do demo + export CSV", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 7, "id": "F3.7", "title": "Validar: lead aparece em /demos/{id}/leads com consentText e consentAt; submit sem consentimento → 400; CTA visível ao completar; form ausente com leadFormEnabled false", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 8, "id": "F3.8", "title": "Gate G2 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
+        { "n": 1, "id": "F3.1", "title": "Criar apps/web/components/player/LeadForm.tsx: nome, e-mail, telefone (opcional), checkbox de consentimento LGPD desmarcado por padrão, texto do consentimento vindo do demo; label real e aria-describedby no erro", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "LeadForm criado no player: nome, e-mail, telefone opcional, consentimento LGPD desmarcado por padrao, label real e aria-describedby ligando erro e texto de consentimento" },
+        { "n": 2, "id": "F3.2", "title": "DemoPlayer.tsx: renderizar o form quando demo.leadFormEnabled, como gate do step 1", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "DemoPlayer renderiza o LeadForm como gate do step 1 quando leadFormEnabled; hotspot fica desabilitado ate o lead ser capturado" },
+        { "n": 3, "id": "F3.3", "title": "app/d/[slug]/page.tsx:59 — trocar finalCta: null por finalCta: demo.finalCta (o schema já tem a coluna JSONB final_cta)", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "app/d/[slug] passa finalCta real (demo.finalCta) e o texto de consentimento do demo, e envia o lead para /api/v1/leads" },
+        { "n": 4, "id": "F3.4", "title": "app/embed/[id]/page.tsx: mesma correção do CTA", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "app/embed/[id] corrigido: CTA real, leadFormEnabled real, texto de consentimento e submit do lead" },
+        { "n": 5, "id": "F3.5", "title": "Criar api/v1/leads/route.ts: wrapper REST sobre o server action server/actions/lead.ts que já existe, respeitando o withTenant do workspace do demo", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Endpoint publico POST /api/v1/leads criado: workspaceId derivado do demo (nunca do cliente), demo precisa estar published, reusa o captureLead com consentimento obrigatorio e hash de IP/UA" },
+        { "n": 6, "id": "F3.6", "title": "Criar (app)/demos/[id]/leads/page.tsx: listar os leads do demo + export CSV", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Pagina /demos/{id}/leads criada (lista com consentText e consentAt) + rota /api/v1/demos/{id}/leads/export gerando CSV com BOM UTF-8" },
+        { "n": 7, "id": "F3.7", "title": "Validar: lead aparece em /demos/{id}/leads com consentText e consentAt; submit sem consentimento → 400; CTA visível ao completar; form ausente com leadFormEnabled false", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G2 validado com 8 testes de integracao: lead gravado com consentText/consentAt, sem consentimento 400, demo draft 404, workspaceId derivado do demo (inercao bloqueada) e export CSV com isolamento por RLS" },
+        { "n": 8, "id": "F3.8", "title": "Gate G2 + lint/typecheck/test; registrar e abrir o PR", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G2 fechado: lint 227/0, typecheck 4/4, 193 testes e build verde; F3 registrada no MVP-PROGRESS.md" }
       ]
     },
     {

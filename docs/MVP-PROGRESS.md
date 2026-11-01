@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F2** — Upload manual de screenshot (gate G1.5) — concluída, PR em abertura |
-| **Última fase concluída** | **F2** — Upload manual de screenshot (gate G1.5 ✅) |
-| **Próxima fase** | **F3** — Lead form + CTA genérico (gate G2) |
-| **Próximo passo** | `F3.1` — `components/player/LeadForm.tsx` (novo) |
-| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F2/F3 |
-| **Branch** | `feat/f2-upload-manual` (1 branch por fase) |
-| **Gate atual** | G1.5 (upload manual) ✅ → próximo G2 (lead + CTA) |
-| **Passos concluídos** | 31 / 86 |
+| **Fase em andamento** | **F3** — Lead form + CTA genérico (gate G2) — concluída, PR em abertura |
+| **Última fase concluída** | **F3** — Lead form + CTA genérico (gate G2 ✅) |
+| **Próxima fase** | **F4** — Billing (gate G3) |
+| **Próximo passo** | `F4.1` — `api/v1/billing/checkout/route.ts` |
+| **Bloqueios** | nenhum no código; DPO/CNPJ e Chrome Web Store são externos e não bloqueiam F3/F4 |
+| **Branch** | `feat/f3-lead-cta` (1 branch por fase) |
+| **Gate atual** | G2 (lead + CTA) ✅ → próximo G3 (pagamento) |
+| **Passos concluídos** | 39 / 86 |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -675,3 +675,67 @@ testes novos                     → 10/10
 - [ ] O `sourceUrl` sintético (`https://easydemo.io/upload/...`) é um placeholder — quando o upload manual ganhar um "site de origem" real, precisa ser trocado.
 - [ ] `POST /steps` responde 500 (e não 403) quando o RLS bloqueia o insert — a distinção de erro é nem usada.
 - [ ] O estado do editor (steps) é reconciliado por `PATCH /api/v1/demos/[id]` completo; se o estado local divergir do banco, o `position` pode colidir com a UNIQUE `(demo_id, position)`.
+
+### 2026-10-31 — F3 — Lead form + CTA genérico (gate G2)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/f3-lead-cta` · **Commit:** `b0da457` (+ `0762a0a`) · **Gate:** G2 ✅
+
+**O que passou a funcionar**
+- O visitante do player público pode deixar nome, e-mail e telefone. O checkbox de consentimento LGPD vem **desmarcado** — sem marcar, o envio é bloqueado com mensagem clara.
+- O formulário é **gate do step 1**: enquanto o lead não for capturado, o hotspot não avança (o que o Supademo faz com "gated sections").
+- O **CTA final aparece** ao completar a demo — antes `finalCta` era `null` hardcoded nas duas rotas públicas, então o CTA **nunca** aparecia.
+- O creator vê os leads em `/demos/{id}/leads` (com `consentText` e `consentAt`) e exporta CSV.
+
+**Arquivos criados**
+- `apps/web/components/player/LeadForm.tsx` — formulário do player (nome, e-mail, telefone, consentimento).
+- `apps/web/app/api/v1/leads/route.ts` — endpoint público de captura.
+- `apps/web/app/(app)/demos/[id]/leads/page.tsx` — lista de leads do creator.
+- `apps/web/app/api/v1/demos/[id]/leads/export/route.ts` — export CSV (com BOM UTF-8).
+- `apps/web/db/migrations/0005_leads_public_insert.sql` — policies públicas de insert/select em `app.leads`.
+- `apps/web/app/api/__tests__/leads-api.integration.test.ts` — 8 testes de integração do gate G2.
+
+**Arquivos modificados**
+- `apps/web/components/player/DemoPlayer.tsx` — renderiza o `LeadForm` como gate e passa o consentimento.
+- `apps/web/app/d/[slug]/page.tsx` — CTA real, `leadFormEnabled` real, texto de consentimento do demo, submit do lead.
+- `apps/web/app/embed/[id]/page.tsx` — as mesmas correções.
+- `apps/web/db/migrations/meta/_journal.json` — entrada da 0005.
+
+**Decisões tomadas durante a execução**
+- **D1:** o endpoint público `/api/v1/leads` **deriva o `workspaceId` do demo** e nunca o aceita do cliente. O lead não pode ser atribuído a outro workspace, mesmo que o cliente mande `workspaceId` no payload.
+- **D2:** o `workspaceName` (usado no texto de consentimento padrão) é lido do banco, não do cliente — o lead registra a empresa certa.
+- **D3:** o `POST /api/v1/leads` reusa o server action `captureLead` existente (consentimento obrigatório, hash de IP/UA, texto de consentimento persistido) em vez de duplicar a lógica. O wrapper só valida o demo publicado.
+- **D4:** o CSV é gerado **no servidor** (rota dedicada), com BOM UTF-8 para o Excel abrir em UTF-8, e `cache-control: no-store`.
+- **D5:** a policy pública de `app.leads` é **estreita**: só INSERT quando não há tenant, o `demo_id` precisa apontar para demo **publicada**, o `workspace_id` precisa ser o da demo e `consent_text` é obrigatório.
+
+**Armadilhas / o que a fase ensina**
+- **O funil de lead era IMPOSSÍVEL de fechar.** A policy `leads_all` (0000_init.sql) só libera escrita quando `app.current_tenant_id() = workspace_id` — mas o player público não tem tenant. Resultado: `42501 — new row violates row-level security policy for table "leads"`. A policy pública (migration 0005) destrava isso.
+- **No Postgres, uma policy `FOR INSERT` isolada (sem `FOR SELECT`/`FOR ALL` na mesma tabela) faz o INSERT falhar com `42501` mesmo com `WITH CHECK (true)`.** Isolado em tabela de teste: `FOR INSERT` só → falha; `FOR INSERT` + `FOR SELECT` → passa; `FOR ALL` → passa. O `RETURNING` re-avalia a visibilidade da row recém-criada. Por isso a 0005 cria **duas** policies. Isso não está documentado no manual do Postgres — foi preciso isolar com 8 tabelas de teste.
+- **O `drizzle-kit migrate` NÃO reaplica migration já registrada** — o hash guardado é o do arquivo **inteiro** (sha256), não do statement. Editar uma migration já aplicada e rodar `db:migrate` de novo não faz nada (e não avisa). Para corrigir, é preciso apagar o registro em `drizzle.__drizzle_migrations` e a policy antiga antes de reaplicar.
+- **O `captureLead` chama `headers()` do Next** — fora de um request scope isso lança "headers was called outside a request scope". Nos testes é preciso mockar `next/headers`.
+- **O `demo.finalCta` é `jsonb` e o TypeScript tipa como `unknown`** — precisa de cast para `FinalCta | null` ao passar ao player.
+- **O `notFound()` do Next não estreita o tipo** — o `demo` continua `possibly undefined` depois do `if`. Precisa de uma const local (`publishedDemo`) para o TS narrowing funcionar dentro de closures.
+
+**Validação rodada**
+```
+pnpm lint                                      → 227 arquivos, 0 erros
+pnpm typecheck                                 → 4/4 pacotes
+pnpm test                                      → 193/193 testes (185 + 8 novos)
+pnpm --filter web db:migrate                   → 0005 aplicada (idempotente)
+pnpm --filter web build                        → verde (19/19 páginas)
+testes novos                                   → 8/8
+  - demo publicada + consentimento              → 201, consentText e consentAt gravados
+  - sem consentimento                           → 400
+  - demo em draft                               → 404
+  - demo inexistente                            → 404
+  - e-mail inválido                             → 400
+  - cliente manda workspaceId de outro tenant   → lead cai no workspace do demo
+  - export CSV do tenant                        → 200 com os leads
+  - export CSV de demo de outro tenant          → 404 (RLS)
+```
+
+**Ficou pra depois (débito desta fase)**
+- [ ] `app.leads` ganhou uma policy `FOR SELECT` pública — ela só expõe rows cujo `demo_id` aponta para demo publicada do mesmo workspace. Vale revisar se isso é aceitável no modelo de privacidade (o lead é PII).
+- [ ] O `LeadForm` é renderizado no player mas **não há link para a página de leads** no menu do creator — a página existe, mas ninguém chega lá ainda.
+- [ ] O `leadFormEnabled` é lido do banco, mas o `LeadFormEditor` do editor é bloqueado no plano Free (`upgradeRequired`) — enquanto o banco permitir `lead_form_enabled` no Free (D2 da §5), existe divergência entre editor e player.
+- [ ] O `captureLead` grava `consentText` customizado quando o creator define, mas **o texto do form no player vem de `demo.leadFormConsentText`** — se o creator customizar só no editor (que salva em `leadForm.consentText` via PATCH), o valor não chega ao banco. Caminho de persistência do texto customizado ficou aberto.
