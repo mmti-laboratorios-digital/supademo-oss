@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-31",
+  "updated_at": "2026-11-01",
   "plan": "docs/MVP-PLAN.md",
   "progress_log": "docs/MVP-PROGRESS.md",
   "scope": "specs/mvp-scope.json",
@@ -13,7 +13,7 @@
   },
   "current": {
     "phase": "F3",
-    "step": "F3.6",
+    "step": "F3.8",
     "status": "in_progress"
   },
   "phases": [
@@ -124,8 +124,8 @@
         { "n": 3, "id": "F3.3", "title": "app/d/[slug]/page.tsx:59 — trocar finalCta: null por finalCta: demo.finalCta (o schema já tem a coluna JSONB final_cta)", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "app/d/[slug] passa finalCta real (demo.finalCta) e o texto de consentimento do demo, e envia o lead para /api/v1/leads" },
         { "n": 4, "id": "F3.4", "title": "app/embed/[id]/page.tsx: mesma correção do CTA", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "app/embed/[id] corrigido: CTA real, leadFormEnabled real, texto de consentimento e submit do lead" },
         { "n": 5, "id": "F3.5", "title": "Criar api/v1/leads/route.ts: wrapper REST sobre o server action server/actions/lead.ts que já existe, respeitando o withTenant do workspace do demo", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Endpoint publico POST /api/v1/leads criado: workspaceId derivado do demo (nunca do cliente), demo precisa estar published, reusa o captureLead com consentimento obrigatorio e hash de IP/UA" },
-        { "n": 6, "id": "F3.6", "title": "Criar (app)/demos/[id]/leads/page.tsx: listar os leads do demo + export CSV", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 7, "id": "F3.7", "title": "Validar: lead aparece em /demos/{id}/leads com consentText e consentAt; submit sem consentimento → 400; CTA visível ao completar; form ausente com leadFormEnabled false", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 6, "id": "F3.6", "title": "Criar (app)/demos/[id]/leads/page.tsx: listar os leads do demo + export CSV", "status": "done", "done_at": "2026-10-31", "commit": null, "note": "Pagina /demos/{id}/leads criada (lista com consentText e consentAt) + rota /api/v1/demos/{id}/leads/export gerando CSV com BOM UTF-8" },
+        { "n": 7, "id": "F3.7", "title": "Validar: lead aparece em /demos/{id}/leads com consentText e consentAt; submit sem consentimento → 400; CTA visível ao completar; form ausente com leadFormEnabled false", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Gate G2 validado com 8 testes de integracao: lead gravado com consentText/consentAt, sem consentimento 400, demo draft 404, workspaceId derivado do demo (inercao bloqueada) e export CSV com isolamento por RLS" },
         { "n": 8, "id": "F3.8", "title": "Gate G2 + lint/typecheck/test; registrar e abrir o PR", "status": "pending", "done_at": null, "commit": null, "note": null }
       ]
     },
