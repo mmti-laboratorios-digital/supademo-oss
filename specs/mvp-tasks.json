@@ -13,8 +13,8 @@
   },
   "current": {
     "phase": "F4",
-    "step": "F4.1",
-    "status": "pending"
+    "step": "F4.4",
+    "status": "in_progress"
   },
   "phases": [
     {
@@ -141,11 +141,11 @@
         "F0",
         "F1"
       ],
-      "status": "pending",
+      "status": "in_progress",
       "steps": [
-        { "n": 1, "id": "F4.1", "title": "Criar api/v1/billing/checkout/route.ts: sessão de assinatura no Asaas via lib/billing/asaas.ts, devolver a URL de checkout, aceitar plan e workspaceId", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 2, "id": "F4.2", "title": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer), mapeando BRL → centavos (R$49 = 4900)", "status": "pending", "done_at": null, "commit": null, "note": null },
-        { "n": 3, "id": "F4.3", "title": "Consolidar a duplicata apps/web/lib/asaas.ts em lib/billing/asaas.ts, sem quebrar os 21 testes de lib/billing/__tests__/asaas.test.ts", "status": "pending", "done_at": null, "commit": null, "note": null },
+        { "n": 1, "id": "F4.1", "title": "Criar api/v1/billing/checkout/route.ts: sessão de assinatura no Asaas via lib/billing/asaas.ts, devolver a URL de checkout, aceitar plan e workspaceId", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "POST /api/v1/billing/checkout criado: cria customer + subscription + pagamento no Asaas, grava app.subscriptions (incomplete) e devolve checkoutUrl; workspaceId vem da sessao (body ignorado, 403 se divergir); preco vem do banco" },
+        { "n": 2, "id": "F4.2", "title": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer), mapeando BRL → centavos (R$49 = 4900)", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "lib/billing/asaas.ts: createSubscription(planId, workspaceId, customer, valueCents) com buildSubscriptionPayload puro; preco lido do app.plans.price_brl_cents (R9=4900); helpers brlToCents/centsToBrl/formatPriceBrl" },
+        { "n": 3, "id": "F4.3", "title": "Consolidar a duplicata apps/web/lib/asaas.ts em lib/billing/asaas.ts, sem quebrar os 21 testes de lib/billing/__tests__/asaas.test.ts", "status": "done", "done_at": "2026-11-01", "commit": null, "note": "Duplicata consolidada: lib/asaas.ts virou shim de re-export de lib/billing/asaas.ts (camada HTTP + DTOs); sandbox test passa a mockar @/lib/billing/asaas; os 21 testes de lib/billing/__tests__/asaas.test.ts continuam verdes" },
         { "n": 4, "id": "F4.4", "title": "Webhook payment.confirmed: gravar em app.subscriptions e atualizar o plano do workspace; tratar payment.failed e cancelamento", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 5, "id": "F4.5", "title": "(app)/billing/page.tsx: ler o plano real do workspace (linha 11), corrigir ctaHref pro path real (linha 40), remover o mailto fictício (linha 54)", "status": "pending", "done_at": null, "commit": null, "note": null },
         { "n": 6, "id": "F4.6", "title": "Enforcement: chamar assertWithinLimits ao criar demo, step e lead", "status": "pending", "done_at": null, "commit": null, "note": null },

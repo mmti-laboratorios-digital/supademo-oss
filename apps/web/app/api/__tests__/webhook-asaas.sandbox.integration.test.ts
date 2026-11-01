@@ -69,11 +69,14 @@ vi.mock("@/lib/queue", async () => {
 });
 
 // ---------------------------------------------------------------------------
-// Mock the lib/asaas wrapper so it points at our mock server. We do NOT
-// edit lib/asaas.ts — we replace its fetch implementation via vi.mock.
+// Mock the consolidated Asaas module so it points at our mock server.
+//
+// ⚠️ Mockamos `@/lib/billing/asaas` (a implementação real, consolidada na F4)
+// e NÃO o shim `@/lib/asaas` — mockar o shim não impediria a implementação real
+// de falar com a API de verdade.
 // ---------------------------------------------------------------------------
-vi.mock("@/lib/asaas", async () => {
-  const real = await vi.importActual<typeof import("@/lib/asaas")>("@/lib/asaas");
+vi.mock("@/lib/billing/asaas", async () => {
+  const real = await vi.importActual<typeof import("@/lib/billing/asaas")>("@/lib/billing/asaas");
 
   async function mockAsaas<T>(path: string, init: RequestInit = {}): Promise<T> {
     const res = await fetch(`${MOCK_ASAAS_URL}${path}`, {
@@ -95,7 +98,10 @@ vi.mock("@/lib/asaas", async () => {
     createCustomer: (args: { name: string; email?: string; cpfCnpj?: string }) =>
       mockAsaas("/v3/customers", { method: "POST", body: JSON.stringify(args) }),
     createSubscription: (args: Parameters<typeof real.createSubscription>[0]) =>
-      mockAsaas("/v3/subscriptions", { method: "POST", body: JSON.stringify(args) }),
+      mockAsaas("/v3/subscriptions", {
+        method: "POST",
+        body: JSON.stringify(real.buildSubscriptionPayload(args)),
+      }),
     getSubscription: (id: string) => mockAsaas(`/v3/subscriptions/${id}`),
     cancelSubscription: async (id: string) => {
       await mockAsaas(`/v3/subscriptions/${id}`, { method: "DELETE" });
@@ -153,7 +159,7 @@ async function createFixtureSubscription(opts: {
   value?: number;
 }): Promise<{ asaasSubscriptionId: string; customerId: string }> {
   // Import AFTER vi.mock so the override applies
-  const { createCustomer, createSubscription } = await import("@/lib/asaas");
+  const { createCustomer, createSubscription } = await import("@/lib/billing/asaas");
 
   const customer = await createCustomer({
     name: `Sandbox Customer ${randomUUID().slice(0, 6)}`,
@@ -161,10 +167,13 @@ async function createFixtureSubscription(opts: {
     cpfCnpj: "00000000000",
   });
 
+  // `valueCents` — o Asaas cobra em centavos (4900 = R$ 49,00).
   const subscription = await createSubscription({
+    planId: "pro",
+    workspaceId,
     customer: customer.id,
+    valueCents: opts.value ?? 4900,
     billingType: opts.billingType ?? "PIX",
-    value: opts.value ?? 49.0,
     cycle: opts.cycle ?? "MONTHLY",
     nextDueDate: new Date().toISOString().slice(0, 10),
     description: "Sandbox test subscription",
@@ -268,7 +277,7 @@ describe("Asaas mock server", () => {
 
       // Verify via mock GET — wrapper returns AsaasSubscription (subset);
       // mock returns the full schema, but TS narrows to wrapper's declared fields.
-      const { getSubscription } = await import("@/lib/asaas");
+      const { getSubscription } = await import("@/lib/billing/asaas");
       const sub = await getSubscription(asaasSubscriptionId);
       expect(sub.status).toBe("ACTIVE");
       // The mock echoes billingType back; cast through unknown to read the extra field
