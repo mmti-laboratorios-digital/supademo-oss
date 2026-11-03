@@ -71,6 +71,31 @@ ALTER ROLE readonly NOBYPASSRLS;
 CREATE SCHEMA IF NOT EXISTS app;
 CREATE SCHEMA IF NOT EXISTS analytics;
 
+-- Schema da fila do graphile-worker.
+--
+-- ⚠️ A ordem importa: este arquivo roda no primeiro start do container, e o
+-- schema `graphile_worker` só existe DEPOIS que o worker rodou uma vez (o
+-- graphile-worker cria as tabelas da fila na primeira execução, via o
+-- `migrate()` com o `DIRECT_URL`).
+--
+-- Por isso o bloco abaixo é um `DO $$` que só aplica os grants se o schema
+-- já existir. Em banco novo, quem instala o schema da fila é o worker; os
+-- grants correspondentes são garantidos pela migration
+-- `0007_graphile_worker_grants.sql` (que roda depois).
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'graphile_worker') THEN
+    EXECUTE 'GRANT USAGE ON SCHEMA graphile_worker TO app_user, app_owner, readonly';
+    EXECUTE 'GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA graphile_worker TO app_user';
+    EXECUTE 'GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA graphile_worker TO app_user';
+    EXECUTE 'GRANT ALL ON ALL TABLES IN SCHEMA graphile_worker TO app_owner';
+    EXECUTE 'GRANT ALL ON ALL SEQUENCES IN SCHEMA graphile_worker TO app_owner';
+    EXECUTE 'GRANT SELECT ON ALL TABLES IN SCHEMA graphile_worker TO readonly';
+    EXECUTE 'GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA graphile_worker TO readonly';
+  END IF;
+END
+$$;
+
 -- ----------------------------------------------------------------------------
 -- Grants no database
 -- ----------------------------------------------------------------------------

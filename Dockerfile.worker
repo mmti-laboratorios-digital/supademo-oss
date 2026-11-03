@@ -43,6 +43,21 @@ ENV NODE_ENV=production \
     NODE_OPTIONS="--enable-source-maps" \
     WORKER_CONCURRENCY=5
 
+# ⚠️ **O worker precisa de `DIRECT_URL` no ambiente de deploy** (não só do
+# `DATABASE_URL`):
+#
+#   - `DIRECT_URL` (app_owner, BYPASSRLS) → conexão da **fila** do
+#     graphile-worker e instalação do schema `_graphile_worker.*`.
+#     O graphile-worker cria as tabelas da fila com RLS habilitado e sem
+#     policy — ele espera que o role da conexão seja o owner ou tenha
+#     BYPASSRLS. Com o `app_user` o worker falha no boot.
+#
+#   - `DATABASE_URL` (app_user) → o Next.js, onde o isolamento RLS é
+#     obrigatório.
+#
+# Sem `DIRECT_URL`, o worker tenta subir com o `DATABASE_URL` e falha com
+# "permission denied for schema graphile_worker" — o erro fica no log.
+
 # Non-root user
 RUN addgroup -S easydemo && adduser -S easydemo -G easydemo
 WORKDIR /app
