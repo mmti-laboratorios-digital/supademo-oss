@@ -1,5 +1,10 @@
 import type { Task } from "graphile-worker";
-import { Client } from "pg";
+// ⚠️ `pg` é CommonJS — `import { Client } from "pg"` quebra em ESM
+// ("does not provide an export named 'Client'"). O import default + destructure
+// é o que funciona (mesma armadilha registrada na F3).
+import pg from "pg";
+
+const { Client } = pg;
 
 /**
  * purge_expired_subscriptions — expurgo de assinatura (débito da F4).

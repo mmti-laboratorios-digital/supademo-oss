@@ -50,6 +50,13 @@
       "when": 1793660000000,
       "tag": "0006_subscription_asaas_payment_id",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793663600000,
+      "tag": "0007_graphile_worker_grants",
+      "breakpoints": true
     }
   ]
 }

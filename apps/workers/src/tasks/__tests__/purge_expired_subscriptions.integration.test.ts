@@ -16,8 +16,11 @@
  *   5. é idempotente.
  */
 import { randomUUID } from "node:crypto";
+// ⚠️ `pg` é CommonJS — o import default funciona em ESM (vitest e tsx).
 import pg from "pg";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+
+const { Client } = pg;
 
 const APP_OWNER_URL =
   process.env.DIRECT_URL ??
