@@ -1613,3 +1613,101 @@ pnpm test      → shared 5/5 · workers 7/7 · web 272/272
       task existe e está registrada; o agendamento é infra).
 - [ ] `sync_billing` ainda é um stub — reconcilia a subscription local com o
       Asaas quando o webhook falha.
+
+### 2026-11-01 — Cron do graphile-worker + retenção LGPD implementada
+
+**Estado:** ✅ concluído
+**Branch:** `feat/worker-cron-scheduler` · **Commit:** `d76a309` · **PR:** #53
+
+**O que estava faltando**
+
+As tasks existiam e estavam registradas no worker, mas **nada as agendava**.
+O `specs/mvp-scope.json` já prometia "cron nativo para LGPD retention" e o
+`cleanup_expired` carregava o comentário *"configurado fora deste scaffold"* —
+mas nunca foi configurado. Ou seja: **nem o expurgo de assinatura (PR #52) nem
+a retenção LGPD rodavam**.
+
+**1. Cron nativo (sem `pg_cron`)**
+
+O graphile-worker tem cron próprio — não precisa da extensão `pg_cron` nem de
+nada instalado no Postgres. O crontab vive em
+`apps/workers/src/crontab.ts` (TypeScript, versionado), não em arquivo de
+texto solto, por dois motivos:
+
+- o **typecheck garante que todo task citado existe** na `taskList` — um typo
+  vira erro de compilação, não um job silenciosamente ignorado;
+- `assertCrontabTasksExist()` refaz a checagem em runtime e o worker **recusa
+  subir** se algo estiver errado.
+
+```
+0 3 * * * purge_expired_subscriptions    # 03:00 UTC = 00:00 Brasília
+30 3 * * * cleanup_expired               # 03:30 UTC
+```
+
+**2. Retenção LGPD implementada de verdade**
+
+O `cleanup_expired` era um **stub** (só logava as configs). Agora apaga:
+leads de workspaces deletados há mais de `LGPD_LEAD_RETENTION_DAYS`, e eventos
+de analytics com mais de `LGPD_ANALYTICS_RETENTION_MONTHS`.
+
+⚠️ O que **não** é apagado: lead de workspace **ativo** — apagar dado em
+guarda de cliente que ainda paga seria destruição de dado.
+
+**7 testes** cobrem os dois lados (apaga / não apaga), o prazo inválido
+(rejeita em vez de apagar tudo) e a idempotência.
+
+**3. Três bugs de permissão que impediam o worker de subir**
+
+Só apareceram com o worker rodando de verdade — nenhuma migration ou teste
+os pegava:
+
+1. **`permission denied for database easydemo`** — o graphile-worker cria o
+   schema `_graphile_worker.*` na primeira execução, e o `app_user`
+   (RLS-enforced) não tem DDL. O `migrate()` agora roda com o `DIRECT_URL`
+   (app_owner, BYPASSRLS).
+2. **`permission denied for schema graphile_worker`** — as tabelas da fila
+   existem, mas o `app_user` não tinha `GRANT USAGE`/CRUD. **Migration 0007**
+   + bloco equivalente no `init-roles.sql`.
+3. **`new row violates row-level security policy for table
+   "_private_known_crontabs"`** — descobri que o **graphile-worker cria as
+   tabelas da fila com RLS habilitado e sem policy**: é o design dele, ele
+   espera que o role da conexão seja o *owner* ou tenha BYPASSRLS. **O worker
+   passou a operar a fila com o `DIRECT_URL` (app_owner)** — que é exatamente
+   o role que o `init-roles.sql` reserva para "jobs assíncronos". O
+   `app_user` continua sendo o role do Next.js, onde o RLS é obrigatório.
+
+**4. `pg` é CommonJS**
+
+`import { Client } from "pg"` quebra em ESM (*"does not provide an export named
+'Client'"*). O worker **nem subia** por causa disso — e os testes passavam,
+porque o vitest transforma diferente. Corrigido nos dois arquivos (mesma
+armadilha já registrada na F3).
+
+**Validação — end-to-end, não só unitária**
+
+```
+[workers] schema da fila (_graphile_worker) atualizado.
+[workers] cron agendado: purge_expired_subscriptions@..., cleanup_expired@...
+[core] INFO: Worker connected and looking for jobs...
+[purge_expired_subscriptions] expiradas=1 rebaixadas=1 ignoradas=0
+[worker(...)] Completed task 2 (purge_expired_subscriptions, 16.55ms) with success
+```
+
+- entries registrados em `graphile_worker._private_known_crontabs` ✅
+- job enfileirado → executado → **workspace rebaixado de `pro` para `free`** ✅
+
+```
+pnpm lint      → 275 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → shared 5/5 · workers 14/14 · web 272/272
+```
+
+**Requisito de deploy**
+
+O container do worker precisa de `DIRECT_URL` (app_owner) no ambiente — não só
+de `DATABASE_URL`. Documentado no `Dockerfile.worker`.
+
+**Débitos restantes**
+
+- [ ] `sync_billing` ainda é um stub — reconcilia a subscription local com o
+      Asaas quando o webhook falha.
