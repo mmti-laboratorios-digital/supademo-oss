@@ -170,3 +170,35 @@ describe("/api/webhooks/asaas — PAYMENT_RECEIVED", () => {
     expect(j2.deduplicated).toBe(true);
   });
 });
+
+describe("/api/webhooks/asaas — enfileiramento do sync_billing", () => {
+  it("enfileira sync_billing com o asaasSubscriptionId (e não com o id do evento)", async () => {
+    const { enqueue } = await import("@/lib/queue");
+    vi.mocked(enqueue).mockClear();
+
+    const paymentId = `pay_enqueue_${randomUUID().slice(0, 8)}`;
+    const body = JSON.stringify({
+      event: "PAYMENT_RECEIVED",
+      payment: {
+        id: paymentId,
+        subscription: asaasSubscriptionId,
+        customer: "cus_1",
+        value: 4900,
+        billingType: "PIX",
+        status: "RECEIVED",
+      },
+    });
+    const signature = signPayload(body);
+    const res = await postWebhook(body, signature);
+    expect(res.status).toBe(200);
+
+    // ⚠️ O job reconcilia a **assinatura** — o payload precisa do
+    // `asaasSubscriptionId`. O `asaasEventId` (idempotência do evento) não
+    // identifica a assinatura, e mandá-lo fazia o job não encontrar nada.
+    const calls = vi.mocked(enqueue).mock.calls.filter((call) => call[0]?.type === "sync_billing");
+    expect(calls.length).toBeGreaterThan(0);
+    const payload = calls[calls.length - 1]?.[0] as { asaasSubscriptionId?: string };
+    expect(payload.asaasSubscriptionId).toBe(asaasSubscriptionId);
+    expect(payload).not.toHaveProperty("asaasEventId");
+  });
+});

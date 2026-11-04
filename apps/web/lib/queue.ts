@@ -14,7 +14,10 @@ export type JobPayload =
   | { type: "tts_job"; stepId: string; text: string; lang: "pt-BR" | "en" }
   | { type: "generate_og"; demoId: string }
   | { type: "cleanup_expired" }
-  | { type: "sync_billing"; asaasEventId: string }
+  // ⚠️ `asaasSubscriptionId` (e **não** `asaasEventId`) — a reconciliação é
+  // por assinatura. O id do evento não identifica a assinatura e fazia o job
+  // não encontrar nada.
+  | { type: "sync_billing"; asaasSubscriptionId: string }
   | { type: "purge_expired_subscriptions" };
 
 export const taskList: TaskList = {
