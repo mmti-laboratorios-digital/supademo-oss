@@ -5,8 +5,8 @@
  *
  * Estes helpers produzem o EXATO formato que o nosso handler
  * `/api/webhooks/asaas` espera. O mock server em
- * `apps/web/scripts/mock-asaas.ts` produz objetos no mesmo schema
- * (Asaas v3) para customers/subscriptions/payments.
+ * `packages/shared/src/test-utils/mock-asaas.ts` produz objetos no mesmo
+ * schema (Asaas v3) para customers/subscriptions/payments.
  *
  * Mantemos aqui apenas o subset que este projeto consome — não tentamos
  * replicar 100% da spec do Asaas.

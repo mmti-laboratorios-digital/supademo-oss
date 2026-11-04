@@ -37,6 +37,12 @@
  * - `purge_expired_subscriptions` — expurgo de assinatura (débito da F4):
  *   rebaixa para Free o workspace cuja subscription cancelada já passou do
  *   `current_period_end` e que não tem outra assinatura viva.
+ * - `sync_billing` — reconciliação com o Asaas: o provedor é a fonte da
+ *   verdade. Fecha o buraco do **webhook perdido** — o creator que pagou mas
+ *   cujo `PAYMENT_RECEIVED` se perdeu (ninguém o promove), e o que cancelou
+ *   mas cujo `SUBSCRIPTION_INACTIVATED` se perdeu (ninguém o rebaixa).
+ *   ⚠️ Roda **depois** do expurgo: o expurgo rebaixa o que já expirou
+ *   localmente; o `sync_billing` descobre o que só o Asaas sabe.
  *
  * ⚠️ **Horários escolhidos para não concorrer:** os jobs rodam de madrugada
  * (UTC), quando o tráfego é baixo e o backup do pgBackRest já terminou.
@@ -53,10 +59,20 @@ export const CRONTAB = `
 # Retenção LGPD (art. 16) — todo dia às 03:30 UTC.
 # ⚠️ Task ainda em stub: registra as configs de retenção, não apaga nada.
 30 3 * * * cleanup_expired
+
+# Reconciliação de billing — todo dia às 04:00 UTC.
+# O Asaas é a fonte da verdade: reconcilia status, fim do período e plano do
+# workspace. Fecha o caso do webhook perdido (pagamento confirmado perdido →
+# workspace ficaria no Free; cancelamento perdido → ficaria no plano pago).
+0 4 * * * sync_billing
 `;
 
 /**
  * IDs das tasks agendadas — útil para log e para validar que o crontab
  * não cita uma task inexistente.
  */
-export const SCHEDULED_TASKS = ["purge_expired_subscriptions", "cleanup_expired"] as const;
+export const SCHEDULED_TASKS = [
+  "purge_expired_subscriptions",
+  "cleanup_expired",
+  "sync_billing",
+] as const;

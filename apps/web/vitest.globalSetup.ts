@@ -8,7 +8,7 @@
  * Quando o test chama `import.meta.vitest` config ou `process.env.MOCK_ASAAS_URL`,
  * aponta para http://127.0.0.1:${port}.
  */
-import { startMockAsaas } from "./scripts/mock-asaas";
+import { startMockAsaas } from "@easydemo/shared/test-utils/mock-asaas";
 
 export default async function setup(): Promise<() => Promise<void>> {
   const port = Number(process.env.MOCK_ASAAS_PORT ?? 65500);

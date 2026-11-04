@@ -10,7 +10,7 @@ import { resolve } from "node:path";
  *
  * Pré-requisitos:
  *   - Mock Asaas server rodando (porta 65500):
- *       $ tsx scripts/mock-asaas.ts &
+ *       $ pnpm --filter @easydemo/shared exec tsx src/test-utils/mock-asaas.ts &
  *   - App Next.js rodando em http://localhost:3000 (ou BASE)
  *   - .env.test configurado com ASAAS_WEBHOOK_SECRET + SUBSCRIPTION_ID
  *

@@ -24,14 +24,14 @@ tags: [execucao, log, progresso, handover]
 
 | | |
 |---|---|
-| **Fase em andamento** | **F10** — E2E + alpha GTM (gates G5 + G6) — parcial (4/9 passos, 4 bloqueados) |
+| **Fase em andamento** | **F10** — E2E + alpha GTM (gates G5 + G6) — parcial (5/9 passos, 4 bloqueados) |
 | **Última fase concluída** | **F9** — Extensão Chrome (gate G5 ✅) |
 | **Próxima fase** | nenhuma — F10 é a última fase do MVP; restam desbloqueios externos |
 | **Próximo passo** | `F10.9` — gate G5/G6 + log + PR #47 |
 | **Bloqueios** | F8 (CNPJ/DPO/endereço); F9.6 (conta CWS); F10.1/10.2 (chave Clerk real no CI); F10.6 (GTM/launch); F10.7 (entrevistas ICP) |
-| **Branch** | `feat/f10-e2e-alpha` (1 branch por fase) |
+| **Branch** | `feat/debts-sync-billing` |
 | **Gate atual** | G5 (E2E) · G6 (alpha) · múltiplos bloqueios externos |
-| **Passos concluídos** | 74 / 86 (7 bloqueados) |
+| **Passos concluídos** | 75 / 86 (11 bloqueados) |
 | **Gates do MVP** | G0 rename · **G0.5 pricing** · G1 publicação · G1.5 upload manual · G2 lead · G3 pagamento · G4 embed+badge · G5 E2E (cobre F5/F7/F9) · G6 alpha · **G7 go-live público** |
 
 ## Como registrar uma fase
@@ -1711,3 +1711,131 @@ de `DATABASE_URL`. Documentado no `Dockerfile.worker`.
 
 - [ ] `sync_billing` ainda é um stub — reconcilia a subscription local com o
       Asaas quando o webhook falha.
+
+---
+
+### 2026-11-04 — Débitos: `sync_billing` real (reconciliação com o Asaas)
+
+**Estado:** ✅ concluída
+**Branch:** `feat/debts-sync-billing` · **Gate:** — (débito técnico pós-MVP)
+**Último débito de código puro do MVP.** As 11 pendências restantes do
+checklist dependem de dados/contas externas (CNPJ/DPO, CWS, chave Clerk,
+GTM) — nenhuma delas é executável por código.
+
+**O que passou a funcionar**
+
+O plano do workspace no EasyDemo é derivado de **eventos** do Asaas, e
+evento se perde. As duas consequências são assimétricas:
+
+- **Pagamento confirmado perdido** → o creator **pagou** e continua no Free.
+  O job de expurgo (`purge_expired_subscriptions`) **não** corrige isso **de
+  propósito** — ele só rebaixa, nunca promove (promover quem não pagou seria
+  dar Pro de graça). Sem o `sync_billing`, **ninguém** promovia.
+- **Inativação perdida** → o creator cancelou e continua no plano pago para
+  sempre, sem pagar.
+
+Agora o job reconcilia a subscription local com o Asaas (fonte da verdade):
+promove quando o Asaas confirma assinatura ativa, rebaixa quando o Asaas
+diz que a assinatura morreu **e** o ciclo pago acabou, e reconcilia status,
+`cancel_at_period_end` e `current_period_end` em qualquer caso.
+
+**Arquivos criados**
+
+- `apps/workers/src/lib/asaas.ts` — client HTTP mínimo do Asaas (o do app
+  web depende do `env()` do Next e não é importável pelo worker — o
+  `tsconfig.json` do worker tem `rootDir: src`).
+- `apps/workers/src/tasks/__tests__/sync_billing.integration.test.ts` —
+  **13 testes** de integração (mock do Asaas + Postgres real).
+
+**Arquivos modificados**
+
+- `apps/workers/src/tasks/sync_billing.ts` — o stub (`console.log`) virou a
+  task real, com 3 modos: sweep (cron), pontual (payload) e legado.
+- `apps/workers/src/crontab.ts` — `sync_billing` agendado às **04:00 UTC**
+  (depois do expurgo das 03:00).
+- `apps/web/app/api/webhooks/asaas/route.ts` — o webhook enfileira com
+  `asaasSubscriptionId` (ver armadilha abaixo).
+- `apps/web/lib/queue.ts` — `JobPayload` atualizado.
+- `packages/shared/src/test-utils/mock-asaas.ts` — **movido** de
+  `apps/web/scripts/` (ver armadilha abaixo) + `seedSubscription()` e um
+  `PUT /v3/subscriptions/:id` de teste.
+- `apps/web/vitest.globalSetup.ts` — importa o mock do novo lugar.
+
+**Decisões tomadas durante a execução**
+
+- **D-1: escopo = corrigir + promover/rebaixar** (não só corrigir a row).
+  Só corrigir não fecharia o buraco do "pagou mas o webhook perdeu" — que é o
+  caso que dói mais. A promoção tem guardas: só promove quando o Asaas diz
+  `active` (nunca em `past_due`/`incomplete`/`trial`), e nunca rebaixa quem
+  fez upgrade (só rebaixa se o `plan_id` atual ainda for o da assinatura).
+- **D-2: gatilho = cron diário** (4h UTC), não "só quando o webhook falha".
+  O webhook já aplicou a mudança antes de enfileirar — o job ali seria
+  redundante e caro (1 chamada à API por evento). O cron é o que fecha o
+  "webhook perdido que ninguém percebe".
+- **D-3: falha da API do Asaas não derruba o sweep.** Uma assinatura
+  específica (ex.: removida no Asaas) devolve 404; o job loga, conta como
+  falha e segue para as outras. Uma assinatura órfã não pode impedir a
+  reconciliação das demais.
+
+**Armadilhas / o que a fase ensina**
+
+- **O payload do webhook estava errado.** O webhook enfileirava
+  `{ type: "sync_billing", asaasEventId }` — mas `asaasEventId` é a chave de
+  **idempotência do evento**, não da assinatura. A reconciliação é por
+  assinatura, então o job não encontrava nada. O stub (`console.log`) nunca
+  revelou isso: o job "rodava" e não fazia nada. Agora o payload é
+  `asaasSubscriptionId` — e há um teste no app web travando isso.
+- **`nextDueDate` do Asaas é a *próxima* cobrança, não o fim do ciclo.** Para
+  um plano mensal com vencimento dia 10, em 15/11 o Asaas devolve `2026-12-10`
+  — mas o ciclo pago vai até **10/11**. Usar o valor cru empurra o fim do
+  período para frente e o expurgo **nunca** rebaixa ninguém. O job compara
+  por dia e desloca para o mês seguinte quando a assinatura está **viva**.
+  ⚠️ A **exceção**: assinatura **morta** (`INACTIVE`) — o `nextDueDate` foi a
+  última cobrança, o ciclo acabou, e o fim do período é essa data (sem
+  deslocar). Sem essa exceção o job nunca rebaixava (foi o bug que o
+  primeiro run dos testes pegou).
+- **O mock do Asaas teve que sair de `apps/web/scripts/`.** O worker
+  **não pode** importar de `apps/web`: o `tsconfig.json` dele tem
+  `rootDir: src` e um import fora do pacote quebra o build (`tsc`:
+  "is not under rootDir"). O mock foi para `packages/shared/src/test-utils/`
+  — que já era o lugar designado para o código de teste server-only
+  compartilhado (`asaas-payloads.ts` morava lá).
+- **`pg` é CommonJS** (mesma armadilha da F3): `import { Client } from "pg"`
+  quebra em ESM. Aconteceu de novo no script de validação end-to-end.
+- **O sweep precisa rotacionar.** Ele ordena por `updated_at ASC` com limite
+  (500). Se o `updated_at` só fosse atualizado quando algo **mudasse**, as
+  rows estáveis ficariam eternamente na frente do limite — e as
+  assinaturas novas nunca seriam reconciliadas. O job atualiza o
+  `updated_at` **sempre**. A assinatura que **falhou** no Asaas **não** é
+  tocada (fica na frente e é tentada de novo na próxima execução).
+
+**Validação**
+
+```
+pnpm lint      → 277 arquivos, 0 erros
+pnpm typecheck → 6/6 pacotes
+pnpm test      → shared 5/5 · workers 27/27 · web 273/273 (305 no total)
+```
+
+**End-to-end, não só unitária** — worker real, mock Asaas real, Postgres real:
+
+```
+[workers] cron agendado: purge_expired_subscriptions@..., cleanup_expired@..., sync_billing@...
+[sync_billing] workspace e0f06276-... promovido para pro
+              (assinatura sub_e2e_... ativa no Asaas, local=incomplete).
+[sync_billing] sweep: total=5 reconciliadas=1 promovidas=1 rebaixadas=0 falhas=4
+--- resultado no banco: {"plan_id":"pro","status":"active"}
+```
+
+- cron registrado em `_private_known_crontabs` (3 tasks) ✅
+- assinatura local `incomplete` + Asaas `ACTIVE` → workspace **promovido**
+  `free → pro` e status reconciliado `incomplete → active` ✅
+- as 4 "falhas" são assinaturas órfãs de outros testes — o job degradou
+  sem derrubar o sweep ✅
+
+**Débitos restantes**
+
+- [ ] `createCustomer` busca por e-mail com `limit=100` — acima de 100
+      customers duplica o customer no Asaas (débito herdado da F4).
+- [ ] Renovação não atualiza a row local — o checkout sempre cria uma nova
+      (`app.subscriptions` acumula rows `incomplete` velhas).

@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 /* eslint-disable no-console */
 /**
- * apps/web/scripts/mock-asaas.ts
+ * packages/shared/src/test-utils/mock-asaas.ts
  * -----------------------------------------------------------------------------
  * Mock server local que imita o subset da API Asaas usado por este projeto:
  *
@@ -16,12 +16,24 @@ import { randomUUID } from "node:crypto";
  * Não dispara webhooks reais — os testes/scripts que usam este mock
  * disparam o webhook manualmente contra /api/webhooks/asaas.
  *
+ * ⚠️ **Por que este arquivo vive no `packages/shared`:**
+ *
+ * O mock é usado por **dois** pacotes:
+ *   - `apps/web` — os testes de billing e o `vitest.globalSetup.ts`;
+ *   - `apps/workers` — os testes de integração do `sync_billing`, que
+ *     precisa de um servidor Asaas real para exercitar a reconciliação.
+ *
+ * ⚠️ O worker **não pode** importar de `apps/web`: o `tsconfig.json` dele
+ * tem `rootDir: src`, e um import para fora do pacote quebraria o build
+ * (`tsc` erro: "is not under rootDir"). O `packages/shared` é o lugar
+ * correto para código de teste compartilhado entre pacotes.
+ *
  * Uso standalone (smoke manual):
- *   $ pnpm --filter web exec tsx scripts/mock-asaas.ts
- *   $ PORT=65501 pnpm --filter web exec tsx scripts/mock-asaas.ts
+ *   $ pnpm --filter @easydemo/shared exec tsx src/test-utils/mock-asaas.ts
+ *   $ PORT=65501 pnpm --filter @easydemo/shared exec tsx src/test-utils/mock-asaas.ts
  *
  * Uso programático (vitest globalSetup ou outros):
- *   import { startMockAsaas } from "./scripts/mock-asaas";
+ *   import { startMockAsaas } from "@easydemo/shared/test-utils/mock-asaas";
  *   const server = await startMockAsaas({ port: 65500 });
  *   ...
  *   await server.stop();
@@ -48,7 +60,7 @@ type AsaasCustomer = {
   dateCreated: string;
 };
 
-type AsaasSubscription = {
+export type AsaasSubscription = {
   id: string;
   customer: string;
   billingType: BillingType;
@@ -58,6 +70,17 @@ type AsaasSubscription = {
   status: "ACTIVE" | "INACTIVE" | "EXPIRED" | "OVERDUE";
   description?: string;
   dateCreated: string;
+  /**
+   * ⚠️ `cancelAtPeriodEnd` — cancelamento **agendado** para o fim do ciclo.
+   *
+   * O Asaas tem dois estados distintos de cancelamento, e a diferença é
+   * exatamente o que o `sync_billing` precisa reconciliar:
+   *   - `cancelAtPeriodEnd: true` + `status: "ACTIVE"` → o creator cancelou
+   *     mas **ainda tem o ciclo pago** (mantém o plano até o vencimento);
+   *   - `cancelAtPeriodEnd: true` + `status: "INACTIVE"` → a assinatura
+   *     **morreu** (o job pode rebaixar para Free se o período acabou).
+   */
+  cancelAtPeriodEnd?: boolean;
 };
 
 type AsaasPayment = {
@@ -219,6 +242,42 @@ async function handleDeleteSubscription(ctx: Ctx): Promise<void> {
   });
 }
 
+/**
+ * `PUT /v3/subscriptions/:id` — **endpoint de teste** (não existe no Asaas).
+ *
+ * Permite setar o estado da assinatura direto no mock (`status`,
+ * `nextDueDate`, `cancelAtPeriodEnd`), para simular os cenários que o
+ * job `sync_billing` precisa reconciliar:
+ *
+ *   - pagamento confirmado com webhook perdido (ACTIVE);
+ *   - cancelamento agendado (ACTIVE + cancelAtPeriodEnd);
+ *   - assinatura morta (INACTIVE + cancelAtPeriodEnd).
+ *
+ * O Asaas real só chega nesses estados por evento — e o webhook é justamente
+ * o que pode se perder, o que torna esses cenários impossíveis de testar
+ * sem um endpoint de controle.
+ */
+async function handleUpdateSubscription(ctx: Ctx): Promise<void> {
+  const { res, store, url, body } = ctx;
+  const id = url.pathname.split("/").pop();
+  if (!id) return sendError(res, 400, "id_required");
+  const sub = store.subscriptions.get(id);
+  if (!sub) {
+    return sendError(res, 404, "subscription_not_found", `Subscription ${id} does not exist`);
+  }
+  const patch = body as Partial<AsaasSubscription>;
+  const updated: AsaasSubscription = {
+    ...sub,
+    ...(patch.status ? { status: patch.status } : {}),
+    ...(patch.nextDueDate ? { nextDueDate: patch.nextDueDate } : {}),
+    ...(patch.cancelAtPeriodEnd !== undefined
+      ? { cancelAtPeriodEnd: patch.cancelAtPeriodEnd }
+      : {}),
+  };
+  store.subscriptions.set(id, updated);
+  sendJson(res, 200, updated);
+}
+
 async function handleCreatePayment(ctx: Ctx): Promise<void> {
   const { res, store, body } = ctx;
   const b = body as Partial<AsaasPayment>;
@@ -304,6 +363,13 @@ export type MockAsaasServer = {
   stop: () => Promise<void>;
   /** Test-only: reset all in-memory state without restarting the server. */
   reset: () => void;
+  /**
+   * Test-only: cria uma subscription direto no store, sem passar pela API.
+   *
+   * ⚠️ Mais simples que fazer POST + PUT quando o teste só precisa de uma
+   * assinatura num estado específico (ex.: `INACTIVE` + `cancelAtPeriodEnd`).
+   */
+  seedSubscription: (sub: Partial<AsaasSubscription> & { id: string }) => void;
 };
 
 export type StartOptions = {
@@ -330,7 +396,7 @@ export async function startMockAsaas(opts: StartOptions = {}): Promise<MockAsaas
       if (req.method === "OPTIONS") {
         res.writeHead(204, {
           "access-control-allow-origin": "*",
-          "access-control-allow-methods": "GET,POST,DELETE,OPTIONS",
+          "access-control-allow-methods": "GET,POST,PUT,DELETE,OPTIONS",
           "access-control-allow-headers":
             "content-type,access_token,asaas-access-token,asaas-signature",
         });
@@ -361,6 +427,10 @@ export async function startMockAsaas(opts: StartOptions = {}): Promise<MockAsaas
       }
       if (req.method === "GET" && /^\/v3\/subscriptions\/[^/]+$/.test(url.pathname)) {
         return handleGetSubscription(ctx);
+      }
+      // ⚠️ Endpoint de teste (não existe no Asaas) — ver handleUpdateSubscription.
+      if (req.method === "PUT" && /^\/v3\/subscriptions\/[^/]+$/.test(url.pathname)) {
+        return handleUpdateSubscription(ctx);
       }
       if (req.method === "GET" && /^\/v3\/payments\/[^/]+\/pixQrCode$/.test(url.pathname)) {
         return handleGetPixQrCode(ctx, url.pathname);
@@ -396,6 +466,18 @@ export async function startMockAsaas(opts: StartOptions = {}): Promise<MockAsaas
       store.customers.clear();
       store.subscriptions.clear();
       store.payments.clear();
+    },
+    seedSubscription: (sub) => {
+      store.subscriptions.set(sub.id, {
+        customer: "cus_test",
+        billingType: "PIX",
+        value: 4900,
+        cycle: "MONTHLY",
+        nextDueDate: new Date().toISOString().slice(0, 10),
+        status: "ACTIVE",
+        dateCreated: new Date().toISOString(),
+        ...sub,
+      });
     },
   };
 }

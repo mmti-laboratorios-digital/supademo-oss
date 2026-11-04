@@ -172,10 +172,27 @@ export async function POST(req: Request) {
       }
     });
 
-    await enqueue({
-      type: "sync_billing",
-      asaasEventId: idempotencyKey,
-    });
+    // ⚠️ O `sync_billing` reconcilia a assinatura local com o Asaas — para
+    // isso ele precisa do **id da assinatura**, não do id do evento.
+    //
+    // ⚠️ **O `asaasEventId` (idempotência do evento) não serve** — ele
+    // identifica o *evento*, e a reconciliação é por assinatura. Passar o id
+    // errado fazia o job não encontrar nada (era o que o stub escondia).
+    //
+    // Quando o evento **não** traz `subscription.id` (ex.: `PAYMENT_DELETED`
+    // sem assinatura), não há o que reconciliar — o job não é enfileirado.
+    if (event.subscription?.id) {
+      await enqueue({
+        type: "sync_billing",
+        asaasSubscriptionId: event.subscription.id,
+      });
+    } else if (event.payment?.subscription) {
+      // Eventos de pagamento carregam a assinatura em `payment.subscription`.
+      await enqueue({
+        type: "sync_billing",
+        asaasSubscriptionId: event.payment.subscription,
+      });
+    }
 
     // Marca o evento como processado (best-effort).
     void markProcessed();
